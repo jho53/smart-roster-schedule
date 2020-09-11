@@ -9,14 +9,17 @@ The project aim is to develop a web-based application that will match scheduled 
 
 
 **Project areas**
+
 Web dev, Machine Learning/Algorithms/Research
 
 
 **Programming language(s)**
+
 No preference
 
 
 **Hardware/Software requirements**
+
 None
 
 
@@ -24,4 +27,5 @@ None
 At present, this work is completed manually in a paper-based system. Initially, information is compiled from health authority scheduling software and a spreadsheet which details each nurseâ€™s profile and experience needs. This information is then manually matched with patient care needs within a framework of assignment guideline requirements determined by the unit. The end result is patient assignments that have been created to balance consistency with nursing development.
 
 **Previous project?**
+
 No
