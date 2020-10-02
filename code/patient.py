@@ -26,6 +26,6 @@ class Nurse(Base):
                       'first_name': self.first_name,
                       'last_name': self.last_name,
                       'pod': self.pod,
-                      'bed': self.bed.
+                      'bed': self.bed,
                       'acuity': self.acuity}
         return patient_dict
