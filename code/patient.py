@@ -12,3 +12,20 @@ class Nurse(Base):
     pod = Column(String(100), nullable=True)
     bed = Column(Integer, nullable=True)
     acuity = Column(Integer, nullable=False)
+
+    def __init__(self, id, first_name, last_name, pod, bed, acuity):
+        self.id = id
+        self.first_name = first_name
+        self.last_name = last_name
+        self.pod = pod
+        self.bed = bed
+        self.acuity = acuity
+
+    def get_metadata(self) -> dict:
+        patient_dict = {'id': self.id,
+                      'first_name': self.first_name,
+                      'last_name': self.last_name,
+                      'pod': self.pod,
+                      'bed': self.bed,
+                      'acuity': self.acuity}
+        return patient_dict
