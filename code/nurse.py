@@ -70,7 +70,7 @@ class Nurse(Base):
     #              Validator Methods              #
     ###############################################
     @staticmethod
-    def _validate_string_250(input_value, str_value):
+    def _validate_string_250(input_value: str, str_value: str) -> None:
         """ Checks if input is string """
         if str_value is None or not isinstance(str_value, str):
             raise ValueError(input_value + " is not a string.")
@@ -80,7 +80,7 @@ class Nurse(Base):
             raise ValueError(input_value + " cannot be longer than 250 characters.")
 
     @staticmethod
-    def _validate_positive_integer(input_value, int_value):
+    def _validate_positive_integer(input_value: str, int_value: int) -> None:
         """ Checks if input is integer and not negative """
         if not isinstance(int_value, int):
             raise ValueError(input_value + " is not an integer.")
