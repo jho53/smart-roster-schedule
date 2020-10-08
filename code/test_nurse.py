@@ -8,4 +8,4 @@ class TestNurse(TestCase):
 
     def setUp(self):
         """ creates a test fixture before each test method has run """
-        self.nurse = Nurse(12, "Jane", "Doe", "A", 7)
+        self.nurse = Nurse(12, "Jane", "Doe", "A", 7, 5, 0)

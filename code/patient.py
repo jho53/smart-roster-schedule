@@ -13,7 +13,7 @@ class Patient(Base):
     bed_num = Column(Integer, nullable=True)
     acuity = Column(Integer, nullable=False)
 
-    def __init__(self, id: int, first_name: str, last_name: str, clinical_area: str, bed_num: int, acuity: int) -> None:
+    def __init__(self, id: int, first_name: str, last_name: str, clinical_area: str, bed_num: int, acuity: int, num_nurses: int) -> None:
         """ Validates and Initializes a Patient """
         Patient._validate_positive_integer("Patient ID", id)
         self.id = id
@@ -27,11 +27,14 @@ class Patient(Base):
         Patient._validate_string_250("Clinical area", clinical_area)
         self.clinical_area = clinical_area
 
-        Patient._validate_positive_integer("bed_num number", bed_num)
+        Patient._validate_positive_integer("Bed number", bed_num)
         self.bed_num = bed_num
 
-        Patient._validate_positive_integer("acuity", acuity)
+        Patient._validate_positive_integer("Acuity", acuity)
         self.acuity = acuity
+
+        Patient._validate_positive_integer("Number of nurses", num_nurses)
+        self.num_nurses = num_nurses
 
     ###############################################
     #                Public Methods               #
@@ -55,6 +58,14 @@ class Patient(Base):
     def get_acuity(self) -> int:
         """ get acuity of the patient"""
         return self.acuity
+    
+    def get_num_nurses(self) -> int:
+        """ get num_nurses of the patient"""
+        return self.num_nurses
+    
+    def set_num_nurses(self, num_nurses):
+        """ set the number of nurses """
+        self.num_nurses = num_nurses
     
     ###############################################
     #                Public Methods               #

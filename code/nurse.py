@@ -14,8 +14,9 @@ class Nurse(Base):
     last_name = Column(String(250), nullable=False)
     clinical_area = Column(String(250), nullable=True)
     bed_num = Column(Integer, nullable=True)
+    skill_level = Column(Integer, nullable=True)
 
-    def __init__(self, id: int, first_name: str, last_name: str, clinical_area: str, bed_num: int) -> None:
+    def __init__(self, id: int, first_name: str, last_name: str, clinical_area: str, bed_num: int, skill_level: int, num_patients: int) -> None:
         """ Validates and Initializes a Nurse """
         Nurse._validate_positive_integer("Nurse ID", id)
         self.id = id
@@ -29,8 +30,14 @@ class Nurse(Base):
         Nurse._validate_string_250("Clinical area", clinical_area)
         self.clinical_area = clinical_area
 
-        Nurse._validate_positive_integer("bed_num number", bed_num)
+        Nurse._validate_positive_integer("Bed number", bed_num)
         self.bed_num = bed_num
+
+        Nurse._validate_positive_integer("Skill level", skill_level)
+        self.skill_level = skill_level
+
+        Nurse._validate_positive_integer("Number of patients", num_patients)
+        self.num_patients = num_patients
 
     ###############################################
     #                Public Methods               #
@@ -50,6 +57,19 @@ class Nurse(Base):
     def get_bed_num(self) -> int:
         """ get bed number that nurse is currently assigned """
         return self.bed_num
+
+    def get_skill_level(self) -> int:
+        """ get skill level that nurse is currently assigned """
+        return self.skill_level
+
+    def get_num_patients(self) -> int:
+        """ get number of patients that nurse is currently assigned """
+        return self.num_patients
+
+    def set_num_patients(self, num_patients):
+        """ set the number of patients """
+        self.num_patients = num_patients
+
 
     ###############################################
     #                Public Methods               #
