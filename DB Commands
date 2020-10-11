@@ -1,0 +1,25 @@
+create database SmartRoster;
+CREATE TABLE `smartroster`.`nurses` (
+  `nurse_id` INT NOT NULL AUTO_INCREMENT,
+  `nurse_name` VARCHAR(60) NOT NULL,
+  `nurse_area` VARCHAR(10) NOT NULL,
+  `nurse_rotation` VARCHAR(10) NOT NULL,
+  `nurse_fte` DECIMAL(2) NOT NULL,
+  `nurse_a_trained` TINYINT(1) NOT NULL,
+  `nurse_skill` INT NOT NULL,
+  `nurse_transfer` TINYINT(1) NOT NULL,
+  `nurse_adv_role` VARCHAR(45) NOT NULL,
+  `nurse_restrictions` TINYINT(1) NOT NULL,
+  `nurse_iv` TINYINT(1) NOT NULL,
+  PRIMARY KEY (`nurse_id`));
+
+insert into nurses( nurse_name, nurse_area, 
+nurse_rotation, nurse_fte, nurse_a_trained, 
+nurse_skill, nurse_transfer, nurse_adv_role,
+nurse_restrictions, nurse_iv) 
+VALUES ('Christine Smith', 'B7',
+ 'B02', 1, 1, 4, 1, 'Charge', 1, 1);
+
+
+CREATE USER 'charge_nurse'@'localhost' IDENTIFIED BY 'Password';
+CREATE USER 'nurse'@'localhost' IDENTIFIED BY 'Password';
