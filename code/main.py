@@ -32,11 +32,9 @@ def login_user():
             passwd=password,
             database="smartroster",
             auth_plugin="mysql_native_password"
-
         )
         session['username'] = db.user
         session['loggedin'] = True
-        print(session)
         return render_template("index.html", loggedin=session['loggedin'])
 
     except Exception:
