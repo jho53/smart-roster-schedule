@@ -32,7 +32,6 @@ def login_user():
             passwd=password,
             database="smartroster",
             auth_plugin="mysql_native_password"
-
         )
         session['username'] = db.user
         session['loggedin'] = True
