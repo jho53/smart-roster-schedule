@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="BCIT (Team SR)">
+    {% if title %}
+    <title>Smart Roster - {{title}}</title>
+    {% else %}
+    <title>Smart Roster</title>
+    {% endif %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Custom CSS Stylesheet-->
+    <link rel="stylesheet" href="../static/style.css">
+    <!--Bootstrap Links-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.3/css/bootstrap.min.css"
+        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.3/js/bootstrap.bundle.min.js"
+        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    {% if loggedin %}
+    <nav class="navbar navbar-expand-md sticky-top">
+        <div id="navbar-links">
+            <ul>
+                <li>link</li>
+                <li>link</li>
+                <li>link</li>
+                <li>link</li>
+                <li>link</li>
+            </ul>
+        </div>
+    </nav>
+    {% endif %}
+    <!--Block Content Starts Here-->
+    {% block content %}
+    {% endblock %}
+</body>
+
+
+</html>

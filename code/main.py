@@ -36,6 +36,7 @@ def login_user():
         )
         session['username'] = db.user
         session['loggedin'] = True
+        print(session, file=sys.stderr)
         return render_template("index.html")
 
     except Exception:
