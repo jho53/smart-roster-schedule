@@ -36,8 +36,8 @@ def login_user():
         )
         session['username'] = db.user
         session['loggedin'] = True
-        print(session, file=sys.stderr)
-        return render_template("index.html")
+        print(session)
+        return render_template("index.html", loggedin=session['loggedin'])
 
     except Exception:
         return render_template("login.html", msg="Invalid Login")
