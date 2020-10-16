@@ -1,47 +1,49 @@
 from flask import Flask, render_template, redirect, url_for, request, session
-from flask_mysqldb import MySQL
-import MySQLdb.cursors
-
-
+import mysql.connector
 import os
 
-basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__, instance_relative_config=True)
+app.secret_key = os.urandom(12).hex()
 
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    if 'loggedin' in session:
+        return render_template('index.html')
+    return redirect(url_for('login'))
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET'])
 def login():
-    if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
+    return render_template("login.html")
+
+
+@app.route('/loginUser', methods=['POST'])
+def login_user():
+    if 'username' in request.form and 'password' in request.form:
         username = request.form['username']
         password = request.form['password']
 
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute(
-            'SELECT * FROM accounts WHERE username = %s AND password = %s', (username, password,)
+    try:
+        db = mysql.connector.connect(
+            host="localhost",
+            user=username,
+            passwd=password,
+            database="smartroster",
+            auth_plugin="mysql_native_password"
         )
+        session['username'] = db.user
+        session['loggedin'] = True
+        return render_template("index.html", loggedin=session['loggedin'])
 
-        account = cursor.fetchone()
-
-        if account:
-            session['loggedin'] = True
-            session['id'] = account['id']
-            session['username'] = account['username']
-            return 'Logged in successfully!'
-        else:
-            msg = 'Incorrect username/password!'
-    return render_template('index.html', msg=msg)
+    except Exception:
+        return render_template("login.html", msg="Invalid Login")
 
 
 @app.route('/logout')
 def logout():
     session.pop('loggedin', None)
-    session.pop('id', None)
     session.pop('username', None)
     return redirect(url_for('login'))
 
