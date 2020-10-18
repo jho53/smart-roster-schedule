@@ -88,7 +88,7 @@ def logout():
 @app.route("/nurseRecords", methods=["GET"])
 def nurse_records():
     sql_select_Query = "select * from nurses"
-    cursor = connection.cursor()
+    cursor = db.cursor()
     cursor.execute(sql_select_Query)
     records = cursor.fetchall()
 
