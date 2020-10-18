@@ -99,20 +99,31 @@ def nurse_records():
     sql_select_Query = "select * from nurses"
     cursor = db.cursor()
     cursor.execute(sql_select_Query)
-    records = cursor.fetchall()
+    rowCount = int(cursor.rowcount)
 
-    for row in records:
-        print("Name = ", row[1],)
-        print("Rotation = ", row[2],)
-        print("FTE = ", row[3],)
-        print("A Trained = ", row[4],)
-        print("Skill = ", row[5],)
-        print("Transfer = ", row[6],)
-        print("Advanced Role = ", row[7],)
-        print("Nurse Restrictions = ", row[8],)
-        print("IV = ", row[9], "\n")
+    id = []
+    name = []
+    FTE = []
+    aTrained = []
+    skill = []
+    transfer = []
+    restrictions = []
+    advancedRole =[]
+    IV = []
 
-    return
+    for r in rowCount:
+        row = cursor.fetchone()
+            id.append(row[0])
+            name.append(row[0])
+            FTE.append(row[0])
+            aTrained.append(row[0])
+            skill.append(row[0])
+            transfer.append(row[0])
+            restrictions.append(row[0])
+            advancedRole.append(row[0])
+            IV.append(row[0])
+
+    return render_template("./Records/nurseRecord.html", loggedin=session['loggedin'],  nurseList=name)
 
 
 
