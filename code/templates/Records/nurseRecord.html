@@ -3,6 +3,47 @@
 {% block content %}
 
 <!--Content Here-->
-This is nurse records
+<div>
+    <h1>Nurse Records</h1>
+    <button>Create</button>
+    <button>Edit</button>
+    <button>Delete</button>
+    <!--Table-->
+    <table>
+        <thead>
+            <tr>
+                <td>Nurse ID</td>
+                <td>Name</td>
+                <td>Area</td>
+                <td>Rotation</td>
+                <td>FTE</td>
+                <td>A-trained</td>
+                <td>Skill</td>
+                <td>Transfer</td>
+                <td>Adv Role</td>
+                <td>Restrictions</td>
+                <td>IV</td>
+
+            </tr>
+        </thead>
+        <tbody>
+            {%for nurse in nurseList %}
+            <tr>
+                <td>{{nurse[0]}}</td>
+                <td>{{nurse[1]}}</td>
+                <td>{{nurse[2]}}</td>
+                <td>{{nurse[3]}}</td>
+                <td>{{nurse[4]}}</td>
+                <td>{{nurse[5]}}</td>
+                <td>{{nurse[6]}}</td>
+                <td>{{nurse[7]}}</td>
+                <td>{{nurse[8]}}</td>
+                <td>{{nurse[9]}}</td>
+                <td>{{nurse[10]}}</td>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+</div>
 
 {% endblock %}

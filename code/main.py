@@ -2,8 +2,16 @@ from flask import Flask, render_template, redirect, url_for, request, session
 import mysql.connector
 import os
 
+# test purpose
+import webbrowser
+
 
 app = Flask(__name__, instance_relative_config=True)
+app.config.update(
+    TESTING=True,
+    TEMPLATES_AUTO_RELOAD=True
+)
+
 app.secret_key = os.urandom(12).hex()
 
 db = mysql.connector.connect(
@@ -96,7 +104,10 @@ def logout():
 
 @app.route("/nurseRecords", methods=["GET"])
 def nurse_records():
-    return render_template("./Records/nurseRecord.html", loggedin=session['loggedin'])
+    # Grabs all nurses
+    cursor.execute("SELECT * FROM nurses")
+    nurse_list = cursor.fetchall()
+    return render_template("./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list)
 
 
 @app.route("/nurseRecordsSubmit", methods=['POST'])
@@ -118,4 +129,7 @@ def patient_records_submit():
 
 
 if __name__ == "__main__":
+    # Testing
+    webbrowser.open("http://localhost:5000/", new=1, autoraise=True)
+
     app.run()

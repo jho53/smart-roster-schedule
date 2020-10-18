@@ -9,6 +9,64 @@
     <button>Edit</button>
     <button>Delete</button>
     <!--Table-->
+    <table>
+        <thead>
+            <tr>
+                <td>Patient ID</td>
+                <td>Name</td>
+                <td>Bed</td>
+                <td>Acuity Level</td>
+                <td>Date Admitted</td>
+                <td>Date Discharged</td>
+                <td>A-trained Req</td>
+                <td>Transfer Req</td>
+            </tr>
+        </thead>
+        <tbody>
+            {%for patient in patientList %}
+            <tr>
+                <th>
+                    <div contenteditable>{{patient[0]}}</div>
+                </th>
+                <th>
+                    <div contenteditable>{{patient[1]}}</div>
+                </th>
+                <th>
+                    <div contenteditable>{{patient[2]}}</div>
+                </th>
+                <th>
+                    <div contenteditable>{{patient[3]}}</div>
+                </th>
+                <th>
+                    <div contenteditable>{{patient[4]}}</div>
+                </th>
+                <th>
+                    <div contenteditable>{{patient[5]}}</div>
+                </th>
+                {%if patient[6]==0%}
+                <th>
+                    <div contenteditable>False</div>
+                </th>
+                {%else%}
+                <th>
+                    <div contenteditable>True</div>
+                </th>
+                {%endif%}
+
+                {%if patient[7]==0%}
+                <th>
+                    <div contenteditable>False</div>
+                </th>
+                {%else%}
+                <th>
+                    <div contenteditable>True</div>
+                </th>
+                {%endif%}
+
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
 </div>
 
 
