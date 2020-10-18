@@ -96,10 +96,11 @@ def logout():
 
 @app.route("/nurseRecords", methods=["GET"])
 def nurse_records():
-    sql_select_Query = "select * from nurses"
-    cursor = db.cursor()
-    cursor.execute(sql_select_Query)
+    cursor.execute("SELECT count(*) FROM nurses")
     rowCount = int(cursor.rowcount)
+
+    cursor.execute("SELECT * FROM nurses")
+
 
     id = []
     name = []
@@ -110,19 +111,19 @@ def nurse_records():
     restrictions = []
     advancedRole =[]
     IV = []
-
-    for r in rowCount:
+    r = 0
+    while r <= rowCount:
         row = cursor.fetchone()
-            id.append(row[0])
-            name.append(row[0])
-            FTE.append(row[0])
-            aTrained.append(row[0])
-            skill.append(row[0])
-            transfer.append(row[0])
-            restrictions.append(row[0])
-            advancedRole.append(row[0])
-            IV.append(row[0])
-
+        id.append(row[0])
+        name.append(row[1])
+        FTE.append(row[2])
+        aTrained.append(row[3])
+        skill.append(row[4])
+        transfer.append(row[5])
+        restrictions.append(row[6])
+        advancedRole.append(row[7])
+        IV.append(row[8])
+        r += 1
     return render_template("./Records/nurseRecord.html", loggedin=session['loggedin'],  nurseList=name)
 
 
