@@ -85,5 +85,45 @@ def logout():
     return redirect(url_for('login'))
 
 
+<<<<<<< Updated upstream
+=======
+@app.route("/nurseRecords", methods=["GET"])
+def nurse_records():
+    sql_select_Query = "select * from nurses"
+    cursor = connection.cursor()
+    cursor.execute(sql_select_Query)
+    records = cursor.fetchall()
+
+    for row in records:
+        print("Name = ", row[1],)
+        print("Rotation = ", row[2],)
+        print("FTE = ", row[3],)
+        print("A Trained = ", row[4],)
+        print("Skill = ", row[5],)
+        print("Transfer = ", row[6],)
+        print("Advanced Role = ", row[7],)
+        print("Nurse Restrictions = ", row[8],)
+        print("IV = ", row[9], "\n")
+
+    return
+
+
+
+@app.route("/nurseRecordsSubmit", methods=['POST'])
+def nurse_records_submit():
+    return
+
+
+@app.route("/patientRecords", methods=["GET"])
+def patient_records():
+    return
+
+
+@app.route("/patientRecordsSubmit", methods=['POST'])
+def patient_records_submit():
+    return
+
+
+>>>>>>> Stashed changes
 if __name__ == "__main__":
     app.run()
