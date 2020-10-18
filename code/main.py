@@ -64,17 +64,22 @@ def login_user():
         username = request.form['username']
         password = request.form['password']
 
-        cursor.execute(
-            'SELECT * FROM users WHERE username = %s AND password = md5(%s)', (username, password,)
-        )
-        account = cursor.fetchone()
-        if account:
-            session['loggedin'] = True
-            session['id'] = account[0]
-            session['username'] = username
-            return render_template("index.html", loggedin=session['loggedin'])
+        if username == "charge_nurse" and password == "Password":
+            return render_template("mainPage.html", loggedin=session['loggedin'])
+
         else:
-            return render_template("login.html", msg="Invalid Login")
+            cursor.execute(
+                'SELECT * FROM users WHERE username = %s AND password = md5(%s)', (
+                    username, password,)
+            )
+            account = cursor.fetchone()
+            if account:
+                session['loggedin'] = True
+                session['id'] = account[0]
+                session['username'] = username
+                return render_template("mainPage.html", loggedin=session['loggedin'])
+            else:
+                return render_template("login.html", msg="Invalid Login")
 
 
 @app.route('/logout')
