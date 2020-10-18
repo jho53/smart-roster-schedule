@@ -85,8 +85,6 @@ def logout():
     return redirect(url_for('login'))
 
 
-<<<<<<< Updated upstream
-=======
 @app.route("/nurseRecords", methods=["GET"])
 def nurse_records():
     sql_select_Query = "select * from nurses"
@@ -124,6 +122,5 @@ def patient_records_submit():
     return
 
 
->>>>>>> Stashed changes
 if __name__ == "__main__":
     app.run()
