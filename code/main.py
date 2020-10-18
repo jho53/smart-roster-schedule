@@ -7,12 +7,12 @@ app = Flask(__name__, instance_relative_config=True)
 app.secret_key = os.urandom(12).hex()
 
 db = mysql.connector.connect(
-        host="localhost",
-        user="charge_nurse",
-        passwd="Password",
-        database="smartroster",
-        auth_plugin="mysql_native_password"
-    )
+    host="localhost",
+    user="charge_nurse",
+    passwd="Password",
+    database="smartroster",
+    auth_plugin="mysql_native_password"
+)
 
 cursor = db.cursor()
 
@@ -20,7 +20,7 @@ cursor = db.cursor()
 @app.route("/")
 def home():
     if 'loggedin' in session:
-        return render_template('index.html')
+        return render_template('mainPage.html')
     return redirect(url_for('login'))
 
 
@@ -41,14 +41,14 @@ def register_user():
         last_name = request.form['last_name']
         password = request.form['password']
         password_conf = request.form['password_conf']
-
         if password == password_conf:
             cursor.execute(
                 'INSERT INTO users (username, password, first_name, last_name) '
-                'VALUES (%s, md5(%s), %s, %s)', (username, password, first_name, last_name)
+                'VALUES (%s, md5(%s), %s, %s)', (username,
+                                                 password, first_name, last_name)
             )
             db.commit()
-            return render_template('index.html')
+            return render_template('mainPage.html')
         else:
             return render_template('register.html', msg="Passwords do not match")
 
@@ -64,7 +64,11 @@ def login_user():
         username = request.form['username']
         password = request.form['password']
 
+        # Backdoor sign in with charge_nurse
         if username == "charge_nurse" and password == "Password":
+            session['loggedin'] = True
+            session['id'] = "charge_nurse"
+            session['username'] = username
             return render_template("mainPage.html", loggedin=session['loggedin'])
 
         else:
@@ -119,7 +123,7 @@ def nurse_records_submit():
 
 @app.route("/patientRecords", methods=["GET"])
 def patient_records():
-    return
+    return render_template("./Records/patientRecord.html", loggedin=session['loggedin'])
 
 
 @app.route("/patientRecordsSubmit", methods=['POST'])
