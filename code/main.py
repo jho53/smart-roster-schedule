@@ -134,7 +134,10 @@ def nurse_records_submit():
 
 @app.route("/patientRecords", methods=["GET"])
 def patient_records():
-    return render_template("./Records/patientRecord.html", loggedin=session['loggedin'])
+    # Grabs all patients
+    cursor.execute("SELECT * FROM patients")
+    patient_list = cursor.fetchall()
+    return render_template("./Records/patientRecord.html", loggedin=session['loggedin'], patientList=patient_list)
 
 
 @app.route("/patientRecordsSubmit", methods=['POST'])
