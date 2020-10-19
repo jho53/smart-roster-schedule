@@ -1,4 +1,18 @@
-create database SmartRoster;
+create database smartroster;
+
+CREATE USER 'charge_nurse'@'localhost' IDENTIFIED BY 'Password';
+CREATE USER 'nurse'@'localhost' IDENTIFIED BY 'Password';
+
+GRANT ALL ON smartroster.* TO 'charge_nurse'@'localhost';
+
+CREATE TABLE users (
+  user_id INT NOT NULL AUTO_INCREMENT, 
+  username varchar(60) NOT NULL, 
+  password varchar(255) NOT NULL, 
+  first_name varchar(60) NOT NULL, 
+  last_name varchar(60) NOT NULL, 
+  PRIMARY KEY(user_id)
+)
 
 CREATE TABLE `smartroster`.`nurses` (
   `nurse_id` INT NOT NULL AUTO_INCREMENT,
@@ -176,5 +190,3 @@ VALUES ('Malcolm Wright', 'B13', 1, '2020-8-11', 0, 0);
 insert into smartroster.patients( patient_name, patient_bed, patient_acuity, patient_date_admitted, patient_a_trained, patient_transfer) 
 VALUES ('Draco Finley', 'C11', 3, '2020-3-19', 0, 0);
 
-CREATE USER 'charge_nurse'@'localhost' IDENTIFIED BY 'Password';
-CREATE USER 'nurse'@'localhost' IDENTIFIED BY 'Password';
