@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!--Content Here-->
+<div>
+    <h1>Nurse Records</h1>
+    <button>Create</button>
+    <button>Edit</button>
+    <button>Delete</button>
+    <!--Table-->
+    <table>
+        <thead>
+            <tr>
+                <td>Nurse ID</td>
+                <td>Name</td>
+                <td>Area</td>
+                <td>Rotation</td>
+                <td>FTE</td>
+                <td>A-trained</td>
+                <td>Skill</td>
+                <td>Transfer</td>
+                <td>Adv Role</td>
+                <td>Restrictions</td>
+                <td>IV</td>
+            </tr>
+        </thead>
+        <tbody>
+            {%for nurse in nurseList %}
+            <tr>
+                <td>
+                    <div contenteditable>{{nurse[0]}}</div>
+                </td>
+                <td>
+                    <div contenteditable>{{nurse[1]}}</div>
+                </td>
+                <td>
+                    <div contenteditable>{{nurse[2]}}</div>
+                </td>
+                <td>
+                    <div contenteditable>{{nurse[3]}}</div>
+                </td>
+                <td>
+                    <div contenteditable>{{nurse[4]}}</div>
+                </td>
+                <td>
+                    <div contenteditable>{{nurse[5]}}</div>
+                </td>
+                <td>
+                    <div contenteditable>{{nurse[6]}}</div>
+                </td>
+                <td>
+                    <div contenteditable>{{nurse[7]}}</div>
+                </td>
+                <td>
+                    <div contenteditable>{{nurse[8]}}</div>
+                </td>
+                <td>
+                    <div contenteditable>{{nurse[9]}}</div>
+                </td>
+                <td>
+                    <div contenteditable>{{nurse[10]}}</div>
+                </td>
+
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
