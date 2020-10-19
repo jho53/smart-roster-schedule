@@ -136,61 +136,100 @@ def assign_nurse_patient() -> dict:
     """ Assign nurses to patients"""
 
     # These nurse and patient objects are hardcoded for now
-    nurse_jag = Nurse(1, "Jaguar", "Perlas", "A", 7, 5, 0)
-    nurse_eugene = Nurse(2, "Eugene", "lastname", "B", 8, 3, 0)
-    nurse_nathan = Nurse(3, "Nathan", "Broyles", "C", 9, 4, 0)
+    nurse_jag = Nurse(1, "Jaguar", "Perlas", "A", 7, 5, 0, True, True)
+    nurse_eugene = Nurse(2, "Eugene", "lastname", "B", 8, 3, 0, False, False)
+    nurse_nathan = Nurse(3, "Nathan", "Broyles", "C", 9, 4, 0, True, False)
     nurses = {
         nurse_jag.get_id(): [
             nurse_jag.get_name(),
             nurse_jag.get_skill_level(),
-            nurse_jag.get_num_patients()
+            nurse_jag.get_num_patients(),
+            nurse_jag.get_a_trained(),
+            nurse_jag.get_transfer()
         ],
         nurse_eugene.get_id(): [
             nurse_eugene.get_name(),
             nurse_eugene.get_skill_level(),
-            nurse_eugene.get_num_patients()
+            nurse_eugene.get_num_patients(),
+            nurse_jag.get_a_trained(),
+            nurse_jag.get_transfer()
         ],
         nurse_nathan.get_id(): [
             nurse_nathan.get_name(),
             nurse_nathan.get_skill_level(),
-            nurse_nathan.get_num_patients()
+            nurse_nathan.get_num_patients(),
+            nurse_jag.get_a_trained(),
+            nurse_jag.get_transfer()
         ],
     }
 
-    patient_1 = Patient(1, "patient1", "last", "A", 7, 5, 0)
-    patient_2 = Patient(2, "patient2", "last2", "B", 8, 4, 0)
-    patient_3 = Patient(3, "patient3", "last3", "c", 9, 3, 0)
-    patient_4 = Patient(4, "patient4", "last3", "c", 9, 5, 0)
-    patient_5 = Patient(5, "patient5", "last5", "c", 9, 3, 0)
+    patient_1 = Patient(1, "patient1", "last", "A", 7, 5, 0, False)
+    patient_2 = Patient(2, "patient2", "last2", "B", 8, 4, 0, False)
+    patient_3 = Patient(3, "patient3", "last3", "C", 9, 3, 0, False)
+    patient_4 = Patient(4, "patient4", "last3", "C", 2, 5, 0, True)
+    patient_5 = Patient(5, "patient5", "last5", "D", 4, 3, 0, False)
     patients = {
         patient_1.get_id: [
             patient_1.get_name(),
             patient_1.get_acuity(),
-            patient_1.get_num_nurses()
+            patient_1.get_num_nurses(),
+            patient_1.get_transfer()
         ],
         patient_2.get_id: [
             patient_2.get_name(),
             patient_2.get_acuity(),
-            patient_2.get_num_nurses()
+            patient_2.get_num_nurses(),
+            patient_1.get_transfer()
         ],
         patient_3.get_id: [
             patient_3.get_name(),
             patient_3.get_acuity(),
-            patient_3.get_num_nurses()
+            patient_3.get_num_nurses(),
+            patient_1.get_transfer(),
         ],
         patient_4.get_id: [
             patient_4.get_name(),
             patient_4.get_acuity(),
-            patient_4.get_num_nurses()
+            patient_4.get_num_nurses(),
+            patient_1.get_transfer()
         ],
         patient_5.get_id: [
             patient_5.get_name(),
             patient_5.get_acuity(),
-            patient_5.get_num_nurses()
+            patient_5.get_num_nurses(),
+            patient_1.get_transfer()
         ],
     }
 
     assignments = {}
+
+    # Create "pod" data structure that stores: num_patients, how many transfers, skill level counts, how many a-trained
+
+    # hard match nurses with patients they've been with (regardless of pod)
+    #   In the case of multiple previous patients:
+    #       - check skill-level
+    #       - check geography (if needed)
+
+    # MBC trained nurses go to "Rabbit Pod" as much as needed
+
+    # Keep a clinical area "empty"
+
+    # split the remaining nurses according to "pod's needs"
+    #       - A-trained
+    #       - number of patients in a pod
+    #       - transfer available for patient who needs it
+    #       - Ensure enough skill level per pod
+    #       - ensure PICC match
+
+    # Special Role Assignments (note: not assigned to a pod/patient)
+
+    # Assign nurses to patients
+    #       - 1:1 (we think) hard constraint
+    #       - A-trained match
+    #       - Transfer match
+    #       - PICC match
+    #       - sort by skill level and pair the lower skill-level nurses first
+
 
     # Match first valid pair
     for i in patients.keys():
