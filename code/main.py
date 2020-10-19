@@ -2,8 +2,16 @@ from flask import Flask, render_template, redirect, url_for, request, session
 import mysql.connector
 import os
 
+# test purpose
+import webbrowser
+
 
 app = Flask(__name__, instance_relative_config=True)
+app.config.update(
+    TESTING=True,
+    TEMPLATES_AUTO_RELOAD=True
+)
+
 app.secret_key = os.urandom(12).hex()
 
 db = mysql.connector.connect(
@@ -96,36 +104,10 @@ def logout():
 
 @app.route("/nurseRecords", methods=["GET"])
 def nurse_records():
-    cursor.execute("SELECT count(*) FROM nurses")
-    rowCount = int(cursor.rowcount)
-
+    # Grabs all nurses
     cursor.execute("SELECT * FROM nurses")
-
-
-    id = []
-    name = []
-    FTE = []
-    aTrained = []
-    skill = []
-    transfer = []
-    restrictions = []
-    advancedRole =[]
-    IV = []
-    r = 0
-    while r <= rowCount:
-        row = cursor.fetchone()
-        id.append(row[0])
-        name.append(row[1])
-        FTE.append(row[2])
-        aTrained.append(row[3])
-        skill.append(row[4])
-        transfer.append(row[5])
-        restrictions.append(row[6])
-        advancedRole.append(row[7])
-        IV.append(row[8])
-        r += 1
-    return render_template("./Records/nurseRecord.html", loggedin=session['loggedin'],  nurseList=name)
-
+    nurse_list = cursor.fetchall()
+    return render_template("./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list)
 
 
 @app.route("/nurseRecordsSubmit", methods=['POST'])
@@ -147,4 +129,7 @@ def patient_records_submit():
 
 
 if __name__ == "__main__":
+    # Testing
+    webbrowser.open("http://localhost:5000/", new=1, autoraise=True)
+
     app.run()
