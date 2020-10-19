@@ -1,4 +1,4 @@
-from sqlalchemy import Table, Column, Integer, String
+from sqlalchemy import Table, Column, Integer, String, Boolean
 from base import Base
 
 class Patient(Base):
@@ -12,8 +12,9 @@ class Patient(Base):
     clinical_area = Column(String(100), nullable=True)
     bed_num = Column(Integer, nullable=True)
     acuity = Column(Integer, nullable=False)
+    transfer = Column(Boolean, nullable=False)
 
-    def __init__(self, id: int, first_name: str, last_name: str, clinical_area: str, bed_num: int, acuity: int, num_nurses: int) -> None:
+    def __init__(self, id: int, first_name: str, last_name: str, clinical_area: str, bed_num: int, acuity: int, num_nurses: int, transfer: bool) -> None:
         """ Validates and Initializes a Patient """
         Patient._validate_positive_integer("Patient ID", id)
         self.id = id
@@ -35,6 +36,9 @@ class Patient(Base):
 
         Patient._validate_positive_integer("Number of nurses", num_nurses)
         self.num_nurses = num_nurses
+
+        self.transfer = transfer
+
 
     ###############################################
     #                Public Methods               #
@@ -62,6 +66,10 @@ class Patient(Base):
     def get_num_nurses(self) -> int:
         """ get num_nurses of the patient"""
         return self.num_nurses
+    
+    def get_transfer(self) -> int:
+        """ get transfer value of the patient"""
+        return self.transfer
     
     def set_num_nurses(self, num_nurses):
         """ set the number of nurses """

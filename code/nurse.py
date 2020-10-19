@@ -1,4 +1,4 @@
-from sqlalchemy import Table, Column, Integer, String
+from sqlalchemy import Table, Column, Integer, String, Boolean
 from base import Base
 
 
@@ -15,8 +15,10 @@ class Nurse(Base):
     clinical_area = Column(String(250), nullable=True)
     bed_num = Column(Integer, nullable=True)
     skill_level = Column(Integer, nullable=True)
+    a_trained = Column(Boolean, nullable=True)
+    transfer = Column(Boolean, nullable=True)
 
-    def __init__(self, id: int, first_name: str, last_name: str, clinical_area: str, bed_num: int, skill_level: int, num_patients: int) -> None:
+    def __init__(self, id: int, first_name: str, last_name: str, clinical_area: str, bed_num: int, skill_level: int, num_patients: int, a_trained: bool, transfer: bool) -> None:
         """ Validates and Initializes a Nurse """
         Nurse._validate_positive_integer("Nurse ID", id)
         self.id = id
@@ -38,6 +40,10 @@ class Nurse(Base):
 
         Nurse._validate_positive_integer("Number of patients", num_patients)
         self.num_patients = num_patients
+
+        self.a_trained = a_trained
+
+        self.transfer = transfer
 
     ###############################################
     #                Public Methods               #
@@ -65,6 +71,14 @@ class Nurse(Base):
     def get_num_patients(self) -> int:
         """ get number of patients that nurse is currently assigned """
         return self.num_patients
+
+    def get_a_trained(self) -> bool:
+        """ get a_trained value from nurse"""
+        return self.a_trained
+
+    def get_transfer(self) -> bool:
+        """ get transfer value from nurse"""
+        return self.transfer
 
     def set_num_patients(self, num_patients):
         """ set the number of patients """
