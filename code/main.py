@@ -58,7 +58,9 @@ def register_user():
             db.commit()
             return render_template('mainPage.html', loggedin=session['loggedin'])
         else:
-            return render_template('register.html', msg="Passwords do not match", loggedin=session['loggedin'])
+            return render_template(
+                'register.html', msg="Passwords do not match", loggedin=session['loggedin']
+            )
 
 
 @app.route('/login', methods=['GET'])
@@ -107,7 +109,9 @@ def nurse_records():
     # Grabs all nurses
     cursor.execute("SELECT * FROM nurses")
     nurse_list = cursor.fetchall()
-    return render_template("./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list)
+    return render_template(
+        "./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list
+    )
 
 
 @app.route("/nurseRecordsSubmit", methods=['POST'])
@@ -120,7 +124,9 @@ def patient_records():
     # Grabs all patients
     cursor.execute("SELECT * FROM patients")
     patient_list = cursor.fetchall()
-    return render_template("./Records/patientRecord.html", loggedin=session['loggedin'], patientList=patient_list)
+    return render_template(
+        "./Records/patientRecord.html", loggedin=session['loggedin'], patientList=patient_list
+    )
 
 
 @app.route("/patientRecordsSubmit", methods=['POST'])
@@ -131,5 +137,4 @@ def patient_records_submit():
 if __name__ == "__main__":
     # Testing
     webbrowser.open("http://localhost:5000/", new=1, autoraise=True)
-
     app.run()
