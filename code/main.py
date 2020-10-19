@@ -28,14 +28,14 @@ cursor = db.cursor()
 @app.route("/")
 def home():
     if 'loggedin' in session:
-        return render_template('mainPage.html')
+        return render_template('mainPage.html', loggedin=session['loggedin'])
     return redirect(url_for('login'))
 
 
 @app.route("/register", methods=['GET'])
 def register():
     if 'loggedin' in session:
-        return render_template('register.html')
+        return render_template('register.html', loggedin=session['loggedin'])
     return redirect(url_for('login'))
 
 
@@ -56,9 +56,9 @@ def register_user():
                                                  password, first_name, last_name)
             )
             db.commit()
-            return render_template('mainPage.html')
+            return render_template('mainPage.html', loggedin=session['loggedin'])
         else:
-            return render_template('register.html', msg="Passwords do not match")
+            return render_template('register.html', msg="Passwords do not match", loggedin=session['loggedin'])
 
 
 @app.route('/login', methods=['GET'])
