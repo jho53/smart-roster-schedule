@@ -22,6 +22,7 @@ db = mysql.connector.connect(
     auth_plugin="mysql_native_password"
 )
 
+account = None
 cursor = db.cursor()
 
 
@@ -86,6 +87,7 @@ def login_user():
                 'SELECT * FROM users WHERE username = %s AND password = md5(%s)', (
                     username, password,)
             )
+            global account
             account = cursor.fetchone()
             if account:
                 session['loggedin'] = True
@@ -132,6 +134,11 @@ def patient_records():
 @app.route("/patientRecordsSubmit", methods=['POST'])
 def patient_records_submit():
     return
+
+
+@app.route("/profile", methods=['GET'])
+def profile():
+    return render_template("./Account/profile.html", loggedin=session['loggedin'])
 
 
 if __name__ == "__main__":
