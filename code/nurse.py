@@ -17,8 +17,9 @@ class Nurse(Base):
     skill_level = Column(Integer, nullable=True)
     a_trained = Column(Boolean, nullable=True)
     transfer = Column(Boolean, nullable=True)
+    picc = Column(Boolean, nullable=True)
 
-    def __init__(self, id: int, first_name: str, last_name: str, clinical_area: str, bed_num: int, skill_level: int, num_patients: int, a_trained: bool, transfer: bool) -> None:
+    def __init__(self, id: int, first_name: str, last_name: str, clinical_area: str, bed_num: int, skill_level: int, num_patients: int, a_trained: bool, transfer: bool, picc: bool) -> None:
         """ Validates and Initializes a Nurse """
         Nurse._validate_positive_integer("Nurse ID", id)
         self.id = id
@@ -41,16 +42,33 @@ class Nurse(Base):
         Nurse._validate_positive_integer("Number of patients", num_patients)
         self.num_patients = num_patients
 
+        Nurse._validate_boolean("A-Trained value", a_trained)
         self.a_trained = a_trained
 
+        Nurse._validate_boolean("Transfer value", transfer)
         self.transfer = transfer
+
+        Nurse._validate_boolean("PICC value", picc)
+        self.picc = picc
 
     ###############################################
     #                Public Methods               #
     ###############################################
+
+    #---------------------------------------------#
+    #                   GETTERS                   #
+    #---------------------------------------------#
     def get_id(self) -> int:
         """ get id of nurse """
         return self.id
+    
+    def get_first_name(self) -> str:
+        """ get first name of nurse """
+        return self.first_name
+    
+    def get_last_name(self) -> str:
+        """ get last name of nurse """
+        return self.last_name
 
     def get_name(self) -> str:
         """ get full name of nurse """
@@ -79,7 +97,14 @@ class Nurse(Base):
     def get_transfer(self) -> bool:
         """ get transfer value from nurse"""
         return self.transfer
+    
+    def get_picc(self) -> bool:
+        """ get PICC value from nurse"""
+        return self.picc
 
+    #---------------------------------------------#
+    #                  SETTERS                    #
+    #---------------------------------------------#
     def set_num_patients(self, num_patients):
         """ set the number of patients """
         self.num_patients = num_patients
@@ -92,11 +117,16 @@ class Nurse(Base):
         """ Returns nurse information in a dictionary """
         nurse_dict = {}
 
-        nurse_dict['id'] = self.id
-        nurse_dict['first_name'] = self.first_name
-        nurse_dict['last_name'] = self.last_name
+        nurse_dict['id']            = self.id
+        nurse_dict['first_name']    = self.first_name
+        nurse_dict['last_name']     = self.last_name
         nurse_dict['clinical_area'] = self.clinical_area
-        nurse_dict['bed_num'] = self.bed_num
+        nurse_dict['bed_num']       = self.bed_num
+        nurse_dict['skill_level']   = self.skill_level
+        nurse_dict['num_patients']  = self.bed_num
+        nurse_dict['a_trained']     = self.bed_num
+        nurse_dict['transfer']      = self.bed_num
+        nurse_dict['picc']          = self.bed_num
 
         return nurse_dict
 
@@ -122,3 +152,11 @@ class Nurse(Base):
             raise ValueError(input_value + " cannot be empty.")
         if int_value < 0:
             raise ValueError(input_value + " cannot be negative.")
+
+    @staticmethod
+    def _validate_boolean(input_value: str, bool_value) -> None:
+        """ Checks if input is boolean """
+        if not isinstance(bool_value, bool):
+            raise ValueError(input_value + " is not a boolean.")
+        if bool_value is None:
+            raise ValueError(input_value + " cannot be empty.")
