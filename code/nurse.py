@@ -19,7 +19,8 @@ class Nurse(Base):
     transfer = Column(Boolean, nullable=True)
     picc = Column(Boolean, nullable=True)
 
-    def __init__(self, id: int, first_name: str, last_name: str, clinical_area: str, bed_num: int, skill_level: int, num_patients: int, a_trained: bool, transfer: bool, picc: bool) -> None:
+    def __init__(self, id: int, first_name: str, last_name: str, clinical_area: str, bed_num: int,
+                skill_level: int, num_patients: int, a_trained: bool, transfer: bool, picc: bool) -> None:
         """ Validates and Initializes a Nurse """
         Nurse._validate_positive_integer("Nurse ID", id)
         self.id = id
@@ -123,10 +124,10 @@ class Nurse(Base):
         nurse_dict['clinical_area'] = self.clinical_area
         nurse_dict['bed_num']       = self.bed_num
         nurse_dict['skill_level']   = self.skill_level
-        nurse_dict['num_patients']  = self.bed_num
-        nurse_dict['a_trained']     = self.bed_num
-        nurse_dict['transfer']      = self.bed_num
-        nurse_dict['picc']          = self.bed_num
+        nurse_dict['num_patients']  = self.num_patients
+        nurse_dict['a_trained']     = self.a_trained
+        nurse_dict['transfer']      = self.transfer
+        nurse_dict['picc']          = self.picc
 
         return nurse_dict
 
@@ -136,9 +137,9 @@ class Nurse(Base):
     @staticmethod
     def _validate_string_250(input_value: str, str_value: str) -> None:
         """ Checks if input is string """
-        if str_value is None or not isinstance(str_value, str):
+        if not isinstance(str_value, str):
             raise ValueError(input_value + " is not a string.")
-        if str_value == "":
+        if (str_value == "") or (str_value is None):
             raise ValueError(input_value + " cannot be empty.")
         if len(str_value) > 250:
             raise ValueError(input_value + " cannot be longer than 250 characters.")

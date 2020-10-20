@@ -18,7 +18,8 @@ class Patient(Base):
     one_to_one = Column(Boolean, nullable=True)
     picc = Column(Boolean, nullable=True)
 
-    def __init__(self, id: int, first_name: str, last_name: str, clinical_area: str, bed_num: int, acuity: int, num_nurses: int, transfer: bool, a_trained: bool, one_to_one: bool, picc: bool) -> None:
+    def __init__(self, id: int, first_name: str, last_name: str, clinical_area: str, bed_num: int,
+                acuity: int, num_nurses: int, transfer: bool, a_trained: bool, one_to_one: bool, picc: bool) -> None:
         """ Validates and Initializes a Patient """
         Patient._validate_positive_integer("Patient ID", id)
         self.id = id
@@ -112,7 +113,7 @@ class Patient(Base):
     #---------------------------------------------#
     #                  SETTERS                    #
     #---------------------------------------------#
-    def set_num_nurses(self, num_nurses):
+    def set_num_nurses(self, num_nurses: int) -> None:
         """ set the number of nurses """
         self.num_nurses = num_nurses
     
@@ -142,17 +143,17 @@ class Patient(Base):
     #              Validator Methods              #
     ###############################################
     @staticmethod
-    def _validate_string_250(input_value: str, str_value) -> None:
+    def _validate_string_250(input_value: str, str_value: str) -> None:
         """ Checks if input is string with 250 max characters """
-        if str_value is None or not isinstance(str_value, str):
+        if not isinstance(str_value, str):
             raise ValueError(input_value + " is not a string.")
-        if str_value == "":
+        if (str_value == "") or (str_value is None):
             raise ValueError(input_value + " cannot be empty.")
         if len(str_value) > 250:
             raise ValueError(input_value + " cannot be longer than 250 characters.")
     
     @staticmethod
-    def _validate_positive_integer(input_value: str, int_value) -> None:
+    def _validate_positive_integer(input_value: str, int_value: int) -> None:
         """ Checks if input is integer and not negative """
         if not isinstance(int_value, int):
             raise ValueError(input_value + " is not an integer.")
@@ -162,7 +163,7 @@ class Patient(Base):
             raise ValueError(input_value + " cannot be negative.")
 
     @staticmethod
-    def _validate_boolean(input_value: str, bool_value) -> None:
+    def _validate_boolean(input_value: str, bool_value: bool) -> None:
         """ Checks if input is boolean """
         if not isinstance(bool_value, bool):
             raise ValueError(input_value + " is not a boolean.")
