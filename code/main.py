@@ -8,7 +8,6 @@ import os
 # test purpose
 import webbrowser
 
-
 app = Flask(__name__, instance_relative_config=True)
 app.config.update(
     TESTING=True,
@@ -154,36 +153,46 @@ def assign_nurse_patient() -> dict:
     # Create "pod" data structure that stores: num_patients, how many transfers, skill level counts, how many a-trained
 
     pods = {
-        "A": [0, 0, 0, 0],
-        "B": [0, 0, 0, 0],
-        "C": [0, 0, 0, 0],
-        "D": [0, 0, 0, 0],
-        "E": [0, 0, 0, 0],
-        "F": [0, 0, 0, 0]
+        "A": {"patients": 0, "transfers": 0, "level": {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}, "a-trained": 0},
+        "B": {"patients": 0, "transfers": 0, "level": {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}, "a-trained": 0},
+        "C": {"patients": 0, "transfers": 0, "level": {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}, "a-trained": 0},
+        "D": {"patients": 0, "transfers": 0, "level": {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}, "a-trained": 0},
+        "E": {"patients": 0, "transfers": 0, "level": {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}, "a-trained": 0},
+        "F": {"patients": 0, "transfers": 0, "level": {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}, "a-trained": 0}
     }
 
-    cursor.execute("SELECT * FROM PATIENTS") # We can modularize this. This gets all patients.
+    cursor.execute("SELECT * FROM patients")  # We can modularize this. This gets all patients.
     patient_list = cursor.fetchall()
+    cursor.execute("SELECT * FROM nurses")  # We can also modularize this.
+    nurse_list = cursor.fetchall()
 
     for row in patient_list:
-        pods[row[2][0]][0] += 1 # row[2] points to the bed column in patient list
-                                # row[2][0] points to the first letter in bed column which is the pod.
-                                # pods[#][0] points to the num_patients of the pod object.
-        if row[7] == True:
-            pods[row[2][0]][3] += 1 # Increment amount of a-trained in pod object if patient needs a-trained
-        if row[6] == True:
-            pods[row[2][0]][1] += 1 # Increment amount of transfers in pod object if patient needs transfer
 
+        pods[row[2][0]]["patients"] += 1  # row[2] points to the bed column in patient list
+        # row[2][0] points to the first letter in bed column which is the pod.
+        # pods[#][0] points to the num_patients of the pod object.
+
+        pods[row[2][0]]["level"][row[3]] += 1  # Increment skill level counts
+
+        if row[7]:
+            pods[row[2][0]]["a-trained"] += 1  # Increment amount of a-trained in pod object if patient needs a-trained
+        if row[6]:
+            pods[row[2][0]]["transfers"] += 1  # Increment amount of transfers in pod object if patient needs transfer
 
     print(pods)
-
 
     # hard match nurses with patients they've been with (regardless of pod)
     #   In the case of multiple previous patients:
     #       - check skill-level
     #       - check geography (if needed)
 
+    for nurse in nurse_list:
+        for patient in patient_list:
+            if nurse[2] == patient[2]:
+                assignments[nurse[1]] = patient[1] # this only assigns matching pod and bed. im just going with the test data here LOL
+
     # MBC trained nurses go to "Rabbit Pod" as much as needed
+
 
     # Keep a clinical area "empty"
 
@@ -203,7 +212,6 @@ def assign_nurse_patient() -> dict:
     #       - PICC match
     #       - sort by skill level and pair the lower skill-level nurses first
 
-
     # Match first valid pair
     # for i in patients.keys():
     #     for j in nurses.keys():
@@ -220,9 +228,8 @@ def assign_nurse_patient() -> dict:
         response = app.response_class(status=200, response=json.dumps(assignments))
     except ValueError as error:
         response = app.response_class(status=400, response=str(error))
-        
-    return response
 
+    return response
 
 
 if __name__ == "__main__":
