@@ -123,6 +123,7 @@ def patient_records():
     # Grabs all patients
     cursor.execute("SELECT * FROM patients")
     patient_list = cursor.fetchall()
+    print(patient_list)
     return render_template("./Records/patientRecord.html", loggedin=session['loggedin'], patientList=patient_list)
 
 
@@ -151,6 +152,31 @@ def assign_nurse_patient() -> dict:
     assignments = {}
 
     # Create "pod" data structure that stores: num_patients, how many transfers, skill level counts, how many a-trained
+
+    pods = {
+        "A": [0, 0, 0, 0],
+        "B": [0, 0, 0, 0],
+        "C": [0, 0, 0, 0],
+        "D": [0, 0, 0, 0],
+        "E": [0, 0, 0, 0],
+        "F": [0, 0, 0, 0]
+    }
+
+    cursor.execute("SELECT * FROM PATIENTS") # We can modularize this. This gets all patients.
+    patient_list = cursor.fetchall()
+
+    for row in patient_list:
+        pods[row[2][0]][0] += 1 # row[2] points to the bed column in patient list
+                                # row[2][0] points to the first letter in bed column which is the pod.
+                                # pods[#][0] points to the num_patients of the pod object.
+        if row[7] == True:
+            pods[row[2][0]][3] += 1 # Increment amount of a-trained in pod object if patient needs a-trained
+        if row[6] == True:
+            pods[row[2][0]][1] += 1 # Increment amount of transfers in pod object if patient needs transfer
+
+
+    print(pods)
+
 
     # hard match nurses with patients they've been with (regardless of pod)
     #   In the case of multiple previous patients:
