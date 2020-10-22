@@ -22,7 +22,6 @@ db = mysql.connector.connect(
     auth_plugin="mysql_native_password"
 )
 
-account = None
 cursor = db.cursor()
 
 
@@ -50,18 +49,22 @@ def register_user():
         last_name = request.form['last_name']
         password = request.form['password']
         password_conf = request.form['password_conf']
-        if password == password_conf:
+
+        cursor.execute('SELECT * FROM users WHERE username = %s', (username,))
+        account = cursor.fetchone()
+
+        if account:
+            msg = 'Username already taken.'
+        elif password != password_conf:
+            msg = 'Passwords do not match.'
+        else:
             cursor.execute(
                 'INSERT INTO users (username, password, first_name, last_name) '
-                'VALUES (%s, md5(%s), %s, %s)', (username,
-                                                 password, first_name, last_name)
+                'VALUES (%s, md5(%s), %s, %s)', (username, password, first_name, last_name)
             )
             db.commit()
-            return render_template('mainPage.html', loggedin=session['loggedin'])
-        else:
-            return render_template(
-                'register.html', msg="Passwords do not match", loggedin=session['loggedin']
-            )
+            msg = 'Account successfully created'
+        return render_template('register.html', msg=msg, loggedin=session['loggedin'])
 
 
 @app.route('/login', methods=['GET'])
@@ -85,10 +88,11 @@ def login_user():
         else:
             cursor.execute(
                 'SELECT * FROM users WHERE username = %s AND password = md5(%s)', (
-                    username, password,)
+                    username, password, )
             )
-            global account
+
             account = cursor.fetchone()
+
             if account:
                 session['loggedin'] = True
                 session['id'] = account[0]
@@ -116,9 +120,46 @@ def nurse_records():
     )
 
 
-@app.route("/nurseRecordsSubmit", methods=['POST'])
-def nurse_records_submit():
-    return
+@app.route("/nurseRecords", methods=["POST"])
+def add_nurse_records():
+    if 'nurse_name' in request.form and 'nurse_area' in request.form \
+            and 'nurse_rotation' in request.form and 'nurse_fte' in request.form \
+            and 'nurse_a_trained' in request.form and 'nurse_skill' in request.form \
+            and 'nurse_transfer' in request.form and 'nurse_adv_role' in request.form \
+            and 'nurse_restrictions' in request.form and 'nurse_iv' in request.form:
+        nurse_name = request.form['nurse_name']
+        nurse_area = request.form['nurse_area']
+        nurse_rotation = request.form['nurse_rotation']
+        nurse_fte = request.form['nurse_fte']
+        nurse_a_trained = request.form['nurse_a_trained']
+        nurse_skill = request.form['nurse_skill']
+        nurse_transfer = request.form['nurse_transfer']
+        nurse_adv_role = request.form['nurse_adv_role']
+        nurse_restrictions = request.form['nurse_restrictions']
+        nurse_iv = request.form['nurse_iv']
+
+    query = "INSERT INTO nurses(" \
+            "nurse_name, nurse_area, nurse_rotation, nurse_fte, nurse_a_trained, nurse_skill, " \
+            "nurse_transfer, nurse_adv_role, nurse_restrictions, nurse_iv) " \
+            "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+
+    arguments = (
+    nurse_name, nurse_area, nurse_rotation, nurse_fte, nurse_a_trained, nurse_skill,
+    nurse_transfer, nurse_adv_role, nurse_restrictions, nurse_iv
+    )
+
+    try:
+        cursor.execute(query, arguments)
+        db.commit()
+
+    except Exception as error:
+        print(error)
+
+    cursor.execute("SELECT * FROM nurses")
+    nurse_list = cursor.fetchall()
+    return render_template(
+        "./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list
+    )
 
 
 @app.route("/patientRecords", methods=["GET"])
@@ -138,7 +179,11 @@ def patient_records_submit():
 
 @app.route("/profile", methods=['GET'])
 def profile():
-    return render_template("./Account/profile.html", loggedin=session['loggedin'])
+    if 'loggedin' in session:
+        cursor.execute('SELECT * FROM users WHERE username = %s', (session['username'],))
+        account = cursor.fetchone()
+        return render_template('./Account/profile.html', account=account, loggedin=session['loggedin'])
+    return redirect(url_for('login'))
 
 
 if __name__ == "__main__":
