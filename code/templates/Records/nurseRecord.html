@@ -68,4 +68,60 @@
     </table>
 </div>
 
+<!-- Modal -->
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">add nurse</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form action="/nurseRecords" method="post">
+                <p>
+                    <input id="nurse_name" name="nurse_name" required="" size="32" type="text" value="" placeholder="name"><br>
+                </p>
+                <p>
+                    <input id="nurse_area" name="nurse_area" required="" size="32" type="text" value=""placeholder="nurse_area"><br>
+                </p>
+                <p>
+                    <input id="nurse_rotation" name="nurse_rotation" required="" size="32" type="text" value=""placeholder="nurse_rotation"><br>
+                </p>
+                <p>
+                    <input id="nurse_fte" name="nurse_fte" required="" size="32" type="text" value=""placeholder="nurse_fte"><br>
+                </p>
+                <p>
+                    <input id="nurse_a_trained" name="nurse_a_trained" required="" size="32" type="number" value=""placeholder="nurse_a_trained"><br>
+                </p>
+                <p>
+                    Nurse skill
+                    <input id="nurse_skill" name="nurse_skill" required="" size="32" type="number" value=""placeholder="nurse_skill"><br>
+                </p>
+                <p>
+                    <input id="nurse_transfer" name="nurse_transfer" required="" size="32" type="number" value=""placeholder="nurse_transfer"><br>
+                </p>
+                <p>
+                    <input id="nurse_adv_role" name="nurse_adv_role" required="" size="32" type="text" value=""placeholder="nurse_adv_role"><br>
+                </p>
+                <p>
+                    <input id="nurse_restrictions" name="nurse_restrictions" required="" size="32" type="number" value=""placeholder="nurse_restrictions"><br>
+                </p>
+                <p>
+                    <input id="nurse_iv" name="nurse_iv" required="" size="32" type="number" value=""placeholder="nurse_iv"><br>
+                </p>
+                <br>
+                <input id="submit" name="submit" type="submit" value="Create">
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
 {% endblock %}
