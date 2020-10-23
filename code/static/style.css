@@ -1,0 +1,10 @@
+body {
+  height: 100%;
+  background-color: white;
+}
+
+/** Classes */
+.sr-logo {
+  max-width: 10%;
+  height: auto;
+}
