@@ -112,13 +112,15 @@ def logout():
 
 @app.route("/nurseRecords", methods=["GET"])
 def nurse_records():
-    # Grabs all nurses
-    cursor.execute("SELECT * FROM nurses")
-    nurse_list = cursor.fetchall()
-    return render_template(
-        "./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list
-    )
-
+    if 'loggedin' in session:
+        # Grabs all nurses
+        cursor.execute("SELECT * FROM nurses")
+        nurse_list = cursor.fetchall()
+        return render_template(
+            "./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list
+        )
+    return redirect(url_for('login'))
+    
 
 @app.route("/nurseRecords", methods=["POST"])
 def add_nurse_records():
@@ -144,8 +146,8 @@ def add_nurse_records():
             "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
 
     arguments = (
-    nurse_name, nurse_area, nurse_rotation, nurse_fte, nurse_a_trained, nurse_skill,
-    nurse_transfer, nurse_adv_role, nurse_restrictions, nurse_iv
+        nurse_name, nurse_area, nurse_rotation, nurse_fte, nurse_a_trained, nurse_skill,
+        nurse_transfer, nurse_adv_role, nurse_restrictions, nurse_iv
     )
 
     try:
@@ -164,12 +166,14 @@ def add_nurse_records():
 
 @app.route("/patientRecords", methods=["GET"])
 def patient_records():
-    # Grabs all patients
-    cursor.execute("SELECT * FROM patients")
-    patient_list = cursor.fetchall()
-    return render_template(
-        "./Records/patientRecord.html", loggedin=session['loggedin'], patientList=patient_list
-    )
+    if 'loggedin' in session:
+        # Grabs all patients
+        cursor.execute("SELECT * FROM patients")
+        patient_list = cursor.fetchall()
+        return render_template(
+            "./Records/patientRecord.html", loggedin=session['loggedin'], patientList=patient_list
+        )
+    return redirect(url_for('login'))
 
 
 @app.route("/patientRecordsSubmit", methods=['POST'])
@@ -182,7 +186,9 @@ def profile():
     if 'loggedin' in session:
         cursor.execute('SELECT * FROM users WHERE username = %s', (session['username'],))
         account = cursor.fetchone()
-        return render_template('./Account/profile.html', account=account, loggedin=session['loggedin'])
+        return render_template(
+            './Account/profile.html', account=account, loggedin=session['loggedin']
+        )
     return redirect(url_for('login'))
 
 
