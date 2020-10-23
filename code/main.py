@@ -155,7 +155,7 @@ def profile():
 
 @app.route("/settings")
 def settings():
-    return render_template("./Account/setting.html", loggedin=session['loggedin'])
+    return render_template("./Account/settings.html", loggedin=session['loggedin'])
 
 # Assignment Sheets
 
