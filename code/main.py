@@ -2,13 +2,18 @@ from nurse import Nurse
 from patient import Patient
 import json
 from flask import Flask, render_template, redirect, url_for, request, session
+from datetime import datetime
 import mysql.connector
 import os
 
 # test purpose
 import webbrowser
 
-app = Flask(__name__, instance_relative_config=True)
+app = Flask(__name__,
+            static_url_path="",
+            static_folder="./static",
+            instance_relative_config=True)
+
 app.config.update(
     TESTING=True,
     TEMPLATES_AUTO_RELOAD=True
@@ -25,6 +30,14 @@ db = mysql.connector.connect(
 )
 
 cursor = db.cursor()
+
+
+@app.context_processor
+def inject_now():
+    return {'now': datetime.utcnow()}
+
+
+# Login and Mainpage
 
 
 @app.route("/")
@@ -103,6 +116,8 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('login'))
 
+# Records
+
 
 @app.route("/nurseRecords", methods=["GET"])
 def nurse_records():
@@ -129,6 +144,40 @@ def patient_records():
 @app.route("/patientRecordsSubmit", methods=['POST'])
 def patient_records_submit():
     return
+
+# Account
+
+
+@app.route("/profile")
+def profile():
+    return render_template("./Account/profile.html", loggedin=session['loggedin'])
+
+
+@app.route("/settings")
+def settings():
+    return render_template("./Account/setting.html", loggedin=session['loggedin'])
+
+# Assignment Sheets
+
+
+@app.route("/currentCAASheet")
+def current_CAASheet():
+    return render_template("./Assignment Sheets/cur_caaSheet.html", loggedin=session['loggedin'])
+
+
+@app.route("/currentPNSheet")
+def current_PNSheet():
+    return render_template("./Assignment Sheets/cur_pnSheet.html", loggedin=session['loggedin'])
+
+
+@app.route("/pastCAASheet")
+def past_CAASheet():
+    return render_template("./Assignment Sheets/past_caaSheet.html", loggedin=session['loggedin'])
+
+
+@app.route("/pastPNSheet")
+def past_PNSheet():
+    return render_template("./Assignment Sheets/past_pnSheet.html", loggedin=session['loggedin'])
 
 
 @app.route('/assign', methods=['GET'])
