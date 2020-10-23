@@ -29,3 +29,7 @@ At present, this work is completed manually in a paper-based system. Initially, 
 **Previous project?**
 
 No
+
+**Dependencies**
+Python - mysql-connector, Flask, SQLAlchemy
+MySQL
