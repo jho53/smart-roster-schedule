@@ -1,4 +1,5 @@
 from flask import Flask, render_template, redirect, url_for, request, session
+from datetime import datetime
 import mysql.connector
 import os
 
@@ -26,6 +27,11 @@ db = mysql.connector.connect(
 )
 
 cursor = db.cursor()
+
+
+@app.context_processor
+def inject_now():
+    return {'now': datetime.utcnow()}
 
 
 @app.route("/")

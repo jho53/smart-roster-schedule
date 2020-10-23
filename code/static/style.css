@@ -1,3 +1,24 @@
+/******* Global Styling *******/
+body {
+  height: 100%;
+  background-color: white;
+}
+
+/******* Class Styling *******/
+.sr-logo {
+  height: 40px;
+  width: auto;
+}
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  padding-top: 10px;
+}
+
 /* Start of login page */
 
 .login-elements {
@@ -74,3 +95,5 @@
 }
 
 /* End of login page */
+
+/******* ID Styling *******/
