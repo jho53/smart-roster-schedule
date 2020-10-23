@@ -126,39 +126,10 @@ def nurse_records():
     nurse_list = cursor.fetchall()
     return render_template("./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list)
 
-@app.route("/nurseRecords", methods=["POST"])
 
-def add_nurse_records():
-    
-
-    if 'nurse_name' in request.form and 'nurse_area' in request.form and 'nurse_rotation' in request.form and 'nurse_fte' in request.form and 'nurse_a_trained' in request.form and 'nurse_skill' in request.form and 'nurse_transfer' in request.form and 'nurse_adv_role' in request.form and 'nurse_restrictions' in request.form and 'nurse_iv' in request.form:
-        nurse_name = request.form['nurse_name']
-        nurse_area = request.form['nurse_area']
-        nurse_rotation = request.form['nurse_rotation']
-        nurse_fte = request.form['nurse_fte']
-        nurse_a_trained = request.form['nurse_a_trained']
-        nurse_skill = request.form['nurse_skill']
-        nurse_transfer = request.form['nurse_transfer']
-        nurse_adv_role = request.form['nurse_adv_role']
-        nurse_restrictions = request.form['nurse_restrictions']
-        nurse_iv = request.form['nurse_iv']
-
-    query = "insert into smartroster.nurses( nurse_name, nurse_area, nurse_rotation, nurse_fte, nurse_a_trained, nurse_skill, nurse_transfer, nurse_adv_role, nurse_restrictions, nurse_iv) " \
-        "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-    
-    arguments = (nurse_name, nurse_area, nurse_rotation, nurse_fte, nurse_a_trained, nurse_skill, nurse_transfer, nurse_adv_role, nurse_restrictions, nurse_iv)
-
-    try:
-        cursor.execute(query, arguments)
-        
-        db.commit()
-    
-    except Error as error:
-        print(error)
-
-    cursor.execute("SELECT * FROM nurses")
-    nurse_list = cursor.fetchall()
-    return render_template("./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list)
+@app.route("/nurseRecordsSubmit", methods=['POST'])
+def nurse_records_submit():
+    return
 
 
 @app.route("/patientRecords", methods=["GET"])
