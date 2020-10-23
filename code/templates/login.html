@@ -2,24 +2,55 @@
 
 {% block content %}
 
-<div align="center">
-    <h1 align="center" style="margin-top: 10px">Login</h1><br>
-    <form action="/loginUser" method="post">
-        <p>
-            <input id="username" name="username" required="" size="32" type="text" value="" placeholder="Username"><br>
-        </p>
-        <p>
-            <input id="password" name="password" required="" size="32" type="password" value=""
-                placeholder="Password"><br>
-        </p>
-        <p>
-            {{msg}}
-        </p>
-        <br>
-        <p>
-            <input id="submit" name="submit" type="submit" value="Login">
-        </p>
-    </form>
-</div>
+<body class="login-body">
+    <div class="container" style="width: 1200px;">
+        <div class="login-elements">
+            <div class="login-row"></div>
+            <div class="login-column-1">
+                <img src="/images/SmartRosterLogoHighRes.png" class="login-logo">
+                <div class="introduction">
+                    <h3 style="padding-bottom: 15px; color: black;">Introduction</h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                            nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+                            deserunt mollit anim id est laborum.</p>
+                </div>
+            </div>
+            <div class="login-column-2">
+                <h3 style="color: black;">Login to Smart Roster</h3>
+                <div class="login-form">
+                    <div class="form-group">
+                        <form action="/loginUser" method="post">
+                            <p>
+                                <label for="username">Username</label>
+                                <input id="username" class="form-control" name="username" required="" size="32"
+                                    type="text" value="" placeholder="Username"><br>
+                            </p>
+                            <p>
+                                <label for="password">Password</label>
+                                <input id="password" class="form-control" name="password" required="" size="32"
+                                    type="password" value="" placeholder="Password"><br>
+                            </p>
+
+                            <br>
+                            <p>
+                                <button id="submit" class="btn btn-success form-control" name="submit" type="submit"
+                                    value="Login">Login</button>
+                            </p>
+
+                            <br>
+                            <p style="text-align: center;">
+                                {{msg}}
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
 
 {% endblock %}

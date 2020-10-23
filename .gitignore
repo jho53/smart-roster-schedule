@@ -1,3 +1,9 @@
 .vscode/
 .idea/
+<<<<<<< HEAD
 node_modules
+=======
+code/__pycache__/
+node_modules
+venv/
+>>>>>>> ae5829df39e9fa0c5b739be5a095204ff899c29b
