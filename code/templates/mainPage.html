@@ -2,22 +2,31 @@
 {% block content %}
 
 <p>Welcome to the Home Page</p>
-<a href="/logout">Logout</a>
-<a href="/register">Register</a>
-<br>
-<p>Current Shift</p>
 
-<a href="#">Clinical Area Assignment</a>
-<a href="#">Patient/Nurse Assignment</a>
-<a href="#">Add Nurses to Current Shift</a>
+<h2>Assignments</h2>
+<a href="/currentCAASheet">Clinical Area Assignment</a>
+<br>
+<a href="/currentPNSheet">Patient/Nurse Assignment</a>
 <br>
 
-<h1>Records</h1>
-<a class="nav-link" href="/nurseRecords">Nurse Records</a>
-<a class="nav-link" href="/patientRecords">Patient Records</a>
+<h2>Records</h2>
+<a href="/nurseRecords">Nurse Records</a>
+<br>
+<a href="/patientRecords">Patient Records</a>
 <br>
 
-<p>Past Sheets</p>
-<a href="#">Past Clinical Area Assignments</a>
-<a href="#">Past Patient/Nurse Assignments</a>
+<h2>Past Sheets</h2>
+<a href="/pastCAASheet">Past Clinical Area Assignments</a>
+<br>
+<a href="/pastPNSheet">Past Patient/Nurse Assignments</a>
+<br>
+
+<h2>Sidebar</h2>
+<a href="#">Add Patient</a>
+<br>
+<a href="#">Add Nurse</a>
+<br>
+<a href="#">Print Current CA Sheet</a>
+<br>
+<a href="#">Print Current P/N Sheet</a>
 {% endblock %}

@@ -34,6 +34,9 @@ def inject_now():
     return {'now': datetime.utcnow()}
 
 
+# Login and Mainpage
+
+
 @app.route("/")
 def home():
     if 'loggedin' in session:
@@ -110,6 +113,8 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('login'))
 
+# Records
+
 
 @app.route("/nurseRecords", methods=["GET"])
 def nurse_records():
@@ -135,6 +140,40 @@ def patient_records():
 @app.route("/patientRecordsSubmit", methods=['POST'])
 def patient_records_submit():
     return
+
+# Account
+
+
+@app.route("/profile")
+def profile():
+    return render_template("./Account/profile.html", loggedin=session['loggedin'])
+
+
+@app.route("/settings")
+def settings():
+    return render_template("./Account/setting.html", loggedin=session['loggedin'])
+
+# Assignment Sheets
+
+
+@app.route("/currentCAASheet")
+def current_CAASheet():
+    return render_template("./Assignment Sheets/cur_caaSheet.html", loggedin=session['loggedin'])
+
+
+@app.route("/currentPNSheet")
+def current_PNSheet():
+    return render_template("./Assignment Sheets/cur_pnSheet.html", loggedin=session['loggedin'])
+
+
+@app.route("/pastCAASheet")
+def past_CAASheet():
+    return render_template("./Assignment Sheets/past_caaSheet.html", loggedin=session['loggedin'])
+
+
+@app.route("/pastPNSheet")
+def past_PNSheet():
+    return render_template("./Assignment Sheets/past_pnSheet.html", loggedin=session['loggedin'])
 
 
 if __name__ == "__main__":

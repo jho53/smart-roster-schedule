@@ -5,6 +5,8 @@ body {
 }
 
 /******* Class Styling *******/
+
+/* Global */
 .sr-logo {
   height: 40px;
   width: auto;
@@ -20,78 +22,77 @@ body {
 }
 
 /* Start of login page */
-
 .login-elements {
-    margin-top: 150px;
-    height: 600px;
-    /* border: 5px solid; */
+  margin-top: 150px;
+  height: 600px;
+  /* border: 5px solid; */
 }
 
 .login-row:after {
-    content: "";
-    display: table;
-    clear: both;
+  content: "";
+  display: table;
+  clear: both;
 }
 
 .login-column-1 {
-    float: left;
-    width: 45%;
-    margin-top: 25px;
-    margin-left: 25px;
-    padding: 25px;
-    height: 500px;
-    /* border: 5px solid; */
-    text-align: center;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.25));
+  float: left;
+  width: 45%;
+  margin-top: 25px;
+  margin-left: 25px;
+  padding: 25px;
+  height: 500px;
+  /* border: 5px solid; */
+  text-align: center;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.25));
 }
 
 .introduction {
-    margin-top: 25px;
-    padding-top: 25px;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-bottom: 15px;
-    background-color: rgba(156, 149, 149, 0.5);
-    text-align: center;
+  margin-top: 25px;
+  padding-top: 25px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 15px;
+  background-color: rgba(156, 149, 149, 0.5);
+  text-align: center;
 }
 
 .login-column-2 {
-    float: right;
-    width: 45%;
-    margin-top: 25px;
-    margin-right: 25px;
-    padding: 25px;
-    height: 500px;
-    /* border: 5px solid; */
-    text-align: center;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.25));
+  float: right;
+  width: 45%;
+  margin-top: 25px;
+  margin-right: 25px;
+  padding: 25px;
+  height: 500px;
+  /* border: 5px solid; */
+  text-align: center;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.25));
 }
 
 .login-form {
-    text-align: center;
-    padding-top: 25px;
+  text-align: center;
+  padding-top: 25px;
 }
 
 .login-form p {
-    color: white;
-    text-align: left;
+  color: white;
+  text-align: left;
 }
 
 .login-msg p {
-    text-align: center;
+  text-align: center;
 }
 
 .login-logo {
-    width: 200px;
-    height: 100px;
+  width: 200px;
+  height: 100px;
 }
 
 .login-body {
-    background-image: url("../static/images/login-background.jpg");
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+  background-image: url("/images/login-background.jpg");
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 /* End of login page */
