@@ -1,27 +1,26 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-<div align="center">
-    <h1 align="center" style="margin-top: 10px">Login</h1><br>
-    <form action="/loginUser" method="post">
-        <p>
-            <label for ="username"><b>Username</b></label>
-            <input id="username" name="username" required="" size="32" type="text" value="" placeholder="Enter Username"><br>
-        </p>
-        <p>
-            <label for ="password"><b>Password</b></label>
-            <input id="password" name="password" required="" size="32" type="password" value=""
-                placeholder="Enter Password"><br>
-        </p>
-        <p>
-            {{msg}}
-        </p>
-        <br>
-        <p>
-            <input id="submit" name="submit" type="submit" value="Login">
-        </p>
-    </form>
-</div>
+<body>
+    <div class="w-container">
+        <div class="w-row">
+            <div class="column-2 w-col w-col-6">
+                <div class="div-block">
+                    <img src="../static/images/SmartRosterLogoHighRes.png" sizes="(max-width: 479px) 92vw, 300px">
+                    <h3 class="heading">Introduction</h3>
+                    <div class="div-block-3">
+                        <p class="paragraph">Smart Roster was made by a team of BCIT students. This page is currently under construction and is not done.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="column w-col w-col-6">
+                <div class="div-block-2">
+                    <h3 class="heading-2">Login to Smart Roster</h3>
+                    ><form action=""></form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
 
 {% endblock %}
