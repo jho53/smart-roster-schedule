@@ -176,67 +176,23 @@ def add_nurse_records():
 
     cursor.execute("SELECT * FROM nurses")
     nurse_list = cursor.fetchall()
-<<<<<<< HEAD
+
     return render_template(
         "./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list
     )
-=======
-    return render_template("./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list)
-
-@app.route("/nurseRecords", methods=["POST"])
-
-def add_nurse_records():
-    
-
-    if 'nurse_name' in request.form and 'nurse_area' in request.form and 'nurse_rotation' in request.form and 'nurse_fte' in request.form and 'nurse_a_trained' in request.form and 'nurse_skill' in request.form and 'nurse_transfer' in request.form and 'nurse_adv_role' in request.form and 'nurse_restrictions' in request.form and 'nurse_iv' in request.form:
-        nurse_name = request.form['nurse_name']
-        nurse_area = request.form['nurse_area']
-        nurse_rotation = request.form['nurse_rotation']
-        nurse_fte = request.form['nurse_fte']
-        nurse_a_trained = request.form['nurse_a_trained']
-        nurse_skill = request.form['nurse_skill']
-        nurse_transfer = request.form['nurse_transfer']
-        nurse_adv_role = request.form['nurse_adv_role']
-        nurse_restrictions = request.form['nurse_restrictions']
-        nurse_iv = request.form['nurse_iv']
-
-    query = "insert into smartroster.nurses( nurse_name, nurse_area, nurse_rotation, nurse_fte, nurse_a_trained, nurse_skill, nurse_transfer, nurse_adv_role, nurse_restrictions, nurse_iv) " \
-        "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-    
-    arguments = (nurse_name, nurse_area, nurse_rotation, nurse_fte, nurse_a_trained, nurse_skill, nurse_transfer, nurse_adv_role, nurse_restrictions, nurse_iv)
-
-    try:
-        cursor.execute(query, arguments)
-        
-        db.commit()
-    
-    except Error as error:
-        print(error)
-
-    cursor.execute("SELECT * FROM nurses")
-    nurse_list = cursor.fetchall()
-    return render_template("./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list)
->>>>>>> ae5829df39e9fa0c5b739be5a095204ff899c29b
 
 
 @app.route("/patientRecords", methods=["GET"])
 def patient_records():
-<<<<<<< HEAD
     if 'loggedin' in session:
         # Grabs all patients
         cursor.execute("SELECT * FROM patients")
         patient_list = cursor.fetchall()
+        print(patient_list)
         return render_template(
             "./Records/patientRecord.html", loggedin=session['loggedin'], patientList=patient_list
         )
     return redirect(url_for('login'))
-=======
-    # Grabs all patients
-    cursor.execute("SELECT * FROM patients")
-    patient_list = cursor.fetchall()
-    print(patient_list)
-    return render_template("./Records/patientRecord.html", loggedin=session['loggedin'], patientList=patient_list)
->>>>>>> ae5829df39e9fa0c5b739be5a095204ff899c29b
 
 
 @app.route("/patientRecordsSubmit", methods=['POST'])
@@ -246,9 +202,15 @@ def patient_records_submit():
 # Account
 
 
-@app.route("/profile")
+@app.route("/profile", methods=['GET'])
 def profile():
-    return render_template("./Account/profile.html", loggedin=session['loggedin'])
+    if 'loggedin' in session:
+        cursor.execute('SELECT * FROM users WHERE username = %s', (session['username'],))
+        account = cursor.fetchone()
+        return render_template(
+            './Account/profile.html', account=account, loggedin=session['loggedin']
+        )
+    return redirect(url_for('login'))
 
 
 @app.route("/settings")
@@ -405,17 +367,6 @@ def assign_nurse_patient() -> dict:
         response = app.response_class(status=400, response=str(error))
 
     return response
-
-
-@app.route("/profile", methods=['GET'])
-def profile():
-    if 'loggedin' in session:
-        cursor.execute('SELECT * FROM users WHERE username = %s', (session['username'],))
-        account = cursor.fetchone()
-        return render_template(
-            './Account/profile.html', account=account, loggedin=session['loggedin']
-        )
-    return redirect(url_for('login'))
 
 
 if __name__ == "__main__":
