@@ -1,24 +1,51 @@
 {% extends "base.html" %}
 
 {% block content %}
-<body>
-    <div class="w-container">
-        <div class="w-row">
-            <div class="column-2 w-col w-col-6">
-                <div class="div-block">
-                    <img src="../static/images/SmartRosterLogoHighRes.png" sizes="(max-width: 479px) 92vw, 300px">
-                    <h3 class="heading">Introduction</h3>
-                    <div class="div-block-3">
-                        <p class="paragraph">Smart Roster was made by a team of BCIT students. This page is currently under construction and is not done.</p>
+<body class="login-body">
+    <div class="container" style="width: 1200px;">
+        <div class="login-elements">
+            <div class="login-row"></div>
+                <div class="login-column-1">
+                    <img src="../static/images/SmartRosterLogoHighRes.png" class="login-logo">
+                    <div class="introduction">
+                        <h3 style="padding-bottom: 15px; color: black;">Introduction</h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                             tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
+                             quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+                             Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat 
+                             nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia 
+                             deserunt mollit anim id est laborum.</p>
                     </div>
                 </div>
-            </div>
-            <div class="column w-col w-col-6">
-                <div class="div-block-2">
-                    <h3 class="heading-2">Login to Smart Roster</h3>
-                    ><form action=""></form>
+                <div class="login-column-2">
+                    <h3 style="color: black;">Login to Smart Roster</h3>
+                    <div class="login-form">
+                        <div class="form-group">
+                            <form action="/loginUser" method="post">
+                                <p>
+                                    <label for="username">Username</label>
+                                    <input id="username" class="form-control" name="username" required="" size="32" type="text" value="" placeholder="Username"><br>
+                                </p>
+                                <p>
+                                    <label for="password">Password</label>
+                                    <input id="password" class="form-control" name="password" required="" size="32" type="password" value=""
+                                        placeholder="Password"><br>
+                                </p>
+                                
+                                <br>
+                                <p>
+                                    <input id="submit" class="form-control" name="submit" type="submit" value="Login">
+                                </p>
+
+                                <br>
+                                <p style="text-align: center;">
+                                    {{msg}}
+                                </p>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </div> 
         </div>
     </div>
 </body>
