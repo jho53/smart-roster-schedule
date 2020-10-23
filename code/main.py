@@ -6,7 +6,10 @@ import os
 import webbrowser
 
 
-app = Flask(__name__, instance_relative_config=True)
+app = Flask(__name__,
+            static_url_path="",
+            static_folder="./static",
+            instance_relative_config=True)
 app.config.update(
     TESTING=True,
     TEMPLATES_AUTO_RELOAD=True
