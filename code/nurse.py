@@ -18,9 +18,12 @@ class Nurse(Base):
     a_trained = Column(Boolean, nullable=True)
     transfer = Column(Boolean, nullable=True)
     picc = Column(Boolean, nullable=True)
+    mbc = Column(Boolean, nullable=True)
+    assigned = Column(Boolean, nullable=True)
 
     def __init__(self, id: int, first_name: str, last_name: str, clinical_area: str, bed_num: int,
-                skill_level: int, num_patients: int, a_trained: bool, transfer: bool, picc: bool) -> None:
+                skill_level: int, num_patients: int, a_trained: bool, transfer: bool, picc: bool,
+                mbc: bool, assigned: bool) -> None:
         """ Validates and Initializes a Nurse """
         Nurse._validate_positive_integer("Nurse ID", id)
         self.id = id
@@ -51,6 +54,12 @@ class Nurse(Base):
 
         Nurse._validate_boolean("PICC value", picc)
         self.picc = picc
+
+        Nurse._validate_boolean("MBC value", mbc)
+        self.mbc = mbc
+
+        Nurse._validate_boolean("Assigned value", assigned)
+        self.assigned = assigned
 
     ###############################################
     #                Public Methods               #
@@ -103,6 +112,13 @@ class Nurse(Base):
         """ get PICC value from nurse"""
         return self.picc
 
+    def get_mbc(self) -> bool:
+        """ get MBC value from nurse"""
+        return self.mbc
+    
+    def get_assigned(self) -> bool:
+        """ get assigned value from nurse"""
+        return self.assigned
     #---------------------------------------------#
     #                  SETTERS                    #
     #---------------------------------------------#
@@ -128,6 +144,8 @@ class Nurse(Base):
         nurse_dict['a_trained']     = self.a_trained
         nurse_dict['transfer']      = self.transfer
         nurse_dict['picc']          = self.picc
+        nurse_dict['mbc']           = self.mbc
+        nurse_dict['assigned']      = self.assigned
 
         return nurse_dict
 

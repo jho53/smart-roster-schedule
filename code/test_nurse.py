@@ -8,4 +8,6 @@ class TestNurse(TestCase):
 
     def setUp(self):
         """ creates a test fixture before each test method has run """
-        self.nurse = Nurse(12, "Jane", "Doe", "A", 7, 5, 0)
+        self.nurse = Nurse(12, "Jane", "Doe", "A", 7, 5, 0, False, False, False, True)
+
+# TDD is going greeeaaaaaattt

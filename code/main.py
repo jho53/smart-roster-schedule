@@ -193,13 +193,41 @@ def assign_nurse_patient() -> dict:
 
     # MBC trained nurses go to "Rabbit Pod" as much as needed
 
-
-    # Keep a clinical area "empty"
+    for nurse in nurse_list:
+        if nurse[9]:
+            nurse[3] = 'F'  # Sets nurse pod to MBC clinical area
+            nurse[10] = True # Marks the nurse as assigned
 
     # split the remaining nurses according to "pod's needs"
     #       - A-trained
-    #       - number of patients in a pod
+    
+    ##################### PSEUDO CODE #########################
+    ## Adds nurse to pod with a_trained ##
+    # for pod in pods:
+    #   count = pod["a_trained"]
+    #   for _ in range(count):
+    #       for nurse in nurse_list:
+    #           if nurse[10] == False and nurse[6] == True:
+    #               nurse[3] = pod  # Sets nurse to pod
+    #               nurse[10] = True
+    ###########################################################
+
     #       - transfer available for patient who needs it
+
+    ##################### PSEUDO CODE #########################
+    ## Adds nurse to pod with transfer ##
+    # for pod in pods:
+    #   count = pod["transfers"]
+    #   for _ in range(count):
+    #       for nurse in nurse_list:
+    #           if nurse[10] == False and nurse[7] == True:
+    #               nurse[3] = pod  # Sets nurse to pod
+    #               nurse[10] = True
+    ###########################################################
+
+
+
+    #       - number of patients in a pod
     #       - Ensure enough skill level per pod
     #       - ensure PICC match
 
