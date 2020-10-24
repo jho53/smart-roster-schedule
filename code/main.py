@@ -1,5 +1,3 @@
-from nurse import Nurse
-from patient import Patient
 import json
 from flask import Flask, render_template, redirect, url_for, request, session
 from datetime import datetime
@@ -127,7 +125,6 @@ def nurse_records():
     return render_template("./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list)
 
 @app.route("/nurseRecords", methods=["POST"])
-
 def add_nurse_records():
     
 
@@ -166,8 +163,38 @@ def patient_records():
     # Grabs all patients
     cursor.execute("SELECT * FROM patients")
     patient_list = cursor.fetchall()
-    print(patient_list)
     return render_template("./Records/patientRecord.html", loggedin=session['loggedin'], patientList=patient_list)
+
+@app.route("/patientRecords", methods=["POST"])
+def add_patient_records():
+    
+
+    if 'patient_name' in request.form and 'patient_bed' in request.form and 'patient_acuity' in request.form and 'patient_date_admitted' in request.form and 'patient_a_trained' in request.form and 'patient_transfer' in request.form:
+        patient_name = request.form['patient_name']
+        patient_bed = request.form['patient_bed']
+        patient_acuity = request.form['patient_acuity']
+        patient_date_admitted = request.form['patient_date_admitted']
+        patient_a_trained = request.form['patient_a_trained']
+        patient_transfer = request.form['patient_transfer']
+
+
+    query = "insert into smartroster.patients( patient_name, patient_bed, patient_acuity, patient_date_admitted, patient_a_trained, patient_transfer)" \
+        "VALUES (%s,%s,%s,%s,%s,%s)"
+    
+    arguments = (patient_name, patient_bed, patient_acuity, patient_date_admitted, patient_a_trained, patient_transfer)
+
+    try:
+        cursor.execute(query, arguments)
+        
+        db.commit()
+    
+    except Error as error:
+        print(error)
+
+    cursor.execute("SELECT * FROM patients")
+    patient_list = cursor.fetchall()
+    return render_template("./Records/patientRecord.html", loggedin=session['loggedin'], patientList=patient_list)
+
 
 
 @app.route("/patientRecordsSubmit", methods=['POST'])
