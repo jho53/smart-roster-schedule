@@ -69,5 +69,48 @@
     </table>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">add patient</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form action="/patientRecords" method="post">
+                <p>
+                    <input id="patient_name" name="patient_name" required="" size="32" type="text" value="" placeholder="name"><br>
+                </p>
+                <p>
+                    <input id="patient_bed" name="patient_bed" required="" size="32" type="text" value=""placeholder="patient_bed"><br>
+                </p>
+                <p>
+                    <input id="patient_acuity" name="patient_acuity" required="" size="32" type="text" value=""placeholder="patient_acuity"><br>
+                </p>
+                <p>
+                    <input id="patient_date_admitted" name="patient_date_admitted" required="" size="32" type="text" value=""placeholder="patient_date_admitted"><br>
+                </p>
+                <p>
+                    <input id="patient_a_trained" name="patient_a_trained" required="" size="32" type="number" value=""placeholder="patient_a_trained"><br>
+                </p>
+                <p>
+                    <input id="patient_transfer" name="patient_transfer" required="" size="32" type="number" value=""placeholder="patient_transfer"><br>
+                </p>
+                <br>
+                <input id="submit" name="submit" type="submit" value="Create">
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <p>
+
+        </div>
+      </div>
+    </div>
+</div>
+
 
 {% endblock %}
