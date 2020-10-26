@@ -2,87 +2,14 @@
 
 {% block content %}
 
-<style>
-    .login-elements {
-        margin-top: 150px;
-        height: 600px;
-        /* border: 5px solid; */
-    }
-
-    .login-row:after {
-        content: "";
-        display: table;
-        clear: both;
-    }
-
-    .login-column-1 {
-        padding-top: 25px;
-        padding-bottom: 25px;
-        text-align: center;
-        background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.25));
-    }
-
-    .introduction {
-        margin-top: 25px;
-        padding-top: 25px;
-        padding-left: 10px;
-        padding-right: 10px;
-        padding-bottom: 15px;
-        background-color: rgba(156, 149, 149, 0.5);
-        text-align: center;
-    }
-
-    .login-column-2 {
-        padding-top: 25px;
-        padding-bottom: 25px;
-        text-align: center;
-        background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.25));
-    }
-
-    .login-form {
-        text-align: center;
-        padding-top: 25px;
-    }
-
-    .login-form p {
-        color: white;
-        text-align: left;
-    }
-
-    .login-msg p {
-        text-align: center;
-    }
-
-    .login-logo {
-        width: 10rem;
-        height: 5rem;
-    }
-
-    .login-body {
-        background-image: url("../static/images/login-background.jpg");
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
-    }
-
-    a {
-        color: rgb(255, 255, 255);
-    }
-
-    a:hover {
-        color: rgb(0, 89, 255);
-    }   
-</style>
-
 <body class="login-body">
-    <div class="container-fluid">
+    <div class="container" style="width: 1200px;">
         <div class="login-elements">
-            <div class="row login-row">
-            <div class="col-sm-3 offset-sm-2 login-column-1">
-                <img src="../static/images/SmartRosterLogoHighRes.png" class="login-logo">
+            <div class="login-row"></div>
+            <div class="login-column-1">
+                <img src="/images/SmartRosterLogoHighRes.png" class="login-logo">
                 <div class="introduction">
-                    <h3 style="padding-bottom: 15px; color: black;">Introduction</h3>
+                    <h3 style="padding-bottom: 15px; color: black;">Introduction</h2>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
                             tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
                             quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -91,7 +18,7 @@
                             deserunt mollit anim id est laborum.</p>
                 </div>
             </div>
-            <div class="col-sm-3 offset-sm-2 login-column-2">
+            <div class="login-column-2">
                 <h3 style="color: black;">Login to Smart Roster</h3>
                 <div class="login-form">
                     <div class="form-group">
@@ -106,12 +33,11 @@
                                 <input id="password" class="form-control" name="password" required="" size="32"
                                     type="password" value="" placeholder="Password"><br>
                             </p>
-                            
-                            <p><a href="">Forgot Username/Password?</a></p>
 
                             <br>
                             <p>
-                                <input id="submit" class="form-control" name="submit" type="submit" value="Login">
+                                <button id="submit" class="btn btn-success form-control" name="submit" type="submit"
+                                    value="Login">Login</button>
                             </p>
 
                             <br>
