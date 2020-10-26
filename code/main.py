@@ -161,23 +161,35 @@ def assign_nurse_patient() -> dict:
         "F": {"patients": 0, "transfers": 0, "level": {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}, "a-trained": 0}
     }
 
+    # nurses = []
+    # patients = []
     cursor.execute("SELECT * FROM patients")  # We can modularize this. This gets all patients.
     patient_list = cursor.fetchall()
+
+    # ---------------
+    # Maybe we can turn each nurse and patients into objects, then we can have a list of nurse objects and a list of patient objects?
+
+    # for row in patient_list:
+    #     row[0] = Patient(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10], row[11],
+    #                      row[12], row[13], row[14])
+    #     patients.append(row[0])
+    # print(patients)
+    # ---------------
+
     cursor.execute("SELECT * FROM nurses")  # We can also modularize this.
     nurse_list = cursor.fetchall()
 
     for row in patient_list:
-
-        pods[row[2][0]]["patients"] += 1  # row[2] points to the bed column in patient list
+        pods[row[3]]["patients"] += 1  # row[2] points to the bed column in patient list
         # row[2][0] points to the first letter in bed column which is the pod.
         # pods[#][0] points to the num_patients of the pod object.
 
-        pods[row[2][0]]["level"][row[3]] += 1  # Increment skill level counts
+        pods[row[3]]["level"][row[5]] += 1  # Increment skill level counts
 
-        if row[7]:
-            pods[row[2][0]]["a-trained"] += 1  # Increment amount of a-trained in pod object if patient needs a-trained
         if row[6]:
-            pods[row[2][0]]["transfers"] += 1  # Increment amount of transfers in pod object if patient needs transfer
+            pods[row[3]]["a-trained"] += 1  # Increment amount of a-trained in pod object if patient needs a-trained
+        if row[7]:
+            pods[row[3]]["transfers"] += 1  # Increment amount of transfers in pod object if patient needs transfer
 
     print(pods)
 
@@ -187,9 +199,9 @@ def assign_nurse_patient() -> dict:
     #       - check geography (if needed)
 
     for nurse in nurse_list:
-        for patient in patient_list:
-            if nurse[2] == patient[2]:
-                assignments[nurse[1]] = patient[1] # this only assigns matching pod and bed. im just going with the test data here LOL
+        if (nurse[13][0] in patient_list) and (nurse[18] is not True): # check if the latest patient the nurse has been with exists in patient list, and check if the nurse is not assigned
+            assignments[nurse[1] + nurse[2]] = nurse[13][0] # hard match nurse with the latest previous patient entry (assuming previous patients is stored as list)
+            nurse[18] = True # mark them as assigned
 
     # MBC trained nurses go to "Rabbit Pod" as much as needed
 

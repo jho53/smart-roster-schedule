@@ -1,6 +1,7 @@
 from sqlalchemy import Table, Column, Integer, String, Boolean
 from base import Base
 
+
 class Patient(Base):
     """ Represents a patient """
 
@@ -12,14 +13,20 @@ class Patient(Base):
     clinical_area = Column(String(100), nullable=True)
     bed_num = Column(Integer, nullable=True)
     acuity = Column(Integer, nullable=True)
-    num_nurses = Column(Integer, nullable=True)
-    transfer = Column(Boolean, nullable=True)
     a_trained = Column(Boolean, nullable=True)
-    one_to_one = Column(Boolean, nullable=True)
+    transfer = Column(Boolean, nullable=True)
     picc = Column(Boolean, nullable=True)
+    one_to_one = Column(Boolean, nullable=True)
+    previous_nurses = Column(String(250), nullable=True)
+    admission_date = Column(String(250), nullable=True)  # could use datetime
+    discharge_date = Column(String(250), nullable=True)  # this as well
+    comments = Column(String(250), nullable=True)
+    twin = Column(String(250), nullable=True)
 
     def __init__(self, id: int, first_name: str, last_name: str, clinical_area: str, bed_num: int,
-                acuity: int, num_nurses: int, transfer: bool, a_trained: bool, one_to_one: bool, picc: bool) -> None:
+                 acuity: int, a_trained: bool, transfer: bool, picc: bool, one_to_one: bool,
+                 previous_nurses: str, admission_date: str, discharge_date: str, comments: str,
+                 twin: str) -> None:
         """ Validates and Initializes a Patient """
         Patient._validate_positive_integer("Patient ID", id)
         self.id = id
@@ -39,14 +46,11 @@ class Patient(Base):
         Patient._validate_positive_integer("Acuity", acuity)
         self.acuity = acuity
 
-        Patient._validate_positive_integer("Number of nurses", num_nurses)
-        self.num_nurses = num_nurses
+        Patient._validate_boolean("A-Trained value", a_trained)
+        self.a_trained = a_trained
 
         Patient._validate_boolean("Transfer value", transfer)
         self.transfer = transfer
-
-        Patient._validate_boolean("A-Trained value", a_trained)
-        self.a_trained = a_trained
 
         Patient._validate_boolean("1:1 value", one_to_one)
         self.one_to_one = one_to_one
@@ -54,14 +58,25 @@ class Patient(Base):
         Patient._validate_boolean("PICC value", picc)
         self.picc = picc
 
+        Patient._validate_string_250("Previous Nurses", previous_nurses)
+        self.previous_nurses = previous_nurses
+
+        Patient._validate_string_250("Admission Date", admission_date)
+        self.admission_date = admission_date
+
+        Patient._validate_string_250("Discharge Date", discharge_date)
+        self.discharge_date = discharge_date
+
+        Patient._validate_string_250("Twin", twin)
+        self.twin = twin
 
     ###############################################
     #                Public Methods               #
     ###############################################
 
-    #---------------------------------------------#
+    # ---------------------------------------------#
     #                   GETTERS                   #
-    #---------------------------------------------#
+    # ---------------------------------------------#
     def get_id(self) -> int:
         """ get id of patient """
         return self.id
@@ -69,19 +84,19 @@ class Patient(Base):
     def get_first_name(self) -> str:
         """ get first name of patient """
         return self.first_name
-    
+
     def get_last_name(self) -> str:
         """ get last name of patient """
         return self.last_name
-    
+
     def get_full_name(self) -> str:
         """ get full name of patient """
         return self.first_name + self.last_name
-    
+
     def get_clinical_area(self) -> str:
         """ get clinical area that patient is currently assigned """
         return self.clinical_area
-    
+
     def get_bed_num(self) -> int:
         """ get bed number that patient is currently assigned """
         return self.bed_num
@@ -89,34 +104,50 @@ class Patient(Base):
     def get_acuity(self) -> int:
         """ get acuity of the patient """
         return self.acuity
-    
-    def get_num_nurses(self) -> int:
-        """ get num_nurses of the patient """
-        return self.num_nurses
-    
+
     def get_transfer(self) -> bool:
         """ get transfer value of the patient """
         return self.transfer
-    
+
     def get_a_trained(self) -> bool:
         """ get a-trained value of the patient """
         return self.a_trained
-    
+
     def get_one_to_one(self) -> bool:
         """ get 1:1 value of the patient """
         return self.one_to_one
-    
+
     def get_picc(self) -> bool:
         """ get picc value of the patient """
         return self.picc
 
-    #---------------------------------------------#
+    def get_previous_nurses(self) -> str:
+        """ get previous nurses that the patient had"""
+        return self.previous_nurses
+
+    def get_admission_date(self) -> str:
+        """ get admission date of the patient"""
+        return self.admission_date
+
+    def get_discharge_date(self) -> str:
+        """get discharge date of the patient"""
+        return self.discharge_date
+
+    def get_twin(self) -> str:
+        """get twin of the patient"""
+        return self.twin
+
+    # ---------------------------------------------#
     #                  SETTERS                    #
-    #---------------------------------------------#
-    def set_num_nurses(self, num_nurses: int) -> None:
-        """ set the number of nurses """
-        self.num_nurses = num_nurses
-    
+    # ---------------------------------------------#
+    # def set_num_nurses(self, num_nurses: int) -> None:
+    #     """ set the number of nurses """
+    #     self.num_nurses = num_nurses
+
+    def set_previous_nurses(self, previous_nurses) -> None:
+        """ set the previous nurses of the patient"""
+        self.previous_nurses = previous_nurses
+
     ###############################################
     #                Public Methods               #
     ###############################################
@@ -124,20 +155,23 @@ class Patient(Base):
         """ Returns patient information in a dictionary """
         patient_dict = {}
 
-        patient_dict['id']              = self.id
-        patient_dict['first_name']      = self.first_name
-        patient_dict['last_name']       = self.last_name
-        patient_dict['clinical_area']   = self.clinical_area
-        patient_dict['bed_num']         = self.bed_num
-        patient_dict['acuity']          = self.acuity
-        patient_dict['num_nurses']      = self.num_nurses
-        patient_dict['transfer']        = self.transfer
-        patient_dict['a_trained']       = self.a_trained
-        patient_dict['one_to_one']      = self.one_to_one
-        patient_dict['picc']            = self.picc
+        patient_dict['id'] = self.id
+        patient_dict['first_name'] = self.first_name
+        patient_dict['last_name'] = self.last_name
+        patient_dict['clinical_area'] = self.clinical_area
+        patient_dict['bed_num'] = self.bed_num
+        patient_dict['acuity'] = self.acuity
+        patient_dict['a_trained'] = self.a_trained
+        patient_dict['transfer'] = self.transfer
+        patient_dict['picc'] = self.picc
+        patient_dict['one_to_one'] = self.one_to_one
+        patient_dict['previous_nurses'] = self.previous_nurses
+        patient_dict['admission_date'] = self.admission_date
+        patient_dict['discharge_date'] = self.discharge_date
+        patient_dict['comments'] = self.comments
+        patient_dict['twin'] = self.twin
 
         return patient_dict
-    
 
     ###############################################
     #              Validator Methods              #
@@ -151,7 +185,7 @@ class Patient(Base):
             raise ValueError(input_value + " cannot be empty.")
         if len(str_value) > 250:
             raise ValueError(input_value + " cannot be longer than 250 characters.")
-    
+
     @staticmethod
     def _validate_positive_integer(input_value: str, int_value: int) -> None:
         """ Checks if input is integer and not negative """
