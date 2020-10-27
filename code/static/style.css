@@ -12,6 +12,20 @@ body {
   width: auto;
 }
 
+.hamburger-icon {
+  padding-left: 25px;
+  padding-right: 25px;
+  height: 30px;
+  width: auto;
+}
+
+.sidebar-icons {
+  height: 25px;
+  text-align: center;
+  width: auto;
+  padding-right: 20px;
+}
+
 .footer {
   position: fixed;
   left: 0;
@@ -20,6 +34,55 @@ body {
   text-align: center;
   padding-top: 10px;
 }
+
+/* Sidebar */
+
+/* The side navigation menu */
+.sidebar {
+  height: 100%; /* 100% Full-height */
+  width: 0; /* 0 width - change this with JavaScript */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
+  background-color: rgb(173, 173, 173); /* Black*/
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 60px; /* Place content 60px from the top */
+  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+/* Sidebar links */
+.sidebar a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #000000;
+  display: block;
+  transition: 0.3s;
+}
+
+/* Sidebar link hover */
+.sidebar a:hover {
+  color: #f1f1f1;
+}
+
+/* Sidebar close button */
+.sidebar .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+.sidebarContent {
+  opacity: 0;
+  transition: opacity 0.5s;
+  white-space: nowrap;
+  word-wrap: none;
+}
+
+/* End of Sidebar */
 
 /* Start of login page */
 .login-elements {
