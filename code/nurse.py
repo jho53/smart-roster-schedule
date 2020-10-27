@@ -16,23 +16,23 @@ class Nurse(Base):
     bed_num = Column(Integer, nullable=True)
     rotation = Column(String(250), nullable=True)
     group = Column(Integer, nullable=True)
-    FTE = Column(Float, nullable=True)
+    fte = Column(Float, nullable=True)
     skill_level = Column(Integer, nullable=True)
     a_trained = Column(Boolean, nullable=True)
     transfer = Column(Boolean, nullable=True)
     picc = Column(Boolean, nullable=True)
     advanced_role = Column(String(250), nullable=True)
     previous_patients = Column(String(250), nullable=True)  # not too sure how to store this
-    DTA = Column(String(250), nullable=True)
+    dta = Column(String(250), nullable=True)
     comments = Column(String(250), nullable=True)
     priority = Column(Boolean, nullable=True)  # can someone confirm this is a boolean? i forgot what this was
     current_shift = Column(Boolean, nullable=True)
-    assigned = Column(Boolean, nullable=True)
+    num_patients = Column(Integer, nullable=True)
 
     def __init__(self, id: int, first_name: str, last_name: str, clinical_area: str, bed_num: int,
-                 rotation: str, group: int, FTE: float, skill_level: int, a_trained: bool, transfer: bool, picc: bool,
-                 advanced_role: str, previous_patients: str, DTA: str, comments: str, priority: bool,
-                 current_shift: bool, assigned: bool) -> None:
+                 rotation: str, group: int, fte: float, skill_level: int, a_trained: bool, transfer: bool, picc: bool,
+                 advanced_role: str, previous_patients: str, dta: str, comments: str, priority: bool,
+                 current_shift: bool, num_patients: int) -> None:
         """ Validates and Initializes a Nurse """
         Nurse._validate_positive_integer("Nurse ID", id)
         self.id = id
@@ -55,8 +55,8 @@ class Nurse(Base):
         Nurse._validate_positive_integer("Group", group)
         self.group = group
 
-        Nurse._validate_positive_float("FTE", FTE)
-        self.FTE = FTE
+        Nurse._validate_positive_float("fte", fte)
+        self.fte = fte
 
         Nurse._validate_positive_integer("Skill level", skill_level)
         self.skill_level = skill_level
@@ -76,8 +76,8 @@ class Nurse(Base):
         # Nurse._validate_string_250("Previous Patients", previous_patients)
         # self.previous_patients = previous_patients
 
-        Nurse._validate_string_250("DTA", DTA)
-        self.DTA = DTA
+        Nurse._validate_string_250("dta", dta)
+        self.dta = dta
 
         # Nurse._validate_string_250("Comments", comments)
         # self.comments = comments
@@ -87,9 +87,6 @@ class Nurse(Base):
 
         Nurse._validate_boolean("Current Shift", current_shift)
         self.current_shift = current_shift
-
-        Nurse._validate_boolean("Assigned value", assigned)
-        self.assigned = assigned
 
     ###############################################
     #                Public Methods               #
@@ -142,9 +139,9 @@ class Nurse(Base):
         """ get rotation value from nurse"""
         return self.rotation
 
-    def get_FTE(self) -> float:
-        """ get FTE value from nurse"""
-        return self.FTE
+    def get_fte(self) -> float:
+        """ get fte value from nurse"""
+        return self.fte
 
     def get_assigned(self) -> bool:
         """ get assigned value from nurse"""
@@ -154,9 +151,9 @@ class Nurse(Base):
         """ get previous patients from nurse"""
         return self.previous_patients
 
-    def get_DTA(self) -> str:
-        """ get DTA value from nurse"""
-        return self.DTA
+    def get_dta(self) -> str:
+        """ get dta value from nurse"""
+        return self.dta
 
     def get_priority(self) -> bool:
         """ get priority value from nurse"""
@@ -196,7 +193,7 @@ class Nurse(Base):
         nurse_dict['clinical_area'] = self.clinical_area
         nurse_dict['bed_num'] = self.bed_num
         nurse_dict['rotation'] = self.rotation
-        nurse_dict['FTE'] = self.FTE
+        nurse_dict['fte'] = self.fte
         nurse_dict['group'] = self.group
         nurse_dict['skill_level'] = self.skill_level
         nurse_dict['a_trained'] = self.a_trained
@@ -204,7 +201,7 @@ class Nurse(Base):
         nurse_dict['picc'] = self.picc
         nurse_dict['advanced_role'] = self.advanced_role
         nurse_dict['previous_patients'] = self.previous_patients
-        nurse_dict['DTA'] = self.DTA
+        nurse_dict['dta'] = self.dta
         nurse_dict['comments'] = self.comments
         nurse_dict['priority'] = self.priority
         nurse_dict['current shift'] = self.current_shift
