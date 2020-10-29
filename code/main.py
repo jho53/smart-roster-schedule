@@ -1,8 +1,10 @@
 from nurse import Nurse
 from patient import Patient
-import json
+
 from flask import Flask, render_template, redirect, url_for, request, session
 from datetime import datetime
+
+import json
 import mysql.connector
 import os
 
@@ -36,6 +38,10 @@ cursor = db.cursor()
 def inject_now():
     return {'now': datetime.utcnow()}
 
+
+@app.context_processor
+def inject_enumerate():
+    return dict(enumerate=enumerate)
 
 # Login and Mainpage
 
@@ -126,10 +132,9 @@ def nurse_records():
     nurse_list = cursor.fetchall()
     return render_template("./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list)
 
-@app.route("/nurseRecords", methods=["POST"])
 
+@app.route("/nurseRecords", methods=["POST"])
 def add_nurse_records():
-    
 
     if 'nurse_name' in request.form and 'nurse_area' in request.form and 'nurse_rotation' in request.form and 'nurse_fte' in request.form and 'nurse_a_trained' in request.form and 'nurse_skill' in request.form and 'nurse_transfer' in request.form and 'nurse_adv_role' in request.form and 'nurse_restrictions' in request.form and 'nurse_iv' in request.form:
         nurse_name = request.form['nurse_name']
@@ -145,14 +150,15 @@ def add_nurse_records():
 
     query = "insert into smartroster.nurses( nurse_name, nurse_area, nurse_rotation, nurse_fte, nurse_a_trained, nurse_skill, nurse_transfer, nurse_adv_role, nurse_restrictions, nurse_iv) " \
         "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-    
-    arguments = (nurse_name, nurse_area, nurse_rotation, nurse_fte, nurse_a_trained, nurse_skill, nurse_transfer, nurse_adv_role, nurse_restrictions, nurse_iv)
+
+    arguments = (nurse_name, nurse_area, nurse_rotation, nurse_fte, nurse_a_trained,
+                 nurse_skill, nurse_transfer, nurse_adv_role, nurse_restrictions, nurse_iv)
 
     try:
         cursor.execute(query, arguments)
-        
+
         db.commit()
-    
+
     except Error as error:
         print(error)
 
@@ -163,11 +169,17 @@ def add_nurse_records():
 
 @app.route("/patientRecords", methods=["GET"])
 def patient_records():
+    patient_headers = ["Patient ID", "Name", "Bed", "Acuity Level",
+                       "Date Admitted", "Date Discharged", "A-trained Req", "IV"]
     # Grabs all patients
     cursor.execute("SELECT * FROM patients")
     patient_list = cursor.fetchall()
-    print(patient_list)
-    return render_template("./Records/patientRecord.html", loggedin=session['loggedin'], patientList=patient_list)
+    return render_template(
+        "./Records/patientRecord.html",
+        loggedin=session['loggedin'],
+        patientList=patient_list,
+        patientHeaders=patient_headers
+    )
 
 
 @app.route("/patientRecordsSubmit", methods=['POST'])
@@ -239,23 +251,27 @@ def assign_nurse_patient() -> dict:
         "F": {"patients": 0, "transfers": 0, "level": {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}, "a-trained": 0}
     }
 
-    cursor.execute("SELECT * FROM patients")  # We can modularize this. This gets all patients.
+    # We can modularize this. This gets all patients.
+    cursor.execute("SELECT * FROM patients")
     patient_list = cursor.fetchall()
     cursor.execute("SELECT * FROM nurses")  # We can also modularize this.
     nurse_list = cursor.fetchall()
 
     for row in patient_list:
 
-        pods[row[2][0]]["patients"] += 1  # row[2] points to the bed column in patient list
+        # row[2] points to the bed column in patient list
+        pods[row[2][0]]["patients"] += 1
         # row[2][0] points to the first letter in bed column which is the pod.
         # pods[#][0] points to the num_patients of the pod object.
 
         pods[row[2][0]]["level"][row[3]] += 1  # Increment skill level counts
 
         if row[7]:
-            pods[row[2][0]]["a-trained"] += 1  # Increment amount of a-trained in pod object if patient needs a-trained
+            # Increment amount of a-trained in pod object if patient needs a-trained
+            pods[row[2][0]]["a-trained"] += 1
         if row[6]:
-            pods[row[2][0]]["transfers"] += 1  # Increment amount of transfers in pod object if patient needs transfer
+            # Increment amount of transfers in pod object if patient needs transfer
+            pods[row[2][0]]["transfers"] += 1
 
     print(pods)
 
@@ -267,18 +283,19 @@ def assign_nurse_patient() -> dict:
     for nurse in nurse_list:
         for patient in patient_list:
             if nurse[2] == patient[2]:
-                assignments[nurse[1]] = patient[1] # this only assigns matching pod and bed. im just going with the test data here LOL
+                # this only assigns matching pod and bed. im just going with the test data here LOL
+                assignments[nurse[1]] = patient[1]
 
     # MBC trained nurses go to "Rabbit Pod" as much as needed
 
     for nurse in nurse_list:
         if nurse[9]:
             nurse[3] = 'F'  # Sets nurse pod to MBC clinical area
-            nurse[10] = True # Marks the nurse as assigned
+            nurse[10] = True  # Marks the nurse as assigned
 
     # split the remaining nurses according to "pod's needs"
     #       - A-trained
-    
+
     ##################### PSEUDO CODE #########################
     ## Adds nurse to pod with a_trained ##
     # for pod in pods:
@@ -302,8 +319,6 @@ def assign_nurse_patient() -> dict:
     #               nurse[3] = pod  # Sets nurse to pod
     #               nurse[10] = True
     ###########################################################
-
-
 
     #       - number of patients in a pod
     #       - Ensure enough skill level per pod
@@ -331,7 +346,8 @@ def assign_nurse_patient() -> dict:
     #                     assignments["null" + str(i)] = patients[i][0]
 
     try:
-        response = app.response_class(status=200, response=json.dumps(assignments))
+        response = app.response_class(
+            status=200, response=json.dumps(assignments))
     except ValueError as error:
         response = app.response_class(status=400, response=str(error))
 
