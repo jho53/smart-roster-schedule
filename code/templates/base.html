@@ -47,6 +47,9 @@
     </div>
 
     <div id="quickLinks" class="quick-links" onclick="toggleQuicklinks()">
+        <div class="quick-link-tab-container">
+            <img id="quickLinksIcon" class="quick-link-tab-icon" src="/images/quicklinks-icon.png">
+        </div>
         <div id="quicklinksContent" class="quick-links-content">
             <a href=""><img class="quick-link-icons" src="/images/add-patient-icon.png"><br>Add Patient</a>
             <a href=""><img class="quick-link-icons" src="/images/add-nurse-icon.png"><br>Add Nurse</a>
@@ -81,16 +84,19 @@
         function toggleQuicklinks() {
             var quickLinks = document.getElementById("quickLinks");
             var quickLinksContent = document.getElementById("quicklinksContent");
+            var quickLinksIcon = document.getElementById("quickLinksIcon");
 
             if (quickLinks.style.width == "200px") {
                 quickLinks.style.width = "30px";
                 quickLinksContent.style.opacity = "0";
                 quickLinksContent.style.visibility = "hidden";
+                quickLinksIcon.style.transform =  "translate(0%, -50%) scalex(1)";
             }
             else {
                 quickLinks.style.width = "200px";
                 quickLinksContent.style.visibility = "visible";
                 quickLinksContent.style.opacity = "1";
+                quickLinksIcon.style.transform =  "translate(0%, -50%) scalex(-1)";
             }
         }
     </script>

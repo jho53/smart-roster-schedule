@@ -26,15 +26,6 @@ body {
   padding-right: 20px;
 }
 
-.quick-link-icon {
-  height: 25px;
-  width: auto;
-  text-align: center;
-  padding: 70px 0;
-  float: none;
-  display: inline;
-}
-
 .quick-link-icons {
   height: 50px;
   width: auto;
@@ -133,6 +124,24 @@ body {
   transition: opacity 0.5s;
   white-space: nowrap;
   word-wrap: none;
+}
+
+.quick-link-tab-container {
+  height: 550px;
+  width: 30px;
+  position: absolute;
+  top: 50%;
+  transform: translate(0%, -50%);
+}
+
+.quick-link-tab-icon {
+  height: 30px;
+  width: 30px;
+  position: absolute;
+  top: 50%;
+  transform: translate(0%, -50%);
+  padding: 0px 3px 0px 3px;
+  transition: 0.5s;
 }
 
 /* End of Quick-links */
