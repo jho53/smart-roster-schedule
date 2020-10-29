@@ -3,30 +3,59 @@
 
 <p>Welcome to the Home Page</p>
 
-<h2>Assignments</h2>
-<a href="/currentCAASheet">Clinical Area Assignment</a>
-<br>
-<a href="/currentPNSheet">Patient/Nurse Assignment</a>
-<br>
+<div class="row">
+    <div class="col-3">
+        <div class="list-group" id="list-tab" role="tablist">
+            <a class="list-group-item list-group-item-action active" id="list-assignments-list" data-toggle="list"
+               href="#list-assignments" role="tab" aria-controls="assignments"><img class="sidebar-icons"
+                                                                                    src="/images/current_shift.png">Current
+                Shift</a>
+            <a class="list-group-item list-group-item-action" id="list-records-list" data-toggle="list"
+               href="#list-records" role="tab" aria-controls="records"><img class="sidebar-icons"
+                                                                            src="/images/records.png">Records</a>
+            <a class="list-group-item list-group-item-action" id="list-pastsheets-list" data-toggle="list"
+               href="#list-pastsheets" role="tab" aria-controls="pastsheets"><img class="sidebar-icons"
+                                                                                  src="/images/pastsheets.png">Past
+                Sheets</a>
+        </div>
+    </div>
+    <div class="col-9">
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="list-assignments" role="tabpanel"
+                 aria-labelledby="list-assignments-list">
+                <div class="row">
+                    <div class="card-deck">
+                        <div class="card" style="width: 18rem;">
+                             <img class="card-img-top" src="/images/nurse_assignment.png" alt="nurse assignment image">
+                            <div class="card-body">
+                                <h5 class="card-title">Clinical Area Assignment</h5>
+                                <p class="card-text">View the Clinical Area Assignment and make quick changes if necessary</p>
+                                <a href="/currentCAASheet" class="btn btn-primary">View</a>
+                            </div>
+                        </div>
+                        <div class="card" style="width: 18rem;">
+                             <img class="card-img-top" src="/images/patient_assignment.png" alt="patient assignment image">
+                            <div class="card-body">
+                                <h5 class="card-title">Patient/Nurse Assignment</h5>
+                                <p class="card-text">View the Patient/Nurse Assignment and make quick changes if necessary</p>
+                                <a href="/currentPNSheet" class="btn btn-primary">View</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="list-records" role="tabpanel" aria-labelledby="list-records-list">
+                <a href="/nurseRecords">Nurse Records</a>
+                <br>
+                <a href="/patientRecords">Patient Records</a>
+            </div>
+            <div class="tab-pane fade" id="list-pastsheets" role="tabpanel" aria-labelledby="list-pastsheets-list">
+                <a href="/pastCAASheet">Past Clinical Area Assignments</a>
+                <br>
+                <a href="/pastPNSheet">Past Patient/Nurse Assignments</a>
+            </div>
+        </div>
+    </div>
+</div>
 
-<h2>Records</h2>
-<a href="/nurseRecords">Nurse Records</a>
-<br>
-<a href="/patientRecords">Patient Records</a>
-<br>
-
-<h2>Past Sheets</h2>
-<a href="/pastCAASheet">Past Clinical Area Assignments</a>
-<br>
-<a href="/pastPNSheet">Past Patient/Nurse Assignments</a>
-<br>
-
-<h2>Sidebar</h2>
-<a href="#">Add Patient</a>
-<br>
-<a href="#">Add Nurse</a>
-<br>
-<a href="#">Print Current CA Sheet</a>
-<br>
-<a href="#">Print Current P/N Sheet</a>
 {% endblock %}

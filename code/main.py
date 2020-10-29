@@ -43,7 +43,7 @@ def inject_now():
 @app.route("/")
 def home():
     if 'loggedin' in session:
-        return render_template('mainPage.html', loggedin=session['loggedin'])
+        return render_template('mainPage.html', loggedin=session['loggedin'], mainPage=True)
     return redirect(url_for('login'))
 
 
@@ -71,7 +71,7 @@ def register_user():
                                                  password, first_name, last_name)
             )
             db.commit()
-            return render_template('mainPage.html', loggedin=session['loggedin'])
+            return render_template('mainPage.html', loggedin=session['loggedin'], mainPage=True)
         else:
             return render_template('register.html', msg="Passwords do not match", loggedin=session['loggedin'])
 
@@ -92,7 +92,7 @@ def login_user():
             session['loggedin'] = True
             session['id'] = "charge_nurse"
             session['username'] = username
-            return render_template("mainPage.html", loggedin=session['loggedin'])
+            return render_template("mainPage.html", loggedin=session['loggedin'], mainPage=True)
 
         else:
             cursor.execute(
@@ -104,7 +104,7 @@ def login_user():
                 session['loggedin'] = True
                 session['id'] = account[0]
                 session['username'] = username
-                return render_template("mainPage.html", loggedin=session['loggedin'])
+                return render_template("mainPage.html", loggedin=session['loggedin'], mainPage=True)
             else:
                 return render_template("login.html", msg="Invalid Login")
 
