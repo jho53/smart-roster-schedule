@@ -4,69 +4,90 @@
 
 <!--Content Here-->
 <div>
-    <h1>Patient Records</h1>
-    <button>Create</button>
-    <button>Edit</button>
-    <button>Delete</button>
+    <div class="jumbotron py-3">
+        <div class="jumbotron-content">
+            <h1>Patient Records</h1>
+            <br><br>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="table-searchbar">
+                        <input class="form-control" id="myInput" type="text" placeholder="Search.." onkeyup="">
+                    </div>
+                    <!-- Extra div for center of row -->
+                    <div class="col-sm"></div>
+                    <div class="col-">
+                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                            data-target="#exampleModalCenter">
+                            Create
+                        </button>
+                        <button class="btn btn-warning">Edit</button>
+                        <button class="btn btn-danger">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!--Table-->
-    <table>
-        <thead>
-            <tr>
-                <th>Patient ID</th>
-                <th>Name</th>
-                <th>Bed</th>
-                <th>Acuity Level</th>
-                <th>Date Admitted</th>
-                <th>Date Discharged</th>
-                <th>A-trained Req</th>
-                <th>Transfer Req</th>
-            </tr>
-        </thead>
-        <tbody>
-            {%for patient in patientList %}
-            <tr>
-                <td>
-                    <div contenteditable>{{patient[0]}}</div>
-                </td>
-                <td>
-                    <div contenteditable>{{patient[1]}}</div>
-                </td>
-                <td>
-                    <div contenteditable>{{patient[2]}}</div>
-                </td>
-                <td>
-                    <div contenteditable>{{patient[3]}}</div>
-                </td>
-                <td>
-                    <div contenteditable>{{patient[4]}}</div>
-                </td>
-                <td>
-                    <div contenteditable>{{patient[5]}}</div>
-                </td>
-                {%if patient[6]==0%}
-                <td>
-                    <div contenteditable>False</div>
-                </td>
-                {%else%}
-                <td>
-                    <div contenteditable>True</div>
-                </td>
-                {%endif%}
+    <div class="table-content">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Patient ID</th>
+                    <th>Name</th>
+                    <th>Bed</th>
+                    <th>Acuity Level</th>
+                    <th>Date Admitted</th>
+                    <th>Date Discharged</th>
+                    <th>A-trained Req</th>
+                    <th>Transfer Req</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%for patient in patientList %}
+                <tr>
+                    <td>
+                        <div contenteditable>{{patient[0]}}</div>
+                    </td>
+                    <td>
+                        <div contenteditable>{{patient[1]}}</div>
+                    </td>
+                    <td>
+                        <div contenteditable>{{patient[2]}}</div>
+                    </td>
+                    <td>
+                        <div contenteditable>{{patient[3]}}</div>
+                    </td>
+                    <td>
+                        <div contenteditable>{{patient[4]}}</div>
+                    </td>
+                    <td>
+                        <div contenteditable>{{patient[5]}}</div>
+                    </td>
+                    {%if patient[6]==0%}
+                    <td>
+                        <div contenteditable>False</div>
+                    </td>
+                    {%else%}
+                    <td>
+                        <div contenteditable>True</div>
+                    </td>
+                    {%endif%}
 
-                {%if patient[7]==0%}
-                <td>
-                    <div contenteditable>False</div>
-                </td>
-                {%else%}
-                <td>
-                    <div contenteditable>True</div>
-                </td>
-                {%endif%}
+                    {%if patient[7]==0%}
+                    <td>
+                        <div contenteditable>False</div>
+                    </td>
+                    {%else%}
+                    <td>
+                        <div contenteditable>True</div>
+                    </td>
+                    {%endif%}
 
-            </tr>
-            {%endfor%}
-        </tbody>
-    </table>
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+    </div>
 </div>
 
 
