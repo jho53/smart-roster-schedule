@@ -7,122 +7,170 @@
     <h1>Nurse Records</h1>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
         Create
-      </button>
+    </button>
     <button>Edit</button>
     <button>Delete</button>
     <!--Table-->
-    <table class="record-tables">
-        <thead>
-            <tr>
-                <th>Nurse ID</th>
-                <th>Name</th>
-                <th>Area</th>
-                <th>Rotation</th>
-                <th>FTE</th>
-                <th>A-trained</th>
-                <th>Skill</th>
-                <th>Transfer</th>
-                <th>Adv Role</th>
-                <th>Restrictions</th>
-                <th>IV</th>
-            </tr>
-        </thead>
-        <tbody>
-            {%for nurse in nurseList %}
-            <tr>
-                <td>
-                    <div contenteditable>{{nurse[0]}}</div>
-                </td>
-                <td>
-                    <div contenteditable>{{nurse[1]}}</div>
-                </td>
-                <td>
-                    <div contenteditable>{{nurse[2]}}</div>
-                </td>
-                <td>
-                    <div contenteditable>{{nurse[3]}}</div>
-                </td>
-                <td>
-                    <div contenteditable>{{nurse[4]}}</div>
-                </td>
-                <td>
-                    <div contenteditable>{{nurse[5]}}</div>
-                </td>
-                <td>
-                    <div contenteditable>{{nurse[6]}}</div>
-                </td>
-                <td>
-                    <div contenteditable>{{nurse[7]}}</div>
-                </td>
-                <td>
-                    <div contenteditable>{{nurse[8]}}</div>
-                </td>
-                <td>
-                    <div contenteditable>{{nurse[9]}}</div>
-                </td>
-                <td>
-                    <div contenteditable>{{nurse[10]}}</div>
-                </td>
-
-            </tr>
-            {%endfor%}
-        </tbody>
-    </table>
+    <div class="container">
+        <table id="nurse-record-table" class="table" style="margin-bottom: 50px">
+            <thead>
+                <tr>
+                    <th>Nurse ID</th>
+                    <th>Name</th>
+                    <th>Area</th>
+                    <th>Rotation</th>
+                    <th>FTE</th>
+                    <th>A-trained</th>
+                    <th>Skill</th>
+                    <th>Transfer</th>
+                    <th>Adv Role</th>
+                    <th>Restrictions</th>
+                    <th>IV</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for (index, nurse) in enumerate(nurseList) %}
+                <tr id="{{'n'~nurse[0]}}" style="cursor: pointer;">
+                    <td>
+                        <div id="{{('n'~nurse[0])~'id'}}"> {{nurse[0]}} </div>
+                    </td>
+                    <td>
+                        <div id="{{('n'~nurse[0])~'name'}}">{{nurse[1]}}</div>
+                    </td>
+                    <td>
+                        <div id="{{('n'~nurse[0])~'area'}}">{{nurse[2]}}</div>
+                    </td>
+                    <td>
+                        <div id="{{('n'~nurse[0])~'rotation'}}">{{nurse[3]}}</div>
+                    </td>
+                    <td>
+                        <div id="{{('n'~nurse[0])~'fte'}}">{{nurse[4]}}</div>
+                    </td>
+                    <td>
+                        <div id="{{('n'~nurse[0])~'atrained'}}">{{nurse[5]}}</div>
+                    </td>
+                    <td>
+                        <div id="{{('n'~nurse[0])~'skill'}}">{{nurse[6]}}</div>
+                    </td>
+                    <td>
+                        <div id="{{('n'~nurse[0])~'transfer'}}">{{nurse[7]}}</div>
+                    </td>
+                    <td>
+                        <div id="{{('n'~nurse[0])~'advrole'}}">{{nurse[8]}}</div>
+                    </td>
+                    <td>
+                        <div id="{{('n'~nurse[0])~'restrictions'}}">{{nurse[9]}}</div>
+                    </td>
+                    <td>
+                        <div id="{{('n'~nurse[0])~'iv'}}">{{nurse[10]}}</div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">add nurse</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-            <form action="/nurseRecords" method="post">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">add nurse</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/nurseRecords" method="post">
+                    <p>
+                        <input id="nurse_name" name="nurse_name" required="" size="32" type="text" value=""
+                            placeholder="name"><br>
+                    </p>
+                    <p>
+                        <input id="nurse_area" name="nurse_area" required="" size="32" type="text" value=""
+                            placeholder="nurse_area"><br>
+                    </p>
+                    <p>
+                        <input id="nurse_rotation" name="nurse_rotation" required="" size="32" type="text" value=""
+                            placeholder="nurse_rotation"><br>
+                    </p>
+                    <p>
+                        <input id="nurse_fte" name="nurse_fte" required="" size="32" type="text" value=""
+                            placeholder="nurse_fte"><br>
+                    </p>
+                    <p>
+                        <input id="nurse_a_trained" name="nurse_a_trained" required="" size="32" type="number" value=""
+                            placeholder="nurse_a_trained"><br>
+                    </p>
+                    <p>
+                        Nurse skill
+                        <input id="nurse_skill" name="nurse_skill" required="" size="32" type="number" value=""
+                            placeholder="nurse_skill"><br>
+                    </p>
+                    <p>
+                        <input id="nurse_transfer" name="nurse_transfer" required="" size="32" type="number" value=""
+                            placeholder="nurse_transfer"><br>
+                    </p>
+                    <p>
+                        <input id="nurse_adv_role" name="nurse_adv_role" required="" size="32" type="text" value=""
+                            placeholder="nurse_adv_role"><br>
+                    </p>
+                    <p>
+                        <input id="nurse_restrictions" name="nurse_restrictions" required="" size="32" type="number"
+                            value="" placeholder="nurse_restrictions"><br>
+                    </p>
+                    <p>
+                        <input id="nurse_iv" name="nurse_iv" required="" size="32" type="number" value=""
+                            placeholder="nurse_iv"><br>
+                    </p>
+                    <br>
+                    <input id="submit" name="submit" type="submit" value="Create">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 <p>
-                    <input id="nurse_name" name="nurse_name" required="" size="32" type="text" value="" placeholder="name"><br>
-                </p>
-                <p>
-                    <input id="nurse_area" name="nurse_area" required="" size="32" type="text" value=""placeholder="nurse_area"><br>
-                </p>
-                <p>
-                    <input id="nurse_rotation" name="nurse_rotation" required="" size="32" type="text" value=""placeholder="nurse_rotation"><br>
-                </p>
-                <p>
-                    <input id="nurse_fte" name="nurse_fte" required="" size="32" type="text" value=""placeholder="nurse_fte"><br>
-                </p>
-                <p>
-                    <input id="nurse_a_trained" name="nurse_a_trained" required="" size="32" type="number" value=""placeholder="nurse_a_trained"><br>
-                </p>
-                <p>
-                    Nurse skill
-                    <input id="nurse_skill" name="nurse_skill" required="" size="32" type="number" value=""placeholder="nurse_skill"><br>
-                </p>
-                <p>
-                    <input id="nurse_transfer" name="nurse_transfer" required="" size="32" type="number" value=""placeholder="nurse_transfer"><br>
-                </p>
-                <p>
-                    <input id="nurse_adv_role" name="nurse_adv_role" required="" size="32" type="text" value=""placeholder="nurse_adv_role"><br>
-                </p>
-                <p>
-                    <input id="nurse_restrictions" name="nurse_restrictions" required="" size="32" type="number" value=""placeholder="nurse_restrictions"><br>
-                </p>
-                <p>
-                    <input id="nurse_iv" name="nurse_iv" required="" size="32" type="number" value=""placeholder="nurse_iv"><br>
-                </p>
-                <br>
-                <input id="submit" name="submit" type="submit" value="Create">
-            </form>
-        </div> 
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-          <p>
 
+            </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>
+
+<script>
+    var rowId = null;
+
+    function highlight_row() {
+        var table = document.getElementById('nurse-record-table');
+        var cells = table.getElementsByTagName('td');
+
+        for (var i = 0; i < cells.length; i++) {
+            var cell = cells[i];
+            cell.onclick = function () {
+                if (rowId != null && rowId == this.parentNode.rowIndex) {
+                    var rowSelected = table.getElementsByTagName('tr')[rowId];
+                    rowSelected.classList.toggle("selected");
+                    rowId = null; // Reset rowId
+                } else {
+                    // Take current row index
+                    rowId = this.parentNode.rowIndex;
+
+                    var rowsNotSelected = table.getElementsByTagName('tr');
+                    for (var row = 0; row < rowsNotSelected.length; row++) {
+                        rowsNotSelected[row].classList.remove('selected');
+                    }
+                    var rowSelected = table.getElementsByTagName('tr')[rowId];
+
+                    rowSelected.classList.toggle("selected", true);
+                }
+            }
+        }
+        table.onclick = function () {
+            console.log(rowId)
+        }
+    }
+
+    window.onload = highlight_row;
+</script>
 {% endblock %}

@@ -1,5 +1,6 @@
 /******* Global Styling *******/
 body {
+  height: 100%;
   background-color: white;
 }
 
@@ -18,12 +19,10 @@ body {
   width: 100%;
   text-align: center;
   padding-top: 10px;
-  margin-top: 10px;
 }
 
-.record-tables {
-  margin-bottom: 100px;
-  margin-top: 10px;
+.selected {
+  background-color: yellowgreen;
 }
 
 /* Start of login page */
