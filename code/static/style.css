@@ -12,6 +12,27 @@ body {
   width: auto;
 }
 
+.hamburger-icon {
+  padding-left: 25px;
+  padding-right: 25px;
+  height: 30px;
+  width: auto;
+}
+
+.sidebar-icons {
+  height: 25px;
+  text-align: center;
+  width: auto;
+  padding-right: 20px;
+}
+
+.quick-link-icons {
+  height: 50px;
+  width: auto;
+  text-align: center;
+  padding: 5px 5px 5px 5px;
+}
+
 .footer {
   position: fixed;
   left: 0;
@@ -21,80 +42,106 @@ body {
   padding-top: 10px;
 }
 
-/* Start of login page */
-.login-elements {
-  margin-top: 150px;
-  height: 600px;
-  /* border: 5px solid; */
+/* Sidebar */
+
+/* The side navigation menu */
+.sidebar {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: rgb(173, 173, 173);
+  overflow-x: hidden;
+  padding-top: 60px;
+  transition: 0.5s;
 }
 
-.login-row:after {
-  content: "";
-  display: table;
-  clear: both;
+/* Sidebar links */
+.sidebar a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #000000;
+  display: block;
+  transition: 0.3s;
 }
 
-.login-column-1 {
-  float: left;
-  width: 45%;
-  margin-top: 25px;
-  margin-left: 25px;
-  padding: 25px;
-  height: 500px;
-  /* border: 5px solid; */
+/* Sidebar link hover */
+.sidebar a:hover {
+  color: #f1f1f1;
+}
+
+/* Sidebar close button */
+.sidebar .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+.sidebar-content {
+  opacity: 0;
+  transition: opacity 0.5s;
+  white-space: nowrap;
+  word-wrap: none;
+}
+
+/* End of Sidebar */
+
+/* Quick-links */
+
+.quick-links {
+  height: 550px;
+  width: 30px;
+  position: fixed;
+  z-index: 1;
+  top: 20%;
+  right: 0;
+  background-color: rgb(173, 173, 173);
+  overflow-x: hidden; 
+  padding-top: 60px;
+  transition: 0.5s;
+}
+
+.quick-links a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #000000;
+  display: block;
+  transition: 0.3s;
   text-align: center;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.25));
+  white-space: nowrap;
+  word-wrap: none;
 }
 
-.introduction {
-  margin-top: 25px;
-  padding-top: 25px;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-bottom: 15px;
-  background-color: rgba(156, 149, 149, 0.5);
-  text-align: center;
+.quick-links-content {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s;
+  white-space: nowrap;
+  word-wrap: none;
 }
 
-.login-column-2 {
-  float: right;
-  width: 45%;
-  margin-top: 25px;
-  margin-right: 25px;
-  padding: 25px;
-  height: 500px;
-  /* border: 5px solid; */
-  text-align: center;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.25));
+.quick-link-tab-container {
+  height: 550px;
+  width: 30px;
+  position: absolute;
+  top: 50%;
+  transform: translate(0%, -50%);
 }
 
-.login-form {
-  text-align: center;
-  padding-top: 25px;
+.quick-link-tab-icon {
+  height: 30px;
+  width: 30px;
+  position: absolute;
+  top: 50%;
+  transform: translate(0%, -50%);
+  padding: 0px 3px 0px 3px;
+  transition: 0.5s;
 }
 
-.login-form p {
-  color: white;
-  text-align: left;
-}
-
-.login-msg p {
-  text-align: center;
-}
-
-.login-logo {
-  width: 200px;
-  height: 100px;
-}
-
-.login-body {
-  background-image: url("/images/login-background.jpg");
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
-
-/* End of login page */
-
-/******* ID Styling *******/
+/* End of Quick-links */

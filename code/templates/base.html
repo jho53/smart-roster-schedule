@@ -21,26 +21,86 @@
 <body>
     {% if loggedin %}
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand"><img class="hamburger-icon" src="/images/hamburger.png" onclick="openSidebar()"></a>
         <a class="navbar-brand" href="/"><img class="sr-logo" src="/images/SmartRosterLogoHighRes.png"></a>
         <div class="collapse navbar-collapse flex-grow-0 ml-auto">
             <ul class="navbar-nav text-right mr-auto">
                 <li class="nav-item"><a class="nav-link" href="/register">Create Account</a></li>
-                <li class="nav-item"><a class="nav-link" href="/setting">Settings</a></li>
+                <li class="nav-item"><a class="nav-link" href="/settings">Settings</a></li>
                 <li class="nav-item"><a class="nav-link" href="/profile">Profile</a></li>
                 <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
             </ul>
         </div>
     </nav>
+
+    <div id="mainSidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeSidebar()">&times;</a>
+        <div id="sidebarContent" class="sidebar-content">
+            <a href="/nurseRecords"><img class="sidebar-icons" src="/images/nurse-records-icon.png">Nurse Records</a>
+            <a href="/patientRecords"><img class="sidebar-icons" src="/images/patient-records-icon.png">Patient Records</a>
+            <a href="#"><img class="sidebar-icons" src="/images/clinical-area-assignment-icon.png">Clinical Area Assignment</a>
+            <a href="#"><img class="sidebar-icons" src="/images/patient-assignment-icon.png">Patient Assignment</a>
+            <a href="#"><img class="sidebar-icons" src="/images/past-assignments-icon.png">Past Assignments</a>
+            <a href="/settings"><img class="sidebar-icons" src="/images/settings-icon.png">Settings</a>
+            <a href="/logout"><img class="sidebar-icons" src="/images/logout-icon.png">Logout</a>
+        </div>
+    </div>
+
+    <div id="quickLinks" class="quick-links" onclick="toggleQuicklinks()">
+        <div class="quick-link-tab-container">
+            <img id="quickLinksIcon" class="quick-link-tab-icon" src="/images/quicklinks-icon.png">
+        </div>
+        <div id="quicklinksContent" class="quick-links-content">
+            <a href=""><img class="quick-link-icons" src="/images/add-patient-icon.png"><br>Add Patient</a>
+            <a href=""><img class="quick-link-icons" src="/images/add-nurse-icon.png"><br>Add Nurse</a>
+            <a href=""><img class="quick-link-icons" src="/images/print-icon.png"><br>Print Current<br>CA Sheet</a>
+            <a href=""><img class="quick-link-icons" src="/images/print-icon.png"><br>Print Current<br>P/N Sheet</a>
+        </div>
+    </div>
+
     {% endif %}
     {% block content %}
     {% endblock %}
-    <footer class="footer navbar-light bg-light">
-        <p>Smart Roster © {{ now.year }} | All Rights Reserved</p>
-    </footer>
-</body>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <footer class="footer navbar-light bg-light">
+        <p>Smart Roster © {{ now.year }} All Rights Reserved</p>
+    </footer>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+    <script>
+        function openSidebar() {
+            document.getElementById("mainSidebar").style.width = "320px";
+            document.getElementById("sidebarContent").style.opacity = "1";
+        }
+
+        function closeSidebar() {
+            document.getElementById("sidebarContent").style.opacity = "0";
+            document.getElementById("mainSidebar").style.width = "0";
+        }
+
+        function toggleQuicklinks() {
+            var quickLinks = document.getElementById("quickLinks");
+            var quickLinksContent = document.getElementById("quicklinksContent");
+            var quickLinksIcon = document.getElementById("quickLinksIcon");
+
+            if (quickLinks.style.width == "200px") {
+                quickLinks.style.width = "30px";
+                quickLinksContent.style.opacity = "0";
+                quickLinksContent.style.visibility = "hidden";
+                quickLinksIcon.style.transform =  "translate(0%, -50%) scalex(1)";
+            }
+            else {
+                quickLinks.style.width = "200px";
+                quickLinksContent.style.visibility = "visible";
+                quickLinksContent.style.opacity = "1";
+                quickLinksIcon.style.transform =  "translate(0%, -50%) scalex(-1)";
+            }
+        }
+    </script>
+
+</body>
 
 </html>
