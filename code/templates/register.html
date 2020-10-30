@@ -6,31 +6,30 @@
     <h1 align="center" style="margin-top: 10px">Register</h1><br>
     <form action="/registerUser" method="post">
         <p>
-            <input id="username" name="username" required="" size="32" type="text"
-                   value="" placeholder="Username"><br>
-        </p>
-         <p>
-            <input id="first_name" name="first_name" required="" size="32" type="text"
-                   value="" placeholder="First Name"><br>
-        </p>
-         <p>
-            <input id="last_name" name="last_name" required="" size="32" type="text"
-                   value="" placeholder="Last Name"><br>
+            <input id="username" name="username" required="" size="32" type="text" value="" placeholder="Username"><br>
         </p>
         <p>
-            <input id="password" name="password" required="" size="32" type="password"
-                   value="" placeholder="Password"><br>
+            <input id="first_name" name="first_name" required="" size="32" type="text" value=""
+                placeholder="First Name"><br>
         </p>
         <p>
-            <input id="password_conf" name="password_conf" required="" size="32" type="password"
-                   value="" placeholder="Re-type Password"><br>
+            <input id="last_name" name="last_name" required="" size="32" type="text" value=""
+                placeholder="Last Name"><br>
+        </p>
+        <p>
+            <input id="password" name="password" required="" size="32" type="password" value=""
+                placeholder="Password"><br>
+        </p>
+        <p>
+            <input id="password_conf" name="password_conf" required="" size="32" type="password" value=""
+                placeholder="Re-type Password"><br>
         </p>
         <p>
             {{msg}}
         </p>
         <br>
         <p>
-            <input id="submit" name="submit" type="submit" value="Create Account">
+            <input class="btn btn-success" id="submit" name="submit" type="submit" value="Create Account">
         </p>
     </form>
 </div>
