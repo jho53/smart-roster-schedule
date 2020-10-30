@@ -3,11 +3,94 @@
 
 <p>Welcome to the Home Page</p>
 
-<h2>Assignments</h2>
-<a href="/currentCAASheet">Clinical Area Assignment</a>
-<br>
-<a href="/currentPNSheet">Patient/Nurse Assignment</a>
-<br>
+<div class="row">
+    <div class="col-3">
+        <div class="list-group" id="list-tab" role="tablist">
+            <a class="list-group-item list-group-item-action active" id="list-assignments-list" data-toggle="list"
+               href="#list-assignments" role="tab" aria-controls="assignments"><img class="sidebar-icons"
+                                                                                    src="/images/current_shift.png">Current
+                Shift</a>
+            <a class="list-group-item list-group-item-action" id="list-records-list" data-toggle="list"
+               href="#list-records" role="tab" aria-controls="records"><img class="sidebar-icons"
+                                                                            src="/images/records.png">Records</a>
+            <a class="list-group-item list-group-item-action" id="list-pastsheets-list" data-toggle="list"
+               href="#list-pastsheets" role="tab" aria-controls="pastsheets"><img class="sidebar-icons"
+                                                                                  src="/images/pastsheets.png">Past
+                Sheets</a>
+        </div>
+    </div>
+    <div class="col-9">
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="list-assignments" role="tabpanel"
+                 aria-labelledby="list-assignments-list">
+                <div class="row">
+                    <div class="card-deck">
+                        <div class="card" style="width: 18rem;">
+                             <img class="card-img-top" src="/images/nurse_assignment.png" alt="nurse assignment image">
+                            <div class="card-body">
+                                <h5 class="card-title">Clinical Area Assignment</h5>
+                                <p class="card-text">View the Clinical Area Assignment and make quick changes if necessary</p>
+                                <a href="/currentCAASheet" class="btn btn-primary">View</a>
+                            </div>
+                        </div>
+                        <div class="card" style="width: 18rem;">
+                             <img class="card-img-top" src="/images/patient_assignment.png" alt="patient assignment image">
+                            <div class="card-body">
+                                <h5 class="card-title">Patient/Nurse Assignment</h5>
+                                <p class="card-text">View the Patient/Nurse Assignment and make quick changes if necessary</p>
+                                <a href="/currentPNSheet" class="btn btn-primary">View</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="list-records" role="tabpanel" aria-labelledby="list-records-list">
+                <div class="row">
+                    <div class="card-deck">
+                        <div class="card" style="width: 18rem;">
+                             <img class="card-img-top" src="/images/nurse_records.png" alt="nurse records image">
+                            <div class="card-body">
+                                <h5 class="card-title">Nurse Records</h5>
+                                <p class="card-text">View all nurses in the database. Add, delete, or edit nurses freely.</p>
+                                <a href="/nurseRecords" class="btn btn-primary">View</a>
+                            </div>
+                        </div>
+                        <div class="card" style="width: 18rem;">
+                             <img class="card-img-top" src="/images/patient_records.png" alt="patient records image">
+                            <div class="card-body">
+                                <h5 class="card-title">Patient Records</h5>
+                                <p class="card-text">View all patients in the database. Add, delete, or edit freely.</p>
+                                <a href="/patientRecords" class="btn btn-primary">View</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="list-pastsheets" role="tabpanel" aria-labelledby="list-pastsheets-list">
+                <div class="row">
+                    <div class="card-deck">
+                        <div class="card" style="width: 18rem;">
+                             <img class="card-img-top" src="/images/past_clinical_assignment.png" alt="Past Clinical Area Assignments image">
+                            <div class="card-body">
+                                <h5 class="card-title">Past Clinical Area Assignments</h5>
+                                <p class="card-text">View past clinical area assignment sheets. Search by date.</p>
+                                <a href="/nurseRecords" class="btn btn-primary">View</a>
+                            </div>
+                        </div>
+                        <div class="card" style="width: 18rem;">
+                             <img class="card-img-top" src="/images/past_patient_assignments.png" alt="Past Patient/Nurse Assignments">
+                            <div class="card-body">
+                                <h5 class="card-title">Past Patient/Nurse Assignments</h5>
+                                <p class="card-text">View past patient/nurse assignment sheets. Search by date.</p>
+                                <a href="/patientRecords" class="btn btn-primary">View</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <h2>Records</h2>
 <a href="/nurseRecords">Nurse Records</a>
@@ -53,4 +136,5 @@
             }
         }
 </script>
+
 {% endblock %}

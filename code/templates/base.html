@@ -32,7 +32,7 @@
             </ul>
         </div>
     </nav>
-
+    {% if not (mainPage) %}
     <div id="mainSidebar" class="sidebar">
         <a href="javascript:void(0)" class="closebtn" onclick="closeSidebar()">&times;</a>
         <div id="sidebarContent" class="sidebar-content">
@@ -47,8 +47,9 @@
             <a href="/logout"><img class="sidebar-icons" src="/images/logout-icon.png">Logout</a>
         </div>
     </div>
-
     {% endif %}
+    {% endif %}
+  
     {% block content %}
     {% endblock %}
 
