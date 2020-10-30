@@ -42,6 +42,16 @@ body {
   padding-top: 10px;
 }
 
+.selected {
+  background-color: yellowgreen;
+}
+
+/* Start of login page */
+.login-elements {
+  margin-top: 150px;
+  height: 600px;
+  /* border: 5px solid; */
+
 /* Sidebar */
 
 /* The side navigation menu */
