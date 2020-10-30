@@ -108,6 +108,7 @@
                 <br>
                 <input id="submit" name="submit" type="submit" value="Create">
             </form>
+
         </div> 
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -177,9 +178,6 @@
                     var table = document.getElementById('patient-record-table');
                     var patient_id = table.rows[rowId].cells[0].innerText
                 </script>
-                <h1 id ='testing' name='testing'>
-                    2
-                </h1>
                 <input id="submit" name="submit" type="submit" value="Confirm">
             </form>
         </div> 
@@ -191,6 +189,7 @@
       </div>
     </div>
   </div>
+
 <script>
     var rowId = null;
     function highlight_row() {
@@ -214,9 +213,7 @@
                     }
                     var rowSelected = table.getElementsByTagName('tr')[rowId];
                     
-
                     rowSelected.classList.toggle("selected", true);
-                    
                 }
             }
         }
@@ -225,8 +222,8 @@
             console.log(table.rows[rowId].cells[0].innerText);
         }
     }
-
     window.onload = highlight_row;
 </script>
+
 
 {% endblock %}
