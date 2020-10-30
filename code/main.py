@@ -2,13 +2,18 @@ from nurse import Nurse
 from patient import Patient
 import json
 from flask import Flask, render_template, redirect, url_for, request, session
+from datetime import datetime
 import mysql.connector
 import os
 
 # test purpose
 import webbrowser
 
-app = Flask(__name__, instance_relative_config=True)
+app = Flask(__name__,
+            static_url_path="",
+            static_folder="./static",
+            instance_relative_config=True)
+
 app.config.update(
     TESTING=True,
     TEMPLATES_AUTO_RELOAD=True
@@ -25,6 +30,14 @@ db = mysql.connector.connect(
 )
 
 cursor = db.cursor()
+
+@app.context_processor
+def inject_now():
+    return {'now': datetime.utcnow()}
+
+
+# Login and Mainpage
+
 
 @app.route("/")
 def home():
@@ -102,6 +115,8 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('login'))
 
+# Records
+
 
 @app.route("/nurseRecords", methods=["GET"])
 def nurse_records():
@@ -110,10 +125,39 @@ def nurse_records():
     nurse_list = cursor.fetchall()
     return render_template("./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list)
 
+@app.route("/nurseRecords", methods=["POST"])
 
-@app.route("/nurseRecordsSubmit", methods=['POST'])
-def nurse_records_submit():
-    return
+def add_nurse_records():
+    
+
+    if 'nurse_name' in request.form and 'nurse_area' in request.form and 'nurse_rotation' in request.form and 'nurse_fte' in request.form and 'nurse_a_trained' in request.form and 'nurse_skill' in request.form and 'nurse_transfer' in request.form and 'nurse_adv_role' in request.form and 'nurse_restrictions' in request.form and 'nurse_iv' in request.form:
+        nurse_name = request.form['nurse_name']
+        nurse_area = request.form['nurse_area']
+        nurse_rotation = request.form['nurse_rotation']
+        nurse_fte = request.form['nurse_fte']
+        nurse_a_trained = request.form['nurse_a_trained']
+        nurse_skill = request.form['nurse_skill']
+        nurse_transfer = request.form['nurse_transfer']
+        nurse_adv_role = request.form['nurse_adv_role']
+        nurse_restrictions = request.form['nurse_restrictions']
+        nurse_iv = request.form['nurse_iv']
+
+    query = "insert into smartroster.nurses( nurse_name, nurse_area, nurse_rotation, nurse_fte, nurse_a_trained, nurse_skill, nurse_transfer, nurse_adv_role, nurse_restrictions, nurse_iv) " \
+        "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    
+    arguments = (nurse_name, nurse_area, nurse_rotation, nurse_fte, nurse_a_trained, nurse_skill, nurse_transfer, nurse_adv_role, nurse_restrictions, nurse_iv)
+
+    try:
+        cursor.execute(query, arguments)
+        
+        db.commit()
+    
+    except Error as error:
+        print(error)
+
+    cursor.execute("SELECT * FROM nurses")
+    nurse_list = cursor.fetchall()
+    return render_template("./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list)
 
 
 @app.route("/patientRecords", methods=["GET"])
@@ -128,6 +172,40 @@ def patient_records():
 @app.route("/patientRecordsSubmit", methods=['POST'])
 def patient_records_submit():
     return
+
+# Account
+
+
+@app.route("/profile")
+def profile():
+    return render_template("./Account/profile.html", loggedin=session['loggedin'])
+
+
+@app.route("/settings")
+def settings():
+    return render_template("./Account/settings.html", loggedin=session['loggedin'])
+
+# Assignment Sheets
+
+
+@app.route("/currentCAASheet")
+def current_CAASheet():
+    return render_template("./Assignment Sheets/cur_caaSheet.html", loggedin=session['loggedin'])
+
+
+@app.route("/currentPNSheet")
+def current_PNSheet():
+    return render_template("./Assignment Sheets/cur_pnSheet.html", loggedin=session['loggedin'])
+
+
+@app.route("/pastCAASheet")
+def past_CAASheet():
+    return render_template("./Assignment Sheets/past_caaSheet.html", loggedin=session['loggedin'])
+
+
+@app.route("/pastPNSheet")
+def past_PNSheet():
+    return render_template("./Assignment Sheets/past_pnSheet.html", loggedin=session['loggedin'])
 
 
 @app.route('/assign', methods=['GET'])

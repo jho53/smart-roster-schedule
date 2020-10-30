@@ -12,55 +12,55 @@
     <table>
         <thead>
             <tr>
-                <td>Patient ID</td>
-                <td>Name</td>
-                <td>Bed</td>
-                <td>Acuity Level</td>
-                <td>Date Admitted</td>
-                <td>Date Discharged</td>
-                <td>A-trained Req</td>
-                <td>Transfer Req</td>
+                <th>Patient ID</th>
+                <th>Name</th>
+                <th>Bed</th>
+                <th>Acuity Level</th>
+                <th>Date Admitted</th>
+                <th>Date Discharged</th>
+                <th>A-trained Req</th>
+                <th>Transfer Req</th>
             </tr>
         </thead>
         <tbody>
             {%for patient in patientList %}
             <tr>
-                <th>
+                <td>
                     <div contenteditable>{{patient[0]}}</div>
-                </th>
-                <th>
+                </td>
+                <td>
                     <div contenteditable>{{patient[1]}}</div>
-                </th>
-                <th>
+                </td>
+                <td>
                     <div contenteditable>{{patient[2]}}</div>
-                </th>
-                <th>
+                </td>
+                <td>
                     <div contenteditable>{{patient[3]}}</div>
-                </th>
-                <th>
+                </td>
+                <td>
                     <div contenteditable>{{patient[4]}}</div>
-                </th>
-                <th>
+                </td>
+                <td>
                     <div contenteditable>{{patient[5]}}</div>
-                </th>
+                </td>
                 {%if patient[6]==0%}
-                <th>
+                <td>
                     <div contenteditable>False</div>
-                </th>
+                </td>
                 {%else%}
-                <th>
+                <td>
                     <div contenteditable>True</div>
-                </th>
+                </td>
                 {%endif%}
 
                 {%if patient[7]==0%}
-                <th>
+                <td>
                     <div contenteditable>False</div>
-                </th>
+                </td>
                 {%else%}
-                <th>
+                <td>
                     <div contenteditable>True</div>
-                </th>
+                </td>
                 {%endif%}
 
             </tr>

@@ -52,13 +52,30 @@ def main():
             eligible_nurses = cursor.fetchall()
             eligible_nurse_objects = []
 
-            for row in eligible_nurses:
-                x = Nurse(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10], row[11],
-                                row[12], row[13], row[14], row[15], row[16], row[17], row[18])
-                eligible_nurse_objects.append(x)
+            i = 0
+            while len(eligible_nurse_objects) < 1 and i < 4:
+                for row in eligible_nurses:
+                    # if nurse assigned
+                    if row[0] in assignments:
+                        # if nurse has i patients (we use this if our eligible nurses are all assigned. Then we
+                        # resort to assigning nurses with more than 1 patient)
+                        if assignments[row[0]]["num_patients"] == i:
+                            x = Nurse(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9],
+                                      row[10], row[11], row[12], row[13], row[14], row[15], row[16], row[17], row[18])
+                            eligible_nurse_objects.append(x)
+                    # if nurse is not assigned
+                    elif row[0] not in assignments:
+                        x = Nurse(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9],
+                                  row[10], row[11], row[12], row[13], row[14], row[15], row[16], row[17], row[18])
+                        eligible_nurse_objects.append(x)
+                # for the next iteration, start considering nurses with i += 1 patients.
+                if len(eligible_nurse_objects) < 1:
+                    i += 1
+
 
             nurse_weights = {}
             max_points = 0
+
 
             for eno in eligible_nurse_objects:
                 if eno.get_id() not in nurse_weights:

@@ -31,5 +31,5 @@ At present, this work is completed manually in a paper-based system. Initially, 
 No
 
 **Dependencies**
-Python - mysql-connector, Flask
+Python - mysql-connector, Flask, SQLAlchemy
 MySQL
