@@ -1,9 +1,9 @@
 {% extends "base.html" %}
-
 {% block content %}
 
 <!--Content Here-->
-<div>
+<main>
+    <!--Jumbotron-->
     <div class="jumbotron py-3">
         <div class="jumbotron-content">
             <h1>Patient Records</h1>
@@ -11,17 +11,16 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="table-searchbar">
-                        <input class="form-control" id="myInput" type="text" placeholder="Search.." onkeyup="">
+                        <input class="form-control" id="patient-search-input" type="text" placeholder="Search..">
                     </div>
                     <!-- Extra div for center of row -->
                     <div class="col-sm"></div>
                     <div class="col-">
-                        <button type="button" class="btn btn-primary" data-toggle="modal"
-                            data-target="#exampleModalCenter">
-                            Create
+                        <button class="btn btn-primary" data-toggle="modal" data-target=".createModalCenter"> Create
                         </button>
-                        <button class="btn btn-warning">Edit</button>
-                        <button class="btn btn-danger">Delete</button>
+                        <button class="btn btn-warning" data-toggle="modal" data-target=".editModalCenter">Edit</button>
+                        <button class="btn btn-danger" data-toggle="modal"
+                            data-target=".deleteModalCenter">Delete</button>
                     </div>
                 </div>
             </div>
@@ -29,66 +28,257 @@
     </div>
     <!--Table-->
     <div class="table-content">
-        <table class="table table-striped">
+        <table class="table table-bordered" id="patient-record-table" style="margin-bottom: 50px">
+            <!--Dynamically generated table headers-->
+            {% set args_dict = request.args.to_dict() %}
             <thead>
-                <tr>
-                    <th>Patient ID</th>
-                    <th>Name</th>
-                    <th>Bed</th>
-                    <th>Acuity Level</th>
-                    <th>Date Admitted</th>
-                    <th>Date Discharged</th>
-                    <th>A-trained Req</th>
-                    <th>Transfer Req</th>
-                </tr>
+                <form action="/patientRecords" method="get">
+                    <tr id="patient-table-headers">
+                        {% for index, header in enumerate(patientHeaders) %}
+                        <th id="pHeader-{{index}}">{{header}}
+                            {% if index|string in args_dict['sort_on'] and args_dict['rs'~index] != "1" %}
+                            <button class="btn btn-link sort-btn" name="sort_on" type="submit" value="{{index}}"><i
+                                    class="fa fa-sort"></i></button>
+                            <input class="hidden" name="{{'rs'~index}}" value="1">
+                            {% elif index|string not in args_dict['sort_on'] %}
+                            <button class="btn btn-link sort-btn" name="sort_on" type="submit" value="{{index}}"><i
+                                    class="fa fa-sort"></i></button>
+                            <input class="hidden" name="{{'rs'~index}}" value="0">
+                            {% else %}
+                            <button class="btn btn-link sort-btn" name="sort_on" type="submit" value="{{index}}"><i
+                                    class="fa fa-sort"></i></button>
+                            <input class="hidden" name="{{'rs'~index}}" value="0">
+                            {% endif %}
+                        </th>
+                        {% endfor %}
+                    </tr>
+                </form>
+                <!-- <p>{{args_dict["rs1"]}}</p>
+                <p>value: {{args_dict['rs'~args_dict['sort_on']]}}</p> -->
             </thead>
-            <tbody>
-                {%for patient in patientList %}
-                <tr>
-                    <td>
-                        <div contenteditable>{{patient[0]}}</div>
-                    </td>
-                    <td>
-                        <div contenteditable>{{patient[1]}}</div>
-                    </td>
-                    <td>
-                        <div contenteditable>{{patient[2]}}</div>
-                    </td>
-                    <td>
-                        <div contenteditable>{{patient[3]}}</div>
-                    </td>
-                    <td>
-                        <div contenteditable>{{patient[4]}}</div>
-                    </td>
-                    <td>
-                        <div contenteditable>{{patient[5]}}</div>
-                    </td>
-                    {%if patient[6]==0%}
-                    <td>
-                        <div contenteditable>False</div>
-                    </td>
-                    {%else%}
-                    <td>
-                        <div contenteditable>True</div>
-                    </td>
-                    {%endif%}
+            <tbody id="patient-tbody">
+                <!--Configure sorting order-->
+                {% set sort_on = request.args.sort_on|default('0') %}
 
-                    {%if patient[7]==0%}
-                    <td>
-                        <div contenteditable>False</div>
-                    </td>
-                    {%else%}
-                    <td>
-                        <div contenteditable>True</div>
-                    </td>
-                    {%endif%}
+                {% if (args_dict['rs'~args_dict['sort_on']] == "1") %}
+                {% set reverse_toggle = True %}
+                {% else %}
+                {% set reverse_toggle = False %}
+                {% endif %}
 
+                {% for patient in patientList|sort(attribute=sort_on, reverse=reverse_toggle) %}
+                <tr id="{{'p'~patient[0]}}" style="cursor: pointer;">
+                    <td>
+                        <div id="{{'p'~patient[0]~'id'}}">{{patient[0]}}</div>
+                    </td>
+                    <td>
+                        <div id="{{'p'~patient[0]~'name'}}">{{patient[1]}}</div>
+                    </td>
+                    <td>
+                        <div id="{{'p'~patient[0]~'bed'}}">{{patient[2]}}</div>
+                    </td>
+                    <td>
+                        <div id="{{'p'~patient[0]~'acuity'}}">{{patient[3]}}</div>
+                    </td>
+                    <td>
+                        <div id="{{'p'~patient[0]~'admittedDate'}}">{{patient[4].strftime('%b %d, %Y')}} </div>
+                    </td>
+                    {% if patient[5] == None %}
+                    <td>
+                        <div id="{{'p'~patient[0]~'dischargeDate'}}">{{patient[5]}}</div>
+                    </td>
+                    {% else %}
+                    <td>
+                        <div id="{{'p'~patient[0]~'dischargeDate'}}">{{patient[5].strftime('%b %d, %Y')}}</div>
+                    </td>
+                    {% endif %}
+                    <td>
+                        <div id="{{'p'~patient[0]~'atrainedReq'}}">{{patient[6]}}</div>
+                    </td>
+                    <td>
+                        <div id="{{'p'~patient[0]~'transferReq'}}">{{patient[7]}}</div>
+                    </td>
                 </tr>
-                {%endfor%}
+                {% endfor %}
             </tbody>
         </table>
     </div>
+</main>
+
+<!-- Create Modal -->
+<div class="modal fade createModalCenter" id="createModal" tabindex="-1" role="dialog"
+    aria-labelledby="createModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">add patient</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/addPatientRecords" method="post">
+                    <p>
+                        <input id="c_patient_name" name="patient_name" required="" size="32" type="text" value=""
+                            placeholder="name"><br>
+                    </p>
+                    <p>
+                        <input id="c_patient_bed" name="patient_bed" required="" size="32" type="text" value=""
+                            placeholder="patient_bed"><br>
+                    </p>
+                    <p>
+                        <input id="c_patient_acuity" name="patient_acuity" required="" size="32" type="text" value=""
+                            placeholder="patient_acuity"><br>
+                    </p>
+                    <p>
+                        <input id="c_patient_date_admitted" name="patient_date_admitted" required="" size="32"
+                            type="text" value="" placeholder="patient_date_admitted"><br>
+                    </p>
+                    <p>
+                        <input id="c_patient_a_trained" name="patient_a_trained" required="" size="32" type="number"
+                            value="" placeholder="patient_a_trained"><br>
+                    </p>
+                    <p>
+                        <input id="c_patient_transfer" name="patient_transfer" required="" size="32" type="number"
+                            value="" placeholder="patient_transfer"><br>
+                    </p>
+                    <br>
+                    <input name="submit" type="submit" value="Create">
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <p>
+
+            </div>
+        </div>
+    </div>
 </div>
 
+<!-- Edit Modal -->
+<div class="modal fade editModalCenter" id="editModal" tabindex="-1" role="dialog"
+    aria-labelledby="editModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">edit patient</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/editPatientRecords" method="post">
+
+                    <p>
+                        <input id="e_patient_name" name="patient_name" required="" size="32" type="text" value=""
+                            placeholder="name"><br>
+                    </p>
+                    <p>
+                        <input id="e_patient_bed" name="patient_bed" required="" size="32" type="text" value=""
+                            placeholder="patient_bed"><br>
+                    </p>
+                    <p>
+                        <input id="e_patient_acuity" name="patient_acuity" required="" size="32" type="text" value=""
+                            placeholder="patient_acuity"><br>
+                    </p>
+                    <p>
+                        <input id="e_patient_date_admitted" name="patient_date_admitted" required="" size="32"
+                            type="text" value="" placeholder="patient_date_admitted"><br>
+                    </p>
+                    <p>
+                        <input id="e_patient_a_trained" name="patient_a_trained" required="" size="32" type="number"
+                            value="" placeholder="patient_a_trained"><br>
+                    </p>
+                    <p>
+                        <input id="e_patient_transfer" name="patient_transfer" required="" size="32" type="number"
+                            value="" placeholder="patient_transfer"><br>
+                    </p>
+                    <br>
+                    <input name="submit" type="submit" value="Confirm">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <p>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade deleteModalCenter" id="deleteModal" tabindex="-1" role="dialog"
+    aria-labelledby="deleteModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Delete patient</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/deletePatientRecords" method="post">
+                    <br>
+                    <input name="submit" type="submit" value="Confirm">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <p>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var rowId = null;
+
+    function highlight_row() {
+        var table = document.getElementById('patient-record-table');
+        var cells = table.getElementsByTagName('td');
+
+        for (var i = 0; i < cells.length; i++) {
+            var cell = cells[i];
+            cell.onclick = function () {
+                if (rowId != null && rowId == this.parentNode.rowIndex) {
+                    var rowSelected = table.getElementsByTagName('tr')[rowId];
+                    rowSelected.classList.toggle("selected");
+                    rowId = null; // Reset rowId
+                } else {
+                    // Take current row index
+                    rowId = this.parentNode.rowIndex;
+
+                    var rowsNotSelected = table.getElementsByTagName('tr');
+                    for (var row = 0; row < rowsNotSelected.length; row++) {
+                        rowsNotSelected[row].classList.remove('selected');
+                    }
+                    var rowSelected = table.getElementsByTagName('tr')[rowId];
+
+                    rowSelected.classList.toggle("selected", true);
+                }
+            }
+        }
+        table.onclick = function () {
+            console.log(rowId);
+            console.log(table.rows[rowId].cells[0].innerText);
+        }
+    }
+
+    window.onload = highlight_row;
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("#patient-search-input").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#patient-tbody tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
 
 {% endblock %}

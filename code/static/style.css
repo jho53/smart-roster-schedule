@@ -13,22 +13,23 @@ body {
 }
 
 .hamburger-icon {
-  padding-left: 25px;
-  padding-right: 25px;
+  margin-left: 25px;
+  margin-right: 25px;
   height: 30px;
-  width: auto;
+  width: 30px;
+  cursor: pointer;
 }
 
 .sidebar-icons {
   height: 25px;
   text-align: center;
-  width: auto;
-  padding-right: 20px;
+  width: 25px;
+  margin-right: 20px;
 }
 
 .quick-link-icons {
   height: 50px;
-  width: auto;
+  width: 50px;
   text-align: center;
   padding: 5px 5px 5px 5px;
 }
@@ -39,7 +40,15 @@ body {
   bottom: 0;
   width: 100%;
   text-align: center;
+  margin-top: 50px;
   padding-top: 10px;
+}
+
+/* Start of login page */
+.login-elements {
+  margin-top: 150px;
+  height: 600px;
+  /* border: 5px solid; */
 }
 
 /* Sidebar */
@@ -101,7 +110,7 @@ body {
   top: 20%;
   right: 0;
   background-color: rgb(173, 173, 173);
-  overflow-x: hidden; 
+  overflow-x: hidden;
   padding-top: 60px;
   transition: 0.5s;
 }
@@ -164,5 +173,17 @@ body {
   /* border: 5px solid; */
 }
 
+.selected {
+  background-color: yellowgreen;
+}
 
+.hidden {
+  display: none;
+}
+
+.sort-btn {
+  padding: 0px 5px;
+  bottom: 1px;
+  position: relative;
+}
 /* End of Record Pages */
