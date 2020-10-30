@@ -125,10 +125,9 @@ def nurse_records():
     nurse_list = cursor.fetchall()
     return render_template("./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list)
 
-@app.route("/nurseRecords", methods=["POST"])
 
+@app.route("/nurseRecords", methods=["POST"])
 def add_nurse_records():
-    
 
     if 'nurse_name' in request.form and 'nurse_area' in request.form and 'nurse_rotation' in request.form and 'nurse_fte' in request.form and 'nurse_a_trained' in request.form and 'nurse_skill' in request.form and 'nurse_transfer' in request.form and 'nurse_adv_role' in request.form and 'nurse_restrictions' in request.form and 'nurse_iv' in request.form:
         nurse_name = request.form['nurse_name']
@@ -144,14 +143,15 @@ def add_nurse_records():
 
     query = "insert into smartroster.nurses( nurse_name, nurse_area, nurse_rotation, nurse_fte, nurse_a_trained, nurse_skill, nurse_transfer, nurse_adv_role, nurse_restrictions, nurse_iv) " \
         "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-    
-    arguments = (nurse_name, nurse_area, nurse_rotation, nurse_fte, nurse_a_trained, nurse_skill, nurse_transfer, nurse_adv_role, nurse_restrictions, nurse_iv)
+
+    arguments = (nurse_name, nurse_area, nurse_rotation, nurse_fte, nurse_a_trained,
+                 nurse_skill, nurse_transfer, nurse_adv_role, nurse_restrictions, nurse_iv)
 
     try:
         cursor.execute(query, arguments)
-        
+
         db.commit()
-    
+
     except Error as error:
         print(error)
 
@@ -225,7 +225,6 @@ def assign_nurse_patient() -> dict:
     for _ in range(num_clinical_areas):
         clinical_areas[chr(num_clinical_areas + 65)] = {"patients": 0,"transfers": 0, "level": {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}, "a-trained": 0, "picc": 0}
 
-
     # pods = {
     #     "A": {"patients": 0, "transfers": 0, "level": {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}, "a-trained": 0},
     #     "B": {"patients": 0, "transfers": 0, "level": {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}, "a-trained": 0},
@@ -269,7 +268,6 @@ def assign_nurse_patient() -> dict:
         # pods[#][0] points to the num_patients of the pod object.
 
         clinical_areas[row[3]]["level"][row[5]] += 1  # Increment skill level counts
-
         if row[6]:
             clinical_areas[row[3]]["a-trained"] += 1  # Increment amount of a-trained in pod object if patient needs a-trained
         if row[7]:
@@ -283,6 +281,7 @@ def assign_nurse_patient() -> dict:
     #   In the case of multiple previous patients:
     #       - check skill-level
     #       - check geography (if needed)
+
 
     # previous_patients = {
     #     "1": {name, timestamp of admission, timestamp of discharge},
@@ -298,6 +297,7 @@ def assign_nurse_patient() -> dict:
                 assignments[n.get_id()] = p.get_id()
                 n.set_assigned(True)
                 # matched_patients.append(p.get_id())
+
 
     # assess all previous patients and pair
         # check if same clinical area (try to assign all to same nurse)
@@ -326,11 +326,11 @@ def assign_nurse_patient() -> dict:
     for nurse in nurse_list:
         if nurse[9]:
             nurse[3] = 'F'  # Sets nurse pod to MBC clinical area
-            nurse[10] = True # Marks the nurse as assigned
+            nurse[10] = True  # Marks the nurse as assigned
 
     # split the remaining nurses according to "pod's needs"
     #       - A-trained
-    
+
     ##################### PSEUDO CODE #########################
     ## Adds nurse to pod with a_trained ##
     # for pod in pods:
@@ -354,8 +354,6 @@ def assign_nurse_patient() -> dict:
     #               nurse[3] = pod  # Sets nurse to pod
     #               nurse[10] = True
     ###########################################################
-
-
 
     #       - number of patients in a pod
     #       - Ensure enough skill level per pod
@@ -383,7 +381,8 @@ def assign_nurse_patient() -> dict:
     #                     assignments["null" + str(i)] = patients[i][0]
 
     try:
-        response = app.response_class(status=200, response=json.dumps(assignments))
+        response = app.response_class(
+            status=200, response=json.dumps(assignments))
     except ValueError as error:
         response = app.response_class(status=400, response=str(error))
 
