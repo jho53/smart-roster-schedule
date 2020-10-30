@@ -7,6 +7,7 @@ from datetime import datetime
 import json
 import mysql.connector
 import os
+import bcrypt
 
 # test purpose
 import webbrowser
@@ -70,16 +71,23 @@ def register_user():
         last_name = request.form['last_name']
         password = request.form['password']
         password_conf = request.form['password_conf']
-        if password == password_conf:
+
+        cursor.execute('SELECT * FROM users WHERE username = %s', (username,))
+        account = cursor.fetchone()
+
+        if account:
+            msg = 'Username already taken.'
+        elif password != password_conf:
+            msg = 'Passwords do not match.'
+        else:
+            encrypted_password = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
             cursor.execute(
                 'INSERT INTO users (username, password, first_name, last_name) '
-                'VALUES (%s, md5(%s), %s, %s)', (username,
-                                                 password, first_name, last_name)
+                'VALUES (%s, %s, %s, %s)', (username, encrypted_password, first_name, last_name)
             )
             db.commit()
-            return render_template('mainPage.html', loggedin=session['loggedin'])
-        else:
-            return render_template('register.html', msg="Passwords do not match", loggedin=session['loggedin'])
+            return render_template("mainPage.html", loggedin=session['loggedin'])
+        return render_template('register.html', msg=msg, loggedin=session['loggedin'])
 
 
 @app.route('/login', methods=['GET'])
@@ -102,11 +110,12 @@ def login_user():
 
         else:
             cursor.execute(
-                'SELECT * FROM users WHERE username = %s AND password = md5(%s)', (
-                    username, password,)
+                'SELECT * FROM users WHERE username = %s', (username,)
             )
+
             account = cursor.fetchone()
-            if account:
+
+            if account and bcrypt.checkpw(password.encode(), account[2].encode()):
                 session['loggedin'] = True
                 session['id'] = account[0]
                 session['username'] = username
@@ -122,19 +131,24 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('login'))
 
+
 # Records
 
 
 @app.route("/nurseRecords", methods=["GET"])
 def nurse_records():
-    # Grabs all nurses
-    cursor.execute("SELECT * FROM nurses")
-    nurse_list = cursor.fetchall()
-    return render_template("./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list)
+    if 'loggedin' in session:
+        # Grabs all nurses
+        cursor.execute("SELECT * FROM nurses")
+        nurse_list = cursor.fetchall()
+        return render_template(
+            "./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list
+        )
+    return redirect(url_for('login'))
 
+  
 @app.route("/addNurseRecords", methods=["POST"])
 def add_nurse_records():
-
     if 'nurse_name' in request.form and 'nurse_area' in request.form and 'nurse_rotation' in request.form and 'nurse_fte' in request.form and 'nurse_a_trained' in request.form and 'nurse_skill' in request.form and 'nurse_transfer' in request.form and 'nurse_adv_role' in request.form and 'nurse_restrictions' in request.form and 'nurse_iv' in request.form:
         nurse_name = request.form['nurse_name']
         nurse_area = request.form['nurse_area']
@@ -146,7 +160,7 @@ def add_nurse_records():
         nurse_adv_role = request.form['nurse_adv_role']
         nurse_restrictions = request.form['nurse_restrictions']
         nurse_iv = request.form['nurse_iv']
-
+       
     query = "insert into smartroster.nurses( nurse_name, nurse_area, nurse_rotation, nurse_fte, nurse_a_trained, nurse_skill, nurse_transfer, nurse_adv_role, nurse_restrictions, nurse_iv) " \
         "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
 
@@ -155,10 +169,9 @@ def add_nurse_records():
 
     try:
         cursor.execute(query, arguments)
-
         db.commit()
 
-    except Error as error:
+    except Exception as error:
         print(error)
 
     cursor.execute("SELECT * FROM nurses")
@@ -189,15 +202,17 @@ def edit_nurse_records():
 
     try:
         cursor.execute(query, arguments)
-
         db.commit()
 
-    except Error as error:
+    except Exception as error:
         print(error)
 
     cursor.execute("SELECT * FROM nurses")
     nurse_list = cursor.fetchall()
-    return render_template("./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list)
+
+    return render_template(
+        "./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list
+    )
 
 @app.route("/deleteNurseRecords", methods=["POST"])
 def delete_nurse_records():
@@ -283,6 +298,7 @@ def edit_patient_records():
     patient_list = cursor.fetchall()
     return render_template("./Records/patientRecord.html", loggedin=session['loggedin'], patientList=patient_list)
 
+
 @app.route("/deletePatientRecords", methods=["POST"])
 def delete_patient_records():
 
@@ -305,17 +321,25 @@ def delete_patient_records():
 def patient_records_submit():
     return
 
+
 # Account
 
 
-@app.route("/profile")
+@app.route("/profile", methods=['GET'])
 def profile():
-    return render_template("./Account/profile.html", loggedin=session['loggedin'])
+    if 'loggedin' in session:
+        cursor.execute('SELECT * FROM users WHERE username = %s', (session['username'],))
+        account = cursor.fetchone()
+        return render_template(
+            './Account/profile.html', account=account, loggedin=session['loggedin']
+        )
+    return redirect(url_for('login'))
 
 
 @app.route("/settings")
 def settings():
     return render_template("./Account/settings.html", loggedin=session['loggedin'])
+
 
 # Assignment Sheets
 
@@ -476,5 +500,4 @@ def assign_nurse_patient() -> dict:
 if __name__ == "__main__":
     # Testing
     webbrowser.open("http://localhost:5000/", new=1, autoraise=True)
-
     app.run()
