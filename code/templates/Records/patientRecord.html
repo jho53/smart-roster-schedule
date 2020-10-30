@@ -5,72 +5,78 @@
 <!--Content Here-->
 <div>
     <h1>Patient Records</h1>
-    <button>Create</button>
-    <button>Edit</button>
-    <button>Delete</button>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".createModalCenter">
+        Create
+      </button>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".editModalCenter">
+        Edit
+      </button>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".deleteModalCenter">
+        Delete
+      </button>
     <!--Table-->
-    <table>
+    <table class="table" id="patient-record-table">
         <thead>
-            <tr>
-                <th>Patient ID</th>
-                <th>Name</th>
-                <th>Bed</th>
-                <th>Acuity Level</th>
-                <th>Date Admitted</th>
-                <th>Date Discharged</th>
-                <th>A-trained Req</th>
-                <th>Transfer Req</th>
-            </tr>
+            <p>{{request.args.to_dict()}}</p>
+            <form action="/patientRecords" method="get">
+                <tr>
+                    {% for index, header in enumerate(patientHeaders) %}
+                    <th>{{header}}
+                        {% if request.args.to_dict()['sort_on']=='{{(index)}}' and request.args.to_dict()['back_sort'] != "1" %}
+                        <button class="btn" name="sort_on" type="submit" value="{{index}}"></button>
+                        <input name="back_sort" value="1" hidden>
+                        {% else %}
+                        <button class="btn" name="sort_on" type="submit" value="{{index}}"></button>
+                        <input name="back_sort" value="0" hidden>
+                        {% endif %}
+                    </th>
+                    {% endfor %}
+                </tr>
+            </form>
         </thead>
         <tbody>
-            {%for patient in patientList %}
-            <tr>
-                <td>
-                    <div contenteditable>{{patient[0]}}</div>
-                </td>
-                <td>
-                    <div contenteditable>{{patient[1]}}</div>
-                </td>
-                <td>
-                    <div contenteditable>{{patient[2]}}</div>
-                </td>
-                <td>
-                    <div contenteditable>{{patient[3]}}</div>
-                </td>
-                <td>
-                    <div contenteditable>{{patient[4]}}</div>
-                </td>
-                <td>
-                    <div contenteditable>{{patient[5]}}</div>
-                </td>
-                {%if patient[6]==0%}
-                <td>
-                    <div contenteditable>False</div>
-                </td>
-                {%else%}
-                <td>
-                    <div contenteditable>True</div>
-                </td>
-                {%endif%}
+            {% set sort_on = request.args.sort_on|default('0') %}
 
-                {%if patient[7]==0%}
+            {% for patient in patientList|sort(attribute=sort_on, reverse=False) %}
+            <tr id="{{'p'~patient[0]}}" style="cursor: pointer;">
                 <td>
-                    <div contenteditable>False</div>
+                    <div id="{{'p'~patient[0]~'id'}}">{{patient[0]}}</div>
                 </td>
-                {%else%}
                 <td>
-                    <div contenteditable>True</div>
+                    <div id="{{'p'~patient[0]~'name'}}">{{patient[1]}}</div>
                 </td>
-                {%endif%}
-
+                <td>
+                    <div id="{{'p'~patient[0]~'bed'}}">{{patient[2]}}</div>
+                </td>
+                <td>
+                    <div id="{{'p'~patient[0]~'acuity'}}">{{patient[3]}}</div>
+                </td>
+                <td>
+                    <div id="{{'p'~patient[0]~'admittedDate'}}">{{patient[4].strftime('%b %d, %Y')}} </div>
+                </td>
+                {% if patient[5] == None %}
+                <td>
+                    <div id="{{'p'~patient[0]~'dischargeDate'}}">{{patient[5]}}</div>
+                </td>
+                {% else %}
+                <td>
+                    <div id="{{'p'~patient[0]~'dischargeDate'}}">{{patient[5].strftime('%b %d, %Y')}}</div>
+                </td>
+                {% endif %}
+                <td>
+                    <div id="{{'p'~patient[0]~'atrainedReq'}}">{{patient[6]}}</div>
+                </td>
+                <td>
+                    <div id="{{'p'~patient[0]~'transferReq'}}">{{patient[7]}}</div>
+                </td>
             </tr>
             {%endfor%}
         </tbody>
     </table>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<!-- Create Modal -->
+<div class="modal fade createModalCenter" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -80,7 +86,7 @@
           </button>
         </div>
         <div class="modal-body">
-            <form action="/patientRecords" method="post">
+            <form action="/addPatientRecords" method="post">
                 <p>
                     <input id="patient_name" name="patient_name" required="" size="32" type="text" value="" placeholder="name"><br>
                 </p>
@@ -102,7 +108,8 @@
                 <br>
                 <input id="submit" name="submit" type="submit" value="Create">
             </form>
-        </div>
+
+        </div> 
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
           <p>
@@ -110,7 +117,113 @@
         </div>
       </div>
     </div>
-</div>
+  </div>
+  <!-- Edit Modal -->
+  <div class="modal fade editModalCenter" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">edit patient</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form action="/editPatientRecords" method="post">
+
+                <p>
+                    <input id="patient_name" name="patient_name" required="" size="32" type="text" value="" placeholder="name"><br>
+                </p>
+                <p>
+                    <input id="patient_bed" name="patient_bed" required="" size="32" type="text" value="" placeholder="patient_bed"><br>
+                </p>
+                <p>
+                    <input id="patient_acuity" name="patient_acuity" required="" size="32" type="text" value=""placeholder="patient_acuity"><br>
+                </p>
+                <p>
+                    <input id="patient_date_admitted" name="patient_date_admitted" required="" size="32" type="text" value=""placeholder="patient_date_admitted"><br>
+                </p>
+                <p>
+                    <input id="patient_a_trained" name="patient_a_trained" required="" size="32" type="number" value=""placeholder="patient_a_trained"><br>
+                </p>
+                <p>
+                    <input id="patient_transfer" name="patient_transfer" required="" size="32" type="number" value=""placeholder="patient_transfer"><br>
+                </p>
+                <br>
+                <input id="submit" name="submit" type="submit" value="Confirm">
+            </form>
+        </div> 
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Delete Modal -->
+<div class="modal fade deleteModalCenter" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Delete patient</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form action="/deletePatientRecords" method="post">
+                <br>
+                <script>
+                    var table = document.getElementById('patient-record-table');
+                    var patient_id = table.rows[rowId].cells[0].innerText
+                </script>
+                <input id="submit" name="submit" type="submit" value="Confirm">
+            </form>
+        </div> 
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+    var rowId = null;
+    function highlight_row() {
+        var table = document.getElementById('patient-record-table');
+        var cells = table.getElementsByTagName('td');
+
+        for (var i = 0; i < cells.length; i++) {
+            var cell = cells[i];
+            cell.onclick = function () {
+                if (rowId != null && rowId == this.parentNode.rowIndex) {
+                    var rowSelected = table.getElementsByTagName('tr')[rowId];
+                    rowSelected.classList.toggle("selected");
+                    rowId = null; // Reset rowId
+                } else {
+                    // Take current row index
+                    rowId = this.parentNode.rowIndex;
+
+                    var rowsNotSelected = table.getElementsByTagName('tr');
+                    for (var row = 0; row < rowsNotSelected.length; row++) {
+                        rowsNotSelected[row].classList.remove('selected');
+                    }
+                    var rowSelected = table.getElementsByTagName('tr')[rowId];
+                    
+                    rowSelected.classList.toggle("selected", true);
+                }
+            }
+        }
+        table.onclick = function () {
+            console.log(rowId);
+            console.log(table.rows[rowId].cells[0].innerText);
+        }
+    }
+    window.onload = highlight_row;
+</script>
 
 
 {% endblock %}
