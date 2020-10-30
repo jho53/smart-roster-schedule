@@ -145,3 +145,24 @@ body {
 }
 
 /* End of Quick-links */
+
+/* Records Pages */
+
+.jumbotron-content {
+  padding: 10px 10px 10px 10px;
+  text-align: center;
+  /* border: 5px solid; */
+}
+
+.table-searchbar {
+  width: 600px;
+  /* border: 5px solid; */
+}
+
+.table-content {
+  margin: 25px 25px 25px 25px;
+  /* border: 5px solid; */
+}
+
+
+/* End of Record Pages */
