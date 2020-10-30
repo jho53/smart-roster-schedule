@@ -34,7 +34,6 @@ db = mysql.connector.connect(
 
 cursor = db.cursor()
 
-
 @app.context_processor
 def inject_now():
     return {'now': datetime.utcnow()}
@@ -181,9 +180,9 @@ def add_nurse_records():
     return render_template("./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list)
 
 
+
 @app.route("/editNurseRecords", methods=["POST"])
 def edit_nurse_records():
-
     if 'nurse_name' in request.form and 'nurse_area' in request.form and 'nurse_rotation' in request.form and 'nurse_fte' in request.form and 'nurse_a_trained' in request.form and 'nurse_skill' in request.form and 'nurse_transfer' in request.form and 'nurse_adv_role' in request.form and 'nurse_restrictions' in request.form and 'nurse_iv' in request.form:
         nurse_name = request.form['nurse_name']
         nurse_area = request.form['nurse_area']
@@ -381,68 +380,116 @@ def past_PNSheet():
 def assign_nurse_patient() -> dict:
     """ Assign nurses to patients"""
 
-    # nurse_jag = Nurse(1, "Jaguar", "Perlas", "A", 7, 5, 0, True, True)
-    # nurses = {
-    #     nurse_jag.get_id(): [
-    #     ],
-    # }
-
-    # patient_1 = Patient(1, "patient1", "last", "A", 7, 5, 0, False)
-    # patients = {
-    #     patient_1.get_id: [
-
-    #     ],
-    # }
+    cursor.execute("SELECT * FROM variables")
+    variables = cursor.fetchall()
 
     assignments = {}
 
     # Create "pod" data structure that stores: num_patients, how many transfers, skill level counts, how many a-trained
 
-    pods = {
-        "A": {"patients": 0, "transfers": 0, "level": {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}, "a-trained": 0},
-        "B": {"patients": 0, "transfers": 0, "level": {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}, "a-trained": 0},
-        "C": {"patients": 0, "transfers": 0, "level": {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}, "a-trained": 0},
-        "D": {"patients": 0, "transfers": 0, "level": {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}, "a-trained": 0},
-        "E": {"patients": 0, "transfers": 0, "level": {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}, "a-trained": 0},
-        "F": {"patients": 0, "transfers": 0, "level": {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}, "a-trained": 0}
-    }
+    num_clinical_areas = 6 # variables[0]
+    clinical_areas ={}
 
-    # We can modularize this. This gets all patients.
-    cursor.execute("SELECT * FROM patients")
+    for _ in range(num_clinical_areas):
+        clinical_areas[chr(num_clinical_areas + 65)] = {"patients": 0,"transfers": 0, "level": {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}, "a-trained": 0, "picc": 0}
+
+    # pods = {
+    #     "A": {"patients": 0, "transfers": 0, "level": {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}, "a-trained": 0},
+    #     "B": {"patients": 0, "transfers": 0, "level": {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}, "a-trained": 0},
+    #     "C": {"patients": 0, "transfers": 0, "level": {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}, "a-trained": 0},
+    #     "D": {"patients": 0, "transfers": 0, "level": {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}, "a-trained": 0},
+    #     "E": {"patients": 0, "transfers": 0, "level": {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}, "a-trained": 0},
+    #     "F": {"patients": 0, "transfers": 0, "level": {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}, "a-trained": 0}
+    # }
+
+    cursor.execute("SELECT * FROM patients WHERE current=True")  # We can modularize this. This gets all patients.
     patient_list = cursor.fetchall()
-    cursor.execute("SELECT * FROM nurses")  # We can also modularize this.
+
+    # ---------------
+    # Maybe we can turn each nurse and patients into objects, then we can have a list of nurse objects and a list of patient objects?
+    
+    # Initialize patient and nurse lists
+    patients = []
+    nurses = []
+
+    # append current Patient objects into patients list
+    for row in patient_list:
+        x = Patient(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10], row[11],
+                         row[12], row[13], row[14])
+        patients.append(x)
+    print(patients)
+
+    cursor.execute("SELECT * FROM nurses WHERE current=True")  # We can also modularize this.
     nurse_list = cursor.fetchall()
 
-    for row in patient_list:
+    # append current Patient objects into patients list
+    for row in nurse_list:
+        x = Nurse(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10], row[11],
+                         row[12], row[13], row[14], row[15], row[16], row[17], row[18], row[19])
+        nurses.append(x)
+    print(nurses)
 
-        # row[2] points to the bed column in patient list
-        pods[row[2][0]]["patients"] += 1
+
+    # filling in pod info
+    for row in patient_list:
+        clinical_areas[row[3]]["patients"] += 1  # row[2] points to the bed column in patient list
         # row[2][0] points to the first letter in bed column which is the pod.
         # pods[#][0] points to the num_patients of the pod object.
 
-        pods[row[2][0]]["level"][row[3]] += 1  # Increment skill level counts
-
-        if row[7]:
-            # Increment amount of a-trained in pod object if patient needs a-trained
-            pods[row[2][0]]["a-trained"] += 1
+        clinical_areas[row[3]]["level"][row[5]] += 1  # Increment skill level counts
         if row[6]:
-            # Increment amount of transfers in pod object if patient needs transfer
-            pods[row[2][0]]["transfers"] += 1
+            clinical_areas[row[3]]["a-trained"] += 1  # Increment amount of a-trained in pod object if patient needs a-trained
+        if row[7]:
+            clinical_areas[row[3]]["transfers"] += 1  # Increment amount of transfers in pod object if patient needs transfer
+        if row[8]:
+            clinical_areas[row[3]]["picc"] += 1  # Increment amount of picc in pod object if patient needs picc
 
-    print(pods)
+    print(clinical_areas)
 
     # hard match nurses with patients they've been with (regardless of pod)
     #   In the case of multiple previous patients:
     #       - check skill-level
     #       - check geography (if needed)
 
-    for nurse in nurse_list:
-        for patient in patient_list:
-            if nurse[2] == patient[2]:
-                # this only assigns matching pod and bed. im just going with the test data here LOL
-                assignments[nurse[1]] = patient[1]
+    # previous_patients = {
+    #     "1": {name, timestamp of admission, timestamp of discharge},
+    #     "69": {anothern ame, timestapm, timestamp}
+    # }
 
-    # MBC trained nurses go to "Rabbit Pod" as much as needed
+    matched_patients = []
+
+    for n in nurses:
+        prev_p = n.get_previous_patients()
+        for p in patients:
+            if prev_p.get(p.get_id(), False):
+                assignments[n.get_id()] = p.get_id()
+                n.set_assigned(True)
+                # matched_patients.append(p.get_id())
+
+
+    # assess all previous patients and pair
+        # check if same clinical area (try to assign all to same nurse)
+        # check recency. Favour most recent
+        # check skill level (favour highest skill level first. Reject if not enough)
+
+    # for nurse in nurse_list:
+
+    #     if (nurse[13][0] in patient_list) and (nurse[18] is not True): # check if the latest patient the nurse has been with exists in patient list, and check if the nurse is not assigned
+    #         assignments[nurse[1] + nurse[2]] = nurse[13][0] # hard match nurse with the latest previous patient entry (assuming previous patients is stored as list)
+    #         nurse[18] = True # mark them as assigned
+
+    # A trained nurses go to "Rabbit Pod" as much as needed
+    for ca in clinical_areas.keys():
+        # allocate ceil(clinical_areas[ca]["a_trained"]/2) a_trained nurses
+
+        # check skill level
+        # assign
+
+    for pod in pods:
+        if pod has a_trained patient:
+            num_a_trained = 8
+            allocate 8/2 ceiling a trained 
+            allocate nurses with a_Trained to this pod
 
     for nurse in nurse_list:
         if nurse[9]:
@@ -514,3 +561,27 @@ if __name__ == "__main__":
     # Testing
     webbrowser.open("http://localhost:5000/", new=1, autoraise=True)
     app.run()
+
+
+# Patient #5
+# - transfer - False
+# - atrained - True
+# - acuity - 3
+# - picc - False
+# - one-to-one - False
+# - clinical area - C
+# - twin - 'other person'
+
+# nurses:
+# - transfer - doesn't matter
+# - atrained - True
+# - skill level - 3 or more
+# - num_patients - 0
+# - clinical area (soft) - B (2)
+# - prev_patients - #5, #6, #1 (1)
+
+# iterate by patients
+# 1st iteration (num_patients = 0)
+#  select statement in current nurses
+# 2nd iteration (num_patients = 1)
+# 3rd iteration (num_patients = 2)
