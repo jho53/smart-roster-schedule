@@ -1,10 +1,13 @@
 from nurse import Nurse
 from patient import Patient
-import json
+
 from flask import Flask, render_template, redirect, url_for, request, session
 from datetime import datetime
+
+import json
 import mysql.connector
 import os
+import bcrypt
 
 # test purpose
 import webbrowser
@@ -31,10 +34,15 @@ db = mysql.connector.connect(
 
 cursor = db.cursor()
 
+
 @app.context_processor
 def inject_now():
     return {'now': datetime.utcnow()}
 
+
+@app.context_processor
+def inject_enumerate():
+    return dict(enumerate=enumerate)
 
 # Login and Mainpage
 
@@ -63,16 +71,25 @@ def register_user():
         last_name = request.form['last_name']
         password = request.form['password']
         password_conf = request.form['password_conf']
-        if password == password_conf:
+
+        cursor.execute('SELECT * FROM users WHERE username = %s', (username,))
+        account = cursor.fetchone()
+
+        if account:
+            msg = 'Username already taken.'
+        elif password != password_conf:
+            msg = 'Passwords do not match.'
+        else:
+            encrypted_password = bcrypt.hashpw(
+                password.encode(), bcrypt.gensalt())
             cursor.execute(
                 'INSERT INTO users (username, password, first_name, last_name) '
-                'VALUES (%s, md5(%s), %s, %s)', (username,
-                                                 password, first_name, last_name)
+                'VALUES (%s, %s, %s, %s)', (username,
+                                            encrypted_password, first_name, last_name)
             )
             db.commit()
-            return render_template('mainPage.html', loggedin=session['loggedin'])
-        else:
-            return render_template('register.html', msg="Passwords do not match", loggedin=session['loggedin'])
+            return render_template("mainPage.html", loggedin=session['loggedin'])
+        return render_template('register.html', msg=msg, loggedin=session['loggedin'])
 
 
 @app.route('/login', methods=['GET'])
@@ -95,11 +112,12 @@ def login_user():
 
         else:
             cursor.execute(
-                'SELECT * FROM users WHERE username = %s AND password = md5(%s)', (
-                    username, password,)
+                'SELECT * FROM users WHERE username = %s', (username,)
             )
+
             account = cursor.fetchone()
-            if account:
+
+            if account and bcrypt.checkpw(password.encode(), account[2].encode()):
                 session['loggedin'] = True
                 session['id'] = account[0]
                 session['username'] = username
@@ -115,21 +133,29 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('login'))
 
+
 # Records
 
 
 @app.route("/nurseRecords", methods=["GET"])
 def nurse_records():
-    # Grabs all nurses
-    cursor.execute("SELECT * FROM nurses")
-    nurse_list = cursor.fetchall()
-    return render_template("./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list)
+    nurse_headers = ["Nurse ID", "Name", "Area", "Rotation", "FTE",
+                     "A-trained", "Skill", "Transfer", "Adv Role", "Restrictions", "IV"]
+    if 'loggedin' in session:
+        # Grabs all nurses
+        cursor.execute("SELECT * FROM nurses")
+        nurse_list = cursor.fetchall()
+        return render_template(
+            "./Records/nurseRecord.html",
+            loggedin=session['loggedin'],
+            nurseList=nurse_list,
+            nurseHeaders=nurse_headers
+        )
+    return redirect(url_for('login'))
 
-@app.route("/nurseRecords", methods=["POST"])
 
+@app.route("/addNurseRecords", methods=["POST"])
 def add_nurse_records():
-    
-
     if 'nurse_name' in request.form and 'nurse_area' in request.form and 'nurse_rotation' in request.form and 'nurse_fte' in request.form and 'nurse_a_trained' in request.form and 'nurse_skill' in request.form and 'nurse_transfer' in request.form and 'nurse_adv_role' in request.form and 'nurse_restrictions' in request.form and 'nurse_iv' in request.form:
         nurse_name = request.form['nurse_name']
         nurse_area = request.form['nurse_area']
@@ -144,15 +170,15 @@ def add_nurse_records():
 
     query = "insert into smartroster.nurses( nurse_name, nurse_area, nurse_rotation, nurse_fte, nurse_a_trained, nurse_skill, nurse_transfer, nurse_adv_role, nurse_restrictions, nurse_iv) " \
         "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-    
-    arguments = (nurse_name, nurse_area, nurse_rotation, nurse_fte, nurse_a_trained, nurse_skill, nurse_transfer, nurse_adv_role, nurse_restrictions, nurse_iv)
+
+    arguments = (nurse_name, nurse_area, nurse_rotation, nurse_fte, nurse_a_trained,
+                 nurse_skill, nurse_transfer, nurse_adv_role, nurse_restrictions, nurse_iv)
 
     try:
         cursor.execute(query, arguments)
-        
         db.commit()
-    
-    except Error as error:
+
+    except Exception as error:
         print(error)
 
     cursor.execute("SELECT * FROM nurses")
@@ -160,12 +186,150 @@ def add_nurse_records():
     return render_template("./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list)
 
 
+@app.route("/editNurseRecords", methods=["POST"])
+def edit_nurse_records():
+    if 'nurse_name' in request.form and 'nurse_area' in request.form and 'nurse_rotation' in request.form and 'nurse_fte' in request.form and 'nurse_a_trained' in request.form and 'nurse_skill' in request.form and 'nurse_transfer' in request.form and 'nurse_adv_role' in request.form and 'nurse_restrictions' in request.form and 'nurse_iv' in request.form:
+        nurse_name = request.form['nurse_name']
+        nurse_area = request.form['nurse_area']
+        nurse_rotation = request.form['nurse_rotation']
+        nurse_fte = request.form['nurse_fte']
+        nurse_a_trained = request.form['nurse_a_trained']
+        nurse_skill = request.form['nurse_skill']
+        nurse_transfer = request.form['nurse_transfer']
+        nurse_adv_role = request.form['nurse_adv_role']
+        nurse_restrictions = request.form['nurse_restrictions']
+        nurse_iv = request.form['nurse_iv']
+
+    query = "UPDATE smartroster.nurses SET nurse_name = %s, nurse_area = %s, nurse_rotation = %s, nurse_fte = %s, nurse_a_trained = %s, " \
+        " nurse_skill = %s, nurse_transfer = %s, nurse_adv_role = %s, nurse_restrictions = %s, nurse_iv = %s WHERE nurse_id = %s"
+
+    arguments = (nurse_name, nurse_area, nurse_rotation, nurse_fte, nurse_a_trained,
+                 nurse_skill, nurse_transfer, nurse_adv_role, nurse_restrictions, nurse_iv, nurse_id)
+
+    try:
+        cursor.execute(query, arguments)
+        db.commit()
+
+    except Exception as error:
+        print(error)
+
+    cursor.execute("SELECT * FROM nurses")
+    nurse_list = cursor.fetchall()
+
+    return render_template(
+        "./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list
+    )
+
+
+@app.route("/deleteNurseRecords", methods=["POST"])
+def delete_nurse_records():
+
+    nurser_id = request.form['rowId']
+    print(nurser_id)
+
+    query = "DELETE FROM smartroster.nurses WHERE id = %s"
+    arguments = (nurser_id)
+
+    try:
+        cursor.execute(query, arguments)
+        db.commit()
+
+    except Exception as error:
+        print(error)
+
+    return render_template("./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list)
+
+
 @app.route("/patientRecords", methods=["GET"])
 def patient_records():
+    # Table variables
+    patient_headers = ["Patient ID", "Name", "Bed", "Acuity Level",
+                       "Date Admitted", "Date Discharged", "A-trained Req", "IV"]
     # Grabs all patients
     cursor.execute("SELECT * FROM patients")
     patient_list = cursor.fetchall()
-    print(patient_list)
+    return render_template(
+        "./Records/patientRecord.html",
+        loggedin=session['loggedin'],
+        patientList=patient_list,
+        patientHeaders=patient_headers
+    )
+
+
+@app.route("/addPatientRecords", methods=["POST"])
+def add_patient_records():
+
+    if 'patient_name' in request.form and 'patient_bed' in request.form and 'patient_acuity' in request.form and 'patient_date_admitted' in request.form and 'patient_a_trained' in request.form and 'patient_transfer' in request.form:
+        patient_name = request.form['patient_name']
+        patient_bed = request.form['patient_bed']
+        patient_acuity = request.form['patient_acuity']
+        patient_date_admitted = request.form['patient_date_admitted']
+        patient_a_trained = request.form['patient_a_trained']
+        patient_transfer = request.form['patient_transfer']
+
+    query = "insert into smartroster.patients( patient_name, patient_bed, patient_acuity, patient_date_admitted, patient_a_trained, patient_transfer)" \
+        "VALUES (%s,%s,%s,%s,%s,%s)"
+    arguments = (patient_name, patient_bed, patient_acuity,
+                 patient_date_admitted, patient_a_trained, patient_transfer)
+
+    try:
+        cursor.execute(query, arguments)
+        db.commit()
+
+    except Exception as error:
+        print(error)
+
+    cursor.execute("SELECT * FROM patients")
+    patient_list = cursor.fetchall()
+    return render_template("./Records/patientRecord.html", loggedin=session['loggedin'], patientList=patient_list)
+
+
+@app.route("/editPatientRecords", methods=["POST"])
+def edit_patient_records():
+
+    if 'patient_name' in request.form and 'patient_bed' in request.form and 'patient_acuity' in request.form and 'patient_date_admitted' in request.form and 'patient_a_trained' in request.form and 'patient_transfer' in request.form:
+        patient_name = request.form['patient_name']
+        patient_bed = request.form['patient_bed']
+        patient_acuity = request.form['patient_acuity']
+        patient_date_admitted = request.form['patient_date_admitted']
+        patient_a_trained = request.form['patient_a_trained']
+        patient_transfer = request.form['patient_transfer']
+
+    query = "UPDATE smartroster.patients( patient_name = %s, patient_bed = %s, patient_acuity = %s, patient_date_admitted = %s, patient_a_trained = %s, patient_transfer) = %s" \
+        "WHERE patient_id = %s"
+    arguments = (patient_name, patient_bed, patient_acuity,
+                 patient_date_admitted, patient_a_trained, patient_transfer, patient_id)
+
+    try:
+        cursor.execute(query, arguments)
+        db.commit()
+
+    except Exception as error:
+        print(error)
+
+    cursor.execute("SELECT * FROM patients")
+    patient_list = cursor.fetchall()
+    return render_template("./Records/patientRecord.html", loggedin=session['loggedin'], patientList=patient_list)
+
+
+@app.route("/deletePatientRecords", methods=["POST"])
+def delete_patient_records():
+
+    patient_id = request.form['patient_id']
+    print(patient_id)
+
+    query = "DELETE FROM smartroster.patients WHERE id = %s"
+    arguments = (patient_id)
+
+    try:
+        cursor.execute(query, arguments)
+        db.commit()
+
+    except Exception as error:
+        print(error)
+
+    cursor.execute("SELECT * FROM patients")
+    patient_list = cursor.fetchall()
     return render_template("./Records/patientRecord.html", loggedin=session['loggedin'], patientList=patient_list)
 
 
@@ -173,17 +337,26 @@ def patient_records():
 def patient_records_submit():
     return
 
+
 # Account
 
 
-@app.route("/profile")
+@app.route("/profile", methods=['GET'])
 def profile():
-    return render_template("./Account/profile.html", loggedin=session['loggedin'])
+    if 'loggedin' in session:
+        cursor.execute('SELECT * FROM users WHERE username = %s',
+                       (session['username'],))
+        account = cursor.fetchone()
+        return render_template(
+            './Account/profile.html', account=account, loggedin=session['loggedin']
+        )
+    return redirect(url_for('login'))
 
 
 @app.route("/settings")
 def settings():
     return render_template("./Account/settings.html", loggedin=session['loggedin'])
+
 
 # Assignment Sheets
 
@@ -219,12 +392,12 @@ def assign_nurse_patient() -> dict:
 
     # Create "pod" data structure that stores: num_patients, how many transfers, skill level counts, how many a-trained
 
-    num_clinical_areas = 6 # variables[0]
-    clinical_areas ={}
+    num_clinical_areas = 6  # variables[0]
+    clinical_areas = {}
 
     for _ in range(num_clinical_areas):
-        clinical_areas[chr(num_clinical_areas + 65)] = {"patients": 0,"transfers": 0, "level": {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}, "a-trained": 0, "picc": 0}
-
+        clinical_areas[chr(num_clinical_areas + 65)] = {"patients": 0, "transfers": 0, "level": {
+            1: 0, 2: 0, 3: 0, 4: 0, 5: 0}, "a-trained": 0, "picc": 0}
 
     # pods = {
     #     "A": {"patients": 0, "transfers": 0, "level": {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}, "a-trained": 0},
@@ -235,12 +408,13 @@ def assign_nurse_patient() -> dict:
     #     "F": {"patients": 0, "transfers": 0, "level": {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}, "a-trained": 0}
     # }
 
-    cursor.execute("SELECT * FROM patients WHERE current=True")  # We can modularize this. This gets all patients.
+    # We can modularize this. This gets all patients.
+    cursor.execute("SELECT * FROM patients WHERE current=True")
     patient_list = cursor.fetchall()
 
     # ---------------
     # Maybe we can turn each nurse and patients into objects, then we can have a list of nurse objects and a list of patient objects?
-    
+
     # Initialize patient and nurse lists
     patients = []
     nurses = []
@@ -248,34 +422,39 @@ def assign_nurse_patient() -> dict:
     # append current Patient objects into patients list
     for row in patient_list:
         x = Patient(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10], row[11],
-                         row[12], row[13], row[14])
+                    row[12], row[13], row[14])
         patients.append(x)
     print(patients)
 
-    cursor.execute("SELECT * FROM nurses WHERE current=True")  # We can also modularize this.
+    # We can also modularize this.
+    cursor.execute("SELECT * FROM nurses WHERE current=True")
     nurse_list = cursor.fetchall()
 
     # append current Patient objects into patients list
     for row in nurse_list:
         x = Nurse(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10], row[11],
-                         row[12], row[13], row[14], row[15], row[16], row[17], row[18], row[19])
+                  row[12], row[13], row[14], row[15], row[16], row[17], row[18], row[19])
         nurses.append(x)
     print(nurses)
 
     # filling in pod info
     for row in patient_list:
-        clinical_areas[row[3]]["patients"] += 1  # row[2] points to the bed column in patient list
+        # row[2] points to the bed column in patient list
+        clinical_areas[row[3]]["patients"] += 1
         # row[2][0] points to the first letter in bed column which is the pod.
         # pods[#][0] points to the num_patients of the pod object.
 
-        clinical_areas[row[3]]["level"][row[5]] += 1  # Increment skill level counts
-
+        # Increment skill level counts
+        clinical_areas[row[3]]["level"][row[5]] += 1
         if row[6]:
-            clinical_areas[row[3]]["a-trained"] += 1  # Increment amount of a-trained in pod object if patient needs a-trained
+            # Increment amount of a-trained in pod object if patient needs a-trained
+            clinical_areas[row[3]]["a-trained"] += 1
         if row[7]:
-            clinical_areas[row[3]]["transfers"] += 1  # Increment amount of transfers in pod object if patient needs transfer
+            # Increment amount of transfers in pod object if patient needs transfer
+            clinical_areas[row[3]]["transfers"] += 1
         if row[8]:
-            clinical_areas[row[3]]["picc"] += 1  # Increment amount of picc in pod object if patient needs picc
+            # Increment amount of picc in pod object if patient needs picc
+            clinical_areas[row[3]]["picc"] += 1
 
     print(clinical_areas)
 
@@ -312,7 +491,6 @@ def assign_nurse_patient() -> dict:
 
     # A trained nurses go to "Rabbit Pod" as much as needed
     # for ca in clinical_areas.keys():
-    #     pass
         # allocate ceil(clinical_areas[ca]["a_trained"]/2) a_trained nurses
 
         # check skill level
@@ -321,17 +499,17 @@ def assign_nurse_patient() -> dict:
     # for pod in pods:
     #     if pod has a_trained patient:
     #         num_a_trained = 8
-    #         allocate 8/2 ceiling a trained 
+    #         allocate 8/2 ceiling a trained
     #         allocate nurses with a_Trained to this pod
 
     # for nurse in nurse_list:
     #     if nurse[9]:
     #         nurse[3] = 'F'  # Sets nurse pod to MBC clinical area
-    #         nurse[10] = True # Marks the nurse as assigned
+    #         nurse[10] = True  # Marks the nurse as assigned
 
     # split the remaining nurses according to "pod's needs"
     #       - A-trained
-    
+
     ##################### PSEUDO CODE #########################
     ## Adds nurse to pod with a_trained ##
     # for pod in pods:
@@ -355,8 +533,6 @@ def assign_nurse_patient() -> dict:
     #               nurse[3] = pod  # Sets nurse to pod
     #               nurse[10] = True
     ###########################################################
-
-
 
     #       - number of patients in a pod
     #       - Ensure enough skill level per pod
@@ -384,7 +560,8 @@ def assign_nurse_patient() -> dict:
     #                     assignments["null" + str(i)] = patients[i][0]
 
     try:
-        response = app.response_class(status=200, response=json.dumps(assignments))
+        response = app.response_class(
+            status=200, response=json.dumps(assignments))
     except ValueError as error:
         response = app.response_class(status=400, response=str(error))
 
@@ -394,7 +571,6 @@ def assign_nurse_patient() -> dict:
 if __name__ == "__main__":
     # Testing
     webbrowser.open("http://localhost:5000/", new=1, autoraise=True)
-
     app.run()
 
 

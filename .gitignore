@@ -1,5 +1,6 @@
 .vscode/
 .idea/
+node_modules
 code/__pycache__/
 node_modules
 venv/
