@@ -1,43 +1,44 @@
 {% extends "base.html" %}
 {% block content %}
 
-<p>Welcome to the Home Page</p>
-
 <div class="row">
     <div class="col-3">
         <div class="list-group" id="list-tab" role="tablist">
             <a class="list-group-item list-group-item-action active" id="list-assignments-list" data-toggle="list"
-               href="#list-assignments" role="tab" aria-controls="assignments"><img class="sidebar-icons"
-                                                                                    src="/images/current_shift.png">Current
+                href="#list-assignments" role="tab" aria-controls="assignments"><img class="sidebar-icons"
+                    src="/images/current_shift.png">Current
                 Shift</a>
             <a class="list-group-item list-group-item-action" id="list-records-list" data-toggle="list"
-               href="#list-records" role="tab" aria-controls="records"><img class="sidebar-icons"
-                                                                            src="/images/records.png">Records</a>
+                href="#list-records" role="tab" aria-controls="records"><img class="sidebar-icons"
+                    src="/images/records.png">Records</a>
             <a class="list-group-item list-group-item-action" id="list-pastsheets-list" data-toggle="list"
-               href="#list-pastsheets" role="tab" aria-controls="pastsheets"><img class="sidebar-icons"
-                                                                                  src="/images/pastsheets.png">Past
+                href="#list-pastsheets" role="tab" aria-controls="pastsheets"><img class="sidebar-icons"
+                    src="/images/pastsheets.png">Past
                 Sheets</a>
         </div>
     </div>
     <div class="col-9">
         <div class="tab-content" id="nav-tabContent">
             <div class="tab-pane fade show active" id="list-assignments" role="tabpanel"
-                 aria-labelledby="list-assignments-list">
+                aria-labelledby="list-assignments-list">
                 <div class="row">
                     <div class="card-deck">
                         <div class="card" style="width: 18rem;">
-                             <img class="card-img-top" src="/images/nurse_assignment.png" alt="nurse assignment image">
+                            <img class="card-img-top" src="/images/nurse_assignment.png" alt="nurse assignment image">
                             <div class="card-body">
                                 <h5 class="card-title">Clinical Area Assignment</h5>
-                                <p class="card-text">View the Clinical Area Assignment and make quick changes if necessary</p>
+                                <p class="card-text">View the Clinical Area Assignment and make quick changes if
+                                    necessary</p>
                                 <a href="/currentCAASheet" class="btn btn-primary">View</a>
                             </div>
                         </div>
                         <div class="card" style="width: 18rem;">
-                             <img class="card-img-top" src="/images/patient_assignment.png" alt="patient assignment image">
+                            <img class="card-img-top" src="/images/patient_assignment.png"
+                                alt="patient assignment image">
                             <div class="card-body">
                                 <h5 class="card-title">Patient/Nurse Assignment</h5>
-                                <p class="card-text">View the Patient/Nurse Assignment and make quick changes if necessary</p>
+                                <p class="card-text">View the Patient/Nurse Assignment and make quick changes if
+                                    necessary</p>
                                 <a href="/currentPNSheet" class="btn btn-primary">View</a>
                             </div>
                         </div>
@@ -48,15 +49,16 @@
                 <div class="row">
                     <div class="card-deck">
                         <div class="card" style="width: 18rem;">
-                             <img class="card-img-top" src="/images/nurse_records.png" alt="nurse records image">
+                            <img class="card-img-top" src="/images/nurse_records.png" alt="nurse records image">
                             <div class="card-body">
                                 <h5 class="card-title">Nurse Records</h5>
-                                <p class="card-text">View all nurses in the database. Add, delete, or edit nurses freely.</p>
+                                <p class="card-text">View all nurses in the database. Add, delete, or edit nurses
+                                    freely.</p>
                                 <a href="/nurseRecords" class="btn btn-primary">View</a>
                             </div>
                         </div>
                         <div class="card" style="width: 18rem;">
-                             <img class="card-img-top" src="/images/patient_records.png" alt="patient records image">
+                            <img class="card-img-top" src="/images/patient_records.png" alt="patient records image">
                             <div class="card-body">
                                 <h5 class="card-title">Patient Records</h5>
                                 <p class="card-text">View all patients in the database. Add, delete, or edit freely.</p>
@@ -70,7 +72,8 @@
                 <div class="row">
                     <div class="card-deck">
                         <div class="card" style="width: 18rem;">
-                             <img class="card-img-top" src="/images/past_clinical_assignment.png" alt="Past Clinical Area Assignments image">
+                            <img class="card-img-top" src="/images/past_clinical_assignment.png"
+                                alt="Past Clinical Area Assignments image">
                             <div class="card-body">
                                 <h5 class="card-title">Past Clinical Area Assignments</h5>
                                 <p class="card-text">View past clinical area assignment sheets. Search by date.</p>
@@ -78,7 +81,8 @@
                             </div>
                         </div>
                         <div class="card" style="width: 18rem;">
-                             <img class="card-img-top" src="/images/past_patient_assignments.png" alt="Past Patient/Nurse Assignments">
+                            <img class="card-img-top" src="/images/past_patient_assignments.png"
+                                alt="Past Patient/Nurse Assignments">
                             <div class="card-body">
                                 <h5 class="card-title">Past Patient/Nurse Assignments</h5>
                                 <p class="card-text">View past patient/nurse assignment sheets. Search by date.</p>
@@ -91,18 +95,6 @@
         </div>
     </div>
 </div>
-
-<h2>Records</h2>
-<a href="/nurseRecords">Nurse Records</a>
-<br>
-<a href="/patientRecords">Patient Records</a>
-<br>
-
-<h2>Past Sheets</h2>
-<a href="/pastCAASheet">Past Clinical Area Assignments</a>
-<br>
-<a href="/pastPNSheet">Past Patient/Nurse Assignments</a>
-<br>
 
 <div id="quickLinks" class="quick-links" onclick="toggleQuicklinks()">
     <div class="quick-link-tab-container">
@@ -118,23 +110,23 @@
 
 <script>
     function toggleQuicklinks() {
-            var quickLinks = document.getElementById("quickLinks");
-            var quickLinksContent = document.getElementById("quicklinksContent");
-            var quickLinksIcon = document.getElementById("quickLinksIcon");
+        var quickLinks = document.getElementById("quickLinks");
+        var quickLinksContent = document.getElementById("quicklinksContent");
+        var quickLinksIcon = document.getElementById("quickLinksIcon");
 
-            if (quickLinks.style.width == "200px") {
-                quickLinks.style.width = "30px";
-                quickLinksContent.style.opacity = "0";
-                quickLinksContent.style.visibility = "hidden";
-                quickLinksIcon.style.transform =  "translate(0%, -50%) scalex(1)";
-            }
-            else {
-                quickLinks.style.width = "200px";
-                quickLinksContent.style.visibility = "visible";
-                quickLinksContent.style.opacity = "1";
-                quickLinksIcon.style.transform =  "translate(0%, -50%) scalex(-1)";
-            }
+        if (quickLinks.style.width == "200px") {
+            quickLinks.style.width = "30px";
+            quickLinksContent.style.opacity = "0";
+            quickLinksContent.style.visibility = "hidden";
+            quickLinksIcon.style.transform = "translate(0%, -50%) scalex(1)";
         }
+        else {
+            quickLinks.style.width = "200px";
+            quickLinksContent.style.visibility = "visible";
+            quickLinksContent.style.opacity = "1";
+            quickLinksIcon.style.transform = "translate(0%, -50%) scalex(-1)";
+        }
+    }
 </script>
 
 {% endblock %}
