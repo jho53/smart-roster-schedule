@@ -233,22 +233,23 @@ def assign_nurse_patient() -> dict:
     #         nurse[18] = True # mark them as assigned
 
     # A trained nurses go to "Rabbit Pod" as much as needed
-    for ca in clinical_areas.keys():
+    # for ca in clinical_areas.keys():
+    #     pass
         # allocate ceil(clinical_areas[ca]["a_trained"]/2) a_trained nurses
 
         # check skill level
         # assign
 
-    for pod in pods:
-        if pod has a_trained patient:
-            num_a_trained = 8
-            allocate 8/2 ceiling a trained 
-            allocate nurses with a_Trained to this pod
+    # for pod in pods:
+    #     if pod has a_trained patient:
+    #         num_a_trained = 8
+    #         allocate 8/2 ceiling a trained 
+    #         allocate nurses with a_Trained to this pod
 
-    for nurse in nurse_list:
-        if nurse[9]:
-            nurse[3] = 'F'  # Sets nurse pod to MBC clinical area
-            nurse[10] = True # Marks the nurse as assigned
+    # for nurse in nurse_list:
+    #     if nurse[9]:
+    #         nurse[3] = 'F'  # Sets nurse pod to MBC clinical area
+    #         nurse[10] = True # Marks the nurse as assigned
 
     # split the remaining nurses according to "pod's needs"
     #       - A-trained
