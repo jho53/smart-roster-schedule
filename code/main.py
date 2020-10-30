@@ -234,6 +234,7 @@ def delete_nurse_records():
 
 @app.route("/patientRecords", methods=["GET"])
 def patient_records():
+    # Table variables
     patient_headers = ["Patient ID", "Name", "Bed", "Acuity Level",
                        "Date Admitted", "Date Discharged", "A-trained Req", "IV"]
     # Grabs all patients
