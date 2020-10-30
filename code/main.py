@@ -132,7 +132,7 @@ def nurse_records():
     nurse_list = cursor.fetchall()
     return render_template("./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list)
 
-@app.route("/nurseRecords", methods=["POST"])
+@app.route("/addNurseRecords", methods=["POST"])
 def add_nurse_records():
 
     if 'nurse_name' in request.form and 'nurse_area' in request.form and 'nurse_rotation' in request.form and 'nurse_fte' in request.form and 'nurse_a_trained' in request.form and 'nurse_skill' in request.form and 'nurse_transfer' in request.form and 'nurse_adv_role' in request.form and 'nurse_restrictions' in request.form and 'nurse_iv' in request.form:
@@ -165,6 +165,57 @@ def add_nurse_records():
     nurse_list = cursor.fetchall()
     return render_template("./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list)
 
+@app.route("/editNurseRecords", methods=["POST"])
+def edit_nurse_records():
+
+    if 'nurse_name' in request.form and 'nurse_area' in request.form and 'nurse_rotation' in request.form and 'nurse_fte' in request.form and 'nurse_a_trained' in request.form and 'nurse_skill' in request.form and 'nurse_transfer' in request.form and 'nurse_adv_role' in request.form and 'nurse_restrictions' in request.form and 'nurse_iv' in request.form:
+        nurse_name = request.form['nurse_name']
+        nurse_area = request.form['nurse_area']
+        nurse_rotation = request.form['nurse_rotation']
+        nurse_fte = request.form['nurse_fte']
+        nurse_a_trained = request.form['nurse_a_trained']
+        nurse_skill = request.form['nurse_skill']
+        nurse_transfer = request.form['nurse_transfer']
+        nurse_adv_role = request.form['nurse_adv_role']
+        nurse_restrictions = request.form['nurse_restrictions']
+        nurse_iv = request.form['nurse_iv']
+
+    query = "UPDATE smartroster.nurses SET nurse_name = %s, nurse_area = %s, nurse_rotation = %s, nurse_fte = %s, nurse_a_trained = %s, " \
+        " nurse_skill = %s, nurse_transfer = %s, nurse_adv_role = %s, nurse_restrictions = %s, nurse_iv = %s WHERE nurse_id = %s"
+
+
+    arguments = (nurse_name, nurse_area, nurse_rotation, nurse_fte, nurse_a_trained,
+                 nurse_skill, nurse_transfer, nurse_adv_role, nurse_restrictions, nurse_iv, nurse_id)
+
+    try:
+        cursor.execute(query, arguments)
+
+        db.commit()
+
+    except Error as error:
+        print(error)
+
+    cursor.execute("SELECT * FROM nurses")
+    nurse_list = cursor.fetchall()
+    return render_template("./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list)
+
+@app.route("/deleteNurseRecords", methods=["POST"])
+def delete_nurse_records():
+
+    nurser_id = request.form['rowId']
+    print(nurser_id)
+
+    query = "DELETE FROM smartroster.nurses WHERE id = %s"
+    arguments = (nurser_id)
+
+    try:
+        cursor.execute(query, arguments)
+        db.commit()
+    
+    except Error as error:
+        print(error)
+
+    return render_template("./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list)
 
 @app.route("/patientRecords", methods=["GET"])
 def patient_records():
@@ -180,10 +231,9 @@ def patient_records():
         patientHeaders=patient_headers
     )
 
-@app.route("/patientRecords", methods=["POST"])
+@app.route("/addPatientRecords", methods=["POST"])
 def add_patient_records():
     
-
     if 'patient_name' in request.form and 'patient_bed' in request.form and 'patient_acuity' in request.form and 'patient_date_admitted' in request.form and 'patient_a_trained' in request.form and 'patient_transfer' in request.form:
         patient_name = request.form['patient_name']
         patient_bed = request.form['patient_bed']
@@ -192,15 +242,12 @@ def add_patient_records():
         patient_a_trained = request.form['patient_a_trained']
         patient_transfer = request.form['patient_transfer']
 
-
     query = "insert into smartroster.patients( patient_name, patient_bed, patient_acuity, patient_date_admitted, patient_a_trained, patient_transfer)" \
         "VALUES (%s,%s,%s,%s,%s,%s)"
-    
     arguments = (patient_name, patient_bed, patient_acuity, patient_date_admitted, patient_a_trained, patient_transfer)
 
     try:
         cursor.execute(query, arguments)
-        
         db.commit()
     
     except Error as error:
@@ -210,7 +257,49 @@ def add_patient_records():
     patient_list = cursor.fetchall()
     return render_template("./Records/patientRecord.html", loggedin=session['loggedin'], patientList=patient_list)
 
+@app.route("/editPatientRecords", methods=["POST"])
+def edit_patient_records():
+    
+    if 'patient_name' in request.form and 'patient_bed' in request.form and 'patient_acuity' in request.form and 'patient_date_admitted' in request.form and 'patient_a_trained' in request.form and 'patient_transfer' in request.form:
+        patient_name = request.form['patient_name']
+        patient_bed = request.form['patient_bed']
+        patient_acuity = request.form['patient_acuity']
+        patient_date_admitted = request.form['patient_date_admitted']
+        patient_a_trained = request.form['patient_a_trained']
+        patient_transfer = request.form['patient_transfer']
 
+    query = "UPDATE smartroster.patients( patient_name = %s, patient_bed = %s, patient_acuity = %s, patient_date_admitted = %s, patient_a_trained = %s, patient_transfer) = %s" \
+        "WHERE patient_id = %s"
+    arguments = (patient_name, patient_bed, patient_acuity, patient_date_admitted, patient_a_trained, patient_transfer, patient_id)
+
+    try:
+        cursor.execute(query, arguments)
+        db.commit()
+    
+    except Error as error:
+        print(error)
+
+    cursor.execute("SELECT * FROM patients")
+    patient_list = cursor.fetchall()
+    return render_template("./Records/patientRecord.html", loggedin=session['loggedin'], patientList=patient_list)
+
+@app.route("/deletePatientRecords", methods=["POST"])
+def delete_patient_records():
+
+    patient_id = request.form['patient_id']
+    print(patient_id)
+
+    query = "DELETE FROM smartroster.patients WHERE id = %s"
+    arguments = (patient_id)
+
+    try:
+        cursor.execute(query, arguments)
+        db.commit()
+    
+    except Error as error:
+        print(error)
+
+    return render_template("./Records/patientRecord.html", loggedin=session['loggedin'], patientList=patient_list)
 
 @app.route("/patientRecordsSubmit", methods=['POST'])
 def patient_records_submit():
