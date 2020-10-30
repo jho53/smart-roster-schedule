@@ -220,7 +220,8 @@
             <form action="/deleteNurseRecords" method="post">
                 <br>
                 <script>
-                    
+                    var table = document.getElementById('nurse-record-table');
+                    var nurse_id = table.rows[rowId].cells[0].innerText;
                 </script>
                 
                 <input id="submit" name="submit" type="submit" value="Confirm">

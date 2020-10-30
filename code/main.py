@@ -286,7 +286,7 @@ def edit_patient_records():
 @app.route("/deletePatientRecords", methods=["POST"])
 def delete_patient_records():
 
-    patient_id = request.form['patient_id']
+    patient_id = request.form['testing']
     print(patient_id)
 
     query = "DELETE FROM smartroster.patients WHERE id = %s"
