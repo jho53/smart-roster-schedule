@@ -16,12 +16,15 @@
                 <tr>
                     {% for index, header in enumerate(patientHeaders) %}
                     <th>{{header}}
-                        {% if request.args.to_dict()['sort_on']=='{{(index)}}' and request.args.to_dict()['back_sort'] != "1" %}
+                        {% if index|string in request.args.to_dict()['sort_on'] and request.args.to_dict()['rs'~index] != "1" %}
                         <button class="btn" name="sort_on" type="submit" value="{{index}}"></button>
-                        <input name="back_sort" value="1" hidden>
+                        <input name="{{'rs'~index}}" value="1">
+                        {% elif index|string not in request.args.to_dict()['sort_on'] %}
+                        <button class="btn" name="sort_on" type="submit" value="{{index}}"></button>
+                        <input name="{{'rs'~index}}" value="0">
                         {% else %}
                         <button class="btn" name="sort_on" type="submit" value="{{index}}"></button>
-                        <input name="back_sort" value="0" hidden>
+                        <input name="{{'rs'~index}}" value="0">
                         {% endif %}
                     </th>
                     {% endfor %}
