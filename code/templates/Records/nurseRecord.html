@@ -21,8 +21,10 @@
                             data-target="#exampleModalCenter">
                             Create
                         </button>
-                        <button class="btn btn-warning" onclick="get_edit_data()" data-toggle="modal" data-target=".editModalCenter">Edit</button>
-                        <button class="btn btn-danger" onclick="get_delete_data()" data-toggle="modal" data-target=".deleteModalCenter">Delete</button>
+                        <button class="btn btn-warning" onclick="get_edit_data()" data-toggle="modal"
+                            data-target=".editModalCenter">Edit</button>
+                        <button class="btn btn-danger" onclick="get_delete_data()" data-toggle="modal"
+                            data-target=".deleteModalCenter">Delete</button>
                     </div>
                 </div>
             </div>
@@ -117,130 +119,87 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">add nurse</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">Add Nurse</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <form action="/addNurseRecords" method="post">
-                        <p>
-                            <input id="nurse_name" name="nurse_name" required="" size="32" type="text" value=""
-                                placeholder="name"><br>
-                        </p>
-                        <p>
-                            <input id="nurse_area" name="nurse_area" required="" size="32" type="text" value=""
-                                placeholder="nurse_area"><br>
-                        </p>
-                        <p>
-                            <input id="nurse_rotation" name="nurse_rotation" required="" size="32" type="text" value=""
-                                placeholder="nurse_rotation"><br>
-                        </p>
-                        <p>
-                            <input id="nurse_fte" name="nurse_fte" required="" size="32" type="text" value=""
-                                placeholder="nurse_fte"><br>
-                        </p>
-                        <p>
-                            <input id="nurse_a_trained" name="nurse_a_trained" required="" size="32" type="number"
-                                value="" placeholder="nurse_a_trained"><br>
-                        </p>
-                        <p>
-                            Nurse skill
-                            <input id="nurse_skill" name="nurse_skill" required="" size="32" type="number" value=""
-                                placeholder="nurse_skill"><br>
-                        </p>
-                        <p>
-                            <input id="nurse_transfer" name="nurse_transfer" required="" size="32" type="number"
-                                value="" placeholder="nurse_transfer"><br>
-                        </p>
-                        <p>
-                            <input id="nurse_adv_role" name="nurse_adv_role" required="" size="32" type="text" value=""
-                                placeholder="nurse_adv_role"><br>
-                        </p>
-                        <p>
-                            <input id="nurse_restrictions" name="nurse_restrictions" required="" size="32" type="number"
-                                value="" placeholder="nurse_restrictions"><br>
-                        </p>
-                        <p>
-                            <input id="nurse_iv" name="nurse_iv" required="" size="32" type="number" value=""
-                                placeholder="nurse_iv"><br>
-                        </p>
+                        <input id="nurse_name" name="nurse_name" required="" size="32" type="text" value=""
+                            placeholder="name"><br>
+                        <input id="nurse_area" name="nurse_area" required="" size="32" type="text" value=""
+                            placeholder="nurse_area"><br>
+                        <input id="nurse_rotation" name="nurse_rotation" required="" size="32" type="text" value=""
+                            placeholder="nurse_rotation"><br>
+                        <input id="nurse_fte" name="nurse_fte" required="" size="32" type="text" value=""
+                            placeholder="nurse_fte"><br>
+                        <input id="nurse_a_trained" name="nurse_a_trained" required="" size="32" type="number" value=""
+                            placeholder="nurse_a_trained"><br>
+                        Nurse skill
+                        <input id="nurse_skill" name="nurse_skill" required="" size="32" type="number" value=""
+                            placeholder="nurse_skill"><br>
+                        <input id="nurse_transfer" name="nurse_transfer" required="" size="32" type="number" value=""
+                            placeholder="nurse_transfer"><br>
+                        <input id="nurse_adv_role" name="nurse_adv_role" required="" size="32" type="text" value=""
+                            placeholder="nurse_adv_role"><br>
+                        <input id="nurse_restrictions" name="nurse_restrictions" required="" size="32" type="number"
+                            value="" placeholder="nurse_restrictions"><br>
+                        <input id="nurse_iv" name="nurse_iv" required="" size="32" type="number" value=""
+                            placeholder="nurse_iv"><br>
                         <br>
-                        <input id="submit" name="submit" type="submit" value="Create">
                     </form>
                 </div>
                 <div class="modal-footer">
+                    <button class="btn" name="submit" type="submit" value="Create">Create</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <p>
-
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Edit Modal -->
-    <div class="modal fade editModalCenter" id="editModal" tabindex="-1" role="dialog"
-        aria-labelledby="editModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">edit Nurse</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form action="/editNurseRecords" method="post">
-                        <p>
-                            <input id="nurse_name" name="nurse_name" required="" size="32" type="text" value=""
-                                placeholder="name"><br>
-                        </p>
-                        <p>
-                            <input id="nurse_area" name="nurse_area" required="" size="32" type="text" value=""
-                                placeholder="nurse_area"><br>
-                        </p>
-                        <p>
-                            <input id="nurse_rotation" name="nurse_rotation" required="" size="32" type="text" value=""
-                                placeholder="nurse_rotation"><br>
-                        </p>
-                        <p>
-                            <input id="nurse_fte" name="nurse_fte" required="" size="32" type="text" value=""
-                                placeholder="nurse_fte"><br>
-                        </p>
-                        <p>
-                            <input id="nurse_a_trained" name="nurse_a_trained" required="" size="32" type="number"
-                                value="" placeholder="nurse_a_trained"><br>
-                        </p>
-                        <p>
-                            Nurse skill
-                            <input id="nurse_skill" name="nurse_skill" required="" size="32" type="number" value=""
-                                placeholder="nurse_skill"><br>
-                        </p>
-                        <p>
-                            <input id="nurse_transfer" name="nurse_transfer" required="" size="32" type="number"
-                                value="" placeholder="nurse_transfer"><br>
-                        </p>
-                        <p>
-                            <input id="nurse_adv_role" name="nurse_adv_role" required="" size="32" type="text" value=""
-                                placeholder="nurse_adv_role"><br>
-                        </p>
-                        <p>
-                            <input id="nurse_restrictions" name="nurse_restrictions" required="" size="32" type="number"
-                                value="" placeholder="nurse_restrictions"><br>
-                        </p>
-                        <p>
-                            <input id="nurse_iv" name="nurse_iv" required="" size="32" type="number" value=""
-                                placeholder="nurse_iv"><br>
-                        </p>
-                        <br>
-                        <input id="submit" name="submit" type="submit" value="Create">
-                    </form>
-                </div>
+<!-- Edit Modal -->
+<div class="modal fade editModalCenter" id="editModal" tabindex="-1" role="dialog"
+    aria-labelledby="editModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Edit Nurse</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/editNurseRecords" method="post">
+                    <input id="edit_nurse_id" hidden name="edit_nurse_id" required="" size="32" type="text" value=""
+                        placeholder="name"><br>
+                    <input id="edit_nurse_name" name="edit_nurse_name" required="" size="32" type="text" value=""
+                        placeholder="name"><br>
+                    <input id="edit_nurse_area" name="edit_nurse_area" required="" size="32" type="text" value=""
+                        placeholder="nurse_area"><br>
+                    <input id="edit_nurse_rotation" name="edit_nurse_rotation" required="" size="32" type="text"
+                        value="" placeholder="nurse_rotation"><br>
+                    <input id="edit_nurse_fte" name="edit_nurse_fte" required="" size="32" type="text" value=""
+                        placeholder="nurse_fte"><br>
+                    <input id="edit_nurse_a_trained" name="edit_nurse_a_trained" required="" size="32" type="number"
+                        value="" placeholder="nurse_a_trained"><br>
+                    Nurse skill
+                    <input id="edit_nurse_skill" name="edit_nurse_skill" required="" size="32" type="number" value=""
+                        placeholder="nurse_skill"><br>
+                    <input id="edit_nurse_transfer" name="edit_nurse_transfer" required="" size="32" type="number"
+                        value="" placeholder="nurse_transfer"><br>
+                    <input id="edit_nurse_adv_role" name="edit_nurse_adv_role" required="" size="32" type="text"
+                        value="" placeholder="nurse_adv_role"><br>
+                    <input id="edit_nurse_restrictions" name="edit_nurse_restrictions" required="" size="32"
+                        type="number" value="" placeholder="nurse_restrictions"><br>
+                    <input id="edit_nurse_iv" name="edit_nurse_iv" required="" size="32" type="number" value=""
+                        placeholder="nurse_iv">
+                </form>
             </div>
             <div class="modal-footer">
+                <button class="btn btn-warning" name="submit" type="submit" value="Edit">Edit</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <p>
-
             </div>
         </div>
     </div>
@@ -258,98 +217,22 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="/addNurseRecords" method="post">
-                        <input id="nurse_name" name="nurse_name" required="" size="32" type="text" value="" placeholder="name"><br>
-                        <input id="nurse_area" name="nurse_area" required="" size="32" type="text" value="" placeholder="nurse_area"><br>
-                        <input id="nurse_rotation" name="nurse_rotation" required="" size="32" type="text" value="" placeholder="nurse_rotation"><br>
-                        <input id="nurse_fte" name="nurse_fte" required="" size="32" type="text" value="" placeholder="nurse_fte"><br>
-                        <input id="nurse_a_trained" name="nurse_a_trained" required="" size="32" type="number" value="" placeholder="nurse_a_trained"><br> 
-                        <input id="nurse_skill" name="nurse_skill" required="" size="32" type="number" value="" placeholder="nurse_skill"><br>
-                        <input id="nurse_transfer" name="nurse_transfer" required="" size="32" type="number" value="" placeholder="nurse_transfer"><br>
-                        <input id="nurse_adv_role" name="nurse_adv_role" required="" size="32" type="text" value="" placeholder="nurse_adv_role"><br>
-                        <input id="nurse_restrictions" name="nurse_restrictions" required="" size="32" type="number" value="" placeholder="nurse_restrictions"><br>
-                        <input id="nurse_iv" name="nurse_iv" required="" size="32" type="number" value="" placeholder="nurse_iv"><br>
-                    <br>
-                    <script>
-
-                    </script>
-
-                    <input id="submit" name="submit" type="submit" value="Confirm">
+                <form action="/deleteNurseRecords" method="post">
+                    <input id="remove_nurse_id" hidden name="remove_nurse_id" required="" size="32" type="text" value=""
+                        placeholder="">
+                    <p>Are you sure you want to delete</p>
+                    <input id="remove_nurse_name" name="remove_nurse_name" required="" size="32" type="text" value=""
+                        placeholder="" disabled>
                 </form>
             </div>
             <div class="modal-footer">
+                <button class="btn btn-danger" name="submit" type="submit" value="Delete">Confirm</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <p>
-
             </div>
         </div>
     </div>
 </div>
 
-  <!-- Edit Modal -->
-  <div class="modal fade editModalCenter" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">edit Nurse</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-            <form action="/editNurseRecords" method="post">
-                    <input id="edit_nurse_id" hidden name="edit_nurse_id" required="" size="32" type="text" value="" placeholder="name"><br>
-                    <input id="edit_nurse_name" name="edit_nurse_name" required="" size="32" type="text" value="" placeholder="name"><br>
-                    <input id="edit_nurse_area" name="edit_nurse_area" required="" size="32" type="text" value="" placeholder="nurse_area"><br>
-                    <input id="edit_nurse_rotation" name="edit_nurse_rotation" required="" size="32" type="text" value="" placeholder="nurse_rotation"><br>
-                    <input id="edit_nurse_fte" name="edit_nurse_fte" required="" size="32" type="text" value="" placeholder="nurse_fte"><br>
-                    <input id="edit_nurse_a_trained" name="edit_nurse_a_trained" required="" size="32" type="number" value="" placeholder="nurse_a_trained"><br>
-                    Nurse skill
-                    <input id="edit_nurse_skill" name="edit_nurse_skill" required="" size="32" type="number" value="" placeholder="nurse_skill"><br>
-                    <input id="edit_nurse_transfer" name="edit_nurse_transfer" required="" size="32" type="number" value="" placeholder="nurse_transfer"><br>
-                    <input id="edit_nurse_adv_role" name="edit_nurse_adv_role" required="" size="32" type="text" value="" placeholder="nurse_adv_role"><br>
-                    <input id="edit_nurse_restrictions" name="edit_nurse_restrictions" required="" size="32" type="number" value="" placeholder="nurse_restrictions"><br>
-                    <input id="edit_nurse_iv" name="edit_nurse_iv" required="" size="32" type="number" value="" placeholder="nurse_iv"><br>
-                <br> 
-                <input id="submit" name="submit" type="submit" value="Create">
-            </form>
-        </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-          <p>
-
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Delete Modal -->
-<div class="modal fade deleteModalCenter" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Delete Nurse</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-            <form action="/deleteNurseRecords" method="post">
-                <input id="remove_nurse_id" hidden name="remove_nurse_id" required="" size="32" type="text" value="" placeholder=""><br>
-                <input id="remove_nurse_name" readonly name="remove_nurse_name" required="" size="32" type="text" value="" placeholder=""><br>
-                <input id="submit" name="submit" type="submit" value="Confirm">
-            </form>
-        </div> 
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-          <p>
-
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 <script>
     var rowId = null;
 
@@ -384,21 +267,20 @@
         }
     }
 
-    window.onload = highlight_row;
-    // grabs data for delete modal
+    // Grab delete data
     function get_delete_data() {
         // Gets data from selected row
         var table = document.getElementById('nurse-record-table');
         var remove_nurse_id = table.rows[rowId].cells[0].innerText;
         var remove_nurse_name = table.rows[rowId].cells[1].innerText;
 
-        //Sets input values
+        // Sets input values
         document.getElementById('remove_nurse_id').value = remove_nurse_id;
         document.getElementById('remove_nurse_name').value = remove_nurse_name;
 
     }
 
-    // grabs data for edit modal
+    // Grab edit data
     function get_edit_data() {
         // Gets data from selected row
         var table = document.getElementById('nurse-record-table');
@@ -414,7 +296,7 @@
         var edit_nurse_restrictions = table.rows[rowId].cells[9].innerText;
         var edit_nurse_iv = table.rows[rowId].cells[10].innerText;
 
-        //Sets input values
+        // Sets input values
         document.getElementById('edit_nurse_id').value = edit_nurse_id;
         document.getElementById('edit_nurse_name').value = edit_nurse_name;
         document.getElementById('edit_nurse_area').value = edit_nurse_area;
@@ -426,22 +308,9 @@
         document.getElementById('edit_nurse_adv_role').value = edit_nurse_adv_role;
         document.getElementById('edit_nurse_restrictions').value = edit_nurse_restrictions;
         document.getElementById('edit_nurse_iv').value = edit_nurse_iv;
-        
-
-        // Testing purposes 
-        // console.log(patient_id)
-        // console.log(patient_name)
-        // console.log(patient_bed)
-        // console.log(patient_acuity)
-        // console.log(patient_admit)
-        // console.log(patient_discharge)
-        // console.log(patient_a_trained)
-        // console.log(patient_IV)
-
     }
-</script>
 
-<script>
+    // Filter Data
     $(document).ready(function () {
         $("#nurse-search-input").on("keyup", function () {
             var value = $(this).val().toLowerCase();
@@ -450,6 +319,8 @@
             });
         });
     });
+
+    window.onload = highlight_row;
 </script>
 
 {% endblock %}
