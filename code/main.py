@@ -181,17 +181,19 @@ def add_nurse_records():
 @app.route("/editNurseRecords", methods=["POST"])
 def edit_nurse_records():
 
-    if 'nurse_name' in request.form and 'nurse_area' in request.form and 'nurse_rotation' in request.form and 'nurse_fte' in request.form and 'nurse_a_trained' in request.form and 'nurse_skill' in request.form and 'nurse_transfer' in request.form and 'nurse_adv_role' in request.form and 'nurse_restrictions' in request.form and 'nurse_iv' in request.form:
-        nurse_name = request.form['nurse_name']
-        nurse_area = request.form['nurse_area']
-        nurse_rotation = request.form['nurse_rotation']
-        nurse_fte = request.form['nurse_fte']
-        nurse_a_trained = request.form['nurse_a_trained']
-        nurse_skill = request.form['nurse_skill']
-        nurse_transfer = request.form['nurse_transfer']
-        nurse_adv_role = request.form['nurse_adv_role']
-        nurse_restrictions = request.form['nurse_restrictions']
-        nurse_iv = request.form['nurse_iv']
+    if 'edit_nurse_id' in request.form and 'edit_nurse_name' in request.form and 'edit_nurse_area' in request.form and 'edit_nurse_rotation' in request.form and 'edit_nurse_fte' in request.form and 'edit_nurse_a_trained' in request.form \
+         and 'edit_nurse_skill' in request.form and 'edit_nurse_transfer' in request.form and 'edit_nurse_adv_role' in request.form and 'edit_nurse_restrictions' in request.form and 'edit_nurse_iv' in request.form:
+        nurse_id = request.form['edit_nurse_id']
+        nurse_name = request.form['edit_nurse_name']
+        nurse_area = request.form['edit_nurse_area']
+        nurse_rotation = request.form['edit_nurse_rotation']
+        nurse_fte = request.form['edit_nurse_fte']
+        nurse_a_trained = request.form['edit_nurse_a_trained']
+        nurse_skill = request.form['edit_nurse_skill']
+        nurse_transfer = request.form['edit_nurse_transfer']
+        nurse_adv_role = request.form['edit_nurse_adv_role']
+        nurse_restrictions = request.form['edit_nurse_restrictions']
+        nurse_iv = request.form['edit_nurse_iv']
 
     query = "UPDATE smartroster.nurses SET nurse_name = %s, nurse_area = %s, nurse_rotation = %s, nurse_fte = %s, nurse_a_trained = %s, " \
         " nurse_skill = %s, nurse_transfer = %s, nurse_adv_role = %s, nurse_restrictions = %s, nurse_iv = %s WHERE nurse_id = %s"
@@ -210,6 +212,8 @@ def edit_nurse_records():
     cursor.execute("SELECT * FROM nurses")
     nurse_list = cursor.fetchall()
 
+    cursor.execute("SELECT * FROM nurses")
+    nurse_list = cursor.fetchall()
     return render_template(
         "./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list
     )
@@ -217,19 +221,22 @@ def edit_nurse_records():
 @app.route("/deleteNurseRecords", methods=["POST"])
 def delete_nurse_records():
 
-    nurser_id = request.form['rowId']
-    print(nurser_id)
+    nurse_id = request.form['remove_nurse_id']
 
-    query = "DELETE FROM smartroster.nurses WHERE id = %s"
-    arguments = (nurser_id)
+
+    query = "DELETE FROM smartroster.nurses WHERE nurse_id = %s" % (nurse_id)
+
+
 
     try:
-        cursor.execute(query, arguments)
+        cursor.execute(query)
         db.commit()
     
-    except Error as error:
+    except Exception as error:
         print(error)
 
+    cursor.execute("SELECT * FROM nurses")
+    nurse_list = cursor.fetchall()
     return render_template("./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list)
 
 @app.route("/patientRecords", methods=["GET"])

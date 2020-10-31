@@ -8,10 +8,10 @@
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".createModalCenter">
         Create
       </button>
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".editModalCenter">
+      <button onclick="get_edit_data()" type="button" class="btn btn-primary" data-toggle="modal" data-target=".editModalCenter">
         Edit
       </button>
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".deleteModalCenter">
+      <button onclick="get_delete_data()" type="button" class="btn btn-primary" data-toggle="modal" data-target=".deleteModalCenter">
         Delete
       </button>
     <!--Table-->
@@ -88,47 +88,16 @@
             </div>
             <div class="modal-body">
                 <form action="/addNurseRecords" method="post">
-                    <p>
-                        <input id="nurse_name" name="nurse_name" required="" size="32" type="text" value=""
-                            placeholder="name"><br>
-                    </p>
-                    <p>
-                        <input id="nurse_area" name="nurse_area" required="" size="32" type="text" value=""
-                            placeholder="nurse_area"><br>
-                    </p>
-                    <p>
-                        <input id="nurse_rotation" name="nurse_rotation" required="" size="32" type="text" value=""
-                            placeholder="nurse_rotation"><br>
-                    </p>
-                    <p>
-                        <input id="nurse_fte" name="nurse_fte" required="" size="32" type="text" value=""
-                            placeholder="nurse_fte"><br>
-                    </p>
-                    <p>
-                        <input id="nurse_a_trained" name="nurse_a_trained" required="" size="32" type="number" value=""
-                            placeholder="nurse_a_trained"><br>
-                    </p>
-                    <p>
-                        Nurse skill
-                        <input id="nurse_skill" name="nurse_skill" required="" size="32" type="number" value=""
-                            placeholder="nurse_skill"><br>
-                    </p>
-                    <p>
-                        <input id="nurse_transfer" name="nurse_transfer" required="" size="32" type="number" value=""
-                            placeholder="nurse_transfer"><br>
-                    </p>
-                    <p>
-                        <input id="nurse_adv_role" name="nurse_adv_role" required="" size="32" type="text" value=""
-                            placeholder="nurse_adv_role"><br>
-                    </p>
-                    <p>
-                        <input id="nurse_restrictions" name="nurse_restrictions" required="" size="32" type="number"
-                            value="" placeholder="nurse_restrictions"><br>
-                    </p>
-                    <p>
-                        <input id="nurse_iv" name="nurse_iv" required="" size="32" type="number" value=""
-                            placeholder="nurse_iv"><br>
-                    </p>
+                        <input id="nurse_name" name="nurse_name" required="" size="32" type="text" value="" placeholder="name"><br>
+                        <input id="nurse_area" name="nurse_area" required="" size="32" type="text" value="" placeholder="nurse_area"><br>
+                        <input id="nurse_rotation" name="nurse_rotation" required="" size="32" type="text" value="" placeholder="nurse_rotation"><br>
+                        <input id="nurse_fte" name="nurse_fte" required="" size="32" type="text" value="" placeholder="nurse_fte"><br>
+                        <input id="nurse_a_trained" name="nurse_a_trained" required="" size="32" type="number" value="" placeholder="nurse_a_trained"><br> 
+                        <input id="nurse_skill" name="nurse_skill" required="" size="32" type="number" value="" placeholder="nurse_skill"><br>
+                        <input id="nurse_transfer" name="nurse_transfer" required="" size="32" type="number" value="" placeholder="nurse_transfer"><br>
+                        <input id="nurse_adv_role" name="nurse_adv_role" required="" size="32" type="text" value="" placeholder="nurse_adv_role"><br>
+                        <input id="nurse_restrictions" name="nurse_restrictions" required="" size="32" type="number" value="" placeholder="nurse_restrictions"><br>
+                        <input id="nurse_iv" name="nurse_iv" required="" size="32" type="number" value="" placeholder="nurse_iv"><br>
                     <br>
                     <input id="submit" name="submit" type="submit" value="Create">
                 </form>
@@ -154,48 +123,19 @@
         </div>
         <div class="modal-body">
             <form action="/editNurseRecords" method="post">
-                <p>
-                    <input id="nurse_name" name="nurse_name" required="" size="32" type="text" value=""
-                        placeholder="name"><br>
-                </p>
-                <p>
-                    <input id="nurse_area" name="nurse_area" required="" size="32" type="text" value=""
-                        placeholder="nurse_area"><br>
-                </p>
-                <p>
-                    <input id="nurse_rotation" name="nurse_rotation" required="" size="32" type="text" value=""
-                        placeholder="nurse_rotation"><br>
-                </p>
-                <p>
-                    <input id="nurse_fte" name="nurse_fte" required="" size="32" type="text" value=""
-                        placeholder="nurse_fte"><br>
-                </p>
-                <p>
-                    <input id="nurse_a_trained" name="nurse_a_trained" required="" size="32" type="number" value=""
-                        placeholder="nurse_a_trained"><br>
-                </p>
-                <p>
+                    <input id="edit_nurse_id" hidden name="edit_nurse_id" required="" size="32" type="text" value="" placeholder="name"><br>
+                    <input id="edit_nurse_name" name="edit_nurse_name" required="" size="32" type="text" value="" placeholder="name"><br>
+                    <input id="edit_nurse_area" name="edit_nurse_area" required="" size="32" type="text" value="" placeholder="nurse_area"><br>
+                    <input id="edit_nurse_rotation" name="edit_nurse_rotation" required="" size="32" type="text" value="" placeholder="nurse_rotation"><br>
+                    <input id="edit_nurse_fte" name="edit_nurse_fte" required="" size="32" type="text" value="" placeholder="nurse_fte"><br>
+                    <input id="edit_nurse_a_trained" name="edit_nurse_a_trained" required="" size="32" type="number" value="" placeholder="nurse_a_trained"><br>
                     Nurse skill
-                    <input id="nurse_skill" name="nurse_skill" required="" size="32" type="number" value=""
-                        placeholder="nurse_skill"><br>
-                </p>
-                <p>
-                    <input id="nurse_transfer" name="nurse_transfer" required="" size="32" type="number" value=""
-                        placeholder="nurse_transfer"><br>
-                </p>
-                <p>
-                    <input id="nurse_adv_role" name="nurse_adv_role" required="" size="32" type="text" value=""
-                        placeholder="nurse_adv_role"><br>
-                </p>
-                <p>
-                    <input id="nurse_restrictions" name="nurse_restrictions" required="" size="32" type="number"
-                        value="" placeholder="nurse_restrictions"><br>
-                </p>
-                <p>
-                    <input id="nurse_iv" name="nurse_iv" required="" size="32" type="number" value=""
-                        placeholder="nurse_iv"><br>
-                </p>
-                <br>
+                    <input id="edit_nurse_skill" name="edit_nurse_skill" required="" size="32" type="number" value="" placeholder="nurse_skill"><br>
+                    <input id="edit_nurse_transfer" name="edit_nurse_transfer" required="" size="32" type="number" value="" placeholder="nurse_transfer"><br>
+                    <input id="edit_nurse_adv_role" name="edit_nurse_adv_role" required="" size="32" type="text" value="" placeholder="nurse_adv_role"><br>
+                    <input id="edit_nurse_restrictions" name="edit_nurse_restrictions" required="" size="32" type="number" value="" placeholder="nurse_restrictions"><br>
+                    <input id="edit_nurse_iv" name="edit_nurse_iv" required="" size="32" type="number" value="" placeholder="nurse_iv"><br>
+                <br> 
                 <input id="submit" name="submit" type="submit" value="Create">
             </form>
         </div>
@@ -221,11 +161,8 @@
         </div>
         <div class="modal-body">
             <form action="/deleteNurseRecords" method="post">
-                <br>
-                <script>
-                    
-                </script>
-                
+                <input id="remove_nurse_id" hidden name="remove_nurse_id" required="" size="32" type="text" value="" placeholder=""><br>
+                <input id="remove_nurse_name" readonly name="remove_nurse_name" required="" size="32" type="text" value="" placeholder=""><br>
                 <input id="submit" name="submit" type="submit" value="Confirm">
             </form>
         </div> 
@@ -272,6 +209,59 @@
     }
 
     window.onload = highlight_row;
+    // grabs data for delete modal
+    function get_delete_data() {
+        // Gets data from selected row
+        var table = document.getElementById('nurse-record-table');
+        var remove_nurse_id = table.rows[rowId].cells[0].innerText;
+        var remove_nurse_name = table.rows[rowId].cells[1].innerText;
 
+        //Sets input values
+        document.getElementById('remove_nurse_id').value = remove_nurse_id;
+        document.getElementById('remove_nurse_name').value = remove_nurse_name;
+
+    }
+
+    // grabs data for edit modal
+    function get_edit_data() {
+        // Gets data from selected row
+        var table = document.getElementById('nurse-record-table');
+        var edit_nurse_id = table.rows[rowId].cells[0].innerText;
+        var edit_nurse_name = table.rows[rowId].cells[1].innerText;
+        var edit_nurse_area = table.rows[rowId].cells[2].innerText;
+        var edit_nurse_rotation = table.rows[rowId].cells[3].innerText;
+        var edit_nurse_fte = table.rows[rowId].cells[4].innerText;
+        var edit_nurse_a_trained = table.rows[rowId].cells[5].innerText;
+        var edit_nurse_skill = table.rows[rowId].cells[6].innerText;
+        var edit_nurse_transfer = table.rows[rowId].cells[7].innerText;
+        var edit_nurse_adv_role = table.rows[rowId].cells[8].innerText;
+        var edit_nurse_restrictions = table.rows[rowId].cells[9].innerText;
+        var edit_nurse_iv = table.rows[rowId].cells[10].innerText;
+
+        //Sets input values
+        document.getElementById('edit_nurse_id').value = edit_nurse_id;
+        document.getElementById('edit_nurse_name').value = edit_nurse_name;
+        document.getElementById('edit_nurse_area').value = edit_nurse_area;
+        document.getElementById('edit_nurse_rotation').value = edit_nurse_rotation;
+        document.getElementById('edit_nurse_fte').value = edit_nurse_fte;
+        document.getElementById('edit_nurse_a_trained').value = edit_nurse_a_trained;
+        document.getElementById('edit_nurse_skill').value = edit_nurse_skill;
+        document.getElementById('edit_nurse_transfer').value = edit_nurse_transfer;
+        document.getElementById('edit_nurse_adv_role').value = edit_nurse_adv_role;
+        document.getElementById('edit_nurse_restrictions').value = edit_nurse_restrictions;
+        document.getElementById('edit_nurse_iv').value = edit_nurse_iv;
+        
+
+        // Testing purposes 
+        // console.log(patient_id)
+        // console.log(patient_name)
+        // console.log(patient_bed)
+        // console.log(patient_acuity)
+        // console.log(patient_admit)
+        // console.log(patient_discharge)
+        // console.log(patient_a_trained)
+        // console.log(patient_IV)
+
+    }
 </script>
 {% endblock %}
