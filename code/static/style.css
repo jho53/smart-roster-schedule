@@ -34,14 +34,21 @@ body {
   padding: 5px 5px 5px 5px;
 }
 
+#page-container {
+  position: relative;
+  min-height: 100vh;
+}
+
+#content-wrap {
+  padding-bottom: 2.5rem; /* Footer height */
+}
+
 .footer {
-  position: fixed;
-  left: 0;
+  position: absolute;
+  text-align: center;
   bottom: 0;
   width: 100%;
-  text-align: center;
-  margin-top: 50px;
-  padding-top: 10px;
+  height: 2.5rem; /* Footer height */
 }
 
 /* Start of login page */
@@ -160,11 +167,6 @@ body {
 .jumbotron-content {
   padding: 10px 10px 10px 10px;
   text-align: center;
-  /* border: 5px solid; */
-}
-
-.table-searchbar {
-  width: 600px;
   /* border: 5px solid; */
 }
 

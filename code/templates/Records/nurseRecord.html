@@ -11,14 +11,11 @@
             <br><br>
             <div class="container-fluid">
                 <div class="row">
-                    <div class="table-searchbar">
-                        <input class="form-control" id="nurse-search-input" type="text" placeholder="Filter...">
-                    </div>
                     <!-- Extra div for center of row -->
                     <div class="col-sm"></div>
                     <div class="col-">
                         <button type="button" class="btn btn-primary" data-toggle="modal"
-                            data-target="#exampleModalCenter">
+                            data-target="#nurse-record-tableModalCenter">
                             Create
                         </button>
                         <button class="btn btn-warning" onclick="get_edit_data()" data-toggle="modal"
@@ -30,48 +27,22 @@
             </div>
         </div>
     </div>
-    <div class="table-content">
+    <div class="container-fluid">
         <!--Table-->
         <div>
             <table id="nurse-record-table" class="table table-bordered" style="margin-bottom: 50px">
                 <!--Dynamically generated table headers-->
-                {% set args_dict = request.args.to_dict() %}
                 <thead>
                     <form action="/nurseRecords" method="GET">
                         <tr id="nurse-table-headers">
-                            {% for index, header in enumerate(nurseHeaders) %}
-                            <th id="nHeader-{{index}}">{{header}}
-                                {% if index|string in args_dict['sort_on'] and args_dict['rs'~index] != "1" %}
-                                <button class="btn btn-link sort-btn" name="sort_on" type="submit" value="{{index}}"><i
-                                        class="fa fa-sort"></i></button>
-                                <input class="hidden" name="{{'rs'~index}}" value="1">
-                                {% elif index|string not in args_dict['sort_on'] %}
-                                <button class="btn btn-link sort-btn" name="sort_on" type="submit" value="{{index}}"><i
-                                        class="fa fa-sort"></i></button>
-                                <input class="hidden" name="{{'rs'~index}}" value="0">
-                                {% else %}
-                                <button class="btn btn-link sort-btn" name="sort_on" type="submit" value="{{index}}"><i
-                                        class="fa fa-sort"></i></button>
-                                <input class="hidden" name="{{'rs'~index}}" value="0">
-                                {% endif %}
-                            </th>
+                            {% for header in nurseHeaders %}
+                            <th>{{header}} </th>
                             {% endfor %}
                         </tr>
                     </form>
-                    <!-- <p>{{args_dict["rs1"]}}</p>
-                    <p>value: {{args_dict['rs'~args_dict['sort_on']]}}</p> -->
                 </thead>
                 <tbody id="nurse-tbody">
-                    <!--Configure sorting order-->
-                    {% set sort_on = request.args.sort_on|default('0') %}
-
-                    {% if (args_dict['rs'~args_dict['sort_on']] == "1") %}
-                    {% set reverse_toggle = True %}
-                    {% else %}
-                    {% set reverse_toggle = False %}
-                    {% endif %}
-
-                    {% for nurse in nurseList|sort(attribute=sort_on, reverse=reverse_toggle) %}
+                    {% for nurse in nurseList %}
                     <tr id="{{'n'~nurse[0]}}" style="cursor: pointer;">
                         <td>
                             <div id="{{('n'~nurse[0])~'id'}}"> {{nurse[0]}} </div>
@@ -236,6 +207,7 @@
 <script>
     var rowId = null;
 
+    // Highlight row
     function highlight_row() {
         var table = document.getElementById('nurse-record-table');
         var cells = table.getElementsByTagName('td');
@@ -256,7 +228,6 @@
                         rowsNotSelected[row].classList.remove('selected');
                     }
                     var rowSelected = table.getElementsByTagName('tr')[rowId];
-
                     rowSelected.classList.toggle("selected", true);
                 }
             }
@@ -310,17 +281,37 @@
         document.getElementById('edit_nurse_iv').value = edit_nurse_iv;
     }
 
-    // Filter Data
+    // Filter Data by Column
     $(document).ready(function () {
-        $("#nurse-search-input").on("keyup", function () {
-            var value = $(this).val().toLowerCase();
-            $("#nurse-tbody tr").filter(function () {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        // Setup - add a text input to each header cell
+        $('#nurse-record-table thead tr').clone(true).appendTo('#nurse-record-table thead');
+        $('#nurse-record-table thead tr:eq(1) th').each(function (i) {
+            $(this).html('<input class="form-control form-control-sm" type="text" placeholder="Filter..." />');
+            $('input', this).on('keyup change', function () {
+                if (table.column(i).search() !== this.value) {
+                    table
+                        .column(i)
+                        .search(this.value)
+                        .draw();
+                }
             });
+        });
+
+        var table = $('#nurse-record-table').DataTable({
+            // Order
+            orderCellsTop: true,
+            ordering: true,
+            paging: false,
+            info: false,
+            searching: true,
+            dom: 'lrtip'
         });
     });
 
     window.onload = highlight_row;
 </script>
+
+<!--DataTables.js-->
+<script src=https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js></script>
 
 {% endblock %}
