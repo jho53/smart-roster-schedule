@@ -249,6 +249,7 @@ def patient_records():
 @app.route("/addPatientRecords", methods=["POST"])
 def add_patient_records():
     
+    #Checks for required fields
     if 'patient_name' in request.form and 'patient_bed' in request.form and 'patient_acuity' in request.form and 'patient_date_admitted' in request.form and 'patient_a_trained' in request.form and 'patient_transfer' in request.form:
         patient_name = request.form['patient_name']
         patient_bed = request.form['patient_bed']
@@ -265,35 +266,59 @@ def add_patient_records():
         cursor.execute(query, arguments)
         db.commit()
     
-    except Error as error:
+    except Exception as error:
         print(error)
 
+    # Grabs all patients
     cursor.execute("SELECT * FROM patients")
     patient_list = cursor.fetchall()
     return render_template("./Records/patientRecord.html", loggedin=session['loggedin'], patientList=patient_list)
 
 @app.route("/editPatientRecords", methods=["POST"])
 def edit_patient_records():
-    
-    if 'patient_name' in request.form and 'patient_bed' in request.form and 'patient_acuity' in request.form and 'patient_date_admitted' in request.form and 'patient_a_trained' in request.form and 'patient_transfer' in request.form:
-        patient_name = request.form['patient_name']
-        patient_bed = request.form['patient_bed']
-        patient_acuity = request.form['patient_acuity']
-        patient_date_admitted = request.form['patient_date_admitted']
-        patient_a_trained = request.form['patient_a_trained']
-        patient_transfer = request.form['patient_transfer']
 
-    query = "UPDATE smartroster.patients( patient_name = %s, patient_bed = %s, patient_acuity = %s, patient_date_admitted = %s, patient_a_trained = %s, patient_transfer) = %s" \
-        "WHERE patient_id = %s"
-    arguments = (patient_name, patient_bed, patient_acuity, patient_date_admitted, patient_a_trained, patient_transfer, patient_id)
+    #Grabs discharge data so it knows if the patient has been discharged
+    patient_date_discharged = request.form['edit_patient_date_discharge']
+
+    if patient_date_discharged == '':
+        #update if not changing discharge
+        if 'edit_patient_id' in request.form and 'edit_patient_name' in request.form and 'edit_patient_bed' in request.form and 'edit_patient_acuity' in request.form and 'edit_patient_date_admitted' in request.form and 'edit_patient_a_trained' in request.form and 'edit_patient_IV' in request.form:
+            patientid = request.form['edit_patient_id']
+            patient_name = request.form['edit_patient_name']
+            patient_bed = request.form['edit_patient_bed']
+            patient_acuity = request.form['edit_patient_acuity']
+            patient_date_admitted = request.form['edit_patient_date_admitted']
+            patient_a_trained = request.form['edit_patient_a_trained']
+            patient_transfer = request.form['edit_patient_IV']
+
+            query = "UPDATE smartroster.patients SET patient_name = %s, patient_bed = %s, patient_acuity = %s, patient_date_admitted = %s, patient_a_trained = %s, patient_transfer = %s" \
+                "WHERE patientid = %s"
+            arguments = (patient_name, patient_bed, patient_acuity, patient_date_admitted, patient_a_trained, patient_transfer, patientid)
+    else:
+            #update if changing discharge
+        if 'edit_patient_id' in request.form and 'edit_patient_name' in request.form and 'edit_patient_bed' in request.form and 'edit_patient_acuity' in request.form and 'edit_patient_date_admitted' in request.form and 'edit_patient_date_discharge' in request.form and 'edit_patient_a_trained' in request.form and 'edit_patient_IV' in request.form:
+            patientid = request.form['edit_patient_id']
+            patient_name = request.form['edit_patient_name']
+            patient_bed = request.form['edit_patient_bed']
+            patient_acuity = request.form['edit_patient_acuity']
+            patient_date_admitted = request.form['edit_patient_date_admitted']
+            patient_date_discharged = request.form['edit_patient_date_discharge']
+            patient_a_trained = request.form['edit_patient_a_trained']
+            patient_transfer = request.form['edit_patient_IV']
+
+            query = "UPDATE smartroster.patients SET patient_name = %s, patient_bed = %s, patient_acuity = %s, patient_date_admitted = %s, patient_date_discharged = %s, patient_a_trained = %s, patient_transfer = %s" \
+                "WHERE patientid = %s"
+            arguments = (patient_name, patient_bed, patient_acuity, patient_date_admitted, patient_date_discharged, patient_a_trained, patient_transfer, patientid)
+
 
     try:
         cursor.execute(query, arguments)
         db.commit()
     
-    except Error as error:
+    except Exception as error:
         print(error)
 
+    # Grabs all patients
     cursor.execute("SELECT * FROM patients")
     patient_list = cursor.fetchall()
     return render_template("./Records/patientRecord.html", loggedin=session['loggedin'], patientList=patient_list)
@@ -302,19 +327,22 @@ def edit_patient_records():
 @app.route("/deletePatientRecords", methods=["POST"])
 def delete_patient_records():
 
-    patient_id = request.form['testing']
-    print(patient_id)
+    #grabs patient id
+    patient_id = request.form['remove_patient_id']
 
-    query = "DELETE FROM smartroster.patients WHERE id = %s"
-    arguments = (patient_id)
+    query = "DELETE FROM smartroster.patients WHERE patientid = %s" % (patient_id)
+
 
     try:
-        cursor.execute(query, arguments)
+        cursor.execute(query)
         db.commit()
     
-    except Error as error:
+    except Exception as error:
         print(error)
 
+     # Grabs all patients
+    cursor.execute("SELECT * FROM patients")
+    patient_list = cursor.fetchall()
     return render_template("./Records/patientRecord.html", loggedin=session['loggedin'], patientList=patient_list)
 
 @app.route("/patientRecordsSubmit", methods=['POST'])
