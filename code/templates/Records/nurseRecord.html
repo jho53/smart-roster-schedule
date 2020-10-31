@@ -4,17 +4,31 @@
 
 <!--Content Here-->
 <div>
-    <h1>Nurse Records</h1>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".createModalCenter">
-        Create
-      </button>
-      <button onclick="get_edit_data()" type="button" class="btn btn-primary" data-toggle="modal" data-target=".editModalCenter">
-        Edit
-      </button>
-      <button onclick="get_delete_data()" type="button" class="btn btn-primary" data-toggle="modal" data-target=".deleteModalCenter">
-        Delete
-      </button>
-    <!--Table-->
+    <div class="jumbotron py-3">
+        <div class="jumbotron-content">
+            <h1>Nurse Records</h1>
+            <br><br>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="table-searchbar">
+                        <input class="form-control" id="myInput" type="text" placeholder="Search.." onkeyup="">
+                    </div>
+                    <!-- Extra div for center of row -->
+                    <div class="col-sm"></div>
+                    <div class="col-">
+                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                            data-target="#exampleModalCenter">
+                            Create
+                        </button>
+                        <button class="btn btn-warning" onclick="get_edit_data()" data-toggle="modal" data-target=".editModalCenter">Edit</button>
+                        <button class="btn btn-danger" onclick="get_delete_data()" data-toggle="modal" data-target=".deleteModalCenter">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="table-content">
+        <!--Table-->
     <div class="container">
         <table id="nurse-record-table" class="table" style="margin-bottom: 50px">
             <thead>
@@ -174,6 +188,7 @@
       </div>
     </div>
   </div>
+</div>
 <script>
     var rowId = null;
 
@@ -264,4 +279,5 @@
 
     }
 </script>
+{% endblock %}
 {% endblock %}

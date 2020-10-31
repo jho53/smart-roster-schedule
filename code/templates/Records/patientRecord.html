@@ -1,19 +1,31 @@
 {% extends "base.html" %}
-
 {% block content %}
 
 <!--Content Here-->
 <div>
-    <h1>Patient Records</h1>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".createModalCenter">
-        Create
-      </button>
-      <button onclick="get_edit_data()" type="button" class="btn btn-primary" data-toggle="modal" data-target=".editModalCenter">
-        Edit
-      </button>
-      <button onclick="get_delete_data()" type="button" class="btn btn-primary" data-toggle="modal" data-target=".deleteModalCenter">
-        Delete
-      </button>
+    <div class="jumbotron py-3">
+        <div class="jumbotron-content">
+            <h1>Patient Records</h1>
+            <br><br>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="table-searchbar">
+                        <input class="form-control" id="myInput" type="text" placeholder="Search.." onkeyup="">
+                    </div>
+                    <!-- Extra div for center of row -->
+                    <div class="col-sm"></div>
+                    <div class="col-">
+                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                            data-target="#exampleModalCenter">
+                            Create
+                        </button>
+                        <button class="btn btn-warning" onclick="get_edit_data()" data-toggle="modal" data-target=".editModalCenter">>Edit</button>
+                        <button class="btn btn-danger" onclick="get_delete_data()" data-toggle="modal" data-target=".deleteModalCenter">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!--Table-->
     <table class="table" id="patient-record-table">
         <thead>
@@ -22,12 +34,15 @@
                 <tr>
                     {% for index, header in enumerate(patientHeaders) %}
                     <th>{{header}}
-                        {% if request.args.to_dict()['sort_on']=='{{(index)}}' and request.args.to_dict()['back_sort'] != "1" %}
+                        {% if index|string in request.args.to_dict()['sort_on'] and request.args.to_dict()['rs'~index] != "1" %}
                         <button class="btn" name="sort_on" type="submit" value="{{index}}"></button>
-                        <input name="back_sort" value="1" hidden>
+                        <input name="{{'rs'~index}}" value="1">
+                        {% elif index|string not in request.args.to_dict()['sort_on'] %}
+                        <button class="btn" name="sort_on" type="submit" value="{{index}}"></button>
+                        <input name="{{'rs'~index}}" value="0">
                         {% else %}
                         <button class="btn" name="sort_on" type="submit" value="{{index}}"></button>
-                        <input name="back_sort" value="0" hidden>
+                        <input name="{{'rs'~index}}" value="0">
                         {% endif %}
                     </th>
                     {% endfor %}
@@ -257,6 +272,5 @@
 
     }
 </script>
-
 
 {% endblock %}
