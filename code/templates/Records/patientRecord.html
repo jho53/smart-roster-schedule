@@ -18,9 +18,9 @@
                     <div class="col-">
                         <button class="btn btn-primary" data-toggle="modal" data-target=".createModalCenter"> Create
                         </button>
-                        <button class="btn btn-warning" data-toggle="modal" data-target=".editModalCenter">Edit</button>
-                        <button class="btn btn-danger" data-toggle="modal"
-                            data-target=".deleteModalCenter">Delete</button>
+                        <button class="btn btn-warning" onclick="get_edit_data()" data-toggle="modal" data-target=".editModalCenter">>Edit</button>
+                        <button class="btn btn-danger" onclick="get_delete_data()" data-toggle="modal" data-target=".deleteModalCenter">Delete</button>
+
                     </div>
                 </div>
             </div>
@@ -160,47 +160,34 @@
 <div class="modal fade editModalCenter" id="editModal" tabindex="-1" role="dialog"
     aria-labelledby="editModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">edit patient</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="/editPatientRecords" method="post">
 
-                    <p>
-                        <input id="e_patient_name" name="patient_name" required="" size="32" type="text" value=""
-                            placeholder="name"><br>
-                    </p>
-                    <p>
-                        <input id="e_patient_bed" name="patient_bed" required="" size="32" type="text" value=""
-                            placeholder="patient_bed"><br>
-                    </p>
-                    <p>
-                        <input id="e_patient_acuity" name="patient_acuity" required="" size="32" type="text" value=""
-                            placeholder="patient_acuity"><br>
-                    </p>
-                    <p>
-                        <input id="e_patient_date_admitted" name="patient_date_admitted" required="" size="32"
-                            type="text" value="" placeholder="patient_date_admitted"><br>
-                    </p>
-                    <p>
-                        <input id="e_patient_a_trained" name="patient_a_trained" required="" size="32" type="number"
-                            value="" placeholder="patient_a_trained"><br>
-                    </p>
-                    <p>
-                        <input id="e_patient_transfer" name="patient_transfer" required="" size="32" type="number"
-                            value="" placeholder="patient_transfer"><br>
-                    </p>
-                    <br>
-                    <input name="submit" type="submit" value="Confirm">
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <p>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">edit patient</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form action="/editPatientRecords" method="post">
+                    <input id="edit_patient_id" hidden name="edit_patient_id" required="" size="32" type="text" value="" placeholder=""><br>
+                    <input id="edit_patient_name" name="edit_patient_name" required="" size="32" type="text" value="" placeholder="name"><br>
+                    <input id="edit_patient_bed" name="edit_patient_bed" required="" size="32" type="text" value="" placeholder="patient_bed"><br>
+                    <input id="edit_patient_acuity" name="edit_patient_acuity" required="" size="32" type="text" value=""placeholder="patient_acuity"><br>
+                    <input id="edit_patient_date_admitted" name="edit_patient_date_admitted" required="" size="32" type="text" value=""placeholder="patient_date_admitted"><br>
+                    <input id="edit_patient_date_discharge" name="edit_patient_date_discharge" size="32" type="text" value=""placeholder="patient_date_discharge"><br>
+                    <input id="edit_patient_a_trained" name="edit_patient_a_trained" required="" size="32" type="number" value=""placeholder="patient_a_trained"><br>
+                    <input id="edit_patient_IV" name="edit_patient_IV" required="" size="32" type="number" value=""placeholder="patient_transfer"><br>
+
+                <br>
+                <input id="submit" name="submit" type="submit" value="Confirm">
+            </form>
+        </div> 
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <p>
+
+
 
             </div>
         </div>
@@ -211,22 +198,26 @@
 <div class="modal fade deleteModalCenter" id="deleteModal" tabindex="-1" role="dialog"
     aria-labelledby="deleteModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Delete patient</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="/deletePatientRecords" method="post">
-                    <br>
-                    <input name="submit" type="submit" value="Confirm">
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <p>
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Delete patient</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form action="/deletePatientRecords" method="post">
+                <br>
+                <input id="remove_patient_id" hidden name="remove_patient_id" required="" size="32" type="text" value="" placeholder=""><br>
+                <input id="remove_patient_name" readonly name="remove_patient_name" required="" size="32" type="text" value="" placeholder=""><br>
+                <input id="submit" name="submit" type="submit" value="Confirm">
+            </form>
+        </div> 
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <p>
+
 
             </div>
         </div>
@@ -268,6 +259,51 @@
     }
 
     window.onload = highlight_row;
+
+    // grabs data for delete modal
+    function get_delete_data() {
+        // Gets data from selected row
+        var table = document.getElementById('patient-record-table');
+        var patient_id = table.rows[rowId].cells[0].innerText;
+        var patient_name = table.rows[rowId].cells[1].innerText;
+
+        //Sets input values
+        document.getElementById('remove_patient_id').value = patient_id;
+        document.getElementById('remove_patient_name').value = patient_name;
+
+        // Testing purposes 
+        console.log(patient_id)
+        console.log(patient_name)
+
+    }
+
+    // grabs data for edit modal
+    function get_edit_data() {
+        // Gets data from selected row
+        var table = document.getElementById('patient-record-table');
+        var patient_id = table.rows[rowId].cells[0].innerText;
+        var patient_name = table.rows[rowId].cells[1].innerText;
+        var patient_bed = table.rows[rowId].cells[2].innerText;
+        var patient_acuity = table.rows[rowId].cells[3].innerText;
+        var patient_admit = table.rows[rowId].cells[4].innerText;
+        var patient_discharge = table.rows[rowId].cells[5].innerText;
+        var patient_a_trained = table.rows[rowId].cells[6].innerText;
+        var patient_IV = table.rows[rowId].cells[7].innerText;
+
+        //Sets input values
+        document.getElementById('edit_patient_id').value = patient_id;
+        document.getElementById('edit_patient_name').value = patient_name;
+        document.getElementById('edit_patient_bed').value = patient_bed;
+        document.getElementById('edit_patient_acuity').value = patient_acuity;
+        document.getElementById('edit_patient_date_admitted').value = patient_admit;
+        document.getElementById('edit_patient_a_trained').value = patient_a_trained;
+        document.getElementById('edit_patient_IV').value = patient_IV;
+
+        if (patient_discharge !== 'None') {
+            document.getElementById('edit_patient_date_discharge').value = patient_discharge;
+        }
+
+    }
 </script>
 
 <script>

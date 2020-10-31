@@ -102,7 +102,7 @@ CREATE TABLE `smartroster`.`patients` (
 
 insert into smartroster.patients( patient_name, patient_bed, patient_acuity, patient_date_admitted, patient_a_trained, patient_transfer) 
 VALUES ('Jam Jones', 'C9', 3, '2020-10-10', 1, 1);
-
+[]
 insert into smartroster.patients( patient_name, patient_bed, patient_acuity, patient_date_admitted, patient_a_trained, patient_transfer) 
 VALUES ('Dakota Irwin', 'D3', 2, '2020-8-9', 0, 0);
 
