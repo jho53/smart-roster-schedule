@@ -34,6 +34,7 @@ db = mysql.connector.connect(
 
 cursor = db.cursor()
 
+
 @app.context_processor
 def inject_now():
     return {'now': datetime.utcnow()}
@@ -138,12 +139,17 @@ def logout():
 
 @app.route("/nurseRecords", methods=["GET"])
 def nurse_records():
+    nurse_headers = ["Nurse ID", "Name", "Area", "Rotation", "FTE",
+                     "A-trained", "Skill", "Transfer", "Adv Role", "Restrictions", "IV"]
     if 'loggedin' in session:
         # Grabs all nurses
         cursor.execute("SELECT * FROM nurses")
         nurse_list = cursor.fetchall()
         return render_template(
-            "./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list
+            "./Records/nurseRecord.html",
+            loggedin=session['loggedin'],
+            nurseList=nurse_list,
+            nurseHeaders=nurse_headers
         )
     return redirect(url_for('login'))
 
@@ -178,7 +184,6 @@ def add_nurse_records():
     cursor.execute("SELECT * FROM nurses")
     nurse_list = cursor.fetchall()
     return render_template("./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list)
-
 
 
 @app.route("/editNurseRecords", methods=["POST"])
@@ -407,11 +412,12 @@ def assign_nurse_patient() -> dict:
 
     # Create "pod" data structure that stores: num_patients, how many transfers, skill level counts, how many a-trained
 
-    num_clinical_areas = 6 # variables[0]
-    clinical_areas ={}
+    num_clinical_areas = 6  # variables[0]
+    clinical_areas = {}
 
     for _ in range(num_clinical_areas):
-        clinical_areas[chr(num_clinical_areas + 65)] = {"patients": 0,"transfers": 0, "level": {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}, "a-trained": 0, "picc": 0}
+        clinical_areas[chr(num_clinical_areas + 65)] = {"patients": 0, "transfers": 0, "level": {
+            1: 0, 2: 0, 3: 0, 4: 0, 5: 0}, "a-trained": 0, "picc": 0}
 
     # pods = {
     #     "A": {"patients": 0, "transfers": 0, "level": {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}, "a-trained": 0},
@@ -422,12 +428,13 @@ def assign_nurse_patient() -> dict:
     #     "F": {"patients": 0, "transfers": 0, "level": {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}, "a-trained": 0}
     # }
 
-    cursor.execute("SELECT * FROM patients WHERE current=True")  # We can modularize this. This gets all patients.
+    # We can modularize this. This gets all patients.
+    cursor.execute("SELECT * FROM patients WHERE current=True")
     patient_list = cursor.fetchall()
 
     # ---------------
     # Maybe we can turn each nurse and patients into objects, then we can have a list of nurse objects and a list of patient objects?
-    
+
     # Initialize patient and nurse lists
     patients = []
     nurses = []
@@ -435,34 +442,39 @@ def assign_nurse_patient() -> dict:
     # append current Patient objects into patients list
     for row in patient_list:
         x = Patient(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10], row[11],
-                         row[12], row[13], row[14])
+                    row[12], row[13], row[14])
         patients.append(x)
     print(patients)
 
-    cursor.execute("SELECT * FROM nurses WHERE current=True")  # We can also modularize this.
+    # We can also modularize this.
+    cursor.execute("SELECT * FROM nurses WHERE current=True")
     nurse_list = cursor.fetchall()
 
     # append current Patient objects into patients list
     for row in nurse_list:
         x = Nurse(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10], row[11],
-                         row[12], row[13], row[14], row[15], row[16], row[17], row[18], row[19])
+                  row[12], row[13], row[14], row[15], row[16], row[17], row[18], row[19])
         nurses.append(x)
     print(nurses)
 
-
     # filling in pod info
     for row in patient_list:
-        clinical_areas[row[3]]["patients"] += 1  # row[2] points to the bed column in patient list
+        # row[2] points to the bed column in patient list
+        clinical_areas[row[3]]["patients"] += 1
         # row[2][0] points to the first letter in bed column which is the pod.
         # pods[#][0] points to the num_patients of the pod object.
 
-        clinical_areas[row[3]]["level"][row[5]] += 1  # Increment skill level counts
+        # Increment skill level counts
+        clinical_areas[row[3]]["level"][row[5]] += 1
         if row[6]:
-            clinical_areas[row[3]]["a-trained"] += 1  # Increment amount of a-trained in pod object if patient needs a-trained
+            # Increment amount of a-trained in pod object if patient needs a-trained
+            clinical_areas[row[3]]["a-trained"] += 1
         if row[7]:
-            clinical_areas[row[3]]["transfers"] += 1  # Increment amount of transfers in pod object if patient needs transfer
+            # Increment amount of transfers in pod object if patient needs transfer
+            clinical_areas[row[3]]["transfers"] += 1
         if row[8]:
-            clinical_areas[row[3]]["picc"] += 1  # Increment amount of picc in pod object if patient needs picc
+            # Increment amount of picc in pod object if patient needs picc
+            clinical_areas[row[3]]["picc"] += 1
 
     print(clinical_areas)
 
@@ -486,7 +498,6 @@ def assign_nurse_patient() -> dict:
                 n.set_assigned(True)
                 # matched_patients.append(p.get_id())
 
-
     # assess all previous patients and pair
         # check if same clinical area (try to assign all to same nurse)
         # check recency. Favour most recent
@@ -499,22 +510,22 @@ def assign_nurse_patient() -> dict:
     #         nurse[18] = True # mark them as assigned
 
     # A trained nurses go to "Rabbit Pod" as much as needed
-    for ca in clinical_areas.keys():
+    # for ca in clinical_areas.keys():
         # allocate ceil(clinical_areas[ca]["a_trained"]/2) a_trained nurses
 
         # check skill level
         # assign
 
-    for pod in pods:
-        if pod has a_trained patient:
-            num_a_trained = 8
-            allocate 8/2 ceiling a trained 
-            allocate nurses with a_Trained to this pod
+    # for pod in pods:
+    #     if pod has a_trained patient:
+    #         num_a_trained = 8
+    #         allocate 8/2 ceiling a trained
+    #         allocate nurses with a_Trained to this pod
 
-    for nurse in nurse_list:
-        if nurse[9]:
-            nurse[3] = 'F'  # Sets nurse pod to MBC clinical area
-            nurse[10] = True  # Marks the nurse as assigned
+    # for nurse in nurse_list:
+    #     if nurse[9]:
+    #         nurse[3] = 'F'  # Sets nurse pod to MBC clinical area
+    #         nurse[10] = True  # Marks the nurse as assigned
 
     # split the remaining nurses according to "pod's needs"
     #       - A-trained
