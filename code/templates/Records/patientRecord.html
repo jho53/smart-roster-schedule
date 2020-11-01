@@ -27,9 +27,9 @@
     </div>
     <!--Table-->
     <div class="table-content">
-        <table class="table table-bordered" id="patient-record-table" style="margin-bottom: 50px">
+        <table class="table table-sm table-bordered" id="patient-record-table" style="margin-bottom: 50px">
             <!--Dynamically generated table headers-->
-            <thead>
+            <thead class="thead-light">
                 <form action="/patientRecords" method="get">
                     <tr id="patient-table-headers">
                         {% for header in patientHeaders %}
@@ -196,7 +196,7 @@
             cell.onclick = function () {
                 if (rowId != null && rowId == this.parentNode.rowIndex) {
                     var rowSelected = table.getElementsByTagName('tr')[rowId];
-                    rowSelected.classList.toggle("selected");
+                    rowSelected.classList.toggle("table-info");
                     rowId = null; // Reset rowId
                 } else {
                     // Take current row index
@@ -204,11 +204,11 @@
 
                     var rowsNotSelected = table.getElementsByTagName('tr');
                     for (var row = 0; row < rowsNotSelected.length; row++) {
-                        rowsNotSelected[row].classList.remove('selected');
+                        rowsNotSelected[row].classList.remove('table-info');
                     }
                     var rowSelected = table.getElementsByTagName('tr')[rowId];
 
-                    rowSelected.classList.toggle("selected", true);
+                    rowSelected.classList.toggle("table-info", true);
                 }
             }
         }
@@ -285,7 +285,8 @@
             paging: false,
             info: false,
             searching: true,
-            dom: 'lrtip'
+            dom: 'lrtip',
+            responsive: true
         });
     });
 
