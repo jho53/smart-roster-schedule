@@ -25,7 +25,7 @@
 <body>
     {% if loggedin %}
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        {% if (request.url != "http://localhost:5000/") and (request.url != "http://localhost:5000/loginUser") %}
+        {% if (request.url != "http://localhost:5000/") and (request.url != "http://localhost:5000/loginUser") and (request.url !="http://localhost:5000/registerUser") %}
         <a class="navbar-brand"><img class="hamburger-icon" src="/images/hamburger.png" onclick="openSidebar()"></a>
         {% endif %}
         <a class="navbar-brand" href="/"><img class="sr-logo" src="/images/SmartRosterLogoHighRes.png"></a>
@@ -39,7 +39,7 @@
         </div>
     </nav>
 
-    {% if (request.url != "http://localhost:5000/") and (request.url != "http://localhost:5000/loginUser") %}
+    {% if (request.url != "http://localhost:5000/") and (request.url != "http://localhost:5000/loginUser") and (request.url !="http://localhost:5000/registerUser") %}
     <div id="mainSidebar" class="sidebar">
         <a href="javascript:void(0)" class="closebtn" onclick="closeSidebar()">&times;</a>
         <div id="sidebarContent" class="sidebar-content">
