@@ -42,46 +42,46 @@
                 {% for patient in patientList %}
                 <tr id="{{'p'~patient[0]}}" style="cursor: pointer;">
                     <td>
-                        <div id="{{'p'~patient[0]~'id'}}">{{patient[0]}}</div>
+                        <div id="{{'p'~patient[0]~'-id'}}">{{patient[0]}}</div>
                     </td>
                     <td>
-                        <div id="{{'p'~patient[0]~'name'}}">{{patient[1]}}</div>
+                        <div id="{{'p'~patient[0]~'-fname'}}">{{patient[1]}}</div>
                     </td>
                     <td>
-                        <div id="{{'p'~patient[0]~'bed'}}">{{patient[2]}}</div>
+                        <div id="{{'p'~patient[0]~'-lname'}}">{{patient[2]}}</div>
                     </td>
                     <td>
-                        <div id="{{'p'~patient[0]~'acuity'}}">{{patient[3]}}</div>
+                        <div id="{{'p'~patient[0]~'-area'}}">{{patient[3]}}</div>
                     </td>
                     <td>
-                        <div id="{{'p'~patient[0]~'admittedDate'}}">{{patient[4]}} </div>
+                        <div id="{{'p'~patient[0]~'-bednum'}}">{{patient[4]}} </div>
                     </td>
                     <td>
-                        <div id="{{'p'~patient[0]~'admittedDate'}}">{{patient[5]}} </div>
+                        <div id="{{'p'~patient[0]~'-acuity'}}">{{patient[5]}} </div>
                     </td>
                     <td>
-                        <div id="{{'p'~patient[0]~'admittedDate'}}">{{patient[6]}} </div>
+                        <div id="{{'p'~patient[0]~'-atrainedReq'}}">{{patient[6]}} </div>
                     </td>
                     <td>
-                        <div id="{{'p'~patient[0]~'admittedDate'}}">{{patient[7]}} </div>
+                        <div id="{{'p'~patient[0]~'-transferReq'}}">{{patient[7]}} </div>
                     </td>
                     <td>
-                        <div id="{{'p'~patient[0]~'admittedDate'}}">{{patient[8]}} </div>
+                        <div id="{{'p'~patient[0]~'-ivReq'}}">{{patient[8]}} </div>
                     </td>
                     <td>
-                        <div id="{{'p'~patient[0]~'admittedDate'}}">{{patient[9]}} </div>
+                        <div id="{{'p'~patient[0]~'-1to1'}}">{{patient[9]}} </div>
                     </td>
                     <td>
-                        <div id="{{'p'~patient[0]~'admittedDate'}}">{{patient[10]}} </div>
+                        <div id="{{'p'~patient[0]~'-prevNurses'}}">{{patient[10]}} </div>
                     </td>
                     <td>
-                        <div id="{{'p'~patient[0]~'admittedDate'}}">{{patient[11]}} </div>
+                        <div id="{{'p'~patient[0]~'-dateAdmitted'}}">{{patient[11]}} </div>
                     </td>
                     <td>
-                        <div id="{{'p'~patient[0]~'admittedDate'}}">{{patient[12]}} </div>
+                        <div id="{{'p'~patient[0]~'-dischargedDate'}}">{{patient[12]}} </div>
                     </td>
                     <td>
-                        <div id="{{'p'~patient[0]~'admittedDate'}}">{{patient[13]}} </div>
+                        <div id="{{'p'~patient[0]~'-comments'}}">{{patient[13]}} </div>
                     </td>
                 </tr>
                 {% endfor %}
