@@ -10,9 +10,6 @@
             <br><br>
             <div class="container-fluid">
                 <div class="row">
-                    <div class="table-searchbar">
-                        <input class="form-control" id="patient-search-input" type="text" placeholder="Filter...">
-                    </div>
                     <!-- Extra div for center of row -->
                     <div class="col-sm"></div>
                     <div class="col-">
@@ -30,45 +27,19 @@
     </div>
     <!--Table-->
     <div class="table-content">
-        <table class="table table-bordered" id="patient-record-table" style="margin-bottom: 50px">
+        <table class="table table-sm table-bordered" id="patient-record-table" style="margin-bottom: 50px">
             <!--Dynamically generated table headers-->
-            {% set args_dict = request.args.to_dict() %}
-            <thead>
+            <thead class="thead-light">
                 <form action="/patientRecords" method="get">
                     <tr id="patient-table-headers">
-                        {% for index, header in enumerate(patientHeaders) %}
-                        <th id="pHeader-{{index}}">{{header}}
-                            {% if index|string in args_dict['sort_on'] and args_dict['rs'~index] != "1" %}
-                            <button class="btn btn-link sort-btn" name="sort_on" type="submit" value="{{index}}"><i
-                                    class="fa fa-sort"></i></button>
-                            <input class="hidden" name="{{'rs'~index}}" value="1">
-                            {% elif index|string not in args_dict['sort_on'] %}
-                            <button class="btn btn-link sort-btn" name="sort_on" type="submit" value="{{index}}"><i
-                                    class="fa fa-sort"></i></button>
-                            <input class="hidden" name="{{'rs'~index}}" value="0">
-                            {% else %}
-                            <button class="btn btn-link sort-btn" name="sort_on" type="submit" value="{{index}}"><i
-                                    class="fa fa-sort"></i></button>
-                            <input class="hidden" name="{{'rs'~index}}" value="0">
-                            {% endif %}
-                        </th>
+                        {% for header in patientHeaders %}
+                        <th>{{header}} </th>
                         {% endfor %}
                     </tr>
                 </form>
-                <!-- <p>{{args_dict["rs1"]}}</p>
-                <p>value: {{args_dict['rs'~args_dict['sort_on']]}}</p> -->
             </thead>
             <tbody id="patient-tbody">
-                <!--Configure sorting order-->
-                {% set sort_on = request.args.sort_on|default('0') %}
-
-                {% if (args_dict['rs'~args_dict['sort_on']] == "1") %}
-                {% set reverse_toggle = True %}
-                {% else %}
-                {% set reverse_toggle = False %}
-                {% endif %}
-
-                {% for patient in patientList|sort(attribute=sort_on, reverse=reverse_toggle) %}
+                {% for patient in patientList %}
                 <tr id="{{'p'~patient[0]}}" style="cursor: pointer;">
                     <td>
                         <div id="{{'p'~patient[0]~'id'}}">{{patient[0]}}</div>
@@ -83,22 +54,34 @@
                         <div id="{{'p'~patient[0]~'acuity'}}">{{patient[3]}}</div>
                     </td>
                     <td>
-                        <div id="{{'p'~patient[0]~'admittedDate'}}">{{patient[4].strftime('%b %d, %Y')}} </div>
-                    </td>
-                    {% if patient[5] == None %}
-                    <td>
-                        <div id="{{'p'~patient[0]~'dischargeDate'}}">{{patient[5]}}</div>
-                    </td>
-                    {% else %}
-                    <td>
-                        <div id="{{'p'~patient[0]~'dischargeDate'}}">{{patient[5].strftime('%b %d, %Y')}}</div>
-                    </td>
-                    {% endif %}
-                    <td>
-                        <div id="{{'p'~patient[0]~'atrainedReq'}}">{{patient[6]}}</div>
+                        <div id="{{'p'~patient[0]~'admittedDate'}}">{{patient[4]}} </div>
                     </td>
                     <td>
-                        <div id="{{'p'~patient[0]~'transferReq'}}">{{patient[7]}}</div>
+                        <div id="{{'p'~patient[0]~'admittedDate'}}">{{patient[5]}} </div>
+                    </td>
+                    <td>
+                        <div id="{{'p'~patient[0]~'admittedDate'}}">{{patient[6]}} </div>
+                    </td>
+                    <td>
+                        <div id="{{'p'~patient[0]~'admittedDate'}}">{{patient[7]}} </div>
+                    </td>
+                    <td>
+                        <div id="{{'p'~patient[0]~'admittedDate'}}">{{patient[8]}} </div>
+                    </td>
+                    <td>
+                        <div id="{{'p'~patient[0]~'admittedDate'}}">{{patient[9]}} </div>
+                    </td>
+                    <td>
+                        <div id="{{'p'~patient[0]~'admittedDate'}}">{{patient[10]}} </div>
+                    </td>
+                    <td>
+                        <div id="{{'p'~patient[0]~'admittedDate'}}">{{patient[11]}} </div>
+                    </td>
+                    <td>
+                        <div id="{{'p'~patient[0]~'admittedDate'}}">{{patient[12]}} </div>
+                    </td>
+                    <td>
+                        <div id="{{'p'~patient[0]~'admittedDate'}}">{{patient[13]}} </div>
                     </td>
                 </tr>
                 {% endfor %}
@@ -225,7 +208,7 @@
             cell.onclick = function () {
                 if (rowId != null && rowId == this.parentNode.rowIndex) {
                     var rowSelected = table.getElementsByTagName('tr')[rowId];
-                    rowSelected.classList.toggle("selected");
+                    rowSelected.classList.toggle("table-info");
                     rowId = null; // Reset rowId
                 } else {
                     // Take current row index
@@ -233,11 +216,11 @@
 
                     var rowsNotSelected = table.getElementsByTagName('tr');
                     for (var row = 0; row < rowsNotSelected.length; row++) {
-                        rowsNotSelected[row].classList.remove('selected');
+                        rowsNotSelected[row].classList.remove('table-info');
                     }
                     var rowSelected = table.getElementsByTagName('tr')[rowId];
 
-                    rowSelected.classList.toggle("selected", true);
+                    rowSelected.classList.toggle("table-info", true);
                 }
             }
         }
@@ -291,13 +274,31 @@
         }
     }
 
-    // Filter function
+    // Filter Data by Column
     $(document).ready(function () {
-        $("#patient-search-input").on("keyup", function () {
-            var value = $(this).val().toLowerCase();
-            $("#patient-tbody tr").filter(function () {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        // Setup - add a text input to each header cell
+        $('#patient-record-table thead tr').clone(true).appendTo('#patient-record-table thead');
+        $('#patient-record-table thead tr:eq(1) th').each(function (i) {
+            $(this).html('<input class="form-control form-control-sm" type="text" placeholder="Filter..." />');
+            $('input', this).on('keyup change', function () {
+                if (table.column(i).search() !== this.value) {
+                    table
+                        .column(i)
+                        .search(this.value)
+                        .draw();
+                }
             });
+        });
+
+        var table = $('#patient-record-table').DataTable({
+            // Order
+            orderCellsTop: true,
+            ordering: true,
+            paging: false,
+            info: false,
+            searching: true,
+            dom: 'lrtip',
+            responsive: true
         });
     });
 
