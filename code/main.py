@@ -48,10 +48,10 @@ def inject_enumerate():
 #### Global Variables ####
 
 # Headers
-PATIENT_HEADERS = ["Patient ID", "Name", "Bed", "Acuity Level",
-                   "Date Admitted", "Date Discharged", "A-trained Req", "IV"]
-NURSE_HEADERS = ["Nurse ID", "Name", "Area", "Rotation", "FTE",
-                 "A-trained", "Skill", "Transfer", "Adv Role", "Restrictions", "IV"]
+PATIENT_HEADERS = ["Patient ID", "First Name", "Last Name", "Clinical Area", "Bed #", "Acuity Level",
+                   "A-trained Req", "Transfer Req", "IV Req", "1:1", "Previous Nurses", "Date Admitted", "Discharged Date", "Comments"]
+NURSE_HEADERS = ["Nurse ID", "First Name", "Last Name", "Clinical Area", "Rotation", "Group", "FTE",
+                 "Skill Level", "A Trained", "Transfer", "IV Trained", "Advanced Role", "Previous Patients", "DTA", "Comments"]
 
 # Login and Mainpage
 
