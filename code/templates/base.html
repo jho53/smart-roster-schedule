@@ -12,10 +12,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--Bootstrap Links-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
     <!--Fontawesome Icons-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!--JQuery-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <!--Custom CSS Stylesheet-->
     <link rel="stylesheet" type="text/css" href="/style.css">
     <!--Favicon-->
@@ -25,7 +26,7 @@
 <body>
     {% if loggedin %}
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        {% if (request.url != "http://localhost:5000/") and (request.url != "http://localhost:5000/loginUser") %}
+        {% if (request.url != "http://localhost:5000/") and (request.url != "http://localhost:5000/loginUser") and (request.url !="http://localhost:5000/registerUser") %}
         <a class="navbar-brand"><img class="hamburger-icon" src="/images/hamburger.png" onclick="openSidebar()"></a>
         {% endif %}
         <a class="navbar-brand" href="/"><img class="sr-logo" src="/images/SmartRosterLogoHighRes.png"></a>
@@ -39,7 +40,7 @@
         </div>
     </nav>
 
-    {% if (request.url != "http://localhost:5000/") and (request.url != "http://localhost:5000/loginUser") %}
+    {% if (request.url != "http://localhost:5000/") and (request.url != "http://localhost:5000/loginUser") and (request.url !="http://localhost:5000/registerUser") %}
     <div id="mainSidebar" class="sidebar">
         <a href="javascript:void(0)" class="closebtn" onclick="closeSidebar()">&times;</a>
         <div id="sidebarContent" class="sidebar-content">
@@ -57,16 +58,23 @@
     {% endif %}
     {% endif %}
 
-    {% block content %}
-    {% endblock %}
+    <div id="page-container">
+        <div id="content-wrap">
+            {% block content %}
+            {% endblock %}
 
-    <footer class="footer navbar-light bg-light">
-        <p>Smart Roster © {{ now.year }} All Rights Reserved</p>
-    </footer>
+            <footer class="footer navbar-light bg-light">
+                <p>Smart Roster © {{ now.year }} All Rights Reserved</p>
+            </footer>
+
+        </div>
+    </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script type="text/javascript"
+        src="https://cdn.datatables.net/v/bs4/jq-3.3.1/dt-1.10.22/datatables.min.js"></script>
 
     <script>
         function openSidebar() {
