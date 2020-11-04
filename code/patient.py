@@ -24,9 +24,9 @@ class Patient(Base):
     twin = Column(String(250), nullable=True)
 
     def __init__(self, id: int, first_name: str, last_name: str, clinical_area: str, bed_num: int,
-                 acuity: int, a_trained: bool, transfer: bool, picc: bool, one_to_one: bool,
+                 acuity: int, a_trained: int, transfer: int, picc: int, one_to_one: int,
                  previous_nurses: str, admission_date: str, discharge_date: str, comments: str,
-                 twin: str) -> None:
+                 twin: int) -> None:
         """ Validates and Initializes a Patient """
         Patient._validate_positive_integer("Patient ID", id)
         self.id = id
@@ -37,7 +37,7 @@ class Patient(Base):
         Patient._validate_string_250("Last name", last_name)
         self.last_name = last_name
 
-        Patient._validate_string_250("Clinical area", clinical_area)
+        # Patient._validate_string_250("Clinical area", clinical_area)
         self.clinical_area = clinical_area
 
         Patient._validate_positive_integer("Bed number", bed_num)
@@ -46,29 +46,31 @@ class Patient(Base):
         Patient._validate_positive_integer("Acuity", acuity)
         self.acuity = acuity
 
-        Patient._validate_boolean("A-Trained value", a_trained)
+        # Patient._validate_boolean("A-Trained value", a_trained)
         self.a_trained = a_trained
 
-        Patient._validate_boolean("Transfer value", transfer)
+        # Patient._validate_boolean("Transfer value", transfer)
         self.transfer = transfer
 
-        Patient._validate_boolean("1:1 value", one_to_one)
+        # Patient._validate_boolean("1:1 value", one_to_one)
         self.one_to_one = one_to_one
 
-        Patient._validate_boolean("PICC value", picc)
+        # Patient._validate_boolean("PICC value", picc)
         self.picc = picc
 
-        Patient._validate_string_250("Previous Nurses", previous_nurses)
+        # Patient._validate_string_250("Previous Nurses", previous_nurses)
         self.previous_nurses = previous_nurses
 
-        Patient._validate_string_250("Admission Date", admission_date)
+        # Patient._validate_string_250("Admission Date", admission_date)
         self.admission_date = admission_date
 
-        Patient._validate_string_250("Discharge Date", discharge_date)
+        # Patient._validate_string_250("Discharge Date", discharge_date)
         self.discharge_date = discharge_date
 
-        Patient._validate_string_250("Twin", twin)
+        # Patient._validate_string_250("Twin", twin)
         self.twin = twin
+
+        self.assigned = 0
 
     ###############################################
     #                Public Methods               #
@@ -136,6 +138,9 @@ class Patient(Base):
     def get_twin(self) -> str:
         """get twin of the patient"""
         return self.twin
+    
+    def get_assigned(self) -> int:
+        return self.assigned
 
     # ---------------------------------------------#
     #                  SETTERS                    #
@@ -147,6 +152,9 @@ class Patient(Base):
     def set_previous_nurses(self, previous_nurses) -> None:
         """ set the previous nurses of the patient"""
         self.previous_nurses = previous_nurses
+    
+    def set_assigned(self, assigned) -> None:
+        self.assigned = assigned
 
     ###############################################
     #                Public Methods               #
