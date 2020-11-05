@@ -437,7 +437,7 @@ def assign_nurse_patient() -> dict:
 
         print(prev_p)
 
-        if prev_p != "{}":
+        if prev_p != "[]":
             prev_p_list = prev_p.split(",") # assume that prev_p is a comma separated list of patient IDs
 
             for p in patients:

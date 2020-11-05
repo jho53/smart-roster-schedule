@@ -62,11 +62,11 @@
         <div id="content-wrap">
             {% block content %}
             {% endblock %}
-
+            {% if (request.url != "http://localhost:5000/login") %}
             <footer class="footer navbar-light bg-light">
                 <p>Smart Roster © {{ now.year }} All Rights Reserved</p>
             </footer>
-
+            {% endif %}
         </div>
     </div>
 
