@@ -332,14 +332,15 @@ def edit_patient_records():
     try:
         cursor.execute(query, arguments)
         db.commit()
+            # Grabs all patients
+        cursor.execute("SELECT * FROM patients")
+        patient_list = cursor.fetchall()
+        return render_template("./Records/patientRecord.html", loggedin=session['loggedin'], patientList=patient_list, patientHeaders=PATIENT_HEADERS)
 
     except Exception as error:
         print(error)
     
-    # Grabs all patients
-    cursor.execute("SELECT * FROM patients")
-    patient_list = cursor.fetchall()
-    return render_template("./Records/patientRecord.html", loggedin=session['loggedin'], patientList=patient_list, patientHeaders=PATIENT_HEADERS)
+
 
 
 @app.route("/deletePatientRecords", methods=["POST"])
