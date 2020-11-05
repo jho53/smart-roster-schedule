@@ -37,7 +37,7 @@
                         <tr id="nurse-table-headers">
                             {% for index, header in enumerate(nurseHeaders) %}
                             {% if index==0 %}
-                            <th style="display: none;">{{header}} </th>
+                            <th>{{header}} </th>
                             {% else %}
                             <th>{{header}} </th>
                             {% endif %}
@@ -49,7 +49,7 @@
                     {% for nurse in nurseList %}
                     <tr id="{{'n'~nurse[0]}}" style="cursor: pointer;">
                         <td>
-                            <div id="{{('n'~nurse[0])~'-id'}}" style="display: none;"> {{nurse[0]}} </div>
+                            <div id="{{('n'~nurse[0])~'-id'}}"> {{nurse[0]}} </div>
                         </td>
                         <td>
                             <div id="{{('n'~nurse[0])~'-name'}}">{{nurse[1]}}</div>
