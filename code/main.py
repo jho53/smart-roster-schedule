@@ -164,73 +164,84 @@ def nurse_records():
 
 @app.route("/addNurseRecords", methods=["POST"])
 def add_nurse_records():
-    if 'nurse_name' in request.form and 'nurse_area' in request.form and 'nurse_rotation' in request.form and 'nurse_fte' in request.form and 'nurse_a_trained' in request.form and 'nurse_skill' in request.form and 'nurse_transfer' in request.form and 'nurse_adv_role' in request.form and 'nurse_restrictions' in request.form and 'nurse_iv' in request.form:
-        nurse_name = request.form['nurse_name']
-        nurse_area = request.form['nurse_area']
-        nurse_rotation = request.form['nurse_rotation']
-        nurse_fte = request.form['nurse_fte']
-        nurse_a_trained = request.form['nurse_a_trained']
-        nurse_skill = request.form['nurse_skill']
-        nurse_transfer = request.form['nurse_transfer']
-        nurse_adv_role = request.form['nurse_adv_role']
-        nurse_restrictions = request.form['nurse_restrictions']
-        nurse_iv = request.form['nurse_iv']
+        
+    nurse_first_name = request.form['create_nurse_first_name']
+    nurse_last_name = request.form['create_nurse_last_name']
+    nurse_area = request.form['create_nurse_area']
+    nurse_rotation = request.form['create_nurse_rotation']
+    nurse_group = request.form['create_nurse_group']
+    nurse_fte = request.form['create_nurse_fte']
+    nurse_skill = request.form['create_nurse_skill']
+    nurse_a_trained = request.form['create_nurse_a_trained']
+    nurse_transfer = request.form['create_nurse_transfer']
+    nurse_iv = request.form['create_nurse_iv']
+    nurse_adv_role = request.form['create_nurse_adv_role']
+    nurse_prev_pat = request.form['create_nurse_prev_pat']
+    nurse_DTA = request.form['create_nurse_DTA']
+    nurse_comments = request.form['create_nurse_comments']
 
-    query = "insert into smartroster.nurses( nurse_name, nurse_area, nurse_rotation, nurse_fte, nurse_a_trained, nurse_skill, nurse_transfer, nurse_adv_role, nurse_restrictions, nurse_iv) " \
-        "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-
-    arguments = (nurse_name, nurse_area, nurse_rotation, nurse_fte, nurse_a_trained,
-                 nurse_skill, nurse_transfer, nurse_adv_role, nurse_restrictions, nurse_iv)
-
-    try:
-        cursor.execute(query, arguments)
-        db.commit()
-
-    except Exception as error:
-        print(error)
-
-    cursor.execute("SELECT * FROM nurses")
-    nurse_list = cursor.fetchall()
-    return render_template("./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list, nurseHeaders=NURSE_HEADERS)
-
-
-@app.route("/editNurseRecords", methods=["POST"])
-def edit_nurse_records():
-    if 'edit_nurse_id' in request.form and 'edit_nurse_name' in request.form and 'edit_nurse_area' in request.form and 'edit_nurse_rotation' in request.form and 'edit_nurse_fte' in request.form and 'edit_nurse_a_trained' in request.form \
-            and 'edit_nurse_skill' in request.form and 'edit_nurse_transfer' in request.form and 'edit_nurse_adv_role' in request.form and 'edit_nurse_restrictions' in request.form and 'edit_nurse_iv' in request.form:
-        nurse_id = request.form['edit_nurse_id']
-        nurse_name = request.form['edit_nurse_name']
-        nurse_area = request.form['edit_nurse_area']
-        nurse_rotation = request.form['edit_nurse_rotation']
-        nurse_fte = request.form['edit_nurse_fte']
-        nurse_a_trained = request.form['edit_nurse_a_trained']
-        nurse_skill = request.form['edit_nurse_skill']
-        nurse_transfer = request.form['edit_nurse_transfer']
-        nurse_adv_role = request.form['edit_nurse_adv_role']
-        nurse_restrictions = request.form['edit_nurse_restrictions']
-        nurse_iv = request.form['edit_nurse_iv']
-
-    query = "UPDATE smartroster.nurses SET nurse_name = %s, nurse_area = %s, nurse_rotation = %s, nurse_fte = %s, nurse_a_trained = %s, " \
-        " nurse_skill = %s, nurse_transfer = %s, nurse_adv_role = %s, nurse_restrictions = %s, nurse_iv = %s WHERE nurse_id = %s"
-
-    arguments = (nurse_name, nurse_area, nurse_rotation, nurse_fte, nurse_a_trained,
-                 nurse_skill, nurse_transfer, nurse_adv_role, nurse_restrictions, nurse_iv, nurse_id)
+    query = "insert into smartroster.nurses(first_name, last_name, clinical_area, rotation, group_num, fte, " \
+        " skill_level, a_trained, transfer, iv, advanced_role, previous_patients, dta, comments) " \
+        "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    arguments = (nurse_first_name, nurse_last_name, nurse_area, nurse_rotation, nurse_group,
+                 nurse_fte, nurse_skill, nurse_a_trained, nurse_transfer, nurse_iv, nurse_adv_role, nurse_prev_pat, nurse_DTA, nurse_comments)
 
     try:
         cursor.execute(query, arguments)
         db.commit()
         cursor.execute("SELECT * FROM nurses")
         nurse_list = cursor.fetchall()
-        return render_template(
-            "./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list, nurseHeaders=NURSE_HEADERS)
+        return render_template("./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list, nurseHeaders=NURSE_HEADERS)
+
     except Exception as error:
         print(error)
+
+
+
+@app.route("/editNurseRecords", methods=["POST"])
+def edit_nurse_records():
+
+
+    nurse_id = request.form['edit_nurse_id']
+    nurse_first_name = request.form['edit_nurse_first_name']
+    nurse_last_name = request.form['edit_nurse_last_name']
+    nurse_area = request.form['edit_nurse_area']
+    nurse_rotation = request.form['edit_nurse_rotation']
+    nurse_group = request.form['edit_nurse_group']
+    nurse_fte = request.form['edit_nurse_fte']
+    nurse_skill = request.form['edit_nurse_skill']
+    nurse_a_trained = request.form['edit_nurse_a_trained']
+    nurse_transfer = request.form['edit_nurse_transfer']
+    nurse_iv = request.form['edit_nurse_iv']
+    nurse_adv_role = request.form['edit_nurse_adv_role']
+    nurse_prev_pat = request.form['edit_nurse_prev_pat']
+    nurse_DTA = request.form['edit_nurse_DTA']
+    nurse_comments = request.form['edit_nurse_comments']
+
+    query = "UPDATE smartroster.nurses SET first_name = %s, last_name = %s, clinical_area = %s, rotation = %s, group_num = %s, fte = %s, " \
+        " skill_level = %s, a_trained = %s, transfer = %s, iv = %s, advanced_role = %s, previous_patients = %s, dta = %s, comments = %s WHERE id = %s"
+
+    arguments = (nurse_first_name, nurse_last_name, nurse_area, nurse_rotation, nurse_group,
+                 nurse_fte, nurse_skill, nurse_a_trained, nurse_transfer, nurse_iv, nurse_adv_role, nurse_prev_pat, nurse_DTA, nurse_comments, nurse_id)
+
+
+    try:
+        cursor.execute(query, arguments)
+        db.commit()
+        cursor.execute("SELECT * FROM nurses")
+        nurse_list = cursor.fetchall()
+        return render_template("./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list, nurseHeaders=NURSE_HEADERS)
+
+    except Exception as error:
+        print(error)
+
+
 
 
 @app.route("/deleteNurseRecords", methods=["POST"])
 def delete_nurse_records():
     nurse_id = request.form['remove_nurse_id']
-    query = "DELETE FROM smartroster.nurses WHERE nurse_id = %s" % (nurse_id)
+    query = "DELETE FROM smartroster.nurses WHERE id = %s" % (nurse_id)
 
     try:
         cursor.execute(query)
@@ -238,6 +249,7 @@ def delete_nurse_records():
         cursor.execute("SELECT * FROM nurses")
         nurse_list = cursor.fetchall()
         return render_template("./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list, nurseHeaders=NURSE_HEADERS)
+
     except Exception as error:
         print(error)
 
@@ -258,77 +270,77 @@ def patient_records():
 @app.route("/addPatientRecords", methods=["POST"])
 def add_patient_records():
     # Checks for required fields
-    if 'patient_name' in request.form and 'patient_bed' in request.form and 'patient_acuity' in request.form and 'patient_date_admitted' in request.form and 'patient_a_trained' in request.form and 'patient_transfer' in request.form:
-        patient_name = request.form['patient_name']
-        patient_bed = request.form['patient_bed']
-        patient_acuity = request.form['patient_acuity']
-        patient_date_admitted = request.form['patient_date_admitted']
-        patient_a_trained = request.form['patient_a_trained']
-        patient_transfer = request.form['patient_transfer']
 
-    query = "insert into smartroster.patients( patient_name, patient_bed, patient_acuity, patient_date_admitted, patient_a_trained, patient_transfer)" \
-        "VALUES (%s,%s,%s,%s,%s,%s)"
-    arguments = (patient_name, patient_bed, patient_acuity,
-                 patient_date_admitted, patient_a_trained, patient_transfer)
+    patient_first_name = request.form['create_first_name']
+    patient_last_name = request.form['create_last_name']
+    patient_clinical_area = request.form['create_clinical_area']
+    patient_bed = request.form['create_bed_num']
+    patient_acuity = request.form['create_acuity']
+    patient_a_trained = request.form['create_a_trained']
+    patient_transfer = request.form['create_patient_transfer']
+    patient_iv = request.form['create_patient_iv']
+    patient_one_to_one = request.form['create_patient_one_to_one']
+    patient_previous_nurses = request.form['create_patient_previous_nurses']
+    patient_date_admitted = request.form['create_patient_date_admitted']
+    patient_comments = request.form['create_patient_comments']
+
+    query = "insert into smartroster.patients(first_name, last_name, clinical_area, bed_num, acuity, a_trained, transfer, iv, one_to_one, previous_nurses, admission_date, comments )" \
+        "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+
+    arguments = (patient_first_name, patient_last_name, patient_clinical_area, patient_bed, patient_acuity, 
+                    patient_a_trained, patient_transfer, patient_iv, patient_one_to_one, patient_previous_nurses, patient_date_admitted ,patient_comments)
 
     try:
         cursor.execute(query, arguments)
         db.commit()
+
+        # Grabs all patients
+        cursor.execute("SELECT * FROM patients")
+        patient_list = cursor.fetchall()
+        return render_template("./Records/patientRecord.html", loggedin=session['loggedin'], patientList=patient_list, patientHeaders=PATIENT_HEADERS)
+        
     except Exception as error:
         print(error)
 
-    # Grabs all patients
-    cursor.execute("SELECT * FROM patients")
-    patient_list = cursor.fetchall()
-    return render_template("./Records/patientRecord.html", loggedin=session['loggedin'], patientList=patient_list, patientHeaders=PATIENT_HEADERS)
 
 
 @app.route("/editPatientRecords", methods=["POST"])
 def edit_patient_records():
     # Grabs discharge data so it knows if the patient has been discharged
+
+    patientid = request.form['edit_patient_id']
+    patient_first_name = request.form['edit_first_name']
+    patient_last_name = request.form['edit_last_name']
+    patient_clinical_area = request.form['edit_clinical_area']
+    patient_bed = request.form['edit_bed_num']
+    patient_acuity = request.form['edit_acuity']
+    patient_a_trained = request.form['edit_a_trained']
+    patient_transfer = request.form['edit_patient_transfer']
+    patient_iv = request.form['edit_patient_iv']
+    patient_one_to_one = request.form['edit_patient_one_to_one']
+    patient_previous_nurses = request.form['edit_patient_previous_nurses']
+    patient_date_admitted = request.form['edit_patient_date_admitted']
     patient_date_discharged = request.form['edit_patient_date_discharge']
+    patient_comments = request.form['edit_patient_comments']
 
-    if patient_date_discharged == '':
-        # update if not changing discharge
-        if 'edit_patient_id' in request.form and 'edit_patient_name' in request.form and 'edit_patient_bed' in request.form and 'edit_patient_acuity' in request.form and 'edit_patient_date_admitted' in request.form and 'edit_patient_a_trained' in request.form and 'edit_patient_IV' in request.form:
-            patientid = request.form['edit_patient_id']
-            patient_name = request.form['edit_patient_name']
-            patient_bed = request.form['edit_patient_bed']
-            patient_acuity = request.form['edit_patient_acuity']
-            patient_date_admitted = request.form['edit_patient_date_admitted']
-            patient_a_trained = request.form['edit_patient_a_trained']
-            patient_transfer = request.form['edit_patient_IV']
+    query = "UPDATE smartroster.patients SET first_name = %s, last_name = %s, clinical_area = %s, bed_num = %s, acuity = %s, a_trained = %s, " \
+        " transfer = %s, iv = %s, one_to_one = %s, previous_nurses = %s, admission_date = %s, discharged_date = %s, comments = %s WHERE id = %s"
 
-            query = "UPDATE smartroster.patients SET patient_name = %s, patient_bed = %s, patient_acuity = %s, patient_date_admitted = %s, patient_a_trained = %s, patient_transfer = %s" \
-                "WHERE patientid = %s"
-            arguments = (patient_name, patient_bed, patient_acuity,
-                         patient_date_admitted, patient_a_trained, patient_transfer, patientid)
-    else:
-        # update if changing discharge
-        if 'edit_patient_id' in request.form and 'edit_patient_name' in request.form and 'edit_patient_bed' in request.form and 'edit_patient_acuity' in request.form and 'edit_patient_date_admitted' in request.form and 'edit_patient_date_discharge' in request.form and 'edit_patient_a_trained' in request.form and 'edit_patient_IV' in request.form:
-            patientid = request.form['edit_patient_id']
-            patient_name = request.form['edit_patient_name']
-            patient_bed = request.form['edit_patient_bed']
-            patient_acuity = request.form['edit_patient_acuity']
-            patient_date_admitted = request.form['edit_patient_date_admitted']
-            patient_date_discharged = request.form['edit_patient_date_discharge']
-            patient_a_trained = request.form['edit_patient_a_trained']
-            patient_transfer = request.form['edit_patient_IV']
-
-            query = "UPDATE smartroster.patients SET patient_name = %s, patient_bed = %s, patient_acuity = %s, patient_date_admitted = %s, patient_date_discharged = %s, patient_a_trained = %s, patient_transfer = %s" \
-                "WHERE patientid = %s"
-            arguments = (patient_name, patient_bed, patient_acuity, patient_date_admitted,
-                         patient_date_discharged, patient_a_trained, patient_transfer, patientid)
+    arguments = (patient_first_name, patient_last_name, patient_clinical_area, patient_bed, patient_acuity, patient_a_trained, patient_transfer,
+                    patient_iv, patient_one_to_one, patient_previous_nurses, patient_date_admitted, patient_date_discharged, patient_comments, patientid)
 
     try:
         cursor.execute(query, arguments)
         db.commit()
-        # Grabs all patients
+            # Grabs all patients
         cursor.execute("SELECT * FROM patients")
         patient_list = cursor.fetchall()
         return render_template("./Records/patientRecord.html", loggedin=session['loggedin'], patientList=patient_list, patientHeaders=PATIENT_HEADERS)
+
     except Exception as error:
         print(error)
+    
+
 
 
 @app.route("/deletePatientRecords", methods=["POST"])
@@ -336,18 +348,22 @@ def delete_patient_records():
     # grabs patient id
     patient_id = request.form['remove_patient_id']
 
-    query = "DELETE FROM smartroster.patients WHERE patientid = %s" % \
+    query = "DELETE FROM smartroster.patients WHERE id = %s" % \
         (patient_id)
 
     try:
         cursor.execute(query)
         db.commit()
         # Grabs all patients
+        
         cursor.execute("SELECT * FROM patients")
         patient_list = cursor.fetchall()
         return render_template("./Records/patientRecord.html", loggedin=session['loggedin'], patientList=patient_list, patientHeaders=PATIENT_HEADERS)
+
     except Exception as error:
         print(error)
+
+
 
 
 @app.route("/patientRecordsSubmit", methods=['POST'])
