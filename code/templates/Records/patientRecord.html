@@ -10,16 +10,15 @@
             <br><br>
             <div class="container-fluid">
                 <div class="row">
-                    <div class="table-searchbar">
-                        <input class="form-control" id="patient-search-input" type="text" placeholder="Filter...">
-                    </div>
                     <!-- Extra div for center of row -->
                     <div class="col-sm"></div>
                     <div class="col-">
-                        <button class="btn btn-primary" data-toggle="modal" data-target=".createModalCenter"> Create
+                        <button class="btn btn-primary" data-toggle="modal" data-target=".createModalCenter">Create
                         </button>
-                        <button class="btn btn-warning" onclick="get_edit_data()" data-toggle="modal" data-target=".editModalCenter">>Edit</button>
-                        <button class="btn btn-danger" onclick="get_delete_data()" data-toggle="modal" data-target=".deleteModalCenter">Delete</button>
+                        <button class="btn btn-warning" onclick="get_edit_data()" data-toggle="modal"
+                            data-target=".editModalCenter">Edit</button>
+                        <button class="btn btn-danger" onclick="get_delete_data()" data-toggle="modal"
+                            data-target=".deleteModalCenter">Delete</button>
 
                     </div>
                 </div>
@@ -28,75 +27,58 @@
     </div>
     <!--Table-->
     <div class="table-content">
-        <table class="table table-bordered" id="patient-record-table" style="margin-bottom: 50px">
+        <table class="table table-sm table-bordered" id="patient-record-table" style="margin-bottom: 50px">
             <!--Dynamically generated table headers-->
-            {% set args_dict = request.args.to_dict() %}
-            <thead>
+            <thead class="thead-light">
                 <form action="/patientRecords" method="get">
                     <tr id="patient-table-headers">
-                        {% for index, header in enumerate(patientHeaders) %}
-                        <th id="pHeader-{{index}}">{{header}}
-                            {% if index|string in args_dict['sort_on'] and args_dict['rs'~index] != "1" %}
-                            <button class="btn btn-link sort-btn" name="sort_on" type="submit" value="{{index}}"><i
-                                    class="fa fa-sort"></i></button>
-                            <input class="hidden" name="{{'rs'~index}}" value="1">
-                            {% elif index|string not in args_dict['sort_on'] %}
-                            <button class="btn btn-link sort-btn" name="sort_on" type="submit" value="{{index}}"><i
-                                    class="fa fa-sort"></i></button>
-                            <input class="hidden" name="{{'rs'~index}}" value="0">
-                            {% else %}
-                            <button class="btn btn-link sort-btn" name="sort_on" type="submit" value="{{index}}"><i
-                                    class="fa fa-sort"></i></button>
-                            <input class="hidden" name="{{'rs'~index}}" value="0">
-                            {% endif %}
-                        </th>
+                        {% for header in patientHeaders %}
+                        <th>{{header}} </th>
                         {% endfor %}
                     </tr>
                 </form>
-                <!-- <p>{{args_dict["rs1"]}}</p>
-                <p>value: {{args_dict['rs'~args_dict['sort_on']]}}</p> -->
             </thead>
             <tbody id="patient-tbody">
-                <!--Configure sorting order-->
-                {% set sort_on = request.args.sort_on|default('0') %}
-
-                {% if (args_dict['rs'~args_dict['sort_on']] == "1") %}
-                {% set reverse_toggle = True %}
-                {% else %}
-                {% set reverse_toggle = False %}
-                {% endif %}
-
-                {% for patient in patientList|sort(attribute=sort_on, reverse=reverse_toggle) %}
+                {% for patient in patientList %}
                 <tr id="{{'p'~patient[0]}}" style="cursor: pointer;">
                     <td>
-                        <div id="{{'p'~patient[0]~'id'}}">{{patient[0]}}</div>
+                        <div id="{{'p'~patient[0]~'-id'}}">{{patient[0]}}</div>
                     </td>
                     <td>
-                        <div id="{{'p'~patient[0]~'name'}}">{{patient[1]}}</div>
+                        <div id="{{'p'~patient[0]~'-name'}}">{{patient[1]}}</div>
                     </td>
                     <td>
-                        <div id="{{'p'~patient[0]~'bed'}}">{{patient[2]}}</div>
+                        <div id="{{'p'~patient[0]~'-area'}}">{{patient[2]}}</div>
                     </td>
                     <td>
-                        <div id="{{'p'~patient[0]~'acuity'}}">{{patient[3]}}</div>
+                        <div id="{{'p'~patient[0]~'-bednum'}}">{{patient[3]}} </div>
                     </td>
                     <td>
-                        <div id="{{'p'~patient[0]~'admittedDate'}}">{{patient[4].strftime('%b %d, %Y')}} </div>
-                    </td>
-                    {% if patient[5] == None %}
-                    <td>
-                        <div id="{{'p'~patient[0]~'dischargeDate'}}">{{patient[5]}}</div>
-                    </td>
-                    {% else %}
-                    <td>
-                        <div id="{{'p'~patient[0]~'dischargeDate'}}">{{patient[5].strftime('%b %d, %Y')}}</div>
-                    </td>
-                    {% endif %}
-                    <td>
-                        <div id="{{'p'~patient[0]~'atrainedReq'}}">{{patient[6]}}</div>
+                        <div id="{{'p'~patient[0]~'-acuity'}}">{{patient[4]}} </div>
                     </td>
                     <td>
-                        <div id="{{'p'~patient[0]~'transferReq'}}">{{patient[7]}}</div>
+                        <div id="{{'p'~patient[0]~'-atrainedReq'}}">{{patient[5]}} </div>
+                    </td>
+                    <td>
+                        <div id="{{'p'~patient[0]~'-transferReq'}}">{{patient[6]}} </div>
+                    </td>
+                    <td>
+                        <div id="{{'p'~patient[0]~'-ivReq'}}">{{patient[7]}} </div>
+                    </td>
+                    <td>
+                        <div id="{{'p'~patient[0]~'-1to1'}}">{{patient[8]}} </div>
+                    </td>
+                    <td>
+                        <div id="{{'p'~patient[0]~'-prevNurses'}}">{{patient[9]}} </div>
+                    </td>
+                    <td>
+                        <div id="{{'p'~patient[0]~'-dateAdmitted'}}">{{patient[10]}} </div>
+                    </td>
+                    <td>
+                        <div id="{{'p'~patient[0]~'-dischargedDate'}}">{{patient[11]}} </div>
+                    </td>
+                    <td>
+                        <div id="{{'p'~patient[0]~'-comments'}}">{{patient[12]}} </div>
                     </td>
                 </tr>
                 {% endfor %}
@@ -105,52 +87,37 @@
     </div>
 </main>
 
+<!--Modal-->
+
 <!-- Create Modal -->
 <div class="modal fade createModalCenter" id="createModal" tabindex="-1" role="dialog"
     aria-labelledby="createModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">add patient</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">Add Patient</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <form action="/addPatientRecords" method="post">
-                    <p>
-                        <input id="c_patient_name" name="patient_name" required="" size="32" type="text" value=""
-                            placeholder="name"><br>
-                    </p>
-                    <p>
-                        <input id="c_patient_bed" name="patient_bed" required="" size="32" type="text" value=""
-                            placeholder="patient_bed"><br>
-                    </p>
-                    <p>
-                        <input id="c_patient_acuity" name="patient_acuity" required="" size="32" type="text" value=""
-                            placeholder="patient_acuity"><br>
-                    </p>
-                    <p>
-                        <input id="c_patient_date_admitted" name="patient_date_admitted" required="" size="32"
-                            type="text" value="" placeholder="patient_date_admitted"><br>
-                    </p>
-                    <p>
-                        <input id="c_patient_a_trained" name="patient_a_trained" required="" size="32" type="number"
-                            value="" placeholder="patient_a_trained"><br>
-                    </p>
-                    <p>
-                        <input id="c_patient_transfer" name="patient_transfer" required="" size="32" type="number"
-                            value="" placeholder="patient_transfer"><br>
-                    </p>
-                    <br>
-                    <input name="submit" type="submit" value="Create">
+                  <input id="create_name" name="create_name" required="" size="32" type="text" value="" placeholder="edit_first_name"><br>
+                  <input id="create_clinical_area" name="create_clinical_area" required="" size="32" type="text" value="" placeholder="clinical_area"><br>
+                  <input id="create_bed_num" name="create_bed_num" required="" size="32" type="number" value="" placeholder="bed_num"><br>
+                  <input id="create_acuity" name="create_acuity" required="" size="32" type="number" value="" placeholder="acuity"><br>
+                  <input id="create_a_trained" name="create_a_trained" required="" size="32" type="number" value="" placeholder="patient_a_trained"><br>
+                  <input id="create_patient_transfer" name="create_patient_transfer" required="" size="32" type="number" value="" placeholder="patient_transfer"><br>
+                  <input id="create_patient_iv" name="create_patient_iv" required="" size="32" type="number" value="" placeholder="iv"><br>
+                  <input id="create_patient_one_to_one" name="create_patient_one_to_one" required="" size="32" type="number" value="" placeholder="one_to_one"><br>
+                  <input id="create_patient_previous_nurses" name="create_patient_previous_nurses" required="" size="32" type="number" value="" placeholder="previous_nurses"><br>
+                  <input id="create_patient_date_admitted" name="create_patient_date_admitted" required="" size="32" type="text" value="" placeholder="patient_date_admitted"><br>
+                  <input id="create_patient_comments" name="create_patient_comments" required="" size="32" type="number" value="" placeholder="comments"><br>
+                    <div class="modal-footer">
+                      <input class="btn btn-danger" id="submit" name="submit" type="submit" value="Confirm">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    </div>
                 </form>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <p>
-
             </div>
         </div>
     </div>
@@ -160,36 +127,36 @@
 <div class="modal fade editModalCenter" id="editModal" tabindex="-1" role="dialog"
     aria-labelledby="editModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
-
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">edit patient</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-            <form action="/editPatientRecords" method="post">
-                    <input id="edit_patient_id" hidden name="edit_patient_id" required="" size="32" type="text" value="" placeholder=""><br>
-                    <input id="edit_patient_name" name="edit_patient_name" required="" size="32" type="text" value="" placeholder="name"><br>
-                    <input id="edit_patient_bed" name="edit_patient_bed" required="" size="32" type="text" value="" placeholder="patient_bed"><br>
-                    <input id="edit_patient_acuity" name="edit_patient_acuity" required="" size="32" type="text" value=""placeholder="patient_acuity"><br>
-                    <input id="edit_patient_date_admitted" name="edit_patient_date_admitted" required="" size="32" type="text" value=""placeholder="patient_date_admitted"><br>
-                    <input id="edit_patient_date_discharge" name="edit_patient_date_discharge" size="32" type="text" value=""placeholder="patient_date_discharge"><br>
-                    <input id="edit_patient_a_trained" name="edit_patient_a_trained" required="" size="32" type="number" value=""placeholder="patient_a_trained"><br>
-                    <input id="edit_patient_IV" name="edit_patient_IV" required="" size="32" type="number" value=""placeholder="patient_transfer"><br>
-
-                <br>
-                <input id="submit" name="submit" type="submit" value="Confirm">
-            </form>
-        </div> 
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-          <p>
-
-
-
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Edit Patient</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
+            <div class="modal-body">
+                <form action="/editPatientRecords" method="post">
+                    <input id="edit_patient_id" hidden name="edit_patient_id" required="" size="32" type="text" value="" placeholder=""><br>
+                    <input id="edit_name" name="edit_name" required="" size="32" type="text" value="" placeholder="edit_first_name"><br>
+                    <input id="edit_clinical_area" name="edit_clinical_area" required="" size="32" type="text" value="" placeholder="clinical_area"><br>
+                    <input id="edit_bed_num" name="edit_bed_num" required="" size="32" type="text" value="" placeholder="bed_num"><br>
+                    <input id="edit_acuity" name="edit_acuity" required="" size="32" type="text" value="" placeholder="acuity"><br>
+                    <input id="edit_a_trained" name="edit_a_trained" required="" size="32" type="text" value="" placeholder="patient_a_trained"><br>
+                    <input id="edit_patient_transfer" name="edit_patient_transfer" required="" size="32" type="text" value="" placeholder="patient_transfer"><br>
+                    <input id="edit_patient_iv" name="edit_patient_iv" required="" size="32" type="text" value="" placeholder="iv"><br>
+                    <input id="edit_patient_one_to_one" name="edit_patient_one_to_one" required="" size="32" type="text" value="" placeholder="one_to_one"><br>
+                    <input id="edit_patient_previous_nurses" name="edit_patient_previous_nurses" required="" size="32" type="text" value="" placeholder="previous_nurses"><br>
+                    <input id="edit_patient_date_admitted" name="edit_patient_date_admitted" required="" size="32" type="text" value="" placeholder="patient_date_admitted"><br>
+                    <input id="edit_patient_date_discharge" name="edit_patient_date_discharge" size="32" type="text" value="" placeholder="patient_date_discharge"><br>
+                    <input id="edit_patient_comments" name="edit_patient_comments" required="" size="32" type="text" value="" placeholder="comments"><br>
+                    <br>
+                    <div class="modal-footer">
+                      <input type="submit" name="submit" class="btn btn-warning" value="Edit">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                  </div>
+                </form>
+            </div>
+
         </div>
     </div>
 </div>
@@ -198,27 +165,23 @@
 <div class="modal fade deleteModalCenter" id="deleteModal" tabindex="-1" role="dialog"
     aria-labelledby="deleteModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
-
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Delete patient</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-            <form action="/deletePatientRecords" method="post">
-                <br>
-                <input id="remove_patient_id" hidden name="remove_patient_id" required="" size="32" type="text" value="" placeholder=""><br>
-                <input id="remove_patient_name" readonly name="remove_patient_name" required="" size="32" type="text" value="" placeholder=""><br>
-                <input id="submit" name="submit" type="submit" value="Confirm">
-            </form>
-        </div> 
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-          <p>
-
-
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Delete Patient</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/deletePatientRecords" method="post">
+                    <input id="remove_patient_id" hidden name="remove_patient_id" required="" size="32" type="text" value="" placeholder="">
+                    Are you sure you want to delete</p>
+                    <input id="remove_patient_name" disabled name="remove_patient_name" required="" size="32" type="text" value="" placeholder="">
+                    <div class="modal-footer">
+                      <input class="btn btn-danger" id="submit" name="submit" type="submit" value="Confirm">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -236,7 +199,7 @@
             cell.onclick = function () {
                 if (rowId != null && rowId == this.parentNode.rowIndex) {
                     var rowSelected = table.getElementsByTagName('tr')[rowId];
-                    rowSelected.classList.toggle("selected");
+                    rowSelected.classList.toggle("table-info");
                     rowId = null; // Reset rowId
                 } else {
                     // Take current row index
@@ -244,11 +207,11 @@
 
                     var rowsNotSelected = table.getElementsByTagName('tr');
                     for (var row = 0; row < rowsNotSelected.length; row++) {
-                        rowsNotSelected[row].classList.remove('selected');
+                        rowsNotSelected[row].classList.remove('table-info');
                     }
                     var rowSelected = table.getElementsByTagName('tr')[rowId];
 
-                    rowSelected.classList.toggle("selected", true);
+                    rowSelected.classList.toggle("table-info", true);
                 }
             }
         }
@@ -258,9 +221,7 @@
         }
     }
 
-    window.onload = highlight_row;
-
-    // grabs data for delete modal
+    // Grab delete data
     function get_delete_data() {
         // Gets data from selected row
         var table = document.getElementById('patient-record-table');
@@ -277,44 +238,70 @@
 
     }
 
-    // grabs data for edit modal
+    // Grab edit data
     function get_edit_data() {
         // Gets data from selected row
         var table = document.getElementById('patient-record-table');
         var patient_id = table.rows[rowId].cells[0].innerText;
         var patient_name = table.rows[rowId].cells[1].innerText;
-        var patient_bed = table.rows[rowId].cells[2].innerText;
-        var patient_acuity = table.rows[rowId].cells[3].innerText;
-        var patient_admit = table.rows[rowId].cells[4].innerText;
-        var patient_discharge = table.rows[rowId].cells[5].innerText;
-        var patient_a_trained = table.rows[rowId].cells[6].innerText;
-        var patient_IV = table.rows[rowId].cells[7].innerText;
+        var patient_clinical_area = table.rows[rowId].cells[2].innerText;
+        var patient_bed = table.rows[rowId].cells[3].innerText;
+        var patient_acuity_level = table.rows[rowId].cells[4].innerText;
+        var patient_a_trained = table.rows[rowId].cells[5].innerText;
+        var patient_transfer = table.rows[rowId].cells[6].innerText;
+        var patient_iv = table.rows[rowId].cells[7].innerText;
+        var patient_1_to_1 = table.rows[rowId].cells[8].innerText;
+        var patient_prev_nurses = table.rows[rowId].cells[9].innerText;
+        var patient_date_admitted = table.rows[rowId].cells[10].innerText;
+        var patient_date_discharged = table.rows[rowId].cells[11].innerText;
+        var patient_date_comments = table.rows[rowId].cells[12].innerText;
 
         //Sets input values
         document.getElementById('edit_patient_id').value = patient_id;
-        document.getElementById('edit_patient_name').value = patient_name;
-        document.getElementById('edit_patient_bed').value = patient_bed;
-        document.getElementById('edit_patient_acuity').value = patient_acuity;
-        document.getElementById('edit_patient_date_admitted').value = patient_admit;
-        document.getElementById('edit_patient_a_trained').value = patient_a_trained;
-        document.getElementById('edit_patient_IV').value = patient_IV;
-
-        if (patient_discharge !== 'None') {
-            document.getElementById('edit_patient_date_discharge').value = patient_discharge;
-        }
-
+        document.getElementById('edit_name').value = patient_name;
+        document.getElementById('edit_clinical_area').value = patient_clinical_area;
+        document.getElementById('edit_bed_num').value = patient_bed;
+        document.getElementById('edit_acuity').value = patient_acuity_level;
+        document.getElementById('edit_a_trained').value = patient_a_trained;
+        document.getElementById('edit_patient_transfer').value = patient_transfer
+        document.getElementById('edit_patient_iv').value = patient_iv
+        document.getElementById('edit_patient_one_to_one').value = patient_1_to_1
+        document.getElementById('edit_patient_previous_nurses').value = patient_prev_nurses
+        document.getElementById('edit_patient_date_admitted').value = patient_date_admitted
+        document.getElementById('edit_patient_date_discharge').value = patient_date_discharged
+        document.getElementById('edit_patient_comments').value = patient_date_comments
     }
-</script>
 
-<script>
+
+    // Filter Data by Column
     $(document).ready(function () {
-        $("#patient-search-input").on("keyup", function () {
-            var value = $(this).val().toLowerCase();
-            $("#patient-tbody tr").filter(function () {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        // Setup - add a text input to each header cell
+        $('#patient-record-table thead tr').clone(true).appendTo('#patient-record-table thead');
+        $('#patient-record-table thead tr:eq(1) th').each(function (i) {
+            $(this).html('<input class="form-control form-control-sm" type="text" placeholder="Filter..." />');
+            $('input', this).on('keyup change', function () {
+                if (table.column(i).search() !== this.value) {
+                    table
+                        .column(i)
+                        .search(this.value)
+                        .draw();
+                }
             });
         });
+
+        var table = $('#patient-record-table').DataTable({
+            // Order
+            orderCellsTop: true,
+            ordering: true,
+            paging: false,
+            info: false,
+            searching: true,
+            dom: 'lrtip',
+            responsive: true
+        });
     });
+
+    window.onload = highlight_row;
 </script>
 
 {% endblock %}
