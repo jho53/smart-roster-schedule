@@ -4,6 +4,10 @@ body {
   background-color: white;
 }
 
+table {
+  display: "block";
+}
+
 /******* Class Styling *******/
 
 /* Global */
