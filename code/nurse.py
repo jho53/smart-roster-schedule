@@ -30,9 +30,9 @@ class Nurse(Base):
     num_patients = Column(Integer, nullable=True)
 
     def __init__(self, id: int, first_name: str, last_name: str, clinical_area: str, bed_num: int,
-                 rotation: str, group: int, fte: float, skill_level: int, a_trained: bool, transfer: bool, picc: bool,
-                 advanced_role: str, previous_patients: str, dta: str, comments: str, priority: bool,
-                 current_shift: bool, num_patients: int) -> None:
+                 rotation: str, group: int, fte: float, skill_level: int, a_trained: int, transfer: int, picc: int,
+                 advanced_role: str, previous_patients: str, dta: str, comments: str, priority: int,
+                 current_shift: int, num_patients: int) -> None:
         """ Validates and Initializes a Nurse """
         Nurse._validate_positive_integer("Nurse ID", id)
         self.id = id
@@ -55,37 +55,37 @@ class Nurse(Base):
         Nurse._validate_positive_integer("Group", group)
         self.group = group
 
-        Nurse._validate_positive_float("fte", fte)
+        # Nurse._validate_positive_float("fte", fte)
         self.fte = fte
 
         Nurse._validate_positive_integer("Skill level", skill_level)
         self.skill_level = skill_level
 
-        Nurse._validate_boolean("A-Trained value", a_trained)
+        # Nurse._validate_boolean("A-Trained value", a_trained)
         self.a_trained = a_trained
 
-        Nurse._validate_boolean("Transfer value", transfer)
+        # Nurse._validate_boolean("Transfer value", transfer)
         self.transfer = transfer
 
-        Nurse._validate_boolean("PICC value", picc)
+        # Nurse._validate_boolean("PICC value", picc)
         self.picc = picc
 
-        Nurse._validate_string_250("Advanced Role", advanced_role)
+        # Nurse._validate_string_250("Advanced Role", advanced_role)
         self.advanced_role = advanced_role
 
         # Nurse._validate_string_250("Previous Patients", previous_patients)
-        # self.previous_patients = previous_patients
+        self.previous_patients = previous_patients
 
-        Nurse._validate_string_250("dta", dta)
+        # Nurse._validate_string_250("dta", dta)
         self.dta = dta
 
         # Nurse._validate_string_250("Comments", comments)
         # self.comments = comments
 
-        Nurse._validate_boolean("Priority/Non-Priority", priority)
+        # Nurse._validate_boolean("Priority/Non-Priority", priority)
         self.priority = priority
 
-        Nurse._validate_boolean("Current Shift", current_shift)
+        # Nurse._validate_boolean("Current Shift", current_shift)
         self.current_shift = current_shift
 
     ###############################################
@@ -123,15 +123,15 @@ class Nurse(Base):
         """ get skill level that nurse is currently assigned """
         return self.skill_level
 
-    def get_a_trained(self) -> bool:
+    def get_a_trained(self) -> int:
         """ get a_trained value from nurse"""
         return self.a_trained
 
-    def get_transfer(self) -> bool:
+    def get_transfer(self) -> int:
         """ get transfer value from nurse"""
         return self.transfer
 
-    def get_picc(self) -> bool:
+    def get_picc(self) -> int:
         """ get PICC value from nurse"""
         return self.picc
 
@@ -143,7 +143,7 @@ class Nurse(Base):
         """ get fte value from nurse"""
         return self.fte
 
-    def get_assigned(self) -> bool:
+    def get_assigned(self) -> int:
         """ get assigned value from nurse"""
         return self.assigned
 
@@ -155,11 +155,11 @@ class Nurse(Base):
         """ get dta value from nurse"""
         return self.dta
 
-    def get_priority(self) -> bool:
+    def get_priority(self) -> int:
         """ get priority value from nurse"""
         return self.priority
 
-    def get_current_shift(self) -> bool:
+    def get_current_shift(self) -> int:
         """ get current shift value from nurse"""
         return self.current_shift
 
