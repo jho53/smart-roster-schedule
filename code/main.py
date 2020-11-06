@@ -420,12 +420,13 @@ def assign_nurse_patient() -> dict:
     # Grab Patients
     patients = []
 
-    cursor.execute('SELECT * FROM patients WHERE discharged_date="-" ORDER BY one_to_one DESC, acuity DESC, a_trained DESC, transfer DESC, iv DESC;')
+    cursor.execute(
+        'SELECT * FROM patients WHERE discharged_date="-" ORDER BY one_to_one DESC, acuity DESC, a_trained DESC, transfer DESC, iv DESC;')
     patient_list = cursor.fetchall()
 
     for row in patient_list:
         x = Patient(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10], row[11],
-                         row[12], row[13])
+                    row[12], row[13])
         patients.append(x)
 
     # Grab Nurses
@@ -436,7 +437,7 @@ def assign_nurse_patient() -> dict:
 
     for row in nurse_list:
         x = Nurse(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10], row[11],
-                         row[12], row[13], row[14], row[15], row[16])
+                  row[12], row[13], row[14], row[15], row[16])
         nurses.append(x)
 
         assignments[row[0]] = {'num_patients': 0, 'patients': [], 'prev_p': []}
@@ -463,9 +464,6 @@ def assign_nurse_patient() -> dict:
             cursor.execute(base)
             eligible_nurses = cursor.fetchall()
             eligible_nurse_objects = []
-
-
-
 
             i = 0
             while len(eligible_nurse_objects) < 1 and i < 3:
@@ -501,13 +499,13 @@ def assign_nurse_patient() -> dict:
                 # if nurse matches picc, give nurse 3 points
                 if eno.get_picc() == picc:
                     nurse_weights[eno.get_id()] += 2
-                
+
                 # if nurse has less patients, then give nurse 6 points
 
                 # if nurse matches priority, give nurse points
                 if eno.get_priority() == 1:
                     nurse_weights[eno.get_id()] += 7
-                
+
                 # if nurse has previous assignments, give nurse points
                 prev_p = eno.get_previous_patients().strip('][').split(', ')
 
@@ -551,7 +549,7 @@ def assign_nurse_patient() -> dict:
     except ValueError as error:
         response = app.response_class(status=400, response=str(error))
 
-    return response
+    return render_template("./assign.html", response=assignments, nurseList=nurse_list, patientList=patient_list)
 
 
 if __name__ == "__main__":

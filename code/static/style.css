@@ -8,9 +8,9 @@ table {
   display: "block";
 }
 
-div {
+/* div {
   border: 1px solid red;
-}
+} */
 
 /******* Class Styling *******/
 
@@ -202,6 +202,14 @@ div {
 /* Start of Assignments Pages */
 .menu-dropdown {
   margin: 5px 25px;
+}
+
+.pod-norm {
+  background: #c3e6cb;
+}
+
+.pod-spec {
+  background: #eb5757;
 }
 
 /* End of Assignments Pages */
