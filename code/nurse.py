@@ -10,8 +10,7 @@ class Nurse(Base):
 
     # Defining column names and types
     id = Column(Integer, primary_key=True)
-    first_name = Column(String(250), nullable=False)
-    last_name = Column(String(250), nullable=False)
+    name = Column(String(250), nullable=False)
     clinical_area = Column(String(250), nullable=True)
     bed_num = Column(Integer, nullable=True)
     rotation = Column(String(250), nullable=True)
@@ -29,19 +28,16 @@ class Nurse(Base):
     current_shift = Column(Boolean, nullable=True)
     num_patients = Column(Integer, nullable=True)
 
-    def __init__(self, id: int, first_name: str, last_name: str, clinical_area: str, bed_num: int,
+    def __init__(self, id: int, name: str, clinical_area: str, bed_num: int,
                  rotation: str, group: int, fte: float, skill_level: int, a_trained: int, transfer: int, picc: int,
                  advanced_role: str, previous_patients: str, dta: str, comments: str, priority: int,
-                 current_shift: int, num_patients: int) -> None:
+                 current_shift: int) -> None:
         """ Validates and Initializes a Nurse """
         Nurse._validate_positive_integer("Nurse ID", id)
         self.id = id
 
-        Nurse._validate_string_250("First name", first_name)
-        self.first_name = first_name
-
-        Nurse._validate_string_250("Last name", last_name)
-        self.last_name = last_name
+        Nurse._validate_string_250("Name", name)
+        self.name = name
 
         Nurse._validate_string_250("Clinical area", clinical_area)
         self.clinical_area = clinical_area
@@ -99,17 +95,9 @@ class Nurse(Base):
         """ get id of nurse """
         return self.id
 
-    def get_first_name(self) -> str:
-        """ get first name of nurse """
-        return self.first_name
-
-    def get_last_name(self) -> str:
-        """ get last name of nurse """
-        return self.last_name
-
     def get_name(self) -> str:
-        """ get full name of nurse """
-        return self.first_name + self.last_name
+        """ get first name of nurse """
+        return self.name
 
     def get_clinical_area(self) -> str:
         """ get clinical area that nurse is currently assigned """
@@ -188,8 +176,7 @@ class Nurse(Base):
         nurse_dict = {}
 
         nurse_dict['id'] = self.id
-        nurse_dict['first_name'] = self.first_name
-        nurse_dict['last_name'] = self.last_name
+        nurse_dict['name'] = self.name
         nurse_dict['clinical_area'] = self.clinical_area
         nurse_dict['bed_num'] = self.bed_num
         nurse_dict['rotation'] = self.rotation

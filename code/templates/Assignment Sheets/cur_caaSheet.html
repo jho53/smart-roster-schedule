@@ -8,10 +8,40 @@
     <div class="jumbotron-content">
         <div class="row justify-content-md-center">
             <h1 class="jumbotron-title col-11">Clinical Assignment Page</h1>
-            <a href="#"><i class="fa fa-home"></i></a>
         </div>
-
+        <a href="#" onclick="printPage()" style="position: absolute; right: 50px; top: 30px;"><img
+            src="/images/print-icon.png" width="50px" height="50px" /><br>Print</a>
         <p>{{now}}</p>
+
+        <div class="row">
+            <div class="col-3">
+                <h4>Charge Nurses</h4>
+                <select class="form-control" id="chargeNurse1">
+                    <option selected>Choose...</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+                <select class="form-control" id="chargeNurse2">
+                    <option selected>Choose...</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+                <select class="form-control" id="chargeNurse3">
+                    <option selected>Choose...</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+            </div>
+            <div class="col-3 col-offset-1">
+                <h4>Support Nurses</h4>
+            </div>
+            <div class="col-3 col-offset-1">
+                stuff
+            </div>
+        </div>
         <br><br>
     </div>
 </div>
