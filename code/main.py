@@ -189,12 +189,14 @@ def add_nurse_records():
     try:
         cursor.execute(query, arguments)
         db.commit()
-        cursor.execute("SELECT * FROM nurses")
-        nurse_list = cursor.fetchall()
-        return render_template("./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list, nurseHeaders=NURSE_HEADERS)
+        
 
     except Exception as error:
         print(error)
+
+    cursor.execute("SELECT * FROM nurses")
+    nurse_list = cursor.fetchall()
+    return render_template("./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list, nurseHeaders=NURSE_HEADERS)
 
 
 
