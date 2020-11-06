@@ -2,9 +2,10 @@
 {% block content %}
 
 <div class="row">
-    <div class="col-3">
+    <div class="col-2">
         <div class="list-group" id="list-tab" role="tablist">
-            <button type="button" class="btn btn-success">Run Scheduler</button>
+            <a href="#" class="list-group-item list-group-item-action list-group-item-success"><img class="sidebar-icons"
+                    src="/images/run.png">Run Scheduler</a>
             <a class="list-group-item list-group-item-action active" id="list-assignments-list" data-toggle="list"
                 href="#list-assignments" role="tab" aria-controls="assignments"><img class="sidebar-icons"
                     src="/images/current_shift.png">Current
@@ -25,23 +26,27 @@
                 aria-labelledby="list-assignments-list">
                 <div class="row">
                     <div class="card-deck">
-                        <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="/images/nurse_assignment.png" alt="nurse assignment image">
+                        <div class="card text-center" style="width: 18rem; background: #add8e6">
+                            <img class="mx-auto m-4" width="80px" height="80px" src="/images/add-nurse-icon.png" alt="nurse assignment image">
+                            <div class="card-title"><h5>Clinical Area Assignment</h5></div>
                             <div class="card-body">
-                                <h5 class="card-title">Clinical Area Assignment</h5>
-                                <p class="card-text">View the Clinical Area Assignment and make quick changes if
+                                <p class="card-text text-center">View the Clinical Area Assignment and make quick changes if
                                     necessary</p>
-                                <a href="/currentCAASheet" class="btn btn-primary">View</a>
+                            </div>
+                            <div class="card-footer">
+                                <a href="/currentCAASheet" style="padding: 10px 100px" class="btn btn-lg btn-primary">View</a>
                             </div>
                         </div>
-                        <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="/images/patient_assignment.png"
+                        <div class="card text-center" style="width: 18rem; background: #add8e6">
+                            <img class="mx-auto m-4" width="80px" height="80px" src="/images/patient_records.png"
                                 alt="patient assignment image">
+                            <div class="card-title"><h5>Patient/Nurse Assignment</h5></div>
                             <div class="card-body">
-                                <h5 class="card-title">Patient/Nurse Assignment</h5>
-                                <p class="card-text">View the Patient/Nurse Assignment and make quick changes if
+                                <p class="card-text  text-center">View the Patient/Nurse Assignment and make quick changes if
                                     necessary</p>
-                                <a href="/currentPNSheet" class="btn btn-primary">View</a>
+                            </div>
+                            <div class="card-footer">
+                                <a href="/currentPNSheet" style="padding: 10px 100px" class="btn btn-lg btn-primary">View</a>
                             </div>
                         </div>
                     </div>
@@ -50,22 +55,26 @@
             <div class="tab-pane fade" id="list-records" role="tabpanel" aria-labelledby="list-records-list">
                 <div class="row">
                     <div class="card-deck">
-                        <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="/images/nurse_records.png" alt="nurse records image">
+                        <div class="card text-center" style="width: 18rem; background: #add8e6">
+                            <img class="mx-auto m-4" width="80px" height="80px" src="/images/nurse-records-icon.png" alt="nurse records image">
+                            <div class="card-title"><h5>Nurse Records</h5></div>
                             <div class="card-body">
-                                <h5 class="card-title">Nurse Records</h5>
-                                <p class="card-text">View all nurses in the database. Add, delete, or edit nurses
+                                <p class="card-text text-center">View all nurses in the database. Add, delete, or edit nurses
                                     freely.</p>
-                                <a href="/nurseRecords" class="btn btn-primary">View</a>
+                            </div>
+                            <div class="card-footer">
+                                <a href="/nurseRecords" style="padding: 10px 100px" class="btn btn-lg btn-primary">View</a>
                             </div>
                         </div>
-                        <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="/images/patient_records.png" alt="patient records image">
+                        <div class="card text-center" style="width: 18rem; background: #add8e6">
+                            <img class="mx-auto m-4" width="80px" height="80px" src="/images/patient-records-icon.png" alt="patient records image">
+                            <div class="card-title"><h5>Patient Records</h5></div>
                             <div class="card-body">
-                                <h5 class="card-title">Patient Records</h5>
-                                <p class="card-text">View all patients in the database. Add, delete, or edit freely.</p>
-                                <a href="/patientRecords" class="btn btn-primary">View</a>
+                                <p class="card-text text-center">View all patients in the database. Add, delete, or edit freely.</p>
                             </div>
+                            <div class="card-footer">
+                                <a href="/patientRecords" style="padding: 10px 100px" class="btn btn-lg btn-primary">View</a>
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -73,22 +82,26 @@
             <div class="tab-pane fade" id="list-pastsheets" role="tabpanel" aria-labelledby="list-pastsheets-list">
                 <div class="row">
                     <div class="card-deck">
-                        <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="/images/past_clinical_assignment.png"
+                        <div class="card text-center" style="width: 18rem; background: #add8e6">
+                            <img class="mx-auto m-4" width="80px" height="80px" src="/images/past-assignments-icon.png"
                                 alt="Past Clinical Area Assignments image">
+                            <div class="card-title"><h5>Past Clinical Area Assignments</h5></div>
                             <div class="card-body">
-                                <h5 class="card-title">Past Clinical Area Assignments</h5>
-                                <p class="card-text">View past clinical area assignment sheets. Search by date.</p>
-                                <a href="/pastCAASheet" class="btn btn-primary">View</a>
+                                <p class="card-text text-center"><br>View past clinical area assignment sheets. Search by date.</p>
                             </div>
+                            <div class="card-footer">
+                                <a href="/pastCAASheet" style="padding: 10px 100px" class="btn btn-lg btn-primary">View</a>
                         </div>
-                        <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="/images/past_patient_assignments.png"
+                        </div>
+                        <div class="card text-center" style="width: 18rem; background: #add8e6">
+                            <img class="mx-auto m-4" width="80px" height="80px" src="/images/past-assignments-icon.png"
                                 alt="Past Patient/Nurse Assignments">
+                            <div class="card-title"><h5>Past Patient/Nurse Assignments</h5></div>
                             <div class="card-body">
-                                <h5 class="card-title">Past Patient/Nurse Assignments</h5>
-                                <p class="card-text">View past patient/nurse assignment sheets. Search by date.</p>
-                                <a href="/pastPNSheet" class="btn btn-primary">View</a>
+                                <p class="card-text text-center">View past patient/nurse assignment sheets. Search by date.</p>
+                            </div>
+                            <div class="card-footer">
+                                <a href="/pastPNSheet" style="padding: 10px 100px" class="btn btn-lg btn-primary">View</a>
                             </div>
                         </div>
                     </div>

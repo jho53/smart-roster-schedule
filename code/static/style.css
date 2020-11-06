@@ -52,6 +52,10 @@ body {
   padding-top: 5px;
 }
 
+.card:hover {
+  background: #ffffff;
+}
+
 /* Start of login page */
 .login-elements {
   margin-top: 150px;
