@@ -107,23 +107,23 @@
             </div>
             <div class="modal-body">
                 <form action="/addPatientRecords" method="post">
-                    <input id="c_patient_name" name="patient_name" required="" size="32" type="text" value=""
-                        placeholder="name">
-                    <input id="c_patient_bed" name="patient_bed" required="" size="32" type="text" value=""
-                        placeholder="patient_bed">
-                    <input id="c_patient_acuity" name="patient_acuity" required="" size="32" type="text" value=""
-                        placeholder="patient_acuity">
-                    <input id="c_patient_date_admitted" name="patient_date_admitted" required="" size="32" type="text"
-                        value="" placeholder="patient_date_admitted"><br>
-                    <input id="c_patient_a_trained" name="patient_a_trained" required="" size="32" type="number"
-                        value="" placeholder="patient_a_trained"><br>
-                    <input id="c_patient_transfer" name="patient_transfer" required="" size="32" type="number" value=""
-                        placeholder="patient_transfer">
+                  <input id="create_first_name" name="create_first_name" required="" size="32" type="text" value="" placeholder="edit_first_name"><br>
+                  <input id="create_last_name" name="create_last_name" required="" size="32" type="text" value="" placeholder="last_name"><br>
+                  <input id="create_clinical_area" name="create_clinical_area" required="" size="32" type="text" value="" placeholder="clinical_area"><br>
+                  <input id="create_bed_num" name="create_bed_num" required="" size="32" type="number" value="" placeholder="bed_num"><br>
+                  <input id="create_acuity" name="create_acuity" required="" size="32" type="number" value="" placeholder="acuity"><br>
+                  <input id="create_a_trained" name="create_a_trained" required="" size="32" type="number" value="" placeholder="patient_a_trained"><br>
+                  <input id="create_patient_transfer" name="create_patient_transfer" required="" size="32" type="number" value="" placeholder="patient_transfer"><br>
+                  <input id="create_patient_iv" name="create_patient_iv" required="" size="32" type="number" value="" placeholder="iv"><br>
+                  <input id="create_patient_one_to_one" name="create_patient_one_to_one" required="" size="32" type="number" value="" placeholder="one_to_one"><br>
+                  <input id="create_patient_previous_nurses" name="create_patient_previous_nurses" required="" size="32" type="number" value="" placeholder="previous_nurses"><br>
+                  <input id="create_patient_date_admitted" name="create_patient_date_admitted" required="" size="32" type="text" value="" placeholder="patient_date_admitted"><br>
+                  <input id="create_patient_comments" name="create_patient_comments" required="" size="32" type="number" value="" placeholder="comments"><br>
+                    <div class="modal-footer">
+                      <input class="btn btn-danger" id="submit" name="submit" type="submit" value="Confirm">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    </div>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button class="btn" name="submit" type="submit" value="Create">Create</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>
@@ -142,30 +142,28 @@
             </div>
             <div class="modal-body">
                 <form action="/editPatientRecords" method="post">
-                    <input id="edit_patient_id" hidden name="edit_patient_id" required="" size="32" type="text" value=""
-                        placeholder=""><br>
-                    <input id="edit_patient_name" name="edit_patient_name" required="" size="32" type="text" value=""
-                        placeholder="name"><br>
-                    <input id="edit_patient_bed" name="edit_patient_bed" required="" size="32" type="text" value=""
-                        placeholder="patient_bed"><br>
-                    <input id="edit_patient_acuity" name="edit_patient_acuity" required="" size="32" type="text"
-                        value="" placeholder="patient_acuity"><br>
-                    <input id="edit_patient_date_admitted" name="edit_patient_date_admitted" required="" size="32"
-                        type="text" value="" placeholder="patient_date_admitted"><br>
-                    <input id="edit_patient_date_discharge" name="edit_patient_date_discharge" size="32" type="text"
-                        value="" placeholder="patient_date_discharge"><br>
-                    <input id="edit_patient_a_trained" name="edit_patient_a_trained" required="" size="32" type="number"
-                        value="" placeholder="patient_a_trained"><br>
-                    <input id="edit_patient_IV" name="edit_patient_IV" required="" size="32" type="number" value=""
-                        placeholder="patient_transfer"><br>
-
+                    <input id="edit_patient_id" hidden name="edit_patient_id" required="" size="32" type="text" value="" placeholder=""><br>
+                    <input id="edit_first_name" name="edit_first_name" required="" size="32" type="text" value="" placeholder="edit_first_name"><br>
+                    <input id="edit_last_name" name="edit_last_name" required="" size="32" type="text" value="" placeholder="last_name"><br>
+                    <input id="edit_clinical_area" name="edit_clinical_area" required="" size="32" type="text" value="" placeholder="clinical_area"><br>
+                    <input id="edit_bed_num" name="edit_bed_num" required="" size="32" type="text" value="" placeholder="bed_num"><br>
+                    <input id="edit_acuity" name="edit_acuity" required="" size="32" type="text" value="" placeholder="acuity"><br>
+                    <input id="edit_a_trained" name="edit_a_trained" required="" size="32" type="text" value="" placeholder="patient_a_trained"><br>
+                    <input id="edit_patient_transfer" name="edit_patient_transfer" required="" size="32" type="text" value="" placeholder="patient_transfer"><br>
+                    <input id="edit_patient_iv" name="edit_patient_iv" required="" size="32" type="text" value="" placeholder="iv"><br>
+                    <input id="edit_patient_one_to_one" name="edit_patient_one_to_one" required="" size="32" type="text" value="" placeholder="one_to_one"><br>
+                    <input id="edit_patient_previous_nurses" name="edit_patient_previous_nurses" required="" size="32" type="text" value="" placeholder="previous_nurses"><br>
+                    <input id="edit_patient_date_admitted" name="edit_patient_date_admitted" required="" size="32" type="text" value="" placeholder="patient_date_admitted"><br>
+                    <input id="edit_patient_date_discharge" name="edit_patient_date_discharge" size="32" type="text" value="" placeholder="patient_date_discharge"><br>
+                    <input id="edit_patient_comments" name="edit_patient_comments" required="" size="32" type="text" value="" placeholder="comments"><br>
                     <br>
+                    <div class="modal-footer">
+                      <input type="submit" name="submit" class="btn btn-warning" value="Edit">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                  </div>
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="submit" name="submit" class="btn btn-warning" value="Edit">Edit</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            </div>
+
         </div>
     </div>
 </div>
@@ -183,16 +181,14 @@
             </div>
             <div class="modal-body">
                 <form action="/deletePatientRecords" method="post">
-                    <input id="remove_patient_id" hidden name="remove_patient_id" required="" size="32" type="text"
-                        value="" placeholder="">
+                    <input id="remove_patient_id" hidden name="remove_patient_id" required="" size="32" type="text" value="" placeholder="">
                     Are you sure you want to delete</p>
-                    <input id="remove_patient_name" disabled name="remove_patient_name" required="" size="32"
-                        type="text" value="" placeholder="">
+                    <input id="remove_patient_name" disabled name="remove_patient_name" required="" size="32" type="text" value="" placeholder="">
+                    <div class="modal-footer">
+                      <input class="btn btn-danger" id="submit" name="submit" type="submit" value="Confirm">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    </div>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-danger" name="submit" type="submit" value="Confirm">Delete</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>
@@ -254,27 +250,37 @@
         // Gets data from selected row
         var table = document.getElementById('patient-record-table');
         var patient_id = table.rows[rowId].cells[0].innerText;
-        var patient_name = table.rows[rowId].cells[1].innerText;
-        var patient_bed = table.rows[rowId].cells[2].innerText;
-        var patient_acuity = table.rows[rowId].cells[3].innerText;
-        var patient_admit = table.rows[rowId].cells[4].innerText;
-        var patient_discharge = table.rows[rowId].cells[5].innerText;
+        var patient_first_name = table.rows[rowId].cells[1].innerText;
+        var patient_last_name = table.rows[rowId].cells[2].innerText;
+        var patient_clinical_area = table.rows[rowId].cells[3].innerText;
+        var patient_bed = table.rows[rowId].cells[4].innerText;
+        var patient_acuity_level = table.rows[rowId].cells[5].innerText;
         var patient_a_trained = table.rows[rowId].cells[6].innerText;
-        var patient_IV = table.rows[rowId].cells[7].innerText;
+        var patient_transfer = table.rows[rowId].cells[7].innerText;
+        var patient_iv = table.rows[rowId].cells[8].innerText;
+        var patient_1_to_1 = table.rows[rowId].cells[9].innerText;
+        var patient_prev_nurses = table.rows[rowId].cells[10].innerText;
+        var patient_date_admitted = table.rows[rowId].cells[11].innerText;
+        var patient_date_discharged = table.rows[rowId].cells[12].innerText;
+        var patient_date_comments = table.rows[rowId].cells[13].innerText;
 
         //Sets input values
         document.getElementById('edit_patient_id').value = patient_id;
-        document.getElementById('edit_patient_name').value = patient_name;
-        document.getElementById('edit_patient_bed').value = patient_bed;
-        document.getElementById('edit_patient_acuity').value = patient_acuity;
-        document.getElementById('edit_patient_date_admitted').value = patient_admit;
-        document.getElementById('edit_patient_a_trained').value = patient_a_trained;
-        document.getElementById('edit_patient_IV').value = patient_IV;
-
-        if (patient_discharge !== 'None') {
-            document.getElementById('edit_patient_date_discharge').value = patient_discharge;
-        }
+        document.getElementById('edit_first_name').value = patient_first_name;
+        document.getElementById('edit_last_name').value = patient_last_name;
+        document.getElementById('edit_clinical_area').value = patient_clinical_area;
+        document.getElementById('edit_bed_num').value = patient_bed;
+        document.getElementById('edit_acuity').value = patient_acuity_level;
+        document.getElementById('edit__a_trained').value = patient_a_trained;
+        document.getElementById('edit_patient_transfer').value = patient_transfer
+        document.getElementById('edit_patient_iv').value = patient_iv
+        document.getElementById('edit_patient_one_to_one').value = patient_1_to_1
+        document.getElementById('edit_patient_previous_nurses').value = patient_prev_nurses
+        document.getElementById('edit_patient_date_admitted').value = patient_date_admitted
+        document.getElementById('edit_patient_date_discharge').value = patient_date_discharged
+        document.getElementById('edit_patient_comments').value = patient_date_comments
     }
+
 
     // Filter Data by Column
     $(document).ready(function () {
