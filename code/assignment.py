@@ -146,34 +146,3 @@ def customize_sql(transfer, a_trained, acuity):
         base += " AND a_trained=True"
     
     return base
-
-
-
-# Patient #5
-# - transfer - False
-# - atrained - True
-# - acuity - 3
-# - picc - False
-# - one-to-one - False
-# - clinical area - C
-# - twin - 'other person'
-
-# nurses:
-# - transfer - doesn't matter
-# - atrained - True
-# - skill level - 3 or more
-# - num_patients - 0
-# - clinical area (soft) - B (2)
-# - prev_patients - #5, #6, #1 (1)
-
-# iterate by patients
-# 1st iteration (num_patients = 0)
-#  select statement in current nurses
-# 2nd iteration (num_patients = 1)
-# 3rd iteration (num_patients = 2)
-
-# SOFT CONSTRAINTS
-# clinical area
-# 1:1
-# picc
-# priority

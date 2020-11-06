@@ -3,5 +3,197 @@
 {% block content %}
 
 <!--Content Here-->
-Cur PN Sheet
+<!--Jumbotron-->
+<div class="jumbotron py-3">
+    <div class="jumbotron-content">
+        <div class="row justify-content-md-center">
+            <h1 class="jumbotron-title col-11">Patient/Nurse Assignment Page</h1>
+        </div>
+        <a href="#" onclick="printPage()" style="position: absolute; right: 50px; top: 30px;"><img
+                src="/images/print-icon.png" width="50px" height="50px" /><br>Print</a>
+        <p>{{now}}</p>
+        <br><br>
+        <div class="row">
+            <div class="col-7 offset-1 row">
+                <!--Charge Nurse Dropdowns-->
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" style="width: 140px">Charge Nurse </label>
+                    </div>
+                    {% for i in range(3)%}
+                    <select class="form-control" id="chargeNurse1">
+                        <option selected>{{nurseList[i][1]}}</option>
+                        {% for index, nurse in enumerate(nurseList) %}
+                        {% if nurse[11] == "Charge" %}
+                        <option class="table-success" id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}
+                        </option>
+                        {% else %}
+                        <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                    {% endfor %}
+                </div>
+                <!--Support Nurse Dropdowns-->
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" style="width: 140px">Support Nurse</label>
+                    </div>
+                    {% for i in range(3)%}
+                    <select class="form-control" id="supportNurse1">
+                        <option selected>{{nurseList[i + 3][1]}}</option>
+                        {% for index, nurse in enumerate(nurseList) %}
+                        {% if nurse[11] == "Support" %}
+                        <option class="table-warning" id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}
+                        </option>
+                        {% else %}
+                        <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                    {% endfor %}
+                </div>
+                <!--Code Nurse Dropdowns-->
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" style="width: 140px">Code Nurse</label>
+                    </div>
+                    <select class="form-control" id="chargeNurse1">
+                        <option selected>{{nurseList[7][1]}}</option>
+                        {% for index, nurse in enumerate(nurseList) %}
+                        <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% set areas=["A", "B", "C", "D", "E", "F"] %}
+{% set area_iter = namespace(value=0) %}
+
+{% for card_row in range(2) %}
+<div class="card-deck">
+    {% for card_col in range(3) %}
+    <div class="card" style="border-radius: 15px;">
+
+        <div {% if area_iter.value < 4 %} class="card-footer text-center pod-norm" {% else %}
+            class="card-footer text-center pod-spec" {% endif %}
+            style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
+
+            <h4>Clinical Area {{areas[area_iter.value]}}</h4>
+            {% set area_iter.value = area_iter.value + 1 %}
+        </div>
+        <div class="card-body row justify-content-md-center">
+            <div class="col-6 row justify-content-md-center">
+                {% for asc_loop in range(7) %}
+                <div class="col-11 p-2 row mb-2" style="background-color: lightgrey; border-radius: 10px;">
+                    <p style="position: relative; left: 5%;">{{ asc_loop + 1 }}</p>
+                    <span class="badge badge-danger" style="position: relative; left: 82.5%; height: 18px;">1:1</span>
+                    <!--Patient Dropdown-->
+                    <div class="input-group input-group-sm px-1">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" style="width: 30px;">P</label>
+                        </div>
+                        <select class="form-control" id="chargeNurse1">
+                            {% for index, patient in enumerate(patientList) %}
+                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{patient[1]}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <!--Nurse Dropdown-->
+                    <div class="input-group input-group-sm px-1">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" style="width: 30px;">N</label>
+                        </div>
+                        <select class=" form-control" id="chargeNurse1">
+                            {% for index, nurse in enumerate(nurseList) %}
+                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="col-6 row justify-content-md-center">
+                {% for desc_loop in range(7)|reverse %}
+                <div class="col-11 p-2 row mb-2" style="background-color: lightgrey; border-radius: 10px;">
+                    <p style="position: relative; left: 5%;">{{ desc_loop + 8 }}</p>
+                    {% if (desc_loop + 8) % 10 == 1 %}
+                    <span class="badge badge-danger" style="position: relative; left: 80%; height: 18px;">1:1</span>
+                    {% else %}
+                    <span class="badge badge-danger" style="position: relative; left: 82.5%; height: 18px;">1:1</span>
+                    {% endif %}
+                    <!--Patient Dropdown-->
+                    <div class="input-group input-group-sm px-1">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" style="width: 30px;">P</label>
+                        </div>
+                        <select class="form-control" id="chargeNurse1">
+                            {% for index, patient in enumerate(patientList) %}
+                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{patient[1]}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <!--Nurse Dropdown-->
+                    <div class="input-group input-group-sm px-1">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" style="width: 30px;">N</label>
+                        </div>
+                        <select class=" form-control" id="chargeNurse1">
+                            {% for index, nurse in enumerate(nurseList) %}
+                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<br>
+{% endfor %}
+
+<script>
+
+    function filterFunction() {
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        div = document.getElementById("myDropdown");
+        a = div.getElementsByTagName("a");
+        for (i = 0; i < a.length; i++) {
+            txtValue = a[i].textContent || a[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                a[i].style.display = "";
+            } else {
+                a[i].style.display = "none";
+            }
+        }
+    }
+
+    // Print Page
+    function printPage() {
+        var css = 'body {zoom: 60%}',
+            head = document.head || document.getElementsByTagName('head')[0],
+            style = document.createElement('style');
+
+        style.type = 'text/css';
+        style.media = 'print';
+
+        if (style.styleSheet) {
+            style.styleSheet.cssText = css;
+        } else {
+            style.appendChild(document.createTextNode(css));
+        }
+
+        head.appendChild(style);
+
+        window.print();
+    }
+</script>
 {% endblock %}
