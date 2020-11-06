@@ -381,8 +381,13 @@ def settings():
 
 @app.route("/currentCAASheet")
 def current_CAASheet():
+    # Grab nurse and patient tables
+    cursor.execute("SELECT * FROM nurses WHERE current_shift=1")
+    nurse_list = cursor.fetchall()
+    cursor.execute("SELECT * FROM patients")
+    patient_list = cursor.fetchall()
 
-    return render_template("./Assignment Sheets/cur_caaSheet.html", loggedin=session['loggedin'])
+    return render_template("./Assignment Sheets/cur_caaSheet.html", loggedin=session['loggedin'], nurseList=nurse_list, patientList=patient_list)
 
 
 @app.route("/currentPNSheet")
