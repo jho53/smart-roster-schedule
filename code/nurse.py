@@ -10,8 +10,7 @@ class Nurse(Base):
 
     # Defining column names and types
     id = Column(Integer, primary_key=True)
-    first_name = Column(String(250), nullable=False)
-    last_name = Column(String(250), nullable=False)
+    name = Column(String(250), nullable=False)
     clinical_area = Column(String(250), nullable=True)
     bed_num = Column(Integer, nullable=True)
     rotation = Column(String(250), nullable=True)
@@ -177,8 +176,7 @@ class Nurse(Base):
         nurse_dict = {}
 
         nurse_dict['id'] = self.id
-        nurse_dict['first_name'] = self.first_name
-        nurse_dict['last_name'] = self.last_name
+        nurse_dict['name'] = self.name
         nurse_dict['clinical_area'] = self.clinical_area
         nurse_dict['bed_num'] = self.bed_num
         nurse_dict['rotation'] = self.rotation
