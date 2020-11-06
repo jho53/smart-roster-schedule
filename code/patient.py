@@ -23,7 +23,7 @@ class Patient(Base):
     comments = Column(String(250), nullable=True)
     twin = Column(String(250), nullable=True)
 
-    def __init__(self, id: int, first_name: str, last_name: str, clinical_area: str, bed_num: int,
+    def __init__(self, id: int, name: str, clinical_area: str, bed_num: int,
                  acuity: int, a_trained: int, transfer: int, picc: int, one_to_one: int,
                  previous_nurses: str, admission_date: str, discharge_date: str, comments: str,
                  twin: int) -> None:
@@ -31,11 +31,8 @@ class Patient(Base):
         Patient._validate_positive_integer("Patient ID", id)
         self.id = id
 
-        Patient._validate_string_250("First name", first_name)
-        self.first_name = first_name
-
-        Patient._validate_string_250("Last name", last_name)
-        self.last_name = last_name
+        Patient._validate_string_250("Name", name)
+        self.name = name
 
         # Patient._validate_string_250("Clinical area", clinical_area)
         self.clinical_area = clinical_area
@@ -86,10 +83,6 @@ class Patient(Base):
     def get_first_name(self) -> str:
         """ get first name of patient """
         return self.first_name
-
-    def get_last_name(self) -> str:
-        """ get last name of patient """
-        return self.last_name
 
     def get_full_name(self) -> str:
         """ get full name of patient """
