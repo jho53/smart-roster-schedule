@@ -48,9 +48,9 @@ def inject_enumerate():
 #### Global Variables ####
 
 # Headers
-PATIENT_HEADERS = ["Patient ID", "First Name", "Last Name", "Clinical Area", "Bed #", "Acuity Level",
+PATIENT_HEADERS = ["ID", "Name", "Clinical Area", "Bed #", "Acuity Level",
                    "A-trained Req", "Transfer Req", "IV Req", "1:1", "Previous Nurses", "Date Admitted", "Discharged Date", "Comments"]
-NURSE_HEADERS = ["Nurse ID", "First Name", "Last Name", "Clinical Area", "Rotation", "Group", "FTE",
+NURSE_HEADERS = ["ID", "Name", "Clinical Area", "Rotation", "Group", "FTE",
                  "Skill Level", "A Trained", "Transfer", "IV Trained", "Advanced Role", "Previous Patients", "DTA", "Comments"]
 
 # Login and Mainpage
@@ -165,8 +165,7 @@ def nurse_records():
 @app.route("/addNurseRecords", methods=["POST"])
 def add_nurse_records():
         
-    nurse_first_name = request.form['create_nurse_first_name']
-    nurse_last_name = request.form['create_nurse_last_name']
+    nurse_name = request.form['create_nurse_name']
     nurse_area = request.form['create_nurse_area']
     nurse_rotation = request.form['create_nurse_rotation']
     nurse_group = request.form['create_nurse_group']
@@ -180,10 +179,10 @@ def add_nurse_records():
     nurse_DTA = request.form['create_nurse_DTA']
     nurse_comments = request.form['create_nurse_comments']
 
-    query = "insert into smartroster.nurses(first_name, last_name, clinical_area, rotation, group_num, fte, " \
+    query = "insert into smartroster.nurses(name, clinical_area, rotation, group_num, fte, " \
         " skill_level, a_trained, transfer, iv, advanced_role, previous_patients, dta, comments) " \
-        "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-    arguments = (nurse_first_name, nurse_last_name, nurse_area, nurse_rotation, nurse_group,
+        "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    arguments = (nurse_name, nurse_area, nurse_rotation, nurse_group,
                  nurse_fte, nurse_skill, nurse_a_trained, nurse_transfer, nurse_iv, nurse_adv_role, nurse_prev_pat, nurse_DTA, nurse_comments)
 
     try:
@@ -205,8 +204,7 @@ def edit_nurse_records():
 
 
     nurse_id = request.form['edit_nurse_id']
-    nurse_first_name = request.form['edit_nurse_first_name']
-    nurse_last_name = request.form['edit_nurse_last_name']
+    nurse_name = request.form['edit_nurse_name']
     nurse_area = request.form['edit_nurse_area']
     nurse_rotation = request.form['edit_nurse_rotation']
     nurse_group = request.form['edit_nurse_group']
@@ -220,10 +218,10 @@ def edit_nurse_records():
     nurse_DTA = request.form['edit_nurse_DTA']
     nurse_comments = request.form['edit_nurse_comments']
 
-    query = "UPDATE smartroster.nurses SET first_name = %s, last_name = %s, clinical_area = %s, rotation = %s, group_num = %s, fte = %s, " \
+    query = "UPDATE smartroster.nurses SET name = %s, clinical_area = %s, rotation = %s, group_num = %s, fte = %s, " \
         " skill_level = %s, a_trained = %s, transfer = %s, iv = %s, advanced_role = %s, previous_patients = %s, dta = %s, comments = %s WHERE id = %s"
 
-    arguments = (nurse_first_name, nurse_last_name, nurse_area, nurse_rotation, nurse_group,
+    arguments = (nurse_name, nurse_area, nurse_rotation, nurse_group,
                  nurse_fte, nurse_skill, nurse_a_trained, nurse_transfer, nurse_iv, nurse_adv_role, nurse_prev_pat, nurse_DTA, nurse_comments, nurse_id)
 
 
@@ -273,8 +271,7 @@ def patient_records():
 def add_patient_records():
     # Checks for required fields
 
-    patient_first_name = request.form['create_first_name']
-    patient_last_name = request.form['create_last_name']
+    patient_name = request.form['create_name']
     patient_clinical_area = request.form['create_clinical_area']
     patient_bed = request.form['create_bed_num']
     patient_acuity = request.form['create_acuity']
@@ -286,10 +283,10 @@ def add_patient_records():
     patient_date_admitted = request.form['create_patient_date_admitted']
     patient_comments = request.form['create_patient_comments']
 
-    query = "insert into smartroster.patients(first_name, last_name, clinical_area, bed_num, acuity, a_trained, transfer, iv, one_to_one, previous_nurses, admission_date, comments )" \
-        "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    query = "insert into smartroster.patients(name, clinical_area, bed_num, acuity, a_trained, transfer, iv, one_to_one, previous_nurses, admission_date, comments )" \
+        "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
 
-    arguments = (patient_first_name, patient_last_name, patient_clinical_area, patient_bed, patient_acuity, 
+    arguments = (patient_name, patient_clinical_area, patient_bed, patient_acuity, 
                     patient_a_trained, patient_transfer, patient_iv, patient_one_to_one, patient_previous_nurses, patient_date_admitted ,patient_comments)
 
     try:
@@ -311,8 +308,7 @@ def edit_patient_records():
     # Grabs discharge data so it knows if the patient has been discharged
 
     patientid = request.form['edit_patient_id']
-    patient_first_name = request.form['edit_first_name']
-    patient_last_name = request.form['edit_last_name']
+    patient_name = request.form['edit_name']
     patient_clinical_area = request.form['edit_clinical_area']
     patient_bed = request.form['edit_bed_num']
     patient_acuity = request.form['edit_acuity']
@@ -325,10 +321,10 @@ def edit_patient_records():
     patient_date_discharged = request.form['edit_patient_date_discharge']
     patient_comments = request.form['edit_patient_comments']
 
-    query = "UPDATE smartroster.patients SET first_name = %s, last_name = %s, clinical_area = %s, bed_num = %s, acuity = %s, a_trained = %s, " \
+    query = "UPDATE smartroster.patients SET name = %s, clinical_area = %s, bed_num = %s, acuity = %s, a_trained = %s, " \
         " transfer = %s, iv = %s, one_to_one = %s, previous_nurses = %s, admission_date = %s, discharged_date = %s, comments = %s WHERE id = %s"
 
-    arguments = (patient_first_name, patient_last_name, patient_clinical_area, patient_bed, patient_acuity, patient_a_trained, patient_transfer,
+    arguments = (patient_name, patient_clinical_area, patient_bed, patient_acuity, patient_a_trained, patient_transfer,
                     patient_iv, patient_one_to_one, patient_previous_nurses, patient_date_admitted, patient_date_discharged, patient_comments, patientid)
 
     try:

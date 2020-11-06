@@ -47,43 +47,40 @@
                         <div id="{{'p'~patient[0]~'-id'}}">{{patient[0]}}</div>
                     </td>
                     <td>
-                        <div id="{{'p'~patient[0]~'-fname'}}">{{patient[1]}}</div>
+                        <div id="{{'p'~patient[0]~'-name'}}">{{patient[1]}}</div>
                     </td>
                     <td>
-                        <div id="{{'p'~patient[0]~'-lname'}}">{{patient[2]}}</div>
+                        <div id="{{'p'~patient[0]~'-area'}}">{{patient[2]}}</div>
                     </td>
                     <td>
-                        <div id="{{'p'~patient[0]~'-area'}}">{{patient[3]}}</div>
+                        <div id="{{'p'~patient[0]~'-bednum'}}">{{patient[3]}} </div>
                     </td>
                     <td>
-                        <div id="{{'p'~patient[0]~'-bednum'}}">{{patient[4]}} </div>
+                        <div id="{{'p'~patient[0]~'-acuity'}}">{{patient[4]}} </div>
                     </td>
                     <td>
-                        <div id="{{'p'~patient[0]~'-acuity'}}">{{patient[5]}} </div>
+                        <div id="{{'p'~patient[0]~'-atrainedReq'}}">{{patient[5]}} </div>
                     </td>
                     <td>
-                        <div id="{{'p'~patient[0]~'-atrainedReq'}}">{{patient[6]}} </div>
+                        <div id="{{'p'~patient[0]~'-transferReq'}}">{{patient[6]}} </div>
                     </td>
                     <td>
-                        <div id="{{'p'~patient[0]~'-transferReq'}}">{{patient[7]}} </div>
+                        <div id="{{'p'~patient[0]~'-ivReq'}}">{{patient[7]}} </div>
                     </td>
                     <td>
-                        <div id="{{'p'~patient[0]~'-ivReq'}}">{{patient[8]}} </div>
+                        <div id="{{'p'~patient[0]~'-1to1'}}">{{patient[8]}} </div>
                     </td>
                     <td>
-                        <div id="{{'p'~patient[0]~'-1to1'}}">{{patient[9]}} </div>
+                        <div id="{{'p'~patient[0]~'-prevNurses'}}">{{patient[9]}} </div>
                     </td>
                     <td>
-                        <div id="{{'p'~patient[0]~'-prevNurses'}}">{{patient[10]}} </div>
+                        <div id="{{'p'~patient[0]~'-dateAdmitted'}}">{{patient[10]}} </div>
                     </td>
                     <td>
-                        <div id="{{'p'~patient[0]~'-dateAdmitted'}}">{{patient[11]}} </div>
+                        <div id="{{'p'~patient[0]~'-dischargedDate'}}">{{patient[11]}} </div>
                     </td>
                     <td>
-                        <div id="{{'p'~patient[0]~'-dischargedDate'}}">{{patient[12]}} </div>
-                    </td>
-                    <td>
-                        <div id="{{'p'~patient[0]~'-comments'}}">{{patient[13]}} </div>
+                        <div id="{{'p'~patient[0]~'-comments'}}">{{patient[12]}} </div>
                     </td>
                 </tr>
                 {% endfor %}
@@ -107,8 +104,7 @@
             </div>
             <div class="modal-body">
                 <form action="/addPatientRecords" method="post">
-                  <input id="create_first_name" name="create_first_name" required="" size="32" type="text" value="" placeholder="edit_first_name"><br>
-                  <input id="create_last_name" name="create_last_name" required="" size="32" type="text" value="" placeholder="last_name"><br>
+                  <input id="create_name" name="create_name" required="" size="32" type="text" value="" placeholder="edit_first_name"><br>
                   <input id="create_clinical_area" name="create_clinical_area" required="" size="32" type="text" value="" placeholder="clinical_area"><br>
                   <input id="create_bed_num" name="create_bed_num" required="" size="32" type="number" value="" placeholder="bed_num"><br>
                   <input id="create_acuity" name="create_acuity" required="" size="32" type="number" value="" placeholder="acuity"><br>
@@ -143,8 +139,7 @@
             <div class="modal-body">
                 <form action="/editPatientRecords" method="post">
                     <input id="edit_patient_id" hidden name="edit_patient_id" required="" size="32" type="text" value="" placeholder=""><br>
-                    <input id="edit_first_name" name="edit_first_name" required="" size="32" type="text" value="" placeholder="edit_first_name"><br>
-                    <input id="edit_last_name" name="edit_last_name" required="" size="32" type="text" value="" placeholder="last_name"><br>
+                    <input id="edit_name" name="edit_name" required="" size="32" type="text" value="" placeholder="edit_first_name"><br>
                     <input id="edit_clinical_area" name="edit_clinical_area" required="" size="32" type="text" value="" placeholder="clinical_area"><br>
                     <input id="edit_bed_num" name="edit_bed_num" required="" size="32" type="text" value="" placeholder="bed_num"><br>
                     <input id="edit_acuity" name="edit_acuity" required="" size="32" type="text" value="" placeholder="acuity"><br>
@@ -206,7 +201,7 @@
             cell.onclick = function () {
                 if (rowId != null && rowId == this.parentNode.rowIndex) {
                     var rowSelected = table.getElementsByTagName('tr')[rowId];
-                    rowSelected.classList.toggle("table-info");
+                    rowSelected.classList.toggle("table-primary");
                     rowId = null; // Reset rowId
                 } else {
                     // Take current row index
@@ -214,11 +209,11 @@
 
                     var rowsNotSelected = table.getElementsByTagName('tr');
                     for (var row = 0; row < rowsNotSelected.length; row++) {
-                        rowsNotSelected[row].classList.remove('table-info');
+                        rowsNotSelected[row].classList.remove('table-primary');
                     }
                     var rowSelected = table.getElementsByTagName('tr')[rowId];
 
-                    rowSelected.classList.toggle("table-info", true);
+                    rowSelected.classList.toggle("table-primary", true);
                 }
             }
         }
@@ -250,28 +245,26 @@
         // Gets data from selected row
         var table = document.getElementById('patient-record-table');
         var patient_id = table.rows[rowId].cells[0].innerText;
-        var patient_first_name = table.rows[rowId].cells[1].innerText;
-        var patient_last_name = table.rows[rowId].cells[2].innerText;
-        var patient_clinical_area = table.rows[rowId].cells[3].innerText;
-        var patient_bed = table.rows[rowId].cells[4].innerText;
-        var patient_acuity_level = table.rows[rowId].cells[5].innerText;
-        var patient_a_trained = table.rows[rowId].cells[6].innerText;
-        var patient_transfer = table.rows[rowId].cells[7].innerText;
-        var patient_iv = table.rows[rowId].cells[8].innerText;
-        var patient_1_to_1 = table.rows[rowId].cells[9].innerText;
-        var patient_prev_nurses = table.rows[rowId].cells[10].innerText;
-        var patient_date_admitted = table.rows[rowId].cells[11].innerText;
-        var patient_date_discharged = table.rows[rowId].cells[12].innerText;
-        var patient_date_comments = table.rows[rowId].cells[13].innerText;
+        var patient_name = table.rows[rowId].cells[1].innerText;
+        var patient_clinical_area = table.rows[rowId].cells[2].innerText;
+        var patient_bed = table.rows[rowId].cells[3].innerText;
+        var patient_acuity_level = table.rows[rowId].cells[4].innerText;
+        var patient_a_trained = table.rows[rowId].cells[5].innerText;
+        var patient_transfer = table.rows[rowId].cells[6].innerText;
+        var patient_iv = table.rows[rowId].cells[7].innerText;
+        var patient_1_to_1 = table.rows[rowId].cells[8].innerText;
+        var patient_prev_nurses = table.rows[rowId].cells[9].innerText;
+        var patient_date_admitted = table.rows[rowId].cells[10].innerText;
+        var patient_date_discharged = table.rows[rowId].cells[11].innerText;
+        var patient_date_comments = table.rows[rowId].cells[12].innerText;
 
         //Sets input values
         document.getElementById('edit_patient_id').value = patient_id;
-        document.getElementById('edit_first_name').value = patient_first_name;
-        document.getElementById('edit_last_name').value = patient_last_name;
+        document.getElementById('edit_name').value = patient_name;
         document.getElementById('edit_clinical_area').value = patient_clinical_area;
         document.getElementById('edit_bed_num').value = patient_bed;
         document.getElementById('edit_acuity').value = patient_acuity_level;
-        document.getElementById('edit__a_trained').value = patient_a_trained;
+        document.getElementById('edit_a_trained').value = patient_a_trained;
         document.getElementById('edit_patient_transfer').value = patient_transfer
         document.getElementById('edit_patient_iv').value = patient_iv
         document.getElementById('edit_patient_one_to_one').value = patient_1_to_1
