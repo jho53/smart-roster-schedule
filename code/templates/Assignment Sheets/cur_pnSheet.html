@@ -14,89 +14,56 @@
         <p>{{now}}</p>
         <br><br>
         <div class="row">
-            <!--Charge Nurse Dropdowns-->
-            <div class="col-1"></div>
-            <div class="col-6  row">
+            <div class="col-8 row">
+                <!--Charge Nurse Dropdowns-->
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <label class="input-group-text">Charge Nurse</label>
+                        <label class="input-group-text" style="width: 140px">Charge Nurse </label>
+                    </div>
+                    {% for i in range(3)%}
+                    <select class="form-control" id="chargeNurse1">
+                        <option selected>{{nurseList[i][1]}}</option>
+                        {% for index, nurse in enumerate(nurseList) %}
+                        {% if nurse[11] == "Charge" %}
+                        <option class="table-success" id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}
+                        </option>
+                        {% else %}
+                        <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                    {% endfor %}
+                </div>
+                <!--Support Nurse Dropdowns-->
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" style="width: 140px">Support Nurse</label>
+                    </div>
+                    {% for i in range(3)%}
+                    <select class="form-control" id="supportNurse1">
+                        <option selected>{{nurseList[i + 3][1]}}</option>
+                        {% for index, nurse in enumerate(nurseList) %}
+                        {% if nurse[11] == "Support" %}
+                        <option class="table-warning" id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}
+                        </option>
+                        {% else %}
+                        <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                    {% endfor %}
+                </div>
+                <!--Code Nurse Dropdowns-->
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" style="width: 140px">Code Nurse</label>
                     </div>
                     <select class="form-control" id="chargeNurse1">
-                        <option selected>Choose...</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                        <option selected>{{nurseList[7][1]}}</option>
+                        {% for index, nurse in enumerate(nurseList) %}
+                        <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
+                        {% endfor %}
                     </select>
-                    <select class="form-control" id="chargeNurse2">
-                        <option selected>Choose...</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </select>
-                    <select class="form-control" id="chargeNurse3">
-                        <option selected>Choose...</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </select>
-                </div>
-                {% for i in range(3)%}
-                <div class="menu-dropdown">
-                    <div class="form-group">
-                        <select class="form-control" id="exampleFormControlSelect1">
-                            <option selected>{{nurseList[i][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            {% if nurse[11] == "Charge" %}
-                            <option class="table-success" id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}
-                            </option>
-                            {% else %}
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endif %}
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-
-            <!--Support Nurse Dropdowns-->
-            <div class="col-10 row">
-                <div>
-                    <p>Support Nurse</p>
-                </div>
-                {% for i in range(3)%}
-                <div class="menu-dropdown">
-                    <div class="form-group">
-                        <select class="form-control" id="exampleFormControlSelect1">
-                            <option selected>{{nurseList[i + 3][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            {% if nurse[11] == "Support" %}
-                            <option class="table-warning" id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}
-                            </option>
-                            {% else %}
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endif %}
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-
-            <!--Code Nurse Dropdowns-->
-            <div class="col-10 row">
-                <div>
-                    <p>Code Nurse</p>
-                </div>
-                <div class="menu-dropdown">
-                    <div class="form-group">
-                        <select class="form-control" id="exampleFormControlSelect1">
-                            <option selected>{{nurseList[7][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
                 </div>
             </div>
         </div>
