@@ -104,19 +104,74 @@
             </div>
             <div class="modal-body">
                 <form action="/addPatientRecords" method="post">
-                  <input id="create_name" name="create_name" required="" size="32" type="text" value="" placeholder="edit_first_name"><br>
-                  <input id="create_clinical_area" name="create_clinical_area" required="" size="32" type="text" value="" placeholder="clinical_area"><br>
-                  <input id="create_bed_num" name="create_bed_num" required="" size="32" type="number" value="" placeholder="bed_num"><br>
-                  <input id="create_acuity" name="create_acuity" required="" size="32" type="number" value="" placeholder="acuity"><br>
-                  <input id="create_a_trained" name="create_a_trained" required="" size="32" type="number" value="" placeholder="patient_a_trained"><br>
-                  <input id="create_patient_transfer" name="create_patient_transfer" required="" size="32" type="number" value="" placeholder="patient_transfer"><br>
-                  <input id="create_patient_iv" name="create_patient_iv" required="" size="32" type="number" value="" placeholder="iv"><br>
-                  <input id="create_patient_one_to_one" name="create_patient_one_to_one" required="" size="32" type="number" value="" placeholder="one_to_one"><br>
-                  <input id="create_patient_previous_nurses" name="create_patient_previous_nurses" required="" size="32" type="number" value="" placeholder="previous_nurses"><br>
-                  <input id="create_patient_date_admitted" name="create_patient_date_admitted" required="" size="32" type="text" value="" placeholder="patient_date_admitted"><br>
-                  <input id="create_patient_comments" name="create_patient_comments" required="" size="32" type="number" value="" placeholder="comments"><br>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Name</span>
+                        </div>
+                        <input class="form-control form-control-sm" id="create_name" name="create_name" required="" size="32" type="text" value="" placeholder=""><br>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Clinical Area</span>
+                        </div>
+                        <input class="form-control form-control-sm" id="create_clinical_area" name="create_clinical_area" required="" size="32" type="text" value="" placeholder=""><br>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Bed Number</span>
+                        </div>
+                        <input class="form-control form-control-sm" id="create_bed_num" name="create_bed_num" required="" size="32" type="number" value="" placeholder=""><br>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Acuity</span>
+                        </div>
+                        <input class="form-control form-control-sm" id="create_acuity" name="create_acuity" required="" size="32" type="number" value="" placeholder=""><br>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">A-Trained</span>
+                        </div>
+                        <input class="form-control form-control-sm" id="create_a_trained" name="create_a_trained" required="" size="32" type="number" value="" placeholder=""><br>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Transfer</span>
+                        </div>
+                        <input class="form-control form-control-sm" id="create_patient_transfer" name="create_patient_transfer" required="" size="32" type="number" value="" placeholder=""><br>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">IV</span>
+                        </div>
+                        <input class="form-control form-control-sm" id="create_patient_iv" name="create_patient_iv" required="" size="32" type="number" value="" placeholder=""><br>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">1 to 1</span>
+                        </div>
+                        <input class="form-control form-control-sm" id="create_patient_one_to_one" name="create_patient_one_to_one" required="" size="32" type="number" value="" placeholder=""><br>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Previous Nurses</span>
+                        </div>
+                        <input class="form-control form-control-sm" id="create_patient_previous_nurses" name="create_patient_previous_nurses" required="" size="32" type="number" value="" placeholder=""><br>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Date Admitted</span>
+                        </div>
+                        <input class="form-control form-control-sm" id="create_patient_date_admitted" name="create_patient_date_admitted" required="" size="32" type="text" value="" placeholder=""><br>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Comments</span>
+                        </div>
+                        <input class="form-control form-control-sm" id="create_patient_comments" name="create_patient_comments" required="" size="32" type="number" value="" placeholder=""><br>
+                    </div>
                     <div class="modal-footer">
-                      <input class="btn btn-danger" id="submit" name="submit" type="submit" value="Confirm">
+                      <input class="btn btn-success" id="submit" name="submit" type="submit" value="Confirm">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     </div>
                 </form>
@@ -139,21 +194,81 @@
             <div class="modal-body">
                 <form action="/editPatientRecords" method="post">
                     <input id="edit_patient_id" hidden name="edit_patient_id" required="" size="32" type="text" value="" placeholder=""><br>
-                    <input id="edit_name" name="edit_name" required="" size="32" type="text" value="" placeholder="edit_first_name"><br>
-                    <input id="edit_clinical_area" name="edit_clinical_area" required="" size="32" type="text" value="" placeholder="clinical_area"><br>
-                    <input id="edit_bed_num" name="edit_bed_num" required="" size="32" type="text" value="" placeholder="bed_num"><br>
-                    <input id="edit_acuity" name="edit_acuity" required="" size="32" type="text" value="" placeholder="acuity"><br>
-                    <input id="edit_a_trained" name="edit_a_trained" required="" size="32" type="text" value="" placeholder="patient_a_trained"><br>
-                    <input id="edit_patient_transfer" name="edit_patient_transfer" required="" size="32" type="text" value="" placeholder="patient_transfer"><br>
-                    <input id="edit_patient_iv" name="edit_patient_iv" required="" size="32" type="text" value="" placeholder="iv"><br>
-                    <input id="edit_patient_one_to_one" name="edit_patient_one_to_one" required="" size="32" type="text" value="" placeholder="one_to_one"><br>
-                    <input id="edit_patient_previous_nurses" name="edit_patient_previous_nurses" required="" size="32" type="text" value="" placeholder="previous_nurses"><br>
-                    <input id="edit_patient_date_admitted" name="edit_patient_date_admitted" required="" size="32" type="text" value="" placeholder="patient_date_admitted"><br>
-                    <input id="edit_patient_date_discharge" name="edit_patient_date_discharge" size="32" type="text" value="" placeholder="patient_date_discharge"><br>
-                    <input id="edit_patient_comments" name="edit_patient_comments" required="" size="32" type="text" value="" placeholder="comments"><br>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Name</span>
+                        </div>
+                        <input class="form-control form-control-sm" id="edit_name" name="edit_name" required="" size="32" type="text" value="" placeholder=""><br>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Area</span>
+                        </div>
+                        <input class="form-control form-control-sm" id="edit_clinical_area" name="edit_clinical_area" required="" size="32" type="text" value="" placeholder=""><br>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Bed Number</span>
+                        </div>
+                        <input class="form-control form-control-sm" id="edit_bed_num" name="edit_bed_num" required="" size="32" type="text" value="" placeholder=""><br>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Acuity</span>
+                        </div>
+                        <input class="form-control form-control-sm" id="edit_acuity" name="edit_acuity" required="" size="32" type="text" value="" placeholder=""><br>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">A-Trained</span>
+                        </div>
+                        <input class="form-control form-control-sm" id="edit_a_trained" name="edit_a_trained" required="" size="32" type="text" value="" placeholder=""><br>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Transfer</span>
+                        </div>
+                        <input class="form-control form-control-sm" id="edit_patient_transfer" name="edit_patient_transfer" required="" size="32" type="text" value="" placeholder=""><br>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">IV</span>
+                        </div>
+                        <input class="form-control form-control-sm" id="edit_patient_iv" name="edit_patient_iv" required="" size="32" type="text" value="" placeholder=""><br>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">1 to 1</span>
+                        </div>
+                        <input class="form-control form-control-sm" id="edit_patient_one_to_one" name="edit_patient_one_to_one" required="" size="32" type="text" value="" placeholder=""><br>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Previous Nurses</span>
+                        </div>
+                        <input class="form-control form-control-sm" id="edit_patient_previous_nurses" name="edit_patient_previous_nurses" required="" size="32" type="text" value="" placeholder=""><br>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Date Admitted</span>
+                        </div>
+                        <input class="form-control form-control-sm" id="edit_patient_date_admitted" name="edit_patient_date_admitted" required="" size="32" type="text" value="" placeholder=""><br>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Date Discharged</span>
+                        </div>
+                        <input class="form-control form-control-sm" id="edit_patient_date_discharge" name="edit_patient_date_discharge" size="32" type="text" value="" placeholder=""><br>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Comments</span>
+                        </div>
+                        <input class="form-control form-control-sm" id="edit_patient_comments" name="edit_patient_comments" required="" size="32" type="text" value="" placeholder=""><br>
+                    </div>
                     <br>
                     <div class="modal-footer">
-                      <input type="submit" name="submit" class="btn btn-warning" value="Edit">
+                      <input type="submit" name="submit" class="btn btn-primary" value="Confirm">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                   </div>
                 </form>
