@@ -199,7 +199,7 @@
             cell.onclick = function () {
                 if (rowId != null && rowId == this.parentNode.rowIndex) {
                     var rowSelected = table.getElementsByTagName('tr')[rowId];
-                    rowSelected.classList.toggle("table-info");
+                    rowSelected.classList.toggle("table-primary");
                     rowId = null; // Reset rowId
                 } else {
                     // Take current row index
@@ -207,11 +207,11 @@
 
                     var rowsNotSelected = table.getElementsByTagName('tr');
                     for (var row = 0; row < rowsNotSelected.length; row++) {
-                        rowsNotSelected[row].classList.remove('table-info');
+                        rowsNotSelected[row].classList.remove('table-primary');
                     }
                     var rowSelected = table.getElementsByTagName('tr')[rowId];
 
-                    rowSelected.classList.toggle("table-info", true);
+                    rowSelected.classList.toggle("table-primary", true);
                 }
             }
         }

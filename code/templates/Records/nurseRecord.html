@@ -30,27 +30,29 @@
     <div class="container-fluid">
         <!--Table-->
         <div>
-            <table id="nurse-record-table" class="table table-sm table-bordered">
+            <table id="nurse-record-table" class="table table-sm table-bordered table-responsive">
                 <!--Dynamically generated table headers-->
                 <thead class="thead-light">
                     <form action="/nurseRecords" method="GET">
                         <tr id="nurse-table-headers">
                             {% for index, header in enumerate(nurseHeaders) %}
-                            {% if index==0 %}
                             <th>{{header}} </th>
-                            {% else %}
-                            <th>{{header}} </th>
-                            {% endif %}
                             {% endfor %}
                         </tr>
                     </form>
                 </thead>
                 <tbody id="nurse-tbody">
                     {% for nurse in nurseList %}
-                    <tr id="{{'n'~nurse[0]}}" style="cursor: pointer;">
+                    <tr id="{{'n'~nurse[0]}}" style="cursor: pointer; ">
+                        {% if nurse[-1]==1 %}
+                        <td>
+                            <div id="{{('n'~nurse[0])~'-id'}}" class="table-success">{{nurse[0]}}</div>
+                        </td>
+                        {% else %}
                         <td>
                             <div id="{{('n'~nurse[0])~'-id'}}"> {{nurse[0]}} </div>
                         </td>
+                        {% endif %}
                         <td>
                             <div id="{{('n'~nurse[0])~'-name'}}">{{nurse[1]}}</div>
                         </td>
@@ -154,23 +156,31 @@
                     <input id="edit_nurse_rotation" name="edit_nurse_rotation" required="" size="32" type="text" value="" placeholder="nurse_fte"><br>
                     <input id="edit_nurse_group" name="edit_nurse_group" required="" size="32" type="text" value="" placeholder="nurse_a_trained"><br>
                     Nurse skill
-                    <input id="edit_nurse_fte" name="edit_nurse_fte" required="" size="32" type="text" value="" placeholder="nurse_skill"><br>
-                    <input id="edit_nurse_skill" name="edit_nurse_skill" required="" size="32" type="text" value="" placeholder="nurse_transfer"><br>
-                    <input id="edit_nurse_a_trained" name="edit_nurse_a_trained" required="" size="32" type="text" value="" placeholder="nurse_adv_role"><br>
-                    <input id="edit_nurse_transfer" name="edit_nurse_transfer" required="" size="32" type="text" value="" placeholder="nurse_restrictions"><br>
-                    <input id="edit_nurse_iv" name="edit_nurse_iv" required="" size="32" type="text" value="" placeholder="nurse_iv">
-                    <input id="edit_nurse_adv_role" name="edit_nurse_adv_role" required="" size="32" type="text" value="" placeholder="nurse_adv_role"><br>
-                    <input id="edit_nurse_prev_pat" name="edit_nurse_prev_pat" required="" size="32" type="text" value="" placeholder="nurse_adv_role"><br>
-                    <input id="edit_nurse_DTA" name="edit_nurse_DTA" required="" size="32" type="text" value="" placeholder="nurse_adv_role"><br>
-                    <input id="edit_nurse_comments" name="edit_nurse_comments" size="32" type="text" value="" placeholder="nurse_adv_role"><br>
+                    <input id="edit_nurse_fte" name="edit_nurse_fte" required="" size="32" type="text" value=""
+                        placeholder="nurse_skill"><br>
+                    <input id="edit_nurse_skill" name="edit_nurse_skill" required="" size="32" type="text" value=""
+                        placeholder="nurse_transfer"><br>
+                    <input id="edit_nurse_a_trained" name="edit_nurse_a_trained" required="" size="32" type="text"
+                        value="" placeholder="nurse_adv_role"><br>
+                    <input id="edit_nurse_transfer" name="edit_nurse_transfer" required="" size="32" type="text"
+                        value="" placeholder="nurse_restrictions"><br>
+                    <input id="edit_nurse_iv" name="edit_nurse_iv" required="" size="32" type="text" value=""
+                        placeholder="nurse_iv">
+                    <input id="edit_nurse_adv_role" name="edit_nurse_adv_role" required="" size="32" type="text"
+                        value="" placeholder="nurse_adv_role"><br>
+                    <input id="edit_nurse_prev_pat" name="edit_nurse_prev_pat" required="" size="32" type="text"
+                        value="" placeholder="nurse_adv_role"><br>
+                    <input id="edit_nurse_DTA" name="edit_nurse_DTA" required="" size="32" type="text" value=""
+                        placeholder="nurse_adv_role"><br>
+                    <input id="edit_nurse_comments" name="edit_nurse_comments" size="32" type="text" value=""
+                        placeholder="nurse_adv_role"><br>
 
                     <div class="modal-footer">
                         <input class="btn btn-danger" id="submit" name="submit" type="submit" value="Confirm">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     </div>
                 </form>
-            </div>        
-        }
+            </div>
         </div>
     </div>
 </div>
@@ -216,7 +226,7 @@
             cell.onclick = function () {
                 if (rowId != null && rowId == this.parentNode.rowIndex) {
                     var rowSelected = table.getElementsByTagName('tr')[rowId];
-                    rowSelected.classList.toggle("table-info");
+                    rowSelected.classList.toggle("table-primary");
                     rowId = null; // Reset rowId
                 } else {
                     // Take current row index
@@ -224,10 +234,10 @@
 
                     var rowsNotSelected = table.getElementsByTagName('tr');
                     for (var row = 0; row < rowsNotSelected.length; row++) {
-                        rowsNotSelected[row].classList.remove('table-info');
+                        rowsNotSelected[row].classList.remove('table-primary');
                     }
                     var rowSelected = table.getElementsByTagName('tr')[rowId];
-                    rowSelected.classList.toggle("table-info", true);
+                    rowSelected.classList.toggle("table-primary", true);
                 }
             }
         }
@@ -312,6 +322,7 @@
             dom: 'lrtip',
             responsive: true
         });
+        table.columns.adjust().draw();
     });
 
     window.onload = highlight_row;
