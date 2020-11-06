@@ -40,7 +40,7 @@
                     <form action="/nurseRecords" method="GET">
                         <tr id="nurse-table-headers">
                             {% for index, header in enumerate(nurseHeaders) %}
-                            <th>{{header}} </th>
+                            <th>{{header}}</th>
                             {% endfor %}
                         </tr>
                     </form>
@@ -50,11 +50,11 @@
                     <tr id="{{'n'~nurse[0]}}" style="cursor: pointer; ">
                         {% if nurse[-1]==1 %}
                         <td>
-                            <div id="{{('n'~nurse[0])~'-id'}}" class="table-success"> {{nurse[0]}} </div>
+                            <div id="{{('n'~nurse[0])~'-id'}}" class="table-success">{{nurse[0]}}</div>
                         </td>
                         {% else %}
                         <td>
-                            <div id="{{('n'~nurse[0])~'-id'}}"> {{nurse[0]}} </div>
+                            <div id="{{('n'~nurse[0])~'-id'}}">{{nurse[0]}}</div>
                         </td>
                         {% endif %}
                         <td>
@@ -209,7 +209,7 @@
                         </div>
                         <br>
                         <div class="modal-footer">
-                            <input class="btn btn-success" id="submit" name="submit" type="submit" value="Confirm">
+                            <input class="btn btn-primary" id="submit" name="submit" type="submit" value="Confirm">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                         </div>
                     </form>
