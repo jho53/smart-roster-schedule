@@ -1338,7 +1338,7 @@
 
     // Print Page
     function printPage() {
-        var css = '@page { size: landscape; }',
+        var css = '@page { size: landscape; } body {zoom: 40%}',
             head = document.head || document.getElementsByTagName('head')[0],
             style = document.createElement('style');
 
