@@ -3,5 +3,206 @@
 {% block content %}
 
 <!--Content Here-->
-Cur PN Sheet
+<!--Jumbotron-->
+<div class="jumbotron py-3">
+    <div class="jumbotron-content">
+        <div class="row justify-content-md-center">
+            <h1 class="jumbotron-title col-11">Patient/Nurse Assignment Page</h1>
+        </div>
+        <a href="#" onclick="printPage()" style="position: absolute; right: 50px; top: 30px;"><img
+                src="/images/print-icon.png" width="50px" height="50px" /><br>Print</a>
+        <p>{{now}}</p>
+        <br><br>
+        <div class="row">
+            <div class="col-8 row">
+                <!--Charge Nurse Dropdowns-->
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" style="width: 140px">Charge Nurse </label>
+                    </div>
+                    {% for i in range(3)%}
+                    <select class="form-control" id="chargeNurse1">
+                        <option selected>{{nurseList[i][1]}}</option>
+                        {% for index, nurse in enumerate(nurseList) %}
+                        {% if nurse[11] == "Charge" %}
+                        <option class="table-success" id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}
+                        </option>
+                        {% else %}
+                        <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                    {% endfor %}
+                </div>
+                <!--Support Nurse Dropdowns-->
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" style="width: 140px">Support Nurse</label>
+                    </div>
+                    {% for i in range(3)%}
+                    <select class="form-control" id="supportNurse1">
+                        <option selected>{{nurseList[i + 3][1]}}</option>
+                        {% for index, nurse in enumerate(nurseList) %}
+                        {% if nurse[11] == "Support" %}
+                        <option class="table-warning" id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}
+                        </option>
+                        {% else %}
+                        <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                    {% endfor %}
+                </div>
+                <!--Code Nurse Dropdowns-->
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" style="width: 140px">Code Nurse</label>
+                    </div>
+                    <select class="form-control" id="chargeNurse1">
+                        <option selected>{{nurseList[7][1]}}</option>
+                        {% for index, nurse in enumerate(nurseList) %}
+                        <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% set areas=["A", "B", "C", "D", "E", "F"] %}
+{% set area_iter = namespace(value=0) %}
+
+{% for card_row in range(2) %}
+<div class="card-deck">
+    {% for card_col in range(3) %}
+    <div class="card ca-card">
+        <div class="card-footer text-center rounded-lg">
+            <h4>Clinical Area {{areas[area_iter.value]}}</h4>
+            {% set area_iter.value = area_iter.value + 1 %}
+        </div>
+        <div class="card-body row justify-content-md-center">
+            <div class="col-6 row">
+                {% for asc_loop in range(7) %}
+                <div class="col-3">
+                    <h4 class="pt-4">{{ asc_loop + 1 }}</h4>
+                </div>
+                <div class="col-9">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Dropdown button
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Dropdown button
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="col-6 row">
+                {% for desc_loop in range(7)|reverse %}
+                <div class="col-3">
+                    <h4 class="pt-4">{{ desc_loop+8 }}</h4>
+                </div>
+                <div class="col-9">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Dropdown button
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Dropdown button
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<br>
+{% endfor %}
+
+
+<!-- <div class="dropdown">
+                    <button onclick="myFunction()" class="dropbtn">Dropdown</button>
+                    <div id="myDropdown" class="dropdown-content">
+                        <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
+                        <a href="#about">About</a>
+                        <a href="#base">Base</a>
+                        <a href="#blog">Blog</a>
+                        <a href="#contact">Contact</a>
+                        <a href="#custom">Custom</a>
+                        <a href="#support">Support</a>
+                        <a href="#tools">Tools</a>
+                    </div>
+                </div> -->
+
+<script>
+
+    function filterFunction() {
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        div = document.getElementById("myDropdown");
+        a = div.getElementsByTagName("a");
+        for (i = 0; i < a.length; i++) {
+            txtValue = a[i].textContent || a[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                a[i].style.display = "";
+            } else {
+                a[i].style.display = "none";
+            }
+        }
+    }
+
+    // Print Page
+    function printPage() {
+        var css = '@page { size: landscape; }',
+            head = document.head || document.getElementsByTagName('head')[0],
+            style = document.createElement('style');
+
+        style.type = 'text/css';
+        style.media = 'print';
+
+        if (style.styleSheet) {
+            style.styleSheet.cssText = css;
+        } else {
+            style.appendChild(document.createTextNode(css));
+        }
+
+        head.appendChild(style);
+
+        window.print();
+    }
+</script>
 {% endblock %}

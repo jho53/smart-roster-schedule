@@ -4,6 +4,14 @@ body {
   background-color: white;
 }
 
+table {
+  display: "block";
+}
+
+div {
+  border: 1px solid red;
+}
+
 /******* Class Styling *******/
 
 /* Global */
@@ -18,6 +26,10 @@ body {
   height: 30px;
   width: 30px;
   cursor: pointer;
+}
+
+.jumbotron-title {
+  text-align: center;
 }
 
 .sidebar-icons {
@@ -186,3 +198,10 @@ body {
   position: relative;
 }
 /* End of Record Pages */
+
+/* Start of Assignments Pages */
+.menu-dropdown {
+  margin: 5px 25px;
+}
+
+/* End of Assignments Pages */

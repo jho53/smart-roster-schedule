@@ -30,7 +30,7 @@
     <div class="container-fluid">
         <!--Table-->
         <div>
-            <table id="nurse-record-table" class="table table-sm table-bordered">
+            <table id="nurse-record-table" class="table table-sm table-bordered table-responsive">
                 <!--Dynamically generated table headers-->
                 <thead class="thead-light">
                     <form action="/nurseRecords" method="GET">
@@ -43,51 +43,54 @@
                 </thead>
                 <tbody id="nurse-tbody">
                     {% for nurse in nurseList %}
-                    <tr id="{{'n'~nurse[0]}}" style="cursor: pointer;">
+                    <tr id="{{'n'~nurse[0]}}" style="cursor: pointer; ">
+                        {% if nurse[-1]==1 %}
+                        <td>
+                            <div id="{{('n'~nurse[0])~'-id'}}" class="table-success">{{nurse[0]}}</div>
+                        </td>
+                        {% else %}
                         <td>
                             <div id="{{('n'~nurse[0])~'-id'}}"> {{nurse[0]}} </div>
                         </td>
+                        {% endif %}
                         <td>
-                            <div id="{{('n'~nurse[0])~'-fname'}}">{{nurse[1]}}</div>
+                            <div id="{{('n'~nurse[0])~'-name'}}">{{nurse[1]}}</div>
                         </td>
                         <td>
-                            <div id="{{('n'~nurse[0])~'-lname'}}">{{nurse[2]}}</div>
+                            <div id="{{('n'~nurse[0])~'-area'}}">{{nurse[2]}}</div>
                         </td>
                         <td>
-                            <div id="{{('n'~nurse[0])~'-area'}}">{{nurse[3]}}</div>
+                            <div id="{{('n'~nurse[0])~'-rotation'}}">{{nurse[4]}}</div>
                         </td>
                         <td>
-                            <div id="{{('n'~nurse[0])~'-rotation'}}">{{nurse[5]}}</div>
+                            <div id="{{('n'~nurse[0])~'-group'}}">{{nurse[5]}}</div>
                         </td>
                         <td>
-                            <div id="{{('n'~nurse[0])~'-group'}}">{{nurse[6]}}</div>
+                            <div id="{{('n'~nurse[0])~'-fte'}}">{{nurse[6]}}</div>
                         </td>
                         <td>
-                            <div id="{{('n'~nurse[0])~'-fte'}}">{{nurse[7]}}</div>
+                            <div id="{{('n'~nurse[0])~'-skill'}}">{{nurse[7]}}</div>
                         </td>
                         <td>
-                            <div id="{{('n'~nurse[0])~'-skill'}}">{{nurse[8]}}</div>
+                            <div id="{{('n'~nurse[0])~'-atrained'}}">{{nurse[8]}}</div>
                         </td>
                         <td>
-                            <div id="{{('n'~nurse[0])~'-atrained'}}">{{nurse[9]}}</div>
+                            <div id="{{('n'~nurse[0])~'-transfer'}}">{{nurse[9]}}</div>
                         </td>
                         <td>
-                            <div id="{{('n'~nurse[0])~'-transfer'}}">{{nurse[10]}}</div>
+                            <div id="{{('n'~nurse[0])~'-iv'}}">{{nurse[10]}}</div>
                         </td>
                         <td>
-                            <div id="{{('n'~nurse[0])~'-iv'}}">{{nurse[11]}}</div>
+                            <div id="{{('n'~nurse[0])~'-advrole'}}">{{nurse[11]}}</div>
                         </td>
                         <td>
-                            <div id="{{('n'~nurse[0])~'-advrole'}}">{{nurse[12]}}</div>
+                            <div id="{{('n'~nurse[0])~'-prevpatients'}}">{{nurse[12]}}</div>
                         </td>
                         <td>
-                            <div id="{{('n'~nurse[0])~'-prevpatients'}}">{{nurse[13]}}</div>
+                            <div id="{{('n'~nurse[0])~'-dta'}}">{{nurse[13]}}</div>
                         </td>
                         <td>
-                            <div id="{{('n'~nurse[0])~'-dta'}}">{{nurse[14]}}</div>
-                        </td>
-                        <td>
-                            <div id="{{('n'~nurse[0])~'-comments'}}">{{nurse[15]}}</div>
+                            <div id="{{('n'~nurse[0])~'-comments'}}">{{nurse[14]}}</div>
                         </td>
                     </tr>
                     {% endfor %}
@@ -109,8 +112,7 @@
                 </div>
                 <div class="modal-body">
                     <form action="/addNurseRecords" method="post">
-                        <input id="create_nurse_first_name" name="create_nurse_first_name" required="" size="32" type="text" value="" placeholder="name"><br>
-                        <input id="create_nurse_last_name" name="create_nurse_last_name" required="" size="32" type="text" value="" placeholder="nurse_area"><br>
+                        <input id="create_nurse_first_name" name="create_nurse_name" required="" size="32" type="text" value="" placeholder="name"><br>
                         <input id="create_nurse_area" name="create_nurse_area" required="" size="32" type="text" value="" placeholder="nurse_rotation"><br>
                         <input id="create_nurse_rotation" name="create_nurse_rotation" required="" size="32" type="text" value="" placeholder="nurse_fte"><br>
                         <input id="create_nurse_group" name="create_nurse_group" required="" size="32" type="text" value="" placeholder="nurse_a_trained"><br>
@@ -149,29 +151,36 @@
             <div class="modal-body">
                 <form action="/editNurseRecords" method="post">
                     <input id="edit_nurse_id" hidden name="edit_nurse_id" required="" size="32" type="text" value="" placeholder="name"><br>
-                    <input id="edit_nurse_first_name" name="edit_nurse_first_name" required="" size="32" type="text" value="" placeholder="name"><br>
-                    <input id="edit_nurse_last_name" name="edit_nurse_last_name" required="" size="32" type="text" value="" placeholder="nurse_area"><br>
+                    <input id="edit_nurse_name" name="edit_nurse_name" required="" size="32" type="text" value="" placeholder="name"><br>
                     <input id="edit_nurse_area" name="edit_nurse_area" required="" size="32" type="text" value="" placeholder="nurse_rotation"><br>
                     <input id="edit_nurse_rotation" name="edit_nurse_rotation" required="" size="32" type="text" value="" placeholder="nurse_fte"><br>
                     <input id="edit_nurse_group" name="edit_nurse_group" required="" size="32" type="text" value="" placeholder="nurse_a_trained"><br>
                     Nurse skill
-                    <input id="edit_nurse_fte" name="edit_nurse_fte" required="" size="32" type="text" value="" placeholder="nurse_skill"><br>
-                    <input id="edit_nurse_skill" name="edit_nurse_skill" required="" size="32" type="text" value="" placeholder="nurse_transfer"><br>
-                    <input id="edit_nurse_a_trained" name="edit_nurse_a_trained" required="" size="32" type="text" value="" placeholder="nurse_adv_role"><br>
-                    <input id="edit_nurse_transfer" name="edit_nurse_transfer" required="" size="32" type="text" value="" placeholder="nurse_restrictions"><br>
-                    <input id="edit_nurse_iv" name="edit_nurse_iv" required="" size="32" type="text" value="" placeholder="nurse_iv">
-                    <input id="edit_nurse_adv_role" name="edit_nurse_adv_role" required="" size="32" type="text" value="" placeholder="nurse_adv_role"><br>
-                    <input id="edit_nurse_prev_pat" name="edit_nurse_prev_pat" required="" size="32" type="text" value="" placeholder="nurse_adv_role"><br>
-                    <input id="edit_nurse_DTA" name="edit_nurse_DTA" required="" size="32" type="text" value="" placeholder="nurse_adv_role"><br>
-                    <input id="edit_nurse_comments" name="edit_nurse_comments" size="32" type="text" value="" placeholder="nurse_adv_role"><br>
+                    <input id="edit_nurse_fte" name="edit_nurse_fte" required="" size="32" type="text" value=""
+                        placeholder="nurse_skill"><br>
+                    <input id="edit_nurse_skill" name="edit_nurse_skill" required="" size="32" type="text" value=""
+                        placeholder="nurse_transfer"><br>
+                    <input id="edit_nurse_a_trained" name="edit_nurse_a_trained" required="" size="32" type="text"
+                        value="" placeholder="nurse_adv_role"><br>
+                    <input id="edit_nurse_transfer" name="edit_nurse_transfer" required="" size="32" type="text"
+                        value="" placeholder="nurse_restrictions"><br>
+                    <input id="edit_nurse_iv" name="edit_nurse_iv" required="" size="32" type="text" value=""
+                        placeholder="nurse_iv">
+                    <input id="edit_nurse_adv_role" name="edit_nurse_adv_role" required="" size="32" type="text"
+                        value="" placeholder="nurse_adv_role"><br>
+                    <input id="edit_nurse_prev_pat" name="edit_nurse_prev_pat" required="" size="32" type="text"
+                        value="" placeholder="nurse_adv_role"><br>
+                    <input id="edit_nurse_DTA" name="edit_nurse_DTA" required="" size="32" type="text" value=""
+                        placeholder="nurse_adv_role"><br>
+                    <input id="edit_nurse_comments" name="edit_nurse_comments" size="32" type="text" value=""
+                        placeholder="nurse_adv_role"><br>
 
                     <div class="modal-footer">
                         <input class="btn btn-danger" id="submit" name="submit" type="submit" value="Confirm">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     </div>
                 </form>
-            </div>        
-        }
+            </div>
         </div>
     </div>
 </div>
@@ -217,7 +226,7 @@
             cell.onclick = function () {
                 if (rowId != null && rowId == this.parentNode.rowIndex) {
                     var rowSelected = table.getElementsByTagName('tr')[rowId];
-                    rowSelected.classList.toggle("table-info");
+                    rowSelected.classList.toggle("table-primary");
                     rowId = null; // Reset rowId
                 } else {
                     // Take current row index
@@ -225,10 +234,10 @@
 
                     var rowsNotSelected = table.getElementsByTagName('tr');
                     for (var row = 0; row < rowsNotSelected.length; row++) {
-                        rowsNotSelected[row].classList.remove('table-info');
+                        rowsNotSelected[row].classList.remove('table-primary');
                     }
                     var rowSelected = table.getElementsByTagName('tr')[rowId];
-                    rowSelected.classList.toggle("table-info", true);
+                    rowSelected.classList.toggle("table-primary", true);
                 }
             }
         }
@@ -256,25 +265,23 @@
         // Gets data from selected row
         var table = document.getElementById('nurse-record-table');
         var edit_nurse_id = table.rows[rowId].cells[0].innerText;
-        var edit_nurse_first_name = table.rows[rowId].cells[1].innerText;
-        var edit_nurse_last_name = table.rows[rowId].cells[2].innerText;
-        var edit_nurse_area = table.rows[rowId].cells[3].innerText;
-        var edit_nurse_rotation = table.rows[rowId].cells[4].innerText;
-        var edit_nurse_group = table.rows[rowId].cells[5].innerText;
-        var edit_nurse_fte = table.rows[rowId].cells[6].innerText;
-        var edit_nurse_skill = table.rows[rowId].cells[7].innerText;
-        var edit_nurse_a_trained = table.rows[rowId].cells[8].innerText;
-        var edit_nurse_transfer = table.rows[rowId].cells[9].innerText;
-        var edit_nurse_iv = table.rows[rowId].cells[10].innerText;
-        var edit_nurse_adv_role = table.rows[rowId].cells[11].innerText;
-        var edit_nurse_prev_pat = table.rows[rowId].cells[12].innerText;
-        var edit_nurse_DTA = table.rows[rowId].cells[13].innerText;
-        var edit_nurse_comments = table.rows[rowId].cells[14].innerText;
+        var edit_nurse_name = table.rows[rowId].cells[1].innerText;
+        var edit_nurse_area = table.rows[rowId].cells[2].innerText;
+        var edit_nurse_rotation = table.rows[rowId].cells[3].innerText;
+        var edit_nurse_group = table.rows[rowId].cells[4].innerText;
+        var edit_nurse_fte = table.rows[rowId].cells[5].innerText;
+        var edit_nurse_skill = table.rows[rowId].cells[6].innerText;
+        var edit_nurse_a_trained = table.rows[rowId].cells[7].innerText;
+        var edit_nurse_transfer = table.rows[rowId].cells[8].innerText;
+        var edit_nurse_iv = table.rows[rowId].cells[9].innerText;
+        var edit_nurse_adv_role = table.rows[rowId].cells[10].innerText;
+        var edit_nurse_prev_pat = table.rows[rowId].cells[11].innerText;
+        var edit_nurse_DTA = table.rows[rowId].cells[12].innerText;
+        var edit_nurse_comments = table.rows[rowId].cells[13].innerText;
 
         // Sets input values
         document.getElementById('edit_nurse_id').value = edit_nurse_id;
-        document.getElementById('edit_nurse_first_name').value = edit_nurse_first_name;
-        document.getElementById('edit_nurse_last_name').value = edit_nurse_last_name;
+        document.getElementById('edit_nurse_name').value = edit_nurse_name;
         document.getElementById('edit_nurse_area').value = edit_nurse_area;
         document.getElementById('edit_nurse_rotation').value = edit_nurse_rotation;
         document.getElementById('edit_nurse_group').value = edit_nurse_group;
@@ -315,6 +322,7 @@
             dom: 'lrtip',
             responsive: true
         });
+        table.columns.adjust().draw();
     });
 
     window.onload = highlight_row;
