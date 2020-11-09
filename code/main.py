@@ -547,6 +547,8 @@ def assign_nurse_patient() -> dict:
     # We run through to check for one-to-one and fix appropriately
     print(assignments)
 
+    cursor.execute('SELECT * FROM patients WHERE discharged_date="-"')
+    patient_list = cursor.fetchall()
     try:
         response = app.response_class(
             status=200, response=json.dumps(assignments))
