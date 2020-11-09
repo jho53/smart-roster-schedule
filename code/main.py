@@ -590,13 +590,16 @@ def assign_nurse_patient() -> dict:
                     assignments[sen.get_id()]["num_patients"] += 1
                     assignments[sen.get_id()]["patients"].append(p.get_id())
 
-
                     # set patient to be assigned
                     p.set_assigned(1)
                     break
 
     # We run through to check for one-to-one and fix appropriately
     print(assignments)
+
+    cursor.execute(
+        'SELECT * FROM patients WHERE discharged_date="-"')
+    patient_list = cursor.fetchall()
 
     try:
         response = app.response_class(
