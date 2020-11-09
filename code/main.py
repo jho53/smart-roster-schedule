@@ -1,5 +1,7 @@
 from nurse import Nurse
 from patient import Patient
+from assignment import main_assign
+
 
 from flask import Flask, render_template, redirect, url_for, request, session
 from datetime import datetime
