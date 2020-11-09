@@ -68,6 +68,10 @@ table {
   background: #ffffff;
 }
 
+.rounded {
+  border-radius: 15px;
+}
+
 /* Start of login page */
 .login-elements {
   margin-top: 150px;
