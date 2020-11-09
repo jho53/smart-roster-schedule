@@ -474,7 +474,7 @@ def assign_nurse_patient() -> dict:
     patients = []
 
     cursor.execute(
-        'SELECT * FROM patients WHERE discharged_date="-" ORDER BY one_to_one DESC, acuity DESC, a_trained DESC, transfer DESC, iv DESC;')
+        'SELECT * FROM patients WHERE discharged_date="-" ORDER BY length(previous_nurses) DESC, one_to_one DESC, acuity DESC, a_trained DESC, transfer DESC, iv DESC;')
     patient_list = cursor.fetchall()
 
     for row in patient_list:
@@ -585,16 +585,18 @@ def assign_nurse_patient() -> dict:
                         assignments[sen.get_id()]["num_patients"] = 0
                         assignments[sen.get_id()]["patients"] = []
 
-                    # if one_to_one:
-                    #     assignments[sen.get_id()]["num_patients"] = 98
+                    if one_to_one:
+                        assignments[sen.get_id()]["num_patients"] = 98
                     assignments[sen.get_id()]["num_patients"] += 1
                     assignments[sen.get_id()]["patients"].append(p.get_id())
+
 
                     # set patient to be assigned
                     p.set_assigned(1)
                     break
 
     # We run through to check for one-to-one and fix appropriately
+    print(assignments)
 
     try:
         response = app.response_class(
