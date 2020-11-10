@@ -4,9 +4,10 @@ from patient import Patient
 
 def main_assign(cursor):
     assignments = {}
+    twins = []
 
     patients = []
-    patients = grab_patients(patients, cursor)
+    patients, twins = grab_patients(patients, cursor, twins)
 
     nurses = []
     nurses, assignments = grab_nurses(nurses, assignments, cursor)
@@ -18,20 +19,22 @@ def main_assign(cursor):
             eligible_nurse_objects, assignments = to_object(eligible_nurses, assignments)
             eligible_max_nurses = calculate_weights(eligible_nurse_objects, clinical_area, picc, p)
             sorted_eligible_nurses = sort_eligible_nurse_objects_acuity(eligible_nurse_objects)
-            assignments = assign(sorted_eligible_nurses, eligible_max_nurses, assignments, one_to_one)
+            assignments = assign(sorted_eligible_nurses, eligible_max_nurses, assignments, one_to_one, p, twin, twins)
     print(assignments)
 
 
-def grab_patients(patients, cursor):
+def grab_patients(patients, cursor, twins):
     cursor.execute(
-        'SELECT * FROM patients WHERE discharged_date="-" ORDER BY length(previous_nurses) DESC, one_to_one DESC, acuity DESC, a_trained DESC, transfer DESC, iv DESC;')
+        'SELECT * FROM patients WHERE discharged_date="-" ORDER BY length(previous_nurses) DESC, one_to_one DESC, twin DESC, acuity DESC, a_trained DESC, transfer DESC, iv DESC;')
     patient_list = cursor.fetchall()
 
     for row in patient_list:
         x = Patient(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10], row[11],
                     row[12], row[13])
         patients.append(x)
-    return patients
+        if row[13]  == "1":
+            twins.append(x)
+    return patients, twins
 
 
 def grab_nurses(nurses, assignments, cursor):
@@ -142,12 +145,24 @@ def sort_eligible_nurse_objects_acuity(eligible_nurse_objects):
     return sorted_eligible_nurses
 
 
-def assign(sorted_eligible_nurses, eligible_max_nurses, assignments, one_to_one):
+def assign(sorted_eligible_nurses, eligible_max_nurses, assignments, one_to_one, p, twin, twins):
     for sen in sorted_eligible_nurses:
         if sen.get_id() in eligible_max_nurses:
             if sen.get_id() not in assignments:
                 assignments[sen.get_id()]["num_patients"] = 0
                 assignments[sen.get_id()]["patients"] = []
+
+            if twin == "1":
+                for twin_object in twins:
+                    if p.get_name() == twin_object.get_name():
+                        continue
+                    elif p.get_last_name() == twin_object.get_last_name():
+                        assignments[sen.get_id()]["num_patients"] += 1
+                        assignments[sen.get_id()]["patients"].append(twin_object.get_id())
+                        twin_object.set_assigned(1)
+                        twins.remove(twin_object)
+                        twins.remove(p)
+                        break
 
             if one_to_one:
                 assignments[sen.get_id()]["num_patients"] = 98

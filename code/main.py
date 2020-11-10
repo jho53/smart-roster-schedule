@@ -559,7 +559,6 @@ def assign_nurse_patient() -> dict:
                                 twin_object.set_assigned(1)
                                 twins.remove(twin_object)
                                 twins.remove(p)
-                                print('hi2')
                                 break
 
                     if one_to_one:
