@@ -13,7 +13,7 @@
     <br>
     <!--Charge Nurse-->
     <div class="row">
-      <div class="col-3 offset-1 rounded pt-3 px-4" style="background-color: lightgray">
+      <div class="col-3 offset-1 rounded pt-3 px-4 shadow-sm" style="background-color: lightgray">
         <div class="row justify-content-center">
           <div class="col-9">
             <h6>Charge Nurses</h6>
@@ -45,7 +45,7 @@
         {% endfor %}
       </div>
       <!--Support Nurses-->
-      <div class="col-3 offset-1 rounded pt-3 px-4" style="background-color: lightgray;">
+      <div class="col-3 offset-1 rounded pt-3 px-4 shadow-sm" style="background-color: lightgray;">
         <div class="row justify-content-center">
           <div class="col-8">
             <h6>Support Nurses</h6>
@@ -64,7 +64,7 @@
               <option selected>{{nurseList[i+3][1]}}</option>
               {% for index, nurse in enumerate(nurseList) %}
               {% if nurse[11] == "Support" %}
-              <option class="table-success" id="n~{{index + 1}}" value="{{index + 1}}">
+              <option class="table-warning" id="n~{{index + 1}}" value="{{index + 1}}">
                 {{nurse[1]}}
               </option>
               {% else %}
@@ -82,7 +82,7 @@
       </div>
       <!--Right Column-->
       <div class="col-2 offset-1">
-        <div class="row w-100 px-2" style="background-color: lightgray; padding: 10px 30px; border-radius: 5px;">
+        <div class="row w-100 px-2 shadow-sm" style="background-color: lightgray; padding: 10px 30px; border-radius: 5px;">
           <div class="col-4">
             <h6>Code RN</h6>
           </div>
@@ -91,7 +91,7 @@
               <option selected>{{nurseList[6][1]}}</option>
               {% for index, nurse in enumerate(nurseList) %}
               {% if nurse[11] == "Code" %}
-              <option class="table-success" id="n~{{index + 1}}" value="{{index + 1}}">
+              <option class="table-danger" id="n~{{index + 1}}" value="{{index + 1}}">
                 {{nurse[1]}}
               </option>
               {% else %}
@@ -103,7 +103,7 @@
             </select>
           </div>
         </div>
-        <div class="mt-5 rounded col-12 row w-100 px-3"
+        <div class="mt-5 rounded col-12 row w-100 px-3 shadow-sm"
           style="background-color: lightgray; padding: 10px 30px; width: 100px">
           <div class="row col-11">
             <h6 class="mt-1 col-3">Fixed</h6>
@@ -130,7 +130,7 @@
     <div class="col-12">
       <!--Clinical Area Container-->
       {% for i in range(6) %}
-      <div class="row col-12 mb-3 m-0 p-0" style="border-radius: 10px; border: 1px solid black;">
+      <div class="row col-12 mb-3 m-0 p-0 shadow-sm" style="border-radius: 10px; border: 1px solid lightgrey;">
         <div style="border-top-left-radius: 10px; border-bottom-left-radius: 10px;" {% if area_iter.value < 4 %}
           class="pod-norm px-4 py-2" {% else %} class="pod-spec px-4 py-2" {% endif %}>
           <p class="text-center" style="margin-top: 70px;"><b>{{areas[area_iter.value]}}</b></p>
