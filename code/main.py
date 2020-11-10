@@ -119,10 +119,9 @@ def update_cn_supp():
 
         try:
             cursor.execute(
-                "UPDATE smartroster.nurses SET advanced_role = '' WHERE current_shift = 1")
+                "UPDATE smartroster.nurses SET advanced_role = '' WHERE current_shift = 1 and advanced_role != 'Code' and advanced_role NOT LIKE 'L%'")
             cursor.execute("UPDATE smartroster.nurses SET advanced_role = 'Support' WHERE id in {0}".format(
                 support_nurses_id))
-            db.commit()
             cursor.execute("UPDATE smartroster.nurses SET advanced_role = 'Charge' WHERE id in {0}".format(
                 charge_nurses_id))
             db.commit()
