@@ -46,7 +46,7 @@ def inject_enumerate():
 
 
 #### Global Variables ####
-
+DIRNAME = os.path.dirname(__file__)
 # Headers
 PATIENT_HEADERS = ["ID", "Name", "Clinical Area", "Bed #", "Acuity Level",
                    "A-trained Req", "Transfer Req", "IV Req", "1:1", "Previous Nurses", "Date Admitted", "Discharged Date", "Comments"]
@@ -599,6 +599,11 @@ def assign_nurse_patient() -> dict:
     cursor.execute(
         'SELECT * FROM patients WHERE discharged_date="-"')
     patient_list = cursor.fetchall()
+
+    # Store in cache
+    os.mkdir("./cache/current_shift")
+    with open("./cache/current_shift/somejson.json", 'w') as jsonfile:
+        json.dump(assignments, jsonfile)
 
     try:
         response = app.response_class(
