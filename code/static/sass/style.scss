@@ -13,6 +13,7 @@ table {
   } */
 
 /******* Class Styling *******/
+
 /* Global */
 .sr-logo {
   height: 40px;
@@ -51,8 +52,7 @@ table {
 }
 
 #content-wrap {
-  padding-bottom: 2.5rem;
-  /* Footer height */
+  padding-bottom: 2.5rem; /* Footer height */
 }
 
 .footer {
@@ -60,21 +60,12 @@ table {
   text-align: center;
   bottom: 0;
   width: 100%;
-  height: 2.5rem;
-  /* Footer height */
+  height: 2.5rem; /* Footer height */
   padding-top: 5px;
 }
 
 .card:hover {
   background: #ffffff;
-}
-
-.rounded {
-  border-radius: 15px;
-}
-
-.active {
-  z-index: 0;
 }
 
 /* Start of login page */
@@ -85,15 +76,16 @@ table {
 }
 
 /* Sidebar */
+
 /* The side navigation menu */
 .sidebar {
   height: 100%;
   width: 0;
   position: fixed;
-  z-index: 9998;
+  z-index: 1;
   top: 0;
   left: 0;
-  background-color: #f5f5f5;
+  background-color: rgb(173, 173, 173);
   overflow-x: hidden;
   padding-top: 60px;
   transition: 0.5s;
@@ -111,17 +103,16 @@ table {
 
 /* Sidebar link hover */
 .sidebar a:hover {
-  color: lightskyblue;
+  color: #f1f1f1;
 }
 
 /* Sidebar close button */
 .sidebar .closebtn {
   position: absolute;
-  top: 0px;
-  right: 30px;
-  font-size: 30px;
-  width: 35px;
-  height: 35px;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
 }
 
 .sidebar-content {
@@ -130,32 +121,30 @@ table {
   white-space: nowrap;
   word-wrap: none;
 }
+
 /* End of Sidebar */
+
 /* Quick-links */
+
 .input-group-text {
   width: 115px;
 }
 
 .quick-links {
-  height: 500px;
-  width: 20px;
+  height: 550px;
+  width: 30px;
   position: fixed;
   z-index: 1;
-  top: 22.5%;
-  right: -1px;
-  background-color: #f5f5f5;
+  top: 20%;
+  right: 0;
+  background-color: rgb(173, 173, 173);
   overflow-x: hidden;
-  overflow-y: hidden;
-  padding-top: 30px;
+  padding-top: 60px;
   transition: 0.5s;
-  cursor: pointer;
-  border: 0.5px solid #ced4da;
-  border-top-left-radius: 15px;
-  border-bottom-left-radius: 15px;
 }
 
 .quick-links a {
-  padding: 7px 2px;
+  padding: 8px 8px 8px 32px;
   text-decoration: none;
   font-size: 20px;
   color: #000000;
@@ -164,10 +153,6 @@ table {
   text-align: center;
   white-space: nowrap;
   word-wrap: none;
-}
-
-.quick-links a:hover {
-  color: lightskyblue;
 }
 
 .quick-links-content {
@@ -179,25 +164,27 @@ table {
 }
 
 .quick-link-tab-container {
-  height: 500px;
-  width: 20px;
+  height: 550px;
+  width: 30px;
   position: absolute;
   top: 50%;
   transform: translate(0%, -50%);
 }
 
 .quick-link-tab-icon {
-  height: 20px;
-  width: 20px;
+  height: 30px;
+  width: 30px;
   position: absolute;
   top: 50%;
   transform: translate(0%, -50%);
-  padding: 0px 3px;
+  padding: 0px 3px 0px 3px;
   transition: 0.5s;
 }
 
 /* End of Quick-links */
+
 /* Records Pages */
+
 .jumbotron-content {
   padding: 10px 10px 10px 10px;
   text-align: center;
@@ -263,50 +250,56 @@ label + input[type="radio"] + label {
 }
 
 .toggle {
-  cursor: pointer;
-  padding-right: 35px;
-  position: relative;
-  display: block;
-  padding: 0px 0px;
-  width: 170px;
-}
-.toggle:before,
-.toggle:after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  margin-top: -7.5px;
-  box-sizing: border-box;
-}
-.toggle:before {
-  width: 30px;
-  height: 15px;
-  right: 0px;
-  background: #fff;
-  border: 2px solid #ced4da;
-  border-radius: 15px;
-}
-.toggle:after {
-  width: 15px;
-  height: 15px;
-  right: 15px;
-  background: darkgray;
-  border-radius: 50%;
-  transition: all 200ms ease-out;
+    cursor: pointer;
+    padding-right: 35px;
+    position: relative;
+    display: block;
+    padding: 0px 0px;
+    width: 170px;
+
+  &:before,
+  &:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    margin-top: -7.5px;
+    box-sizing: border-box;
+  }
+
+  &:before {
+    width: 30px;
+    height: 15px;
+    right: 0px;
+    background: #fff;
+    border: 2px solid #ced4da;
+    border-radius: 15px;
+  }
+
+  &:after {
+    width: 15px;
+    height: 15px;
+    right: 15px;
+    background: darkgray;
+    border-radius: 50%;
+    transition: all 200ms ease-out;
+  }
 }
 
-input[type="checkbox"]:checked + label:after,
-input[type="radio"]:checked + label:after {
-  right: 0px;
-  background: #ff9800;
+input[type="checkbox"]:checked + label,
+input[type="radio"]:checked + label {
+  &:after {
+    right: 0px;
+    background: #ff9800;
+  }
 }
 
 .text_area {
-  width: 100%;
-  border: 2px solid #ced4da;
+    width: 100%;
+    border: 2px solid #ced4da;
 }
 
 /* End of Record Pages */
+
 /* Start of Assignments Pages */
 .menu-dropdown {
   margin: 5px 25px;
@@ -321,5 +314,3 @@ input[type="radio"]:checked + label:after {
 }
 
 /* End of Assignments Pages */
-
-/*# sourceMappingURL=style.css.map */

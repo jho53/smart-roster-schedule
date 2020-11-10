@@ -9,14 +9,20 @@
         <div class="row justify-content-md-center">
             <h1 class="jumbotron-title col-11">Patient/Nurse Assignment Page</h1>
         </div>
-        <a href="#" onclick="printPage()" style="position: absolute; right: 50px; top: 30px;"><img
-                src="/images/print-icon.png" width="50px" height="50px" /><br>Print</a>
+        <a href="#" onclick="printPage()" style="position: absolute; right: 50px; top: 30px;">
+            <i class="fas fa-print fa-3x" style="color:black"></i>
+            <br>Print
+        </a>
+        <a href="#" style="position: absolute; right: 110px; top: 30px;">
+            <i class="fas fa-save fa-3x" style="color:black"></i>
+            <br>Save
+        </a>
         <p>{{now}}</p>
         <br><br>
         <div class="row">
             <div class="col-7 offset-1 row">
                 <!--Charge Nurse Dropdowns-->
-                <div class="input-group mb-3">
+                <div class="input-group mb-3 shadow-sm">
                     <div class="input-group-prepend">
                         <label class="input-group-text" style="width: 140px">Charge Nurse </label>
                     </div>
@@ -35,7 +41,7 @@
                     {% endfor %}
                 </div>
                 <!--Support Nurse Dropdowns-->
-                <div class="input-group mb-3">
+                <div class="input-group mb-3 shadow-sm">
                     <div class="input-group-prepend">
                         <label class="input-group-text" style="width: 140px">Support Nurse</label>
                     </div>
@@ -54,7 +60,7 @@
                     {% endfor %}
                 </div>
                 <!--Code Nurse Dropdowns-->
-                <div class="input-group mb-3">
+                <div class="input-group shadow-sm">
                     <div class="input-group-prepend">
                         <label class="input-group-text" style="width: 140px">Code Nurse</label>
                     </div>
@@ -73,93 +79,95 @@
 {% set areas=["A", "B", "C", "D", "E", "F"] %}
 {% set area_iter = namespace(value=0) %}
 
-{% for card_row in range(2) %}
-<div class="card-deck">
-    {% for card_col in range(3) %}
-    <div class="card" style="border-radius: 15px;">
+<div class="container-fluid">
+    {% for card_row in range(2) %}
+    <div class="card-deck">
+        {% for card_col in range(3) %}
+        <div class="card shadow" style="border-radius: 15px;">
 
-        <div {% if area_iter.value < 4 %} class="card-footer text-center pod-norm" {% else %}
-            class="card-footer text-center pod-spec" {% endif %}
-            style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
+            <div {% if area_iter.value < 4 %} class="card-footer text-center pod-norm" {% else %}
+                class="card-footer text-center pod-spec" {% endif %}
+                style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
 
-            <h4>Clinical Area {{areas[area_iter.value]}}</h4>
-            {% set area_iter.value = area_iter.value + 1 %}
-        </div>
-        <div class="card-body row justify-content-md-center">
-            <div class="col-6 row justify-content-md-center">
-                {% for asc_loop in range(7) %}
-                <div class="col-11 p-2 row mb-2" style="background-color: lightgrey; border-radius: 10px;">
-                    <p style="position: relative; left: 5%;">{{ asc_loop + 1 }}</p>
-                    <span class="badge badge-danger" style="position: relative; left: 82.5%; height: 18px;">1:1</span>
-                    <!--Patient Dropdown-->
-                    <div class="input-group input-group-sm px-1">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text" style="width: 30px;">P</label>
-                        </div>
-                        <select class="form-control" id="chargeNurse1">
-                            {% for index, patient in enumerate(patientList) %}
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{patient[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <!--Nurse Dropdown-->
-                    <div class="input-group input-group-sm px-1">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text" style="width: 30px;">N</label>
-                        </div>
-                        <select class=" form-control" id="chargeNurse1">
-                            {% for index, nurse in enumerate(nurseList) %}
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
-                {% endfor %}
+                <h4>Clinical Area {{areas[area_iter.value]}}</h4>
+                {% set area_iter.value = area_iter.value + 1 %}
             </div>
-            <div class="col-6 row justify-content-md-center">
-                {% for desc_loop in range(7)|reverse %}
-                <div class="col-11 p-2 row mb-2" style="background-color: lightgrey; border-radius: 10px;">
-                    <p style="position: relative; left: 5%;">{{ desc_loop + 8 }}</p>
-                    {% if (desc_loop + 8) % 10 == 1 %}
-                    <span class="badge badge-danger" style="position: relative; left: 80%; height: 18px;">1:1</span>
-                    {% else %}
-                    <span class="badge badge-danger" style="position: relative; left: 82.5%; height: 18px;">1:1</span>
-                    {% endif %}
-                    <!--Patient Dropdown-->
-                    <div class="input-group input-group-sm px-1">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text" style="width: 30px;">P</label>
+            <div class="card-body row justify-content-md-center">
+                <div class="col-6 row justify-content-md-center">
+                    {% for asc_loop in range(7) %}
+                    <div class="col-11 p-2 row mb-2" style="background-color: lightgrey; border-radius: 10px;">
+                        <p style="position: relative; left: 5%;">{{ asc_loop + 1 }}</p>
+                        <span class="badge badge-danger"
+                            style="position: relative; left: 82.5%; height: 18px;">1:1</span>
+                        <!--Patient Dropdown-->
+                        <div class="input-group input-group-sm px-1">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" style="width: 30px;">P</label>
+                            </div>
+                            <select class="form-control" id="chargeNurse1">
+                                {% for index, patient in enumerate(patientList) %}
+                                <option id='n~{{index + 1}}' value="{{index + 1}}">{{patient[1]}}</option>
+                                {% endfor %}
+                            </select>
                         </div>
-                        <select class="form-control" id="chargeNurse1">
-                            {% for index, patient in enumerate(patientList) %}
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{patient[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <!--Nurse Dropdown-->
-                    <div class="input-group input-group-sm px-1">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text" style="width: 30px;">N</label>
+                        <!--Nurse Dropdown-->
+                        <div class="input-group input-group-sm px-1">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" style="width: 30px;">N</label>
+                            </div>
+                            <select class=" form-control" id="chargeNurse1">
+                                {% for index, nurse in enumerate(nurseList) %}
+                                <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
+                                {% endfor %}
+                            </select>
                         </div>
-                        <select class=" form-control" id="chargeNurse1">
-                            {% for index, nurse in enumerate(nurseList) %}
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
                     </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
+                <div class="col-6 row justify-content-md-center">
+                    {% for desc_loop in range(7)|reverse %}
+                    <div class="col-11 p-2 row mb-2" style="background-color: lightgrey; border-radius: 10px;">
+                        <p style="position: relative; left: 5%;">{{ desc_loop + 8 }}</p>
+                        {% if (desc_loop + 8) % 10 == 1 %}
+                        <span class="badge badge-danger" style="position: relative; left: 80%; height: 18px;">1:1</span>
+                        {% else %}
+                        <span class="badge badge-danger"
+                            style="position: relative; left: 82.5%; height: 18px;">1:1</span>
+                        {% endif %}
+                        <!--Patient Dropdown-->
+                        <div class="input-group input-group-sm px-1">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" style="width: 30px;">P</label>
+                            </div>
+                            <select class="form-control" id="chargeNurse1">
+                                {% for index, patient in enumerate(patientList) %}
+                                <option id='n~{{index + 1}}' value="{{index + 1}}">{{patient[1]}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <!--Nurse Dropdown-->
+                        <div class="input-group input-group-sm px-1">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" style="width: 30px;">N</label>
+                            </div>
+                            <select class=" form-control" id="chargeNurse1">
+                                {% for index, nurse in enumerate(nurseList) %}
+                                <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
+        {% endfor %}
     </div>
+    <br>
     {% endfor %}
 </div>
 
-<br>
-{% endfor %}
-
 <script>
-
     function filterFunction() {
         var input, filter, ul, li, a, i;
         input = document.getElementById("myInput");
