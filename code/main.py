@@ -418,12 +418,10 @@ def past_PNSheet():
 @app.route('/assign', methods=['GET'])
 def assign_nurse_patient() -> dict:
     """ Assign nurses to patients"""
-
     assignments = {}
 
     # Grab Patients
     patients = []
-
     cursor.execute(
         'SELECT * FROM patients WHERE discharged_date="-" ORDER BY length(previous_nurses) DESC, one_to_one DESC, acuity DESC, a_trained DESC, transfer DESC, iv DESC;')
     patient_list = cursor.fetchall()
@@ -435,7 +433,6 @@ def assign_nurse_patient() -> dict:
 
     # Grab Nurses
     nurses = []
-
     cursor.execute("SELECT * FROM nurses WHERE current_shift=1")
     nurse_list = cursor.fetchall()
 
@@ -489,6 +486,7 @@ def assign_nurse_patient() -> dict:
                 if len(eligible_nurse_objects) < 1:
                     i += 1
 
+            # Calculate soft constraint weights
             nurse_weights = {}
             max_points = 0
 
@@ -496,7 +494,7 @@ def assign_nurse_patient() -> dict:
                 if eno.get_id() not in nurse_weights:
                     nurse_weights[eno.get_id()] = 0
 
-                # if nurse matches clinical area, give nurse points
+                # if nurse matches clinical area, give nurse 2 points
                 if eno.get_clinical_area() == clinical_area:
                     nurse_weights[eno.get_id()] += 2
 
@@ -504,19 +502,17 @@ def assign_nurse_patient() -> dict:
                 if eno.get_picc() == picc:
                     nurse_weights[eno.get_id()] += 2
 
-                # if nurse has less patients, then give nurse 6 points
-
-                # if nurse matches priority, give nurse points
+                # if nurse matches priority, give nurse 7 points
                 if eno.get_priority() == 1:
                     nurse_weights[eno.get_id()] += 7
 
-                # if nurse has previous assignments, give nurse points
+                # if nurse has previous assignments, give nurse 10 points
                 prev_p = eno.get_previous_patients().strip('][').split(', ')
-
                 if prev_p != "[]":
                     if str(p.get_id()) in prev_p:
                         nurse_weights[eno.get_id()] += 10
 
+                # calculate the highest weight a nurse achieved
                 if nurse_weights[eno.get_id()] > max_points:
                     max_points = nurse_weights[eno.get_id()]
 
@@ -530,6 +526,7 @@ def assign_nurse_patient() -> dict:
             sorted_eligible_nurses = sorted(
                 eligible_nurse_objects, key=lambda x: x.skill_level, reverse=False)
 
+            # assign
             for sen in sorted_eligible_nurses:
                 if sen.get_id() in eligible_max_nurses:
                     if sen.get_id() not in assignments:
