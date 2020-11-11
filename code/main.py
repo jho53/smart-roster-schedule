@@ -454,6 +454,9 @@ def current_CAASheet():
 
 @app.route("/currentPNSheet")
 def current_PNSheet():
+    # Variables
+    curr_assignment = None
+
     if 'loggedin' in session:
         # Grab nurse and patient tables
         cursor.execute("SELECT * FROM nurses WHERE current_shift=1")
@@ -462,45 +465,49 @@ def current_PNSheet():
         patient_list = cursor.fetchall()
 
         if os.path.exists('./cache/current_shift/somejson.json'):
-            with open ('./cache/current_shift/somejson.json', 'r') as jsonfile:
+            with open('./cache/current_shift/somejson.json', 'r') as jsonfile:
                 curr_assignment = json.load(jsonfile)
 
             for nurse_id in curr_assignment:
-                curr_assignment[nurse_id]['bed'] = ['A3']
                 list_of_beds = []
+                curr_assignment[nurse_id]['bed'] = ""
 
-                patients_str = str(curr_assignment[nurse_id]['patients'])
-                sql_query_str = patients_str[1:-1]
-                print(sql_query_str)
-
-                cursor.execute("SELECT * FROM patients WHERE id in ({0})".format(sql_query_str))
+                cursor.execute(
+                    "SELECT * FROM patients WHERE id in ({0})".format(
+                        str(curr_assignment[nurse_id]['patients'])[1:-1]))
 
                 list_of_patients = cursor.fetchall()
 
                 for p in list_of_patients:
                     list_of_beds.append(p[2] + str(p[3]))
-            
+
                 curr_assignment[nurse_id]['bed'] = list_of_beds
 
-        return render_template("./Assignment Sheets/cur_pnSheet.html", loggedin=session['loggedin'], curr_assignment=curr_assignment, nurseList=nurse_list, patientList=patient_list)
+            print(curr_assignment)
+
+        return render_template("./Assignment Sheets/cur_pnSheet.html",
+                               loggedin=session['loggedin'],
+                               curr_assignment=curr_assignment,
+                               nurseList=nurse_list,
+                               patientList=patient_list)
     return redirect(url_for('login'))
 
 
-@app.route("/pastCAASheet")
+@ app.route("/pastCAASheet")
 def past_CAASheet():
     if 'loggedin' in session:
         return render_template("./Assignment Sheets/past_caaSheet.html", loggedin=session['loggedin'])
     return redirect(url_for('login'))
 
 
-@app.route("/pastPNSheet")
+@ app.route("/pastPNSheet")
 def past_PNSheet():
     if 'loggedin' in session:
         return render_template("./Assignment Sheets/past_pnSheet.html", loggedin=session['loggedin'])
     return redirect(url_for('login'))
 
 
-@app.route('/assign', methods=['GET'])
+@ app.route('/assign', methods=['GET'])
 def assign_nurse_patient() -> dict:
     """ Assign nurses to patients"""
     assignments = {}
@@ -664,7 +671,7 @@ def assign_nurse_patient() -> dict:
 
 # @app.route('/flag', methods=['GET'])
 # def assign_nurse_patient() -> dict:
-    
+
 
 if __name__ == "__main__":
     # Testing
