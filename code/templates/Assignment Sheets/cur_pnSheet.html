@@ -31,7 +31,8 @@
                         <option selected>{{nurseList[i][1]}}</option>
                         {% for index, nurse in enumerate(nurseList) %}
                         {% if nurse[11] == "Charge" %}
-                        <option class="table-success" id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}
+                        <option class="table-success" id='n~{{index + 1}}' value="{{index + 1}}">
+                            {{nurse[1]}}
                         </option>
                         {% else %}
                         <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
