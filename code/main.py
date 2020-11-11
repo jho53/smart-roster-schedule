@@ -671,6 +671,9 @@ def assign_nurse_patient() -> dict:
     except ValueError as error:
         response = app.response_class(status=400, response=str(error))
 
+# @app.route('/flag', methods=['GET'])
+# def assign_nurse_patient() -> dict:
+    
 
 if __name__ == "__main__":
     # Testing
