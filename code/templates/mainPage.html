@@ -77,9 +77,10 @@
                                 alt="patient assignment image">
                             <div class="card-body">
                                 <div class="card-title">
-                                    <h5>Assign Charge/Support Nurse to Current Shift</h5>
+                                    <h5>Assign Advanced Roles to Current Shift Nurses</h5>
                                 </div>
-                                <p class="card-text text-center">Add all the nurses scheduled to work in current shift
+                                <p class="card-text text-center">Assign advanced roles to nurses scheduled to work in
+                                    current shift
                                 </p>
                             </div>
                             <div class="card-footer">
@@ -221,7 +222,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Assign Charge and Support Nurses</h5>
+                <h5 class="modal-title">Assign Advanced Roles</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -290,9 +291,41 @@
                         </select>
                     </div>
                 </div>
+                <!--Code Nurse Assignment-->
+                <div id="code-assignment" class="col-12 row">
+                    <div class="form-group col-5" style="text-align: center;">
+                        <label for="currCodeStore">Assigned Code Nurses</label>
+                        <select multiple size="8" class="form-control" id="currCodeStore">
+                            {% for index, nurse in enumerate(nurseList) %}
+                            {% if (nurse[-1]==1) and (nurse[11]=="Code") %}
+                            <option class="table-danger" id="{{nurse[0]}}" name="{{nurse[0]}}" value="{{nurse[0]}}">
+                                {{nurse[1]}} -
+                                {{nurse[4]}}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="btn-group-vertical col-2">
+                        <button class="btn" onclick="codeToggle('left')"><i class="fas fa-chevron-left"></i></button>
+                        <br>
+                        <button class="btn" onclick="codeToggle('right')"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    <div class="form-group col-5" style="text-align: center;">
+                        <label for="currNurseCode">Current Shift Nurses</label>
+                        <select multiple size="8" class="form-control" id="currNurseCode">
+                            {% for index, nurse in enumerate(nurseList) %}
+                            {% if (nurse[-1]==1) and (nurse[11]!="Code") %}
+                            <option id="{{nurse[0]}}" name="{{nurse[0]}}" value="{{nurse[0]}}">{{nurse[1]}} -
+                                {{nurse[4]}}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <form action="/modalSubmit2" method="POST">
+                    <input type="text" id="codeNurseSubmit" hidden name="code_nurses_list" value="">
                     <input type="text" id="suppNurseSubmit" hidden name="support_nurses_list" value="">
                     <button type="submit" id="cNurseSubmit" class="btn btn-success" name="charge_nurses_list"
                         value="">Save</button>
@@ -346,7 +379,7 @@
                         </tbody>
                     </table>
                     <!--Current Shift Assignment-->
-                    <div class="col-4">
+                    <div class="col-3">
                         <h6>Current Shift Assignments</h6>
                         <select class="form-control" size="8">
                             {% for nurse in nurseList %}
@@ -363,7 +396,7 @@
                         </select>
                     </div>
                     <!--Charge Nurse Assignemnts-->
-                    <div class="col-4">
+                    <div class="col-3">
                         <h6>Charge Nurses + Backups</h6>
                         <select class="form-control" size="8">
                             {% for nurse in nurseList %}
@@ -375,12 +408,24 @@
                         </select>
                     </div>
                     <!--Support Nurse Assignments-->
-                    <div class="col-4">
+                    <div class="col-3">
                         <h6>Support Nurses + Backups</h6>
                         <select class="form-control" size="8">
                             {% for nurse in nurseList %}
                             {% if (nurse[-1]==1) and (nurse[11]=="Support") %}
                             <option class="table-warning" id="{{nurse[0]}}" name="{{nurse[0]}}" value="{{nurse[0]}}">
+                                {{nurse[1]}}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <!--Code Nurse Assignments-->
+                    <div class="col-3">
+                        <h6>Code Nurses + Backups</h6>
+                        <select class="form-control" size="8">
+                            {% for nurse in nurseList %}
+                            {% if (nurse[-1]==1) and (nurse[11]=="Code") %}
+                            <option class="table-danger" id="{{nurse[0]}}" name="{{nurse[0]}}" value="{{nurse[0]}}">
                                 {{nurse[1]}}</option>
                             {% endif %}
                             {% endfor %}
@@ -422,6 +467,7 @@
     var currNurses = null
     var cNurses = null
     var supportNurses = null
+    var codeNurses = null
 
     // Current Shift Assignment Toggle
     function currShiftToggle(side) {
@@ -512,6 +558,35 @@
         }
     }
 
+    // Code Nurse Toggle
+    function codeToggle(side) {
+        if (side == "left") {
+            var unShiftSelected = $('#currNurseCode').val();
+            $('#currNurseCode option:selected').appendTo("#currCodeStore")
+            for (i = 0; i < unShiftSelected.length; i++) {
+                if (codeNurses.includes(unShiftSelected[i])) {
+                    continue
+                } else {
+                    codeNurses.push(unShiftSelected[i])
+                }
+            }
+        } else {
+            var currShiftSelected = $('#currCodeStore').val();
+            $('#currCodeStore option:selected').appendTo("#currNurseCode")
+
+            for (i = 0; i < currShiftSelected.length; i++) {
+                if (codeNurses.includes(currShiftSelected[i])) {
+                    let index = codeNurses.indexOf(currShiftSelected[i])
+                    if (index > -1) {
+                        codeNurses.splice(index, 1)
+                    }
+                } else {
+                    continue
+                }
+            }
+        }
+    }
+
     // Quick Links
     function toggleQuicklinks() {
         var quickLinks = document.getElementById("quickLinks");
@@ -548,6 +623,11 @@
         cNurses = "{{cnNurseIds}}".split(", ")
         cNurses[0] = cNurses[0].substring(1, cNurses[0].length)
         cNurses[cNurses.length - 1] = cNurses[cNurses.length - 1].substring(0, cNurses[cNurses.length - 1].length - 1)
+
+        // Load codeNurses array
+        codeNurses = "{{codeNurseIds}}".split(", ")
+        codeNurses[0] = codeNurses[0].substring(1, codeNurses[0].length)
+        codeNurses[codeNurses.length - 1] = codeNurses[codeNurses.length - 1].substring(0, codeNurses[codeNurses.length - 1].length - 1)
     });
 
     $("#currNurseSubmit").on("click", (event) => {
@@ -555,6 +635,7 @@
     })
 
     $("#cNurseSubmit").on("click", (event) => {
+        $("#codeNurseSubmit").val(codeNurses)
         $("#suppNurseSubmit").val(supportNurses)
         $("#cNurseSubmit").val(cNurses)
     })
