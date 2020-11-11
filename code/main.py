@@ -460,7 +460,29 @@ def current_PNSheet():
         nurse_list = cursor.fetchall()
         cursor.execute("SELECT * FROM patients WHERE discharged_date='-'")
         patient_list = cursor.fetchall()
-        return render_template("./Assignment Sheets/cur_pnSheet.html", loggedin=session['loggedin'], nurseList=nurse_list, patientList=patient_list)
+
+        if os.path.exists('./cache/current_shift/somejson.json'):
+            with open ('./cache/current_shift/somejson.json', 'r') as jsonfile:
+                curr_assignment = json.load(jsonfile)
+
+            for nurse_id in curr_assignment:
+                curr_assignment[nurse_id]['bed'] = ['A3']
+                list_of_beds = []
+
+                patients_str = str(curr_assignment[nurse_id]['patients'])
+                sql_query_str = patients_str[1:-1]
+                print(sql_query_str)
+
+                cursor.execute("SELECT * FROM patients WHERE id in ({0})".format(sql_query_str))
+
+                list_of_patients = cursor.fetchall()
+
+                for p in list_of_patients:
+                    list_of_beds.append(p[2] + str(p[3]))
+            
+                curr_assignment[nurse_id]['bed'] = list_of_beds
+
+        return render_template("./Assignment Sheets/cur_pnSheet.html", loggedin=session['loggedin'], curr_assignment=curr_assignment, nurseList=nurse_list, patientList=patient_list)
     return redirect(url_for('login'))
 
 
@@ -640,6 +662,9 @@ def assign_nurse_patient() -> dict:
     except ValueError as error:
         response = app.response_class(status=400, response=str(error))
 
+# @app.route('/flag', methods=['GET'])
+# def assign_nurse_patient() -> dict:
+    
 
 if __name__ == "__main__":
     # Testing
