@@ -9,6 +9,7 @@ import json
 import mysql.connector
 import os
 import bcrypt
+import shutil
 
 # test purpose
 import webbrowser
@@ -47,7 +48,7 @@ def inject_enumerate():
 
 
 #### Global Variables ####
-DIRNAME = os.path.dirname(__file__)
+CURR_DIR = os.path.dirname(__file__)
 # Headers
 PATIENT_HEADERS = ["ID", "Name", "Clinical Area", "Bed #", "Acuity Level",
                    "A-trained Req", "Transfer Req", "IV Req", "1:1", "Previous Nurses", "Date Admitted",
@@ -464,8 +465,8 @@ def current_PNSheet():
         cursor.execute("SELECT * FROM patients WHERE discharged_date='-'")
         patient_list = cursor.fetchall()
 
-        if os.path.exists('./cache/current_shift/somejson.json'):
-            with open('./cache/current_shift/somejson.json', 'r') as jsonfile:
+        if os.path.exists('./cache/current_shift/curr_assignment.json'):
+            with open('./cache/current_shift/curr_assignment.json', 'r') as jsonfile:
                 curr_assignment = json.load(jsonfile)
 
             for nurse_id in curr_assignment:
@@ -657,9 +658,18 @@ def assign_nurse_patient() -> dict:
         'SELECT * FROM patients WHERE discharged_date="-"')
     patient_list = cursor.fetchall()
 
-    # Store in cache
-    os.mkdir("./cache/current_shift")
-    with open("./cache/current_shift/somejson.json", 'w') as jsonfile:
+    # Create cache/current_shift folders
+    try:
+        os.makedirs("{0}/cache/current_shift".format(CURR_DIR))
+    except:
+        print("Required directories exist")
+
+    # If curr_assignment.json already exists, delete
+    if os.path.exists("{0}/cache/current_shift/curr_assignment.json".format(CURR_DIR)):
+        os.remove("{0}/cache/current_shift/curr_assignment.json".format(CURR_DIR))
+
+    # Create curr_assignment.json
+    with open("./cache/current_shift/curr_assignment.json", 'w') as jsonfile:
         json.dump(assignments, jsonfile)
 
     try:
