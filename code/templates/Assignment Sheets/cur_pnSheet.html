@@ -15,7 +15,7 @@
         </a>
         <a href="#" style="position: absolute; right: 110px; top: 30px;">
             <i class="fas fa-save fa-3x" style="color:black"></i>
-            <br>Save
+            <br><small>Save</small>
         </a>
         <p>{{now}}</p>
         <br><br>
@@ -246,7 +246,7 @@
 
     // Print Page
     function printPage() {
-        var css = 'body {zoom: 60%}',
+        var css = 'body',
             head = document.head || document.getElementsByTagName('head')[0],
             style = document.createElement('style');
 

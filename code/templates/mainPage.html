@@ -349,7 +349,7 @@
             <div class="modal-body">
                 <div class="col-12 row">
                     <table class="table table-sm mb-2" id="verifyTable">
-                        <thead>
+                        <thead class="thead-light">
                             <tr>
                                 <th>Name</th>
                                 <th>Rotation</th>
@@ -442,7 +442,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="/currentPNSheet" class="btn btn-success" value="">Run Scheduler</a>
+                <a href="/assign" class="btn btn-success" value="">Run Scheduler</a>
                 <button class="btn btn-secondary" data-dismiss="modal" aria-label="Close">Cancel</button>
             </div>
         </div>
@@ -457,8 +457,8 @@
     <div id="quicklinksContent" class="quick-links-content">
         <a href="#"><img class="quick-link-icons" src="/images/add-patient-icon.png"><br>Add Patient</a>
         <a href="#"><img class="quick-link-icons" src="/images/add-nurse-icon.png"><br>Add Nurse</a>
-        <a href="#"><img class="quick-link-icons" src="/images/print-icon.png"><br>Print Current<br>CA Sheet</a>
-        <a href="#"><img class="quick-link-icons" src="/images/print-icon.png"><br>Print Current<br>P/N Sheet</a>
+        <a href="#" onclick="printExternal('/currentCAASheet')"><img class="quick-link-icons" src="/images/print-icon.png"><br>Print Current<br>CA Sheet</a>
+        <a href="#" onclick="printExternal('/currentPNSheet')"><img class="quick-link-icons" src="/images/print-icon.png"><br>Print Current<br>P/N Sheet</a>
     </div>
 </div>
 
@@ -660,6 +660,21 @@
         });
     });
 
+    function printExternal(url) {
+        var printWindow = window.open(url, 'Print', 'left=200, top=200, width=900, height=500, toolbar=0, resizable=0');
+
+        printWindow.addEventListener('load', function () {
+            if (Boolean(printWindow.chrome)) {
+                printWindow.print();
+                setTimeout(function () {
+                    printWindow.close();
+                }, 500);
+            } else {
+                printWindow.print();
+                printWindow.close();
+            }
+        }, true);
+    }
 </script>
 
 <!--DataTables.js-->

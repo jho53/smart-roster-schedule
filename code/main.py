@@ -85,6 +85,10 @@ def home():
                 if nurse[11] == "Code":
                     code_nurse_ids.append(nurse[0])
 
+        print(cn_nurse_ids)
+        print(supp_nurse_ids)
+        print(code_nurse_ids)
+
         return render_template('mainPage.html',
                                loggedin=session['loggedin'],
                                nurseList=nurse_list,
@@ -657,6 +661,9 @@ def assign_nurse_patient() -> dict:
     cursor.execute(
         'SELECT * FROM patients WHERE discharged_date="-"')
     patient_list = cursor.fetchall()
+
+    cursor.execute("SELECT * FROM nurses")
+    nurse_list = cursor.fetchall()
 
     # Create cache/current_shift folders
     try:
