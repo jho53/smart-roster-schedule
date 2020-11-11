@@ -2,130 +2,35 @@
 
 {% block content %}
 
-<style>
-  .login-elements {
-    margin-top: 150px;
-    height: 600px;
-    /* border: 5px solid; */
-  }
-
-  .login-row:after {
-    content: "";
-    display: table;
-    clear: both;
-  }
-
-  .login-column-1 {
-    float: left;
-    width: 45%;
-    margin-top: 25px;
-    margin-left: 25px;
-    padding: 25px;
-    height: 500px;
-    /* border: 5px solid; */
-    text-align: center;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.25));
-  }
-
-  .introduction {
-    margin-top: 25px;
-    padding-top: 25px;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-bottom: 15px;
-    background-color: rgba(156, 149, 149, 0.5);
-    text-align: center;
-  }
-
-  .login-column-2 {
-    float: right;
-    width: 45%;
-    margin-top: 25px;
-    margin-right: 25px;
-    padding: 25px;
-    height: 500px;
-    /* border: 5px solid; */
-    text-align: center;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.25));
-  }
-
-  .login-form {
-    text-align: center;
-    padding-top: 25px;
-  }
-
-  .login-form p {
-    color: white;
-    text-align: left;
-  }
-
-  .login-msg p {
-    text-align: center;
-  }
-
-  .login-logo {
-    width: 200px;
-    height: 100px;
-  }
-
-  .login-body {
-    background-image: url("/images/login-background.jpg");
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-  }
-</style>
-
-<body class="login-body">
-  <div class="container" style="width: 1200px;">
-    <div class="login-elements">
-      <div class="login-row"></div>
-      <div class="login-column-1">
-        <img src="/images/SmartRosterLogoHighRes.png" class="login-logo">
-        <div class="introduction">
-          <h3 style="padding-bottom: 15px; color: black;">Introduction</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-              quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-              Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-              deserunt mollit anim id est laborum.</p>
-        </div>
+<div class="p-5 h-100 w-100 d-inline-block mh-100"
+  style="height:100vh !important; background-image: url('/images/login-side.jpg');">
+  <div class="container-fluid h-100">
+    <div class="row h-100 shadow-lg">
+      <div class="col-7 h-100 d-inline-block"
+        style="background-image: url('/images/login-side.jpg'); background-size: cover; opacity:0.7; background-color: #f5f5f5;">
       </div>
-      <div class="login-column-2">
-        <h3 style="color: black;">Login to Smart Roster</h3>
-        <div class="login-form">
-          <div class="form-group">
-            <form action="/loginUser" method="post">
-              <p>
-                <label for="username">Username</label>
-                <input id="username" class="form-control" name="username" required="" size="32" type="text" value=""
-                  placeholder="Username"><br>
-              </p>
-              <p>
-                <label for="password">Password</label>
-                <input id="password" class="form-control" name="password" required="" size="32" type="password" value=""
-                  placeholder="Password"><br>
-              </p>
-
-              <br>
-              <p>
-                <button id="submit" class="btn btn-success form-control" name="submit" type="submit"
-                  value="Login">Login</button>
-              </p>
-
-              <br>
-              <p style="text-align: center;">
-                {{msg}}
-              </p>
-            </form>
-          </div>
+      <div class="col-5 h-100 p-5" style="background-color: rgb(245,245,245);">
+        <div class="form-group h-100 m-auto p-5" style="width: 80%; height: 40%">
+          <img src="/images/SmartRosterLogoHighRes.png" width="150px" class="d-block mx-auto"
+            style="position: relative; margin: 15%">
+          <form action="/loginUser" method="post">
+            <input id="username" class="form-control mb-5" name="username" required="" size="32" type="text" value=""
+              placeholder="Username...">
+            <input id="password" class="form-control mt-3 mb-5" name="password" required="" size="32" type="password"
+              value="" placeholder="Password...">
+            <br><br>
+            <div class="row">
+              <button id="submit" class="btn btn-success mx-auto px-5" name="submit" type="submit"
+                style="padding-left: 15px;" value="Login">Login</button>
+            </div>
+            <p style="text-align: center;">
+              {{msg}}
+            </p>
+          </form>
         </div>
       </div>
     </div>
   </div>
-  </div>
-</body>
+</div>
 
 {% endblock %}

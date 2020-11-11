@@ -33,28 +33,28 @@ class Nurse(Base):
                  advanced_role: str, previous_patients: str, dta: str, comments: str, priority: int,
                  current_shift: int) -> None:
         """ Validates and Initializes a Nurse """
-        Nurse._validate_positive_integer("Nurse ID", id)
+        # Nurse._validate_positive_integer("Nurse ID", id)
         self.id = id
 
-        Nurse._validate_string_250("Name", name)
+        # Nurse._validate_string_250("Name", name)
         self.name = name
 
-        Nurse._validate_string_250("Clinical area", clinical_area)
+        # Nurse._validate_string_250("Clinical area", clinical_area)
         self.clinical_area = clinical_area
 
-        Nurse._validate_positive_integer("Bed number", bed_num)
+        # Nurse._validate_positive_integer("Bed number", bed_num)
         self.bed_num = bed_num
 
-        Nurse._validate_string_250("Rotation", rotation)
+        # Nurse._validate_string_250("Rotation", rotation)
         self.rotation = rotation
 
-        Nurse._validate_positive_integer("Group", group)
+        # Nurse._validate_positive_integer("Group", group)
         self.group = group
 
         # Nurse._validate_positive_float("fte", fte)
         self.fte = fte
 
-        Nurse._validate_positive_integer("Skill level", skill_level)
+        # Nurse._validate_positive_integer("Skill level", skill_level)
         self.skill_level = skill_level
 
         # Nurse._validate_boolean("A-Trained value", a_trained)
