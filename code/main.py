@@ -66,6 +66,7 @@ def home():
         curr_nurse_ids = []
         supp_nurse_ids = []
         cn_nurse_ids = []
+        code_nurse_ids = []
 
         # Grab database information
         cursor.execute("SELECT * FROM nurses")
@@ -80,6 +81,8 @@ def home():
                     cn_nurse_ids.append(nurse[0])
                 if nurse[11] == "Support":
                     supp_nurse_ids.append(nurse[0])
+                if nurse[11] == "Code":
+                    code_nurse_ids.append(nurse[0])
 
         return render_template('mainPage.html',
                                loggedin=session['loggedin'],
@@ -87,7 +90,8 @@ def home():
                                patientList=patient_list,
                                currNurseIds=curr_nurse_ids,
                                suppNursesIds=supp_nurse_ids,
-                               cnNurseIds=cn_nurse_ids)
+                               cnNurseIds=cn_nurse_ids,
+                               codeNurseIds=code_nurse_ids)
     return redirect(url_for('login'))
 
 
@@ -112,22 +116,31 @@ def update_current_nurses():
 @app.route("/modalSubmit2", methods=["POST"])
 def update_cn_supp():
     if "loggedin" in session:
-        support_nurses_id = "({0})".format(request.form['support_nurses_list'])
-        charge_nurses_id = "({0})".format(request.form['charge_nurses_list'])
+        support_nurses_id = "({0})".format(
+            request.form['support_nurses_list'])
+        charge_nurses_id = "({0})".format(
+            request.form['charge_nurses_list'])
+        code_nurses_id = "({0})".format(request.form['code_nurses_list'])
 
         if list(support_nurses_id)[1] == ",":
-            support_nurses_id = support_nurses_id[:1] + support_nurses_id[2:]
+            support_nurses_id = support_nurses_id[:1] + \
+                support_nurses_id[2:]
 
         if list(charge_nurses_id)[1] == ",":
             charge_nurses_id = charge_nurses_id[:1] + charge_nurses_id[2:]
 
+        if list(code_nurses_id)[1] == ",":
+            code_nurses_id = code_nurses_id[:1] + code_nurses_id[2:]
+
         try:
             cursor.execute(
-                "UPDATE smartroster.nurses SET advanced_role = '' WHERE current_shift = 1 and advanced_role != 'Code' and advanced_role NOT LIKE 'L%'")
+                "UPDATE smartroster.nurses SET advanced_role = '' WHERE current_shift = 1 and advanced_role NOT LIKE 'L%'")
             cursor.execute("UPDATE smartroster.nurses SET advanced_role = 'Support' WHERE id in {0}".format(
                 support_nurses_id))
             cursor.execute("UPDATE smartroster.nurses SET advanced_role = 'Charge' WHERE id in {0}".format(
                 charge_nurses_id))
+            cursor.execute("UPDATE smartroster.nurses SET advanced_role = 'Code' WHERE id in {0}".format(
+                code_nurses_id))
             db.commit()
             return redirect(url_for('home'))
         except Exception as error:
@@ -259,16 +272,9 @@ def add_nurse_records():
     try:
         cursor.execute(query, arguments)
         db.commit()
-
-
     except Exception as error:
         print(error)
-
-    cursor.execute("SELECT * FROM nurses")
-    nurse_list = cursor.fetchall()
-    return render_template("./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list,
-                           nurseHeaders=NURSE_HEADERS)
-
+    return redirect(url_for('nurse_records'))
 
 @app.route("/editNurseRecords", methods=["POST"])
 def edit_nurse_records():
@@ -297,14 +303,8 @@ def edit_nurse_records():
     try:
         cursor.execute(query, arguments)
         db.commit()
-        cursor.execute("SELECT * FROM nurses")
-        nurse_list = cursor.fetchall()
-        return render_template("./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list,
-                               nurseHeaders=NURSE_HEADERS)
-
     except Exception as error:
         print(error)
-
     return redirect(url_for('nurse_records'))
 
 
@@ -316,11 +316,6 @@ def delete_nurse_records():
     try:
         cursor.execute(query)
         db.commit()
-        cursor.execute("SELECT * FROM nurses")
-        nurse_list = cursor.fetchall()
-        return render_template("./Records/nurseRecord.html", loggedin=session['loggedin'], nurseList=nurse_list,
-                               nurseHeaders=NURSE_HEADERS)
-
     except Exception as error:
         print(error)
 
@@ -366,13 +361,6 @@ def add_patient_records():
     try:
         cursor.execute(query, arguments)
         db.commit()
-
-        # Grabs all patients
-        cursor.execute("SELECT * FROM patients")
-        patient_list = cursor.fetchall()
-        return render_template("./Records/patientRecord.html", loggedin=session['loggedin'], patientList=patient_list,
-                               patientHeaders=PATIENT_HEADERS)
-
     except Exception as error:
         print(error)
 
@@ -407,12 +395,6 @@ def edit_patient_records():
     try:
         cursor.execute(query, arguments)
         db.commit()
-        # Grabs all patients
-        cursor.execute("SELECT * FROM patients")
-        patient_list = cursor.fetchall()
-        return render_template("./Records/patientRecord.html", loggedin=session['loggedin'], patientList=patient_list,
-                               patientHeaders=PATIENT_HEADERS)
-
     except Exception as error:
         print(error)
 
@@ -430,23 +412,9 @@ def delete_patient_records():
     try:
         cursor.execute(query)
         db.commit()
-        # Grabs all patients
-
-        cursor.execute("SELECT * FROM patients")
-        patient_list = cursor.fetchall()
-        return render_template("./Records/patientRecord.html", loggedin=session['loggedin'], patientList=patient_list,
-                               patientHeaders=PATIENT_HEADERS)
-
     except Exception as error:
         print(error)
-
-
-@app.route("/patientRecordsSubmit", methods=['POST'])
-def patient_records_submit():
-    return
-
-
-# Account
+    return redirect(url_for('patient_records'))
 
 
 @app.route("/profile", methods=['GET'])
@@ -473,14 +441,14 @@ def settings():
 
 @app.route("/currentCAASheet")
 def current_CAASheet():
-    # Grab nurse and patient tables
-    cursor.execute("SELECT * FROM nurses WHERE current_shift=1")
-    nurse_list = cursor.fetchall()
-    cursor.execute("SELECT * FROM patients")
-    patient_list = cursor.fetchall()
-
-    return render_template("./Assignment Sheets/cur_caaSheet.html", loggedin=session['loggedin'], nurseList=nurse_list,
-                           patientList=patient_list)
+    if 'loggedin' in session:
+        # Grab nurse and patient tables
+        cursor.execute("SELECT * FROM nurses WHERE current_shift=1")
+        nurse_list = cursor.fetchall()
+        cursor.execute("SELECT * FROM patients")
+        patient_list = cursor.fetchall()
+        return render_template("./Assignment Sheets/cur_caaSheet.html", loggedin=session['loggedin'], nurseList=nurse_list, patientList=patient_list)
+    return redirect(url_for('login'))
 
 
 @app.route("/currentPNSheet")
@@ -491,9 +459,9 @@ def current_PNSheet():
         nurse_list = cursor.fetchall()
         cursor.execute("SELECT * FROM patients")
         patient_list = cursor.fetchall()
+        return render_template("./Assignment Sheets/cur_pnSheet.html", loggedin=session['loggedin'], nurseList=nurse_list, patientList=patient_list)
+    return redirect(url_for('login'))
 
-    return render_template("./Assignment Sheets/cur_pnSheet.html", loggedin=session['loggedin'], nurseList=nurse_list,
-                           patientList=patient_list)
 
 
 @app.route("/pastCAASheet")

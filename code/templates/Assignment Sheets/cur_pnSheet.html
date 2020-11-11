@@ -20,21 +20,23 @@
         <p>{{now}}</p>
         <br><br>
         <div class="row">
-            <div class="col-7 offset-1 row">
+            <div class="col-8 offset-2 row">
                 <!--Charge Nurse Dropdowns-->
                 <div class="input-group mb-3 shadow-sm">
                     <div class="input-group-prepend">
-                        <label class="input-group-text" style="width: 140px">Charge Nurse </label>
+                        <label class="input-group-text" style="width: 140px">Charge Nurse</label>
                     </div>
                     {% for i in range(3)%}
-                    <select class="form-control" id="chargeNurse1">
-                        <option selected>{{nurseList[i][1]}}</option>
+                    <select class="form-control" id="cn-assign-form">
+                        <option id="cn-assign-blank" value="" selected></option>
+                        </option>
                         {% for index, nurse in enumerate(nurseList) %}
                         {% if nurse[11] == "Charge" %}
-                        <option class="table-success" id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}
+                        <option class="table-success" id='cn-assign-{{nurse[0]}}' value="{{nurse[0]}}">
+                            {{nurse[1]}}
                         </option>
                         {% else %}
-                        <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
+                        <option id='cn-assign-{{nurse[0]}}' value="{{nurse[0]}}">{{nurse[1]}}</option>
                         {% endif %}
                         {% endfor %}
                     </select>
@@ -46,14 +48,15 @@
                         <label class="input-group-text" style="width: 140px">Support Nurse</label>
                     </div>
                     {% for i in range(3)%}
-                    <select class="form-control" id="supportNurse1">
-                        <option selected>{{nurseList[i + 3][1]}}</option>
+                    <select class="form-control" id="support-assign-form">
+                        <option id="support-assign-blank" value="" selected></option>
+                        </option>
                         {% for index, nurse in enumerate(nurseList) %}
                         {% if nurse[11] == "Support" %}
-                        <option class="table-warning" id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}
+                        <option class="table-warning" id='support-assign-{{nurse[0]}}' value="{{nurse[0]}}">{{nurse[1]}}
                         </option>
                         {% else %}
-                        <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
+                        <option id='support-assign-{{nurse[0]}}' value="{{nurse[0]}}">{{nurse[1]}}</option>
                         {% endif %}
                         {% endfor %}
                     </select>
@@ -64,10 +67,10 @@
                     <div class="input-group-prepend">
                         <label class="input-group-text" style="width: 140px">Code Nurse</label>
                     </div>
-                    <select class="form-control" id="chargeNurse1">
-                        <option selected>{{nurseList[7][1]}}</option>
+                    <select class="form-control" id="code-assign-form">
+                        <option id="code-assign-blank" value="" selected></option>
                         {% for index, nurse in enumerate(nurseList) %}
-                        <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
+                        <option id="code-assign-{{nurse[0]}}" value="{{nurse[0]}}">{{nurse[1]}}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -81,32 +84,33 @@
 
 <div class="container-fluid">
     {% for card_row in range(2) %}
-    <div class="card-deck">
+    <div class="card-deck" id="row-{{card_row + 1}}">
         {% for card_col in range(3) %}
-        <div class="card shadow" style="border-radius: 15px;">
-
+        <div class="card shadow" style="border-radius: 15px;" id="pod-{{areas[area_iter.value]}}">
             <div {% if area_iter.value < 4 %} class="card-footer text-center pod-norm" {% else %}
                 class="card-footer text-center pod-spec" {% endif %}
                 style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
-
                 <h4>Clinical Area {{areas[area_iter.value]}}</h4>
-                {% set area_iter.value = area_iter.value + 1 %}
+
             </div>
             <div class="card-body row justify-content-md-center">
-                <div class="col-6 row justify-content-md-center">
+                <div class="col-6 row justify-content-md-center" id="pod-{{areas[area_iter.value]}}-col1">
                     {% for asc_loop in range(7) %}
-                    <div class="col-11 p-2 row mb-2" style="background-color: lightgrey; border-radius: 10px;">
+                    <div class="col-11 p-2 row mb-2" style="background-color: lightgrey; border-radius: 10px;"
+                        id="pod-{{areas[area_iter.value]}}-bed-{{asc_loop + 1}}-view">
                         <p style="position: relative; left: 5%;">{{ asc_loop + 1 }}</p>
-                        <span class="badge badge-danger"
-                            style="position: relative; left: 82.5%; height: 18px;">1:1</span>
-                        <!--Patient Dropdown-->
+                        <i class="fas fa-exclamation-circle" style="position: relative; left: 87.5%; top: 5%;"></i>
                         <div class="input-group input-group-sm px-1">
                             <div class="input-group-prepend">
                                 <label class="input-group-text" style="width: 30px;">P</label>
                             </div>
-                            <select class="form-control" id="chargeNurse1">
+                            <select class="form-control"
+                                id="pod-{{areas[area_iter.value]}}-bed-{{asc_loop + 1}}-patient-menu">
+                                <option id="pod-{{areas[area_iter.value]}}-bed-{{ asc_loop + 1 }}-p-blank" value="">
+                                </option selected>
                                 {% for index, patient in enumerate(patientList) %}
-                                <option id='n~{{index + 1}}' value="{{index + 1}}">{{patient[1]}}</option>
+                                <option id='pod-{{areas[area_iter.value]}}-bed-{{ asc_loop + 1 }}-p-{{patient[0]}}'
+                                    value="{{patient[0]}}">{{patient[1]}}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -115,33 +119,43 @@
                             <div class="input-group-prepend">
                                 <label class="input-group-text" style="width: 30px;">N</label>
                             </div>
-                            <select class=" form-control" id="chargeNurse1">
+                            <select class=" form-control"
+                                id="pod-{{areas[area_iter.value]}}-bed-{{asc_loop + 1}}-nurse-menu">
+                                <option id="pod-{{areas[area_iter.value]}}-bed-{{ asc_loop + 1 }}-n-blank" value="">
+                                </option selected>
                                 {% for index, nurse in enumerate(nurseList) %}
-                                <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
+                                <option id='pod-{{areas[area_iter.value]}}-bed-{{ asc_loop + 1 }}-n-{{nurse[0]}}'
+                                    value="{{nurse[0]}}">{{nurse[1]}}</option>
                                 {% endfor %}
                             </select>
                         </div>
                     </div>
                     {% endfor %}
                 </div>
-                <div class="col-6 row justify-content-md-center">
+                <div class="col-6 row justify-content-md-center" id="pod-{{areas[area_iter.value]}}-col2">
                     {% for desc_loop in range(7)|reverse %}
-                    <div class="col-11 p-2 row mb-2" style="background-color: lightgrey; border-radius: 10px;">
+                    <div class="col-11 p-2 row mb-2" style="background-color: lightgrey; border-radius: 10px;"
+                        id="pod-{{areas[area_iter.value]}}-bed-{{desc_loop + 8}}-view">
                         <p style="position: relative; left: 5%;">{{ desc_loop + 8 }}</p>
-                        {% if (desc_loop + 8) % 10 == 1 %}
-                        <span class="badge badge-danger" style="position: relative; left: 80%; height: 18px;">1:1</span>
+                        {% if (desc_loop + 8) > 10 and (desc_loop + 8) != 11 %}
+                        <i class="fas fa-exclamation-circle" style="position: relative; left: 82.5%; top: 5%;"></i>
+                        {% elif (desc_loop + 8) > 9 %}
+                        <i class="fas fa-exclamation-circle" style="position: relative; left: 83%; top: 5%;"></i>
                         {% else %}
-                        <span class="badge badge-danger"
-                            style="position: relative; left: 82.5%; height: 18px;">1:1</span>
+                        <i class="fas fa-exclamation-circle" style="position: relative; left: 87.5%; top: 5%;"></i>
                         {% endif %}
                         <!--Patient Dropdown-->
                         <div class="input-group input-group-sm px-1">
                             <div class="input-group-prepend">
                                 <label class="input-group-text" style="width: 30px;">P</label>
                             </div>
-                            <select class="form-control" id="chargeNurse1">
+                            <select class="form-control"
+                                id="pod-{{areas[area_iter.value]}}-bed-{{ desc_loop + 8 }}-patient-menu">
+                                <option id="pod-{{areas[area_iter.value]}}-bed-{{ desc_loop + 8 }}-p-blank" value="">
+                                </option selected>
                                 {% for index, patient in enumerate(patientList) %}
-                                <option id='n~{{index + 1}}' value="{{index + 1}}">{{patient[1]}}</option>
+                                <option id='pod-{{areas[area_iter.value]}}-bed-{{ desc_loop + 8 }}-p-{{patient[0]}}'
+                                    value="{{patient[0]}}">{{patient[1]}}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -150,14 +164,18 @@
                             <div class="input-group-prepend">
                                 <label class="input-group-text" style="width: 30px;">N</label>
                             </div>
-                            <select class=" form-control" id="chargeNurse1">
+                            <select class=" form-control" id="bed-{{ desc_loop + 8 }}-nurse-menu">
+                                <option id="pod-{{areas[area_iter.value]}}-bed-{{ desc_loop + 8 }}-n-blank" value="">
+                                </option selected>
                                 {% for index, nurse in enumerate(nurseList) %}
-                                <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
+                                <option id='pod-{{areas[area_iter.value]}}-bed-{{ desc_loop + 8 }}-n-{{nurse[0]}}'
+                                    value="{{nurse[0]}}">{{nurse[1]}}</option>
                                 {% endfor %}
                             </select>
                         </div>
                     </div>
                     {% endfor %}
+                    {% set area_iter.value = area_iter.value + 1 %}
                 </div>
             </div>
         </div>
