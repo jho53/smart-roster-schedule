@@ -276,6 +276,7 @@ def add_nurse_records():
         print(error)
     return redirect(url_for('nurse_records'))
 
+
 @app.route("/editNurseRecords", methods=["POST"])
 def edit_nurse_records():
     nurse_id = request.form['edit_nurse_id']
@@ -457,11 +458,10 @@ def current_PNSheet():
         # Grab nurse and patient tables
         cursor.execute("SELECT * FROM nurses WHERE current_shift=1")
         nurse_list = cursor.fetchall()
-        cursor.execute("SELECT * FROM patients")
+        cursor.execute("SELECT * FROM patients WHERE discharged_date='-'")
         patient_list = cursor.fetchall()
         return render_template("./Assignment Sheets/cur_pnSheet.html", loggedin=session['loggedin'], nurseList=nurse_list, patientList=patient_list)
     return redirect(url_for('login'))
-
 
 
 @app.route("/pastCAASheet")
@@ -493,7 +493,7 @@ def assign_nurse_patient() -> dict:
     for row in patient_list:
         x = Patient(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10], row[11],
                     row[12], row[13])
-        if row[13]  == "1":
+        if row[13] == "1":
             twins.append(x)
         patients.append(x)
 
@@ -605,7 +605,8 @@ def assign_nurse_patient() -> dict:
                                 continue
                             elif p.get_last_name() == twin_object.get_last_name():
                                 assignments[sen.get_id()]["num_patients"] += 1
-                                assignments[sen.get_id()]["patients"].append(twin_object.get_id())
+                                assignments[sen.get_id()]["patients"].append(
+                                    twin_object.get_id())
                                 twin_object.set_assigned(1)
                                 twins.remove(twin_object)
                                 twins.remove(p)
