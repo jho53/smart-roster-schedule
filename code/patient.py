@@ -83,6 +83,10 @@ class Patient(Base):
         """ get first name of patient """
         return self.name
 
+    def get_last_name(self) -> str:
+        """ get last name of patient """
+        return self.name.split(' ')[1]
+
     def get_clinical_area(self) -> str:
         """ get clinical area that patient is currently assigned """
         return self.clinical_area
@@ -123,7 +127,7 @@ class Patient(Base):
         """get discharge date of the patient"""
         return self.discharge_date
 
-    def get_twin(self) -> str:
+    def get_twin(self) -> bool:
         """get twin of the patient"""
         return self.twin
     

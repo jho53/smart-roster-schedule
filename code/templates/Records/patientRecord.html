@@ -19,7 +19,7 @@
                         <button type="button" class="btn btn-primary" onclick="get_edit_data()" data-toggle="modal" data-target=".editModalCenter">
                             <span class="fa fa-edit"></span> Edit
                         </button>
-                        <button class="btn btn-primary" onclick="get_delete_data()" data-toggle="modal" data-target=".deleteModalCenter">
+                        <button class="btn btn-danger" onclick="get_delete_data()" data-toggle="modal" data-target=".deleteModalCenter">
                             <span class="fa fa-trash"></span> Delete
                         </button>
                     </div>
@@ -104,75 +104,68 @@
             </div>
             <div class="modal-body">
                 <form action="/addPatientRecords" method="post">
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Name</span>
-                        </div>
-                        <input class="form-control form-control-sm" id="create_name" name="create_name" required="" size="32" type="text" value="" placeholder=""><br>
+                    <div class="form-group">
+                        <label for="patient_name">Name</label>
+                        <input class="form-control" id="patient_name"
+                            type="text" placeholder="eg. John Doe">
                     </div>
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Clinical Area</span>
+                    <div class="form-row">
+                        <div class="col-3">
+                            <label for="patient_area">Clinical Area</label>
+                            <input id="patient_area" type="text" class="form-control" placeholder="eg. A">
                         </div>
-                        <input class="form-control form-control-sm" id="create_clinical_area" name="create_clinical_area" required="" size="32" type="text" value="" placeholder=""><br>
-                    </div>
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Bed Number</span>
+                        <div class="col-3 offset-3">
+                            <label for="patient_bed_number">Bed Number</label>
+                            <input id="patient_bed_number" type="text" class="form-control" placeholder="eg. 3">
                         </div>
-                        <input class="form-control form-control-sm" id="create_bed_num" name="create_bed_num" required="" size="32" type="number" value="" placeholder=""><br>
                     </div>
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Acuity</span>
+                    <div class="mt-3">
+                        <label>Acuity Level</label><br>
+                        <div class="radio-group">
+                            <input type="radio" id="acuity_1" name="acuity_level" checked>
+                            <label for="acuity_1" class="button-select">1</label>
+    
+                            <input type="radio" id="acuity_2" name="acuity_level">
+                            <label for="acuity_2" class="button-select">2</label>
+    
+                            <input type="radio" id="acuity_3" name="acuity_level">
+                            <label for="acuity_3" class="button-select">3</label>
+    
+                            <input type="radio" id="acuity_4" name="acuity_level">
+                            <label for="acuity_4" class="button-select">4</label>
+    
+                            <input type="radio" id="acuity_5" name="acuity_level">
+                            <label for="acuity_5" class="button-select">5</label>
                         </div>
-                        <input class="form-control form-control-sm" id="create_acuity" name="create_acuity" required="" size="32" type="number" value="" placeholder=""><br>
                     </div>
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">A-Trained</span>
-                        </div>
-                        <input class="form-control form-control-sm" id="create_a_trained" name="create_a_trained" required="" size="32" type="number" value="" placeholder=""><br>
+                    <div class="form-group mt-3">
+                        <input type="checkbox" name="a_trained_toggle" id="a_trained_toggle">
+                        <label for="a_trained_toggle" class="toggle">A Trained</label>
                     </div>
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Transfer</span>
-                        </div>
-                        <input class="form-control form-control-sm" id="create_patient_transfer" name="create_patient_transfer" required="" size="32" type="number" value="" placeholder=""><br>
+                    <div class="form-group mt-3">
+                        <input type="checkbox" name="transfer_toggle" id="transfer_toggle">
+                        <label for="transfer_toggle" class="toggle">Transfer</label>
                     </div>
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">IV</span>
-                        </div>
-                        <input class="form-control form-control-sm" id="create_patient_iv" name="create_patient_iv" required="" size="32" type="number" value="" placeholder=""><br>
+                    <div class="form-group mt-3">
+                        <input type="checkbox" name="iv_toggle" id="iv_toggle">
+                        <label for="iv_toggle" class="toggle">IV</label>
                     </div>
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">1 to 1</span>
-                        </div>
-                        <input class="form-control form-control-sm" id="create_patient_one_to_one" name="create_patient_one_to_one" required="" size="32" type="number" value="" placeholder=""><br>
+                    <div class="form-group mt-3">
+                        <input type="checkbox" name="one_to_one_toggle" id="one_to_one_toggle">
+                        <label for="one_to_one_toggle" class="toggle">1:1</label>
                     </div>
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Previous Nurses</span>
-                        </div>
-                        <input class="form-control form-control-sm" id="create_patient_previous_nurses" name="create_patient_previous_nurses" required="" size="32" type="number" value="" placeholder=""><br>
+                    <div class="form-group">
+                        <label for="date_admitted">Date Admitted</label><br>
+                        <input type="date" id="date_admitted" name="date_admitted" style="border: 1px solid #ced4da;">
                     </div>
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Date Admitted</span>
-                        </div>
-                        <input class="form-control form-control-sm" id="create_patient_date_admitted" name="create_patient_date_admitted" required="" size="32" type="text" value="" placeholder=""><br>
+                    <div class="form-group">
+                        <label for="create_patient_dta">Comments</label><br>
+                        <textarea id="create_patient_dta" name="create_patient_dta" rows="3" class="text_area" placeholder="Eg. Additional comments"></textarea>
                     </div>
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Comments</span>
-                        </div>
-                        <input class="form-control form-control-sm" id="create_patient_comments" name="create_patient_comments" required="" size="32" type="number" value="" placeholder=""><br>
-                    </div>
+                    <br>
                     <div class="modal-footer">
-                      <input class="btn btn-primary" id="submit" name="submit" type="submit" value="Confirm">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <input class="btn btn-success" id="submit_new_patient" name="submit" type="submit" value="Confirm">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     </div>
                 </form>
             </div>
@@ -194,83 +187,73 @@
             <div class="modal-body">
                 <form action="/editPatientRecords" method="post">
                     <input id="edit_patient_id" hidden name="edit_patient_id" required="" size="32" type="text" value="" placeholder=""><br>
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Name</span>
-                        </div>
-                        <input class="form-control form-control-sm" id="edit_name" name="edit_name" required="" size="32" type="text" value="" placeholder=""><br>
+                    <div class="form-group">
+                        <label for="patient_name_edit">Name</label>
+                        <input class="form-control" id="patient_name_edit"
+                            type="text" placeholder="eg. John Doe">
                     </div>
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Area</span>
+                    <div class="form-row">
+                        <div class="col-3">
+                            <label for="patient_area_edit">Clinical Area</label>
+                            <input id="patient_area_edit" type="text" class="form-control" placeholder="eg. A">
                         </div>
-                        <input class="form-control form-control-sm" id="edit_clinical_area" name="edit_clinical_area" required="" size="32" type="text" value="" placeholder=""><br>
+                        <div class="col-3 offset-3">
+                            <label for="patient_bed_number_edit">Bed Number</label>
+                            <input id="patient_bed_number_edit" type="text" class="form-control" placeholder="eg. 3">
+                        </div>
                     </div>
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Bed Number</span>
+                    <div class="mt-3">
+                        <label>Acuity Level</label><br>
+                        <div class="radio-group">
+                            <input type="radio" id="acuity_1_edit" name="acuity_level_edit" checked>
+                            <label for="acuity_1_edit" class="button-select">1</label>
+    
+                            <input type="radio" id="acuity_2_edit" name="acuity_level_edit">
+                            <label for="acuity_2_edit" class="button-select">2</label>
+    
+                            <input type="radio" id="acuity_3_edit" name="acuity_level_edit">
+                            <label for="acuity_3_edit" class="button-select">3</label>
+    
+                            <input type="radio" id="acuity_4_edit" name="acuity_level_edit">
+                            <label for="acuity_4_edit" class="button-select">4</label>
+    
+                            <input type="radio" id="acuity_5_edit" name="acuity_level_edit">
+                            <label for="acuity_5_edit" class="button-select">5</label>
                         </div>
-                        <input class="form-control form-control-sm" id="edit_bed_num" name="edit_bed_num" required="" size="32" type="text" value="" placeholder=""><br>
                     </div>
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Acuity</span>
-                        </div>
-                        <input class="form-control form-control-sm" id="edit_acuity" name="edit_acuity" required="" size="32" type="text" value="" placeholder=""><br>
+                    <div class="form-group mt-3">
+                        <input type="checkbox" name="a_trained_toggle_edit" id="a_trained_toggle_edit">
+                        <label for="a_trained_toggle_edit" class="toggle">A Trained</label>
                     </div>
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">A-Trained</span>
-                        </div>
-                        <input class="form-control form-control-sm" id="edit_a_trained" name="edit_a_trained" required="" size="32" type="text" value="" placeholder=""><br>
+                    <div class="form-group mt-3">
+                        <input type="checkbox" name="transfer_toggle_edit" id="transfer_toggle_edit">
+                        <label for="transfer_toggle_edit" class="toggle">Transfer</label>
                     </div>
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Transfer</span>
-                        </div>
-                        <input class="form-control form-control-sm" id="edit_patient_transfer" name="edit_patient_transfer" required="" size="32" type="text" value="" placeholder=""><br>
+                    <div class="form-group mt-3">
+                        <input type="checkbox" name="iv_toggle_edit" id="iv_toggle_edit">
+                        <label for="iv_toggle_edit" class="toggle">IV</label>
                     </div>
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">IV</span>
-                        </div>
-                        <input class="form-control form-control-sm" id="edit_patient_iv" name="edit_patient_iv" required="" size="32" type="text" value="" placeholder=""><br>
+                    <div class="form-group mt-3">
+                        <input type="checkbox" name="one_to_one_toggle_edit" id="one_to_one_toggle_edit">
+                        <label for="one_to_one_toggle_edit" class="toggle">1:1</label>
                     </div>
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">1 to 1</span>
-                        </div>
-                        <input class="form-control form-control-sm" id="edit_patient_one_to_one" name="edit_patient_one_to_one" required="" size="32" type="text" value="" placeholder=""><br>
+                    <div class="form-group">
+                        <label for="date_admitted_edit">Date Admitted</label><br>
+                        <input type="date" id="date_admitted_edit" name="date_admitted_edit" style="border: 1px solid #ced4da;">
                     </div>
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Previous Nurses</span>
-                        </div>
-                        <input class="form-control form-control-sm" id="edit_patient_previous_nurses" name="edit_patient_previous_nurses" required="" size="32" type="text" value="" placeholder=""><br>
+                    <div class="form-group">
+                        <label for="date_discharged_edit">Date Discharged</label><br>
+                        <input type="date" id="date_discharged_edit" name="date_discharged_edit" style="border: 1px solid #ced4da;">
                     </div>
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Date Admitted</span>
-                        </div>
-                        <input class="form-control form-control-sm" id="edit_patient_date_admitted" name="edit_patient_date_admitted" required="" size="32" type="text" value="" placeholder=""><br>
-                    </div>
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Date Discharged</span>
-                        </div>
-                        <input class="form-control form-control-sm" id="edit_patient_date_discharge" name="edit_patient_date_discharge" size="32" type="text" value="" placeholder=""><br>
-                    </div>
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Comments</span>
-                        </div>
-                        <input class="form-control form-control-sm" id="edit_patient_comments" name="edit_patient_comments" required="" size="32" type="text" value="" placeholder=""><br>
+                    <div class="form-group">
+                        <label for="create_nurse_dta_edit">Comments</label><br>
+                        <textarea id="create_nurse_dta_edit" name="create_nurse_dta_edit" rows="3" class="text_area" placeholder="Eg. Additional comments"></textarea>
                     </div>
                     <br>
                     <div class="modal-footer">
-                      <input type="submit" name="submit" class="btn btn-primary" value="Confirm">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                  </div>
+                        <input class="btn btn-success" id="submit_edit_patient" name="submit" type="submit" value="Confirm">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    </div>
                 </form>
             </div>
 

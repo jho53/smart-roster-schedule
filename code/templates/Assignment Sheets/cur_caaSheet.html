@@ -7,1354 +7,267 @@
     <div class="row justify-content-md-center">
       <h1 class="jumbotron-title col-11">Clinical Assignment Page</h1>
     </div>
-    <a
-      href="#"
-      onclick="printPage()"
-      style="position: absolute; right: 50px; top: 30px"
-      ><img
-        src="/images/print-icon.png"
-        width="50px"
-        height="50px"
-      /><br />Print</a
-    >
+    <a href="#" onclick="printPage()" style="position: absolute; right: 50px; top: 30px;">
+      <i class="fas fa-print fa-3x" style="color:black"></i>
+      <br>Print
+    </a>
+    <a href="#" style="position: absolute; right: 110px; top: 30px;">
+      <i class="fas fa-save fa-3x" style="color:black"></i>
+      <br>Save
+    </a>
     <p>{{now}}</p>
-
+    <br>
+    <!--Charge Nurse-->
     <div class="row">
-      <div class="col-3 offset-1" style="background-color: lightgray; padding: 10px 30px; border-radius: 5px;">
+      <div class="col-3 offset-1 rounded pt-3 px-4 shadow-sm" style="background-color: lightgray">
         <div class="row justify-content-center">
-            <div class="col-9">
-                <h4>Charge Nurses</h4>
-            </div>
-            <div class="col-3">
-                <h4>Skill Level</h4>
-            </div>
+          <div class="col-9">
+            <h6>Charge Nurses</h6>
+          </div>
+          <div class="col-3">
+            <h6>Skill Level</h6>
+          </div>
         </div>
         {% for i in range(3)%}
-        <div class="row justify-content-center">
-          <div class="col-9 mb-3">
-            <select class="form-control" id="chargeNurse1">
+        <div class="row justify-content-center mb-2">
+          <div class="col-9">
+            <select class="form-control form-control-sm" id="chargeNurse1">
               <option selected>{{nurseList[i][1]}}</option>
-              {% for index, nurse in enumerate(nurseList) %} {% if nurse[11] ==
-              "Charge" %}
-              <option
-                class="table-success"
-                id="n~{{index + 1}}"
-                value="{{index + 1}}"
-              >
+              {% for index, nurse in enumerate(nurseList) %}
+              {% if nurse[11] == "Charge" %}
+              <option class="table-success" id="cn~{{nurse[0]}}" value="{{nurse[0]}}">
                 {{nurse[1]}}
               </option>
               {% else %}
-              <option id="n~{{index + 1}}" value="{{index + 1}}">
+              <option id="cn~{{nurse[0]}}" value="{{nurse[0]}}">
                 {{nurse[1]}}
               </option>
-              {% endif %} {% endfor %}
+              {% endif %}
+              {% endfor %}
             </select>
           </div>
-          <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-3">
-            <p class="align-middle">5</p>
-          </div>
+          <input class="col-2 form-control form-control-sm rounded text-center" type="text" value="5" disabled>
         </div>
         {% endfor %}
       </div>
-
-      <div class="col-3 offset-1" style="background-color: lightgray; padding: 10px 30px; border-radius: 5px;">
+      <!--Support Nurses-->
+      <div class="col-3 offset-1 rounded pt-3 px-4 shadow-sm" style="background-color: lightgray;">
         <div class="row justify-content-center">
-            <div class="col-8">
-                <h4>Support Nurses</h4>
-            </div>
-            <div class="col-2">
-                <h4 class="pl-4">Area</h4>
-            </div>
-            <div class="col-2">
-                <h4 class="pl-4">Shift</h4>
-            </div>
+          <div class="col-8">
+            <h6>Support Nurses</h6>
+          </div>
+          <div class="col-2">
+            <h6>Area</h6>
+          </div>
+          <div class="col-2">
+            <h6>Shift</h6>
+          </div>
         </div>
         {% for i in range(3)%}
         <div class="row justify-content-center">
-          <div class="col-8 mb-3">
-            <select class="form-control" id="chargeNurse1">
+          <div class="col-8 mb-2">
+            <select class="form-control form-control-sm" id="chargeNurse1">
               <option selected>{{nurseList[i+3][1]}}</option>
-              {% for index, nurse in enumerate(nurseList) %} {% if nurse[11] ==
-              "Support" %}
-              <option
-                class="table-success"
-                id="n~{{index + 1}}"
-                value="{{index + 1}}"
-              >
+              {% for index, nurse in enumerate(nurseList) %}
+              {% if nurse[11] == "Support" %}
+              <option class="table-warning" id="n~{{index + 1}}" value="{{index + 1}}">
                 {{nurse[1]}}
               </option>
               {% else %}
               <option id="n~{{index + 1}}" value="{{index + 1}}">
                 {{nurse[1]}}
               </option>
-              {% endif %} {% endfor %}
+              {% endif %}
+              {% endfor %}
             </select>
           </div>
-          <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1 offset-1">
-            <p class="align-middle">B</p>
-          </div>
-          <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1 offset-1">
-            <p class="align-middle">B05</p>
-          </div>
+          <input class="col-2 form-control form-control-sm rounded text-center" type="text" value="B" disabled>
+          <input class="col-2 form-control form-control-sm rounded text-center" type="text" value="B05" disabled>
         </div>
         {% endfor %}
       </div>
+      <!--Right Column-->
       <div class="col-2 offset-1">
-        <div class="row" style="background-color: lightgray; padding: 10px 30px; border-radius: 5px;">
-            <div class="col-5">
-                <h4>Code RN</h4>
-            </div>
-            <div class="col-7">
-                <select class="form-control" id="chargeNurse1">
-                    <option selected>{{nurseList[6][1]}}</option>
-                    {% for index, nurse in enumerate(nurseList) %} {% if nurse[11] ==
-                    "Code" %}
-                    <option
-                      class="table-success"
-                      id="n~{{index + 1}}"
-                      value="{{index + 1}}"
-                    >
-                      {{nurse[1]}}
-                    </option>
-                    {% else %}
-                    <option id="n~{{index + 1}}" value="{{index + 1}}">
-                      {{nurse[1]}}
-                    </option>
-                    {% endif %} {% endfor %}
-                  </select>
-            </div>
+        <div class="row w-100 px-2 shadow-sm"
+          style="background-color: lightgray; padding: 10px 30px; border-radius: 5px;">
+          <div class="col-4">
+            <h6>Code RN</h6>
+          </div>
+          <div class="col-8">
+            <select class="form-control form-control-sm" id="chargeNurse1">
+              <option selected>{{nurseList[6][1]}}</option>
+              {% for index, nurse in enumerate(nurseList) %}
+              {% if nurse[11] == "Code" %}
+              <option class="table-danger" id="n~{{index + 1}}" value="{{index + 1}}">
+                {{nurse[1]}}
+              </option>
+              {% else %}
+              <option id="n~{{index + 1}}" value="{{index + 1}}">
+                {{nurse[1]}}
+              </option>
+              {% endif %}
+              {% endfor %}
+            </select>
+          </div>
         </div>
-        <div class="row mt-5" style="background-color: lightgray; padding: 10px 30px; border-radius: 5px;">
-            <div class="col-2">
-                <h4>Fixed</h4>
-            </div>
-            <div class="col-1 offset-1" style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;">
-                <p>7</p>
-            </div>
-            <div class="col-2 offset-2">
-                <h4>Flexible</h4>
-            </div>
-            <div class="col-1 offset-2" style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;">
-                <p>3</p>
-            </div>
+        <div class="mt-5 rounded col-12 row w-100 px-3 shadow-sm"
+          style="background-color: lightgray; padding: 10px 30px; width: 100px">
+          <div class="row col-11">
+            <h6 class="mt-1 col-3">Fixed</h6>
+            <input class="col-6 offset-3 form-control form-control-sm rounded text-center" type="text" value="7"
+              disabled>
+          </div>
+          <div class="row col-11">
+            <h6 class="mt-1 col-3">Flex</h6>
+            <input class="col-6 offset-3 form-control form-control-sm rounded text-center" type="text" value="7"
+              disabled>
+          </div>
         </div>
       </div>
     </div>
-    <br /><br />
+  </div>
+  <br>
+</div>
+
+
+{% set areas=["A", "B", "C", "D", "E", "F"] %}
+{% set area_iter = namespace(value=0) %}
+
+<div class="container-fluid">
+  <div class="justify-content-center">
+    <div class="col-12">
+      <!--Clinical Area Container-->
+      {% for i in range(6) %}
+      <div class="row col-12 mb-3 m-0 p-0 shadow-sm" style="border-radius: 10px; border: 1px solid lightgrey;">
+        <div style="border-top-left-radius: 10px; border-bottom-left-radius: 10px;" {% if area_iter.value < 4 %}
+          class="pod-norm px-4 py-2" {% else %} class="pod-spec px-4 py-2" {% endif %}>
+          <p class="text-center" style="margin-top: 70px;"><b>{{areas[area_iter.value]}}</b></p>
+          {% set area_iter.value = area_iter.value + 1 %}
+        </div>
+        {% for i in range(2) %}
+        <div class="col-5">
+          <div class="row justify-content-center">
+            <div class="col-5">
+              <small class="mt-1"><b>Name</b></small>
+            </div>
+            <div class="col-1 mx-1">
+              <small class="mt-1"><b>Skill</b></small>
+            </div>
+            <div class="col-1 mx-1 ">
+              <small class="mt-1"><b>Team</b></small>
+            </div>
+            <div class="col-1 mx-1">
+              <small class="mt-1"><b>Shift</b></small>
+            </div>
+            <div class="col-1">
+
+            </div>
+          </div>
+          {% for i in range(4) %}
+          <div class="row justify-content-center mb-2">
+            <div class="col-5">
+              <select class="form-control form-control-sm" id="supportNurse1">
+                <option selected>{{nurseList[0][1]}}</option>
+                {% for index, nurse in enumerate(nurseList) %}
+                </option>
+                <option id='n~{{nurse[0]}}' value="{{nurse[0]}}">{{nurse[1]}}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <input class="col-1 form-control form-control-sm rounded text-center mx-1" type="text" value="B" disabled>
+            <input class="col-1 form-control form-control-sm rounded text-center mx-1" type="text" value="B" disabled>
+            <input class="col-1 form-control form-control-sm rounded text-center mx-1" type="text" value="B" disabled>
+            <button class="col-1 btn form-control-sm btn-warning mx-1" data-toggle="modal" data-target="#flagModal">
+              <i class="fas fa-exclamation-circle"></i></button>
+          </div>
+          {% endfor %}
+        </div>
+        {% endfor %}
+      </div>
+      {% endfor %}
+    </div>
   </div>
 </div>
 
-<div class="row justify-content-center">
-    <div class="col-11" style="margin: 0px; padding: 0px">
-        <div class="row col-11 mb-3" style="border-radius: 10px; border: 1px solid black;margin: 0px; padding: 0px">
-            <div style="padding: 60px 30px; border-top-left-radius: 10px; border-bottom-left-radius: 10px;" class="table-success">A</div>
-            <div class="col-5">
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <p><small>Name</small></p>
-                    </div>
-                    <div class="col-1">
-                        <p><small>Skill</small></p>
-                    </div>
-                    <div class="col-1">
-                        <p><small>Team</small></p>
-                    </div>
-                    <div class="col-1">
-                        <p><small>Shift</small></p>
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[12][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[13][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[14][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[15][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-            </div>
-            <div class="col-5">
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <p><small>Name</small></p>
-                    </div>
-                    <div class="col-1">
-                        <p><small>Skill</small></p>
-                    </div>
-                    <div class="col-1">
-                        <p><small>Team</small></p>
-                    </div>
-                    <div class="col-1">
-                        <p><small>Shift</small></p>
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[12][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[13][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[14][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[15][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>  
-            </div>
-        </div>
-        <div class="row col-11 mb-3" style="border-radius: 10px; border: 1px solid black;margin: 0px; padding: 0px">
-            <div style="padding: 60px 30px; border-top-left-radius: 10px; border-bottom-left-radius: 10px;" class="table-success">B</div>
-            <div class="col-5">
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <p><small>Name</small></p>
-                    </div>
-                    <div class="col-1">
-                        <p><small>Skill</small></p>
-                    </div>
-                    <div class="col-1">
-                        <p><small>Team</small></p>
-                    </div>
-                    <div class="col-1">
-                        <p><small>Shift</small></p>
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[12][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[13][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[14][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[15][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-            </div>
-            <div class="col-5">
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <p><small>Name</small></p>
-                    </div>
-                    <div class="col-1">
-                        <p><small>Skill</small></p>
-                    </div>
-                    <div class="col-1">
-                        <p><small>Team</small></p>
-                    </div>
-                    <div class="col-1">
-                        <p><small>Shift</small></p>
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[12][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[13][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[14][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[15][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>  
-            </div>
-        </div>
-        <div class="row col-11 mb-3" style="border-radius: 10px; border: 1px solid black;margin: 0px; padding: 0px">
-            <div style="padding: 60px 30px; border-top-left-radius: 10px; border-bottom-left-radius: 10px;" class="table-success">C</div>
-            <div class="col-5">
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <p><small>Name</small></p>
-                    </div>
-                    <div class="col-1">
-                        <p><small>Skill</small></p>
-                    </div>
-                    <div class="col-1">
-                        <p><small>Team</small></p>
-                    </div>
-                    <div class="col-1">
-                        <p><small>Shift</small></p>
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[12][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[13][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[14][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[15][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-            </div>
-            <div class="col-5">
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <p><small>Name</small></p>
-                    </div>
-                    <div class="col-1">
-                        <p><small>Skill</small></p>
-                    </div>
-                    <div class="col-1">
-                        <p><small>Team</small></p>
-                    </div>
-                    <div class="col-1">
-                        <p><small>Shift</small></p>
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[12][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[13][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[14][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[15][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>  
-            </div>
-        </div>
-        <div class="row col-11 mb-3" style="border-radius: 10px; border: 1px solid black;margin: 0px; padding: 0px">
-            <div style="padding: 60px 30px; border-top-left-radius: 10px; border-bottom-left-radius: 10px;" class="table-success">D</div>
-            <div class="col-5">
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <p><small>Name</small></p>
-                    </div>
-                    <div class="col-1">
-                        <p><small>Skill</small></p>
-                    </div>
-                    <div class="col-1">
-                        <p><small>Team</small></p>
-                    </div>
-                    <div class="col-1">
-                        <p><small>Shift</small></p>
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[12][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[13][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[14][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[15][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-            </div>
-            <div class="col-5">
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <p><small>Name</small></p>
-                    </div>
-                    <div class="col-1">
-                        <p><small>Skill</small></p>
-                    </div>
-                    <div class="col-1">
-                        <p><small>Team</small></p>
-                    </div>
-                    <div class="col-1">
-                        <p><small>Shift</small></p>
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[12][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[13][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[14][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[15][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>  
-            </div>
-        </div>
-        <div class="row col-11 mb-3" style="border-radius: 10px; border: 1px solid black;margin: 0px; padding: 0px">
-            <div style="background-color: #eb5757; padding: 60px 30px; border-top-left-radius: 10px; border-bottom-left-radius: 10px;">E</div>
-            <div class="col-5">
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <p><small>Name</small></p>
-                    </div>
-                    <div class="col-1">
-                        <p><small>Skill</small></p>
-                    </div>
-                    <div class="col-1">
-                        <p><small>Team</small></p>
-                    </div>
-                    <div class="col-1">
-                        <p><small>Shift</small></p>
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[12][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[13][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[14][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[15][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-            </div>
-            <div class="col-5">
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <p><small>Name</small></p>
-                    </div>
-                    <div class="col-1">
-                        <p><small>Skill</small></p>
-                    </div>
-                    <div class="col-1">
-                        <p><small>Team</small></p>
-                    </div>
-                    <div class="col-1">
-                        <p><small>Shift</small></p>
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[12][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[13][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[14][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[15][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>  
-            </div>
-        </div>
-        <div class="row col-11 mb-3" style="border-radius: 10px; border: 1px solid black;margin: 0px; padding: 0px">
-            <div style="background-color: #eb5757; padding: 60px 30px; border-top-left-radius: 10px; border-bottom-left-radius: 10px;" class="table-success">F</div>
-            <div class="col-5">
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <p><small>Name</small></p>
-                    </div>
-                    <div class="col-1">
-                        <p><small>Skill</small></p>
-                    </div>
-                    <div class="col-1">
-                        <p><small>Team</small></p>
-                    </div>
-                    <div class="col-1">
-                        <p><small>Shift</small></p>
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[12][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[13][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[14][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[15][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-            </div>
-            <div class="col-5">
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <p><small>Name</small></p>
-                    </div>
-                    <div class="col-1">
-                        <p><small>Skill</small></p>
-                    </div>
-                    <div class="col-1">
-                        <p><small>Team</small></p>
-                    </div>
-                    <div class="col-1">
-                        <p><small>Shift</small></p>
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[12][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[13][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[14][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-5">
-                        <select class="form-control" id="supportNurse1">
-                            <option selected>{{nurseList[15][1]}}</option>
-                            {% for index, nurse in enumerate(nurseList) %}
-                            </option>
-                            <option id='n~{{index + 1}}' value="{{index + 1}}">{{nurse[1]}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                      <div style="background-color: white; width: 25px; height: 30px; border-radius: 5px; border: 1px solid black;" class="col-1">
-                        <p class="text-center">5</p>
-                      </div>
-                </div>  
-            </div>
-        </div>
+<!--Flag Modal-->
+<div class="modal fade" id="flagModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="flagModalLabel">DTA/Comments for NURSE NAME</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h6>Comments</h6>
+        <small id="flag-comment">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
+          has been the
+          industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+          scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into
+          electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of
+          Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus
+          PageMaker including versions of Lorem Ipsum.</small>
+        <hr>
+        <h6>DTA</h6>
+        <small id="flag-dta">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
+          been the
+          industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+          scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into
+          electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of
+          Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus
+          PageMaker including versions of Lorem Ipsum.</small>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
     </div>
+  </div>
 </div>
+
 <script>
+  function filterFunction() {
+    var input, filter, ul, li, a, i;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    div = document.getElementById("myDropdown");
+    a = div.getElementsByTagName("a");
+    for (i = 0; i < a.length; i++) {
+      txtValue = a[i].textContent || a[i].innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        a[i].style.display = "";
+      } else {
+        a[i].style.display = "none";
+      }
+    }
+  }
 
-    function filterFunction() {
-        var input, filter, ul, li, a, i;
-        input = document.getElementById("myInput");
-        filter = input.value.toUpperCase();
-        div = document.getElementById("myDropdown");
-        a = div.getElementsByTagName("a");
-        for (i = 0; i < a.length; i++) {
-            txtValue = a[i].textContent || a[i].innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                a[i].style.display = "";
-            } else {
-                a[i].style.display = "none";
-            }
-        }
+  // Print Page
+  function printPage() {
+    var css = '@page { size: landscape; } body {zoom: 40%}',
+      head = document.head || document.getElementsByTagName('head')[0],
+      style = document.createElement('style');
+
+    style.type = 'text/css';
+    style.media = 'print';
+
+    if (style.styleSheet) {
+      style.styleSheet.cssText = css;
+    } else {
+      style.appendChild(document.createTextNode(css));
     }
 
-    // Print Page
-    function printPage() {
-        var css = '@page { size: landscape; } body {zoom: 40%}',
-            head = document.head || document.getElementsByTagName('head')[0],
-            style = document.createElement('style');
+    head.appendChild(style);
 
-        style.type = 'text/css';
-        style.media = 'print';
+    window.print();
+  }
 
-        if (style.styleSheet) {
-            style.styleSheet.cssText = css;
-        } else {
-            style.appendChild(document.createTextNode(css));
-        }
+  $(document).ready(function () {
+    $('[data-toggle="tooltip"]').tooltip(
+      { container: 'body', trigger: 'hover', placement: "right" }
+    );
+  });
 
-        head.appendChild(style);
-
-        window.print();
-    }
 </script>
 
 {% endblock %}

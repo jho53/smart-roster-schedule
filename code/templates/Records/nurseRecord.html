@@ -22,7 +22,7 @@
                             data-target=".editModalCenter">
                             <span class="fa fa-edit"></span> Edit
                         </button>
-                        <button class="btn btn-primary" onclick="get_delete_data()" data-toggle="modal"
+                        <button class="btn btn-danger" onclick="get_delete_data()" data-toggle="modal"
                             data-target=".deleteModalCenter">
                             <span class="fa fa-trash"></span> Delete
                         </button>
@@ -102,121 +102,114 @@
             </table>
         </div>
     </div>
+</div>
 
-    <!-- Create Modal -->
-    <div class="modal fade createModalCenter" id="exampleModalCenter" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Add Nurse</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+<!-- Create Modal -->
+<div class="modal fade createModalCenter" id="exampleModalCenter" tabindex="-1" role="dialog"
+aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Create New Nurse</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form action="/addNurseRecords" method="post">
+                <div class="form-group">
+                    <label for="create_nurse_name">Name</label>
+                    <input class="form-control" id="create_nurse_name"
+                        type="text" placeholder="eg. John Doe">
                 </div>
-                <div class="modal-body">
-                    <form action="/addNurseRecords" method="post">
-                        <div class="input-group input-group-sm mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">Name</span>
-                            </div>
-                            <input class="form-control form-control-sm" id="create_nurse_first_name"
-                                name="create_nurse_name" required="" size="32" type="text" value="" placeholder="">
-                        </div>
-                        <div class="input-group input-group-sm mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">Area</span>
-                            </div>
-                            <input class="form-control form-control-sm" id="create_nurse_area" name="create_nurse_area"
-                                required="" size="32" type="text" value="" placeholder="">
-                        </div>
-                        <div class="input-group input-group-sm mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">Rotation</span>
-                            </div>
-                            <input class="form-control form-control-sm" id="create_nurse_rotation"
-                                name="create_nurse_rotation" required="" size="32" type="text" value="" placeholder="">
-                        </div>
-                        <div class="input-group input-group-sm mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">Group</span>
-                            </div>
-                            <input class="form-control form-control-sm" id="create_nurse_group"
-                                name="create_nurse_group" required="" size="32" type="text" value="" placeholder="">
-                        </div>
-                        <div class="input-group input-group-sm mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">FTE</span>
-                            </div>
-                            <input class="form-control form-control-sm" id="create_nurse_fte" name="create_nurse_fte"
-                                required="" size="32" type="text" value="" placeholder="">
-                        </div>
-                        <div class="input-group input-group-sm mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">Skill</span>
-                            </div>
-                            <input class="form-control form-control-sm" id="create_nurse_skill"
-                                name="create_nurse_skill" required="" size="32" type="text" value="" placeholder="">
-                        </div>
-                        <div class="input-group input-group-sm mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">A-Trained</span>
-                            </div>
-                            <input class="form-control form-control-sm" id="create_nurse_a_trained"
-                                name="create_nurse_a_trained" required="" size="32" type="text" value="" placeholder="">
-                        </div>
-                        <div class="input-group input-group-sm mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">Transfer</span>
-                            </div>
-                            <input class="form-control form-control-sm" id="create_nurse_transfer"
-                                name="create_nurse_transfer" required="" size="32" type="text" value="" placeholder="">
-                        </div>
-                        <div class="input-group input-group-sm mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">IV</span>
-                            </div>
-                            <input class="form-control form-control-sm" id="create_nurse_iv" name="create_nurse_iv"
-                                required="" size="32" type="text" value="" placeholder="">
-                        </div>
-                        <div class="input-group input-group-sm mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">Advanced Role</span>
-                            </div>
-                            <input class="form-control form-control-sm" id="create_nurse_adv_role"
-                                name="create_nurse_adv_role" required="" size="32" type="text" value="" placeholder="">
-                        </div>
-                        <div class="input-group input-group-sm mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">Previous Patient</span>
-                            </div>
-                            <input class="form-control form-control-sm" id="create_nurse_prev_pat"
-                                name="create_nurse_prev_pat" required="" size="32" type="text" value="" placeholder="">
-                        </div>
-                        <div class="input-group input-group-sm mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">DTA</span>
-                            </div>
-                            <input class="form-control form-control-sm" id="create_nurse_DTA" name="create_nurse_DTA"
-                                required="" size="32" type="text" value="" placeholder="">
-                        </div>
-                        <div class="input-group input-group-sm mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">Comments</span>
-                            </div>
-                            <input class="form-control form-control-sm" id="create_nurse_comments"
-                                name="create_nurse_comments" size="32" type="text" value="" placeholder="">
-                        </div>
-                        <br>
-                        <div class="modal-footer">
-                            <input class="btn btn-primary" id="submit" name="submit" type="submit" value="Confirm">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        </div>
-                    </form>
+                <div class="form-row">
+                    <div class="col">
+                        <label for="create_nurse_area">Clinical Area</label>
+                        <input id="create_nurse_area" type="text" class="form-control" placeholder="eg. A1">
+                    </div>
+                    <div class="col">
+                        <label for="create_nurse_rotation">Rotation</label>
+                        <input id="create_nurse_rotation" type="text" class="form-control" placeholder="eg. A01">
+                    </div>
+                    <div class="col">
+                        <label for="create_nurse_fte">FTE</label>
+                        <input id="create_nurse_fte" type="text" class="form-control" placeholder="eg. A01">
+                    </div>
                 </div>
-            </div>
+                <div class="mt-3">
+                    <label>Skill Level</label><br>
+                    <div class="radio-group">
+                        <input type="radio" id="nurse_skill_1" name="skill_level" checked>
+                        <label for="nurse_skill_1" class="button-select">1</label>
+
+                        <input type="radio" id="nurse_skill_2" name="skill_level">
+                        <label for="nurse_skill_2" class="button-select">2</label>
+
+                        <input type="radio" id="nurse_skill_3" name="skill_level">
+                        <label for="nurse_skill_3" class="button-select">3</label>
+
+                        <input type="radio" id="nurse_skill_4" name="skill_level">
+                        <label for="nurse_skill_4" class="button-select">4</label>
+
+                        <input type="radio" id="nurse_skill_5" name="skill_level">
+                        <label for="nurse_skill_5" class="button-select">5</label>
+                    </div>
+                </div>
+                <div class="form-group mt-3">
+                    <input type="checkbox" name="a_trained_toggle" id="a_trained_toggle">
+                    <label for="a_trained_toggle" class="toggle">A Trained</label>
+                </div>
+                <div class="form-group mt-3">
+                    <input type="checkbox" name="create_transfer_toggle" id="create_transfer_toggle">
+                    <label for="create_transfer_toggle" class="toggle">Transfer</label>
+                </div>
+                <div class="mt-3">
+                    <label>Advanced Role</label>
+                    <input style="display: inline-block; visibility: visible; position: relative;" class="ml-5" type="checkbox" name="L_check_1" id="L_check_1">
+                    <label for="L_check_1">L</label>
+                    <div class="radio-group" style="width: 450px">
+                        <input type="radio" id="advanced_role_1" name="advanced_role" checked>
+                        <label for="advanced_role_1" class="button-select">None</label>
+
+                        <input type="radio" id="advanced_role_2" name="advanced_role">
+                        <label for="advanced_role_2" class="button-select">Charge</label>
+
+                        <input type="radio" id="advanced_role_3" name="advanced_role">
+                        <label for="advanced_role_3" class="button-select">Support</label>
+
+                        <input type="radio" id="advanced_role_4" name="advanced_role">
+                        <label for="advanced_role_4" class="button-select">Code</label>
+                    </div>
+                </div>
+                <div class="form-group mt-3">
+                    <div class="form-row">
+                        <div class="col-6">
+                            <input type="checkbox" name="iv_toggle" id="iv_toggle">
+                            <label for="iv_toggle" class="toggle">IV</label>
+                        </div>
+                        <div class="col-6">
+                            <input style="display: inline-block; visibility: visible; position: relative;" class="ml-5" type="checkbox" name="L_check_2" id="L_check_2">
+                            <label for="L_check_2">L</label>
+                        </div> 
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="create_nurse_dta">DTA</label><br>
+                    <textarea id="create_nurse_dta" name="create_nurse_dta" rows="3" class="text_area" placeholder="Eg. DTA comments"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="create_nurse_comments">Comments</label><br>
+                    <textarea id="create_nurse_comments" name="create_nurse_comments" rows="3" class="text_area" placeholder="Eg. Additional comments"></textarea>
+                </div>
+                <br>
+                <div class="modal-footer">
+                    <input class="btn btn-success" id="submit_new_nurse" name="submit" type="submit" value="Confirm">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+            </form>
         </div>
     </div>
+</div>
 </div>
 
 <!-- Edit Modal -->
@@ -234,102 +227,95 @@
                 <form action="/editNurseRecords" method="post">
                     <input id="edit_nurse_id" hidden name="edit_nurse_id" required="" size="32" type="text" value=""
                         placeholder="name"><br>
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Name</span>
+                        <div class="form-group">
+                            <label for="edit_nurse_name">Name</label>
+                            <input class="form-control" id="edit_nurse_name"
+                                type="text" placeholder="eg. John">
                         </div>
-                        <input class="form-control form-control-sm" id="edit_nurse_name" name="edit_nurse_name"
-                            required="" size="32" type="text" value="" placeholder=""><br>
-                    </div>
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Area</span>
+                        <div class="form-row">
+                            <div class="col">
+                                <label for="edit_nurse_area">Clinical Area</label>
+                                <input id="edit_nurse_area" type="text" class="form-control" placeholder="eg. A1">
+                            </div>
+                            <div class="col">
+                                <label for="edit_nurse_rotation">Rotation</label>
+                                <input id="edit_nurse_rotation" type="text" class="form-control" placeholder="eg. A01">
+                            </div>
+                            <div class="col">
+                                <label for="edit_nurse_fte">FTE</label>
+                                <input id="edit_nurse_fte" type="text" class="form-control" placeholder="eg. A01">
+                            </div>
                         </div>
-                        <input class="form-control form-control-sm" id="edit_nurse_area" name="edit_nurse_area"
-                            required="" size="32" type="text" value="" placeholder=""><br>
-                    </div>
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Rotation</span>
+                        <div class="mt-3">
+                            <label>Skill Level</label><br>
+                            <div class="radio-group">
+                                <input type="radio" id="nurse_skill_1_edit" name="skill_level" checked>
+                                <label for="nurse_skill_1_edit" class="button-select">1</label>
+        
+                                <input type="radio" id="nurse_skill_2_edit" name="skill_level">
+                                <label for="nurse_skill_2_edit" class="button-select">2</label>
+        
+                                <input type="radio" id="nurse_skill_3_edit" name="skill_level">
+                                <label for="nurse_skill_3_edit" class="button-select">3</label>
+        
+                                <input type="radio" id="nurse_skill_4_edit" name="skill_level">
+                                <label for="nurse_skill_4_edit" class="button-select">4</label>
+        
+                                <input type="radio" id="nurse_skill_5_edit" name="skill_level">
+                                <label for="nurse_skill_5_edit" class="button-select">5</label>
+                            </div>
                         </div>
-                        <input class="form-control form-control-sm" id="edit_nurse_rotation" name="edit_nurse_rotation"
-                            required="" size="32" type="text" value="" placeholder=""><br>
-                    </div>
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Group</span>
+                        <div class="form-group mt-3">
+                            <input type="checkbox" name="a_trained_toggle_edit" id="a_trained_toggle_edit">
+                            <label for="a_trained_toggle_edit" class="toggle">A Trained</label>
                         </div>
-                        <input class="form-control form-control-sm" id="edit_nurse_group" name="edit_nurse_group"
-                            required="" size="32" type="text" value="" placeholder=""><br>
-                    </div>
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">FTE</span>
+                        <div class="form-group mt-3">
+                            <input type="checkbox" name="transfer_toggle_edit" id="transfer_toggle_edit">
+                            <label for="transfer_toggle_edit" class="toggle">Transfer</label>
                         </div>
-                        <input class="form-control form-control-sm" id="edit_nurse_fte" name="edit_nurse_fte"
-                            required="" size="32" type="text" value="" placeholder=""><br>
-                    </div>
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Skill</span>
+                        <div class="mt-3">
+                            <label>Advanced Role</label>
+                            <input style="display: inline-block; visibility: visible; position: relative;" class="ml-5" type="checkbox" name="L_check_3" id="L_check_3">
+                            <label for="L_check_3">L</label>
+                            <div class="radio-group" style="width: 450px">
+                                <input type="radio" id="advanced_role_1_edit" name="advanced_role_edit" checked>
+                                <label for="advanced_role_1_edit" class="button-select">None</label>
+        
+                                <input type="radio" id="advanced_role_2_edit" name="advanced_role_edit">
+                                <label for="advanced_role_2_edit" class="button-select">Charge</label>
+        
+                                <input type="radio" id="advanced_role_3_edit" name="advanced_role_edit">
+                                <label for="advanced_role_3_edit" class="button-select">Support</label>
+        
+                                <input type="radio" id="advanced_role_4_edit" name="advanced_role_edit">
+                                <label for="advanced_role_4_edit" class="button-select">Code</label>
+                            </div>
                         </div>
-                        <input class="form-control form-control-sm" id="edit_nurse_skill" name="edit_nurse_skill"
-                            required="" size="32" type="text" value="" placeholder=""><br>
-                    </div>
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">A-Trained</span>
+                        <div class="form-group mt-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    <input type="checkbox" name="iv_toggle_edit" id="iv_toggle_edit">
+                                    <label for="iv_toggle_edit" class="toggle">IV</label>
+                                </div>
+                                <div class="col-6">
+                                    <input style="display: inline-block; visibility: visible; position: relative;" class="ml-5" type="checkbox" name="L_check_4" id="L_check_4">
+                                    <label for="L_check_4">L</label>
+                                </div> 
+                            </div>
                         </div>
-                        <input class="form-control form-control-sm" id="edit_nurse_a_trained"
-                            name="edit_nurse_a_trained" required="" size="32" type="text" value="" placeholder=""><br>
-                    </div>
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Transfer</span>
+                        <div class="form-group">
+                            <label for="edit_nurse_dta">DTA</label><br>
+                            <textarea id="edit_nurse_dta" name="edit_nurse_dta" rows="3" style="width: 100%;" placeholder="Eg. DTA comments"></textarea>
                         </div>
-                        <input class="form-control form-control-sm" id="edit_nurse_transfer" name="edit_nurse_transfer"
-                            required="" size="32" type="text" value="" placeholder=""><br>
-                    </div>
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">IV</span>
+                        <div class="form-group">
+                            <label for="edit_nurse_comments">Comments</label><br>
+                            <textarea id="edit_nurse_comments" name="edit_nurse_comments" rows="3" style="width: 100%;" placeholder="Eg. Additional comments"></textarea>
                         </div>
-                        <input class="form-control form-control-sm" id="edit_nurse_iv" name="edit_nurse_iv" required=""
-                            size="32" type="text" value="" placeholder="">
-                    </div>
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Advanced Role</span>
+                        <br>
+                        <div class="modal-footer">
+                            <input class="btn btn-success" id="submit_edit_nurse" name="submit_edit" type="submit" value="Confirm">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                         </div>
-                        <input class="form-control form-control-sm" id="edit_nurse_adv_role" name="edit_nurse_adv_role"
-                            required="" size="32" type="text" value="" placeholder=""><br>
-                    </div>
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Previous Patient</span>
-                        </div>
-                        <input class="form-control form-control-sm" id="edit_nurse_prev_pat" name="edit_nurse_prev_pat"
-                            required="" size="32" type="text" value="" placeholder=""><br>
-                    </div>
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">DTA</span>
-                        </div>
-                        <input class="form-control form-control-sm" id="edit_nurse_DTA" name="edit_nurse_DTA"
-                            required="" size="32" type="text" value="" placeholder=""><br>
-                    </div>
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Comments</span>
-                        </div>
-                        <input class="form-control form-control-sm" id="edit_nurse_comments" name="edit_nurse_comments"
-                            size="32" type="text" value="" placeholder=""><br>
-                    </div>
-
-                    <div class="modal-footer">
-                        <input class="btn btn-primary" id="submit" name="submit" type="submit" value="Confirm">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    </div>
                 </form>
             </div>
         </div>
@@ -355,7 +341,7 @@
                     <input id="remove_nurse_name" name="remove_nurse_name" required="" size="32" type="text" value=""
                         placeholder="" disabled>
                     <div class="modal-footer">
-                        <input class="btn btn-danger" id="submit" name="submit" type="submit" value="Confirm">
+                        <input class="btn btn-danger" id="submit_delete_nurse" name="submit" type="submit" value="Confirm">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     </div>
                 </form>
