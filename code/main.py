@@ -9,6 +9,7 @@ import json
 import mysql.connector
 import os
 import bcrypt
+import shutil
 
 # test purpose
 import webbrowser
@@ -38,7 +39,7 @@ cursor = db.cursor()
 
 @app.context_processor
 def inject_now():
-    return {'now': datetime.utcnow()}
+    return {'now': datetime.now()}
 
 
 @app.context_processor
@@ -47,7 +48,9 @@ def inject_enumerate():
 
 
 #### Global Variables ####
-DIRNAME = os.path.dirname(__file__)
+CURR_DIR = os.path.dirname(__file__)
+AREA_LIST = ["A", "B", "C", "D", "E", "F"]
+MAX_BED = 14
 # Headers
 PATIENT_HEADERS = ["ID", "Name", "Clinical Area", "Bed #", "Acuity Level",
                    "A-trained Req", "Transfer Req", "IV Req", "1:1", "Previous Nurses", "Date Admitted",
@@ -66,6 +69,7 @@ def home():
         curr_nurse_ids = []
         supp_nurse_ids = []
         cn_nurse_ids = []
+        code_nurse_ids = []
 
         # Grab database information
         cursor.execute("SELECT * FROM nurses")
@@ -80,6 +84,12 @@ def home():
                     cn_nurse_ids.append(nurse[0])
                 if nurse[11] == "Support":
                     supp_nurse_ids.append(nurse[0])
+                if nurse[11] == "Code":
+                    code_nurse_ids.append(nurse[0])
+
+        print(cn_nurse_ids)
+        print(supp_nurse_ids)
+        print(code_nurse_ids)
 
         return render_template('mainPage.html',
                                loggedin=session['loggedin'],
@@ -87,7 +97,8 @@ def home():
                                patientList=patient_list,
                                currNurseIds=curr_nurse_ids,
                                suppNursesIds=supp_nurse_ids,
-                               cnNurseIds=cn_nurse_ids)
+                               cnNurseIds=cn_nurse_ids,
+                               codeNurseIds=code_nurse_ids)
     return redirect(url_for('login'))
 
 
@@ -112,22 +123,31 @@ def update_current_nurses():
 @app.route("/modalSubmit2", methods=["POST"])
 def update_cn_supp():
     if "loggedin" in session:
-        support_nurses_id = "({0})".format(request.form['support_nurses_list'])
-        charge_nurses_id = "({0})".format(request.form['charge_nurses_list'])
+        support_nurses_id = "({0})".format(
+            request.form['support_nurses_list'])
+        charge_nurses_id = "({0})".format(
+            request.form['charge_nurses_list'])
+        code_nurses_id = "({0})".format(request.form['code_nurses_list'])
 
         if list(support_nurses_id)[1] == ",":
-            support_nurses_id = support_nurses_id[:1] + support_nurses_id[2:]
+            support_nurses_id = support_nurses_id[:1] + \
+                support_nurses_id[2:]
 
         if list(charge_nurses_id)[1] == ",":
             charge_nurses_id = charge_nurses_id[:1] + charge_nurses_id[2:]
 
+        if list(code_nurses_id)[1] == ",":
+            code_nurses_id = code_nurses_id[:1] + code_nurses_id[2:]
+
         try:
             cursor.execute(
-                "UPDATE smartroster.nurses SET advanced_role = '' WHERE current_shift = 1 and advanced_role != 'Code' and advanced_role NOT LIKE 'L%'")
+                "UPDATE smartroster.nurses SET advanced_role = '' WHERE current_shift = 1 and advanced_role NOT LIKE 'L%'")
             cursor.execute("UPDATE smartroster.nurses SET advanced_role = 'Support' WHERE id in {0}".format(
                 support_nurses_id))
             cursor.execute("UPDATE smartroster.nurses SET advanced_role = 'Charge' WHERE id in {0}".format(
                 charge_nurses_id))
+            cursor.execute("UPDATE smartroster.nurses SET advanced_role = 'Code' WHERE id in {0}".format(
+                code_nurses_id))
             db.commit()
             return redirect(url_for('home'))
         except Exception as error:
@@ -262,6 +282,7 @@ def add_nurse_records():
     except Exception as error:
         print(error)
     return redirect(url_for('nurse_records'))
+
 
 @app.route("/editNurseRecords", methods=["POST"])
 def edit_nurse_records():
@@ -428,44 +449,207 @@ def settings():
 
 @app.route("/currentCAASheet")
 def current_CAASheet():
+    area_nurse_list = []
+
     if 'loggedin' in session:
         # Grab nurse and patient tables
         cursor.execute("SELECT * FROM nurses WHERE current_shift=1")
         nurse_list = cursor.fetchall()
-        cursor.execute("SELECT * FROM patients")
-        patient_list = cursor.fetchall()
-        return render_template("./Assignment Sheets/cur_caaSheet.html", loggedin=session['loggedin'], nurseList=nurse_list, patientList=patient_list)
+
+        if os.path.exists("{0}/cache/current_shift/state.json".format(CURR_DIR)):
+            with open("{0}/cache/current_shift/state.json".format(CURR_DIR), 'r') as jsonfile:
+                state = json.load(jsonfile)
+
+            for i, area in enumerate(AREA_LIST):
+                area_nurse_list.append([])
+                for j in range(MAX_BED):
+                    try:
+                        if state["assignment"][f"{area}{j + 1}"][1] not in area_nurse_list[i]:
+                            area_nurse_list[i].append(
+                                state["assignment"][f"{area}{j + 1}"][1])
+                    except:
+                        continue
+
+            print(area_nurse_list)
+
+            return render_template("./Assignment Sheets/cur_caaSheet.html",
+                                   loggedin=session['loggedin'],
+                                   nurseList=nurse_list,
+                                   areaNurseList=area_nurse_list,
+                                   state=state)
+
+        return render_template("./Assignment Sheets/cur_caaSheet_blank.html",
+                               loggedin=session['loggedin'])
+
     return redirect(url_for('login'))
 
 
 @app.route("/currentPNSheet")
 def current_PNSheet():
+    # Variables
+    curr_assignment = None
+
     if 'loggedin' in session:
         # Grab nurse and patient tables
         cursor.execute("SELECT * FROM nurses WHERE current_shift=1")
         nurse_list = cursor.fetchall()
-        cursor.execute("SELECT * FROM patients")
+        cursor.execute("SELECT * FROM patients WHERE discharged_date='-'")
         patient_list = cursor.fetchall()
-        return render_template("./Assignment Sheets/cur_pnSheet.html", loggedin=session['loggedin'], nurseList=nurse_list, patientList=patient_list)
+        cursor.execute("SELECT * FROM nurses")
+        full_nurse_list = cursor.fetchall()
+
+        if os.path.exists("{0}/cache/current_shift/state.json".format(CURR_DIR)):
+            with open("{0}/cache/current_shift/state.json".format(CURR_DIR), 'r') as jsonfile:
+                state = json.load(jsonfile)
+            return render_template("./Assignment Sheets/cur_pnSheetState.html",
+                                   loggedin=session['loggedin'],
+                                   state=state,
+                                   nurseList=nurse_list,
+                                   patientList=patient_list)
+        elif os.path.exists('{0}/cache/current_shift/curr_assignment.json'.format(CURR_DIR)):
+            with open('./cache/current_shift/curr_assignment.json', 'r') as jsonfile:
+                curr_assignment = json.load(jsonfile)
+
+            for nurse_id in curr_assignment:
+                # Advanced Role Assignment
+                if full_nurse_list[int(nurse_id) - 1][11] != "":
+                    if full_nurse_list[int(nurse_id) - 1][11] == "Charge":
+                        curr_assignment[nurse_id]['adv'] = "Charge"
+                    if full_nurse_list[int(nurse_id) - 1][11] == "Support":
+                        curr_assignment[nurse_id]['adv'] = "Support"
+                    if full_nurse_list[int(nurse_id) - 1][11] == "Code":
+                        curr_assignment[nurse_id]['adv'] = "Code"
+
+                # Bed Assignments
+                list_of_beds = []  # temp list of beds
+                curr_assignment[nurse_id]['bed'] = ""  # init bed key
+
+                cursor.execute(
+                    "SELECT * FROM patients WHERE id in ({0})".format(
+                        str(curr_assignment[nurse_id]['patients'])[1:-1]))
+                list_of_patients = cursor.fetchall()
+
+                for p in list_of_patients:
+                    list_of_beds.append(p[2] + str(p[3]))
+
+                curr_assignment[nurse_id]['bed'] = list_of_beds
+
+            # Overwrite curr_assignment.json
+            os.remove(
+                "{0}/cache/current_shift/curr_assignment.json".format(CURR_DIR))
+            with open("{0}/cache/current_shift/curr_assignment.json".format(CURR_DIR), 'w') as jsonfile:
+                json.dump(curr_assignment, jsonfile)
+
+            return render_template("./Assignment Sheets/cur_pnSheet.html",
+                                   loggedin=session['loggedin'],
+                                   curr_assignment=curr_assignment,
+                                   nurseList=nurse_list,
+                                   patientList=patient_list)
+        else:
+            return render_template("./Assignment Sheets/cur_pnSheet_blank.html",
+                                   loggedin=session['loggedin'])
     return redirect(url_for('login'))
 
 
-
-@app.route("/pastCAASheet")
+@ app.route("/pastCAASheet")
 def past_CAASheet():
     if 'loggedin' in session:
         return render_template("./Assignment Sheets/past_caaSheet.html", loggedin=session['loggedin'])
     return redirect(url_for('login'))
 
 
-@app.route("/pastPNSheet")
+@ app.route("/pastPNSheet")
 def past_PNSheet():
     if 'loggedin' in session:
         return render_template("./Assignment Sheets/past_pnSheet.html", loggedin=session['loggedin'])
     return redirect(url_for('login'))
 
 
-@app.route('/assign', methods=['GET'])
+@ app.route("/saveState", methods=['POST'])
+def save_current_state():
+    # variable init
+    bed_value = ""  # reset on new pair
+    patient_nurse_pair = []
+    if 'loggedin' in session:
+        try:
+            # dict init
+            state_assignment = {
+                "charge": [],
+                "support": [],
+                "code": [],
+                "assignment": {},
+                "timestamp": datetime.now().strftime("%B %d, %Y - %I:%M:%S %p")
+            }
+
+            for area in AREA_LIST:
+                for i in range(MAX_BED):
+                    state_assignment["assignment"]["{0}{1}".format(
+                        area, i + 1)] = []
+
+            # Parse request
+            state_data = request.form['saveStateData']
+            state_data = state_data.strip('][').split(',')
+            state_data = list(filter(('null').__ne__, state_data))
+            # clean elements + dict storage
+            for i in range(len(state_data)):
+
+                state_data[i] = state_data[i][1:-1]
+                # adv role states
+                if state_data[i][:2] == "cn":
+                    state_assignment["charge"].append(state_data[i][10:])
+                if state_data[i][:2] == "su":
+                    state_assignment["support"].append(state_data[i][15:])
+                if state_data[i][:2] == "co":
+                    state_assignment["code"].append(state_data[i][12:])
+
+                # assignment states
+                if (i % 2) != 0 and i > 6:
+                    # patient
+                    bed_value = ""  # reset on new pair
+                    patient_nurse_pair = []
+                    pod = state_data[i][4]
+                    bed_num = state_data[i][10:12]
+                    try:
+                        int(bed_num)
+                        bed_value = (pod + bed_num)
+                        try:
+                            patient_nurse_pair.append(
+                                abs(int(state_data[i][-2:])))
+                        except:
+                            patient_nurse_pair.append(int(state_data[i][-1:]))
+                    except:
+                        bed_value = (pod + bed_num[:-1])
+                        try:
+                            patient_nurse_pair.append(
+                                abs(int(state_data[i][-2:])))
+                        except:
+                            patient_nurse_pair.append(int(state_data[i][-1:]))
+                elif i > 6:
+                    # nurse
+                    try:
+                        patient_nurse_pair.append(abs(int(state_data[i][-2:])))
+                    except:
+                        patient_nurse_pair.append(int(state_data[i][-1:]))
+                    state_assignment["assignment"][bed_value] = patient_nurse_pair
+
+            # Write/Overwrite state.json
+            if os.path.exists("{0}/cache/current_shift/state.json".format(CURR_DIR)):
+                os.remove(
+                    "{0}/cache/current_shift/state.json".format(CURR_DIR))
+            with open("./cache/current_shift/state.json", 'w') as jsonfile:
+                json.dump(state_assignment, jsonfile)
+
+            return redirect(url_for('current_PNSheet'))
+
+        except Exception as error:
+            print(error)
+            return redirect(url_for('current_PNSheet'))
+    return redirect(url_for('login'))
+
+# Algorithm
+
+
+@ app.route('/assign', methods=['GET'])
 def assign_nurse_patient() -> dict:
     """ Assign nurses to patients"""
     assignments = {}
@@ -480,7 +664,7 @@ def assign_nurse_patient() -> dict:
     for row in patient_list:
         x = Patient(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10], row[11],
                     row[12], row[13])
-        if row[13]  == "1":
+        if row[13] == "1":
             twins.append(x)
         patients.append(x)
 
@@ -592,7 +776,8 @@ def assign_nurse_patient() -> dict:
                                 continue
                             elif p.get_last_name() == twin_object.get_last_name():
                                 assignments[sen.get_id()]["num_patients"] += 1
-                                assignments[sen.get_id()]["patients"].append(twin_object.get_id())
+                                assignments[sen.get_id()]["patients"].append(
+                                    twin_object.get_id())
                                 twin_object.set_assigned(1)
                                 twins.remove(twin_object)
                                 twins.remove(p)
@@ -614,9 +799,25 @@ def assign_nurse_patient() -> dict:
         'SELECT * FROM patients WHERE discharged_date="-"')
     patient_list = cursor.fetchall()
 
-    # Store in cache
-    os.mkdir("./cache/current_shift")
-    with open("./cache/current_shift/somejson.json", 'w') as jsonfile:
+    cursor.execute("SELECT * FROM nurses")
+    nurse_list = cursor.fetchall()
+
+    # Create cache/current_shift folders
+    try:
+        os.makedirs("{0}/cache/current_shift".format(CURR_DIR))
+    except:
+        print("Required directories exist")
+
+    # If curr_assignment.json already exists, delete
+    if os.path.exists("{0}/cache/current_shift/curr_assignment.json".format(CURR_DIR)):
+        os.remove(
+            "{0}/cache/current_shift/curr_assignment.json".format(CURR_DIR))
+    if os.path.exists("{0}/cache/current_shift/state.json".format(CURR_DIR)):
+        os.remove(
+            "{0}/cache/current_shift/state.json".format(CURR_DIR))
+
+    # Create curr_assignment.json
+    with open("./cache/current_shift/curr_assignment.json", 'w') as jsonfile:
         json.dump(assignments, jsonfile)
 
     try:
@@ -625,6 +826,9 @@ def assign_nurse_patient() -> dict:
         return render_template("./assign.html", response=assignments, nurseList=nurse_list, patientList=patient_list)
     except ValueError as error:
         response = app.response_class(status=400, response=str(error))
+
+# @app.route('/flag', methods=['GET'])
+# def assign_nurse_patient() -> dict:
 
 
 if __name__ == "__main__":

@@ -4,6 +4,8 @@
 
 <!--Content Here-->
 <!--Jumbotron-->
+
+
 <div class="jumbotron py-3">
     <div class="jumbotron-content">
         <div class="row justify-content-md-center">
@@ -20,7 +22,8 @@
             </a>
             <input id="saveStateData" type="text" name="saveStateData" hidden>
         </form>
-        <small class="mb-2">{{now.strftime("%B %d, %Y - %I:%M:%S %p")}}</small>
+        <small class="mb-2">{{now.strftime("%B %d, %Y - %I:%M:%S %p")}}</small> <br>
+        <small class="mb-2">Last Updated: {{state['timestamp']}}</small>
         <br><br>
         <div class="row">
             <div class="col-8 offset-2 row">
@@ -31,13 +34,15 @@
                     </div>
                     {% for i in range(3)%}
                     <select class="form-control" id="cn-assign-form">
-                        {% for id in curr_assignment if curr_assignment[id]['adv']=="Charge" %}
-                        {% for nurse in nurseList if nurse[0]==id|int %}
-                        <option id='cn-assign-{{nurse[0]}}' value='{{nurse[0]}}' selected>{{nurse[1]}}</option>
+                        {% if state["charge"][i] %}
+                        <option id="cn-assign-{{state['charge'][i]}}" value="{{state['charge'][i]}}" selected>
+                            {% for nurse in nurseList if nurse[0]==state['charge'][i]|int %}
+                            {{nurse[1]}}
+                            {% endfor %}
+                        </option>
                         {% else %}
                         <option id="cn-assign-blank" value="" selected></option>
-                        {% endfor %}
-                        {% endfor %}
+                        {% endif %}
                         <option id="cn-assign-blank" value=""></option>
                         {% for index, nurse in enumerate(nurseList) %}
                         {% if nurse[11] == "Charge" %}
@@ -58,18 +63,20 @@
                     </div>
                     {% for i in range(3)%}
                     <select class="form-control" id="support-assign-form">
-                        {% for id in curr_assignment if curr_assignment[id]['adv']=="Support" %}
-                        {% for nurse in nurseList if nurse[0]==id|int %}
-                        <option id='support-assign-{{nurse[0]}}' value='{{nurse[0]}}' selected>{{nurse[1]}}</option>
+                        {% if state["support"][i] %}
+                        <option id="support-assign-{{state['support'][i]}}" value="{{state['support'][i]}}" selected>
+                            {% for nurse in nurseList if nurse[0]==state['support'][i]|int %}
+                            {{nurse[1]}}
+                            {% endfor %}
+                        </option>
                         {% else %}
                         <option id="support-assign-blank" value="" selected></option>
-                        {% endfor %}
-                        {% endfor %}
+                        {% endif %}
                         <option id="support-assign-blank" value=""></option>
+                        </option>
                         {% for index, nurse in enumerate(nurseList) %}
                         {% if nurse[11] == "Support" %}
-                        <option class="table-warning" id='support-assign-{{nurse[0]}}' value="{{nurse[0]}}">
-                            {{nurse[1]}}
+                        <option class="table-warning" id='support-assign-{{nurse[0]}}' value="{{nurse[0]}}">{{nurse[1]}}
                         </option>
                         {% else %}
                         <option id='support-assign-{{nurse[0]}}' value="{{nurse[0]}}">{{nurse[1]}}</option>
@@ -84,22 +91,22 @@
                         <label class="input-group-text" style="width: 140px">Code Nurse</label>
                     </div>
                     <select class="form-control" id="code-assign-form">
-
-                        {% for id in curr_assignment if curr_assignment[id]['adv']=="Code" %}
-                        {% for nurse in nurseList if nurse[0]==id|int %}
-                        <option id='code-assign-{{nurse[0]}}' value='{{nurse[0]}}' selected>{{nurse[1]}}</option>
+                        {% if state["code"][0] %}
+                        <option id="code-assign-{{state['code'][0]}}" value="{{state['code'][0]}}" selected>
+                            {% for nurse in nurseList if nurse[0]==state['code'][0]|int %}
+                            {{nurse[1]}}
+                            {% endfor %}
+                        </option>
                         {% else %}
                         <option id="code-assign-blank" value="" selected></option>
-                        {% endfor %}
-                        {% endfor %}
+                        {% endif %}
                         <option id="code-assign-blank" value=""></option>
                         {% for index, nurse in enumerate(nurseList) %}
                         {% if nurse[11] == "Code" %}
-                        <option class="table-danger" id='code-assign-{{nurse[0]}}' value="{{nurse[0]}}">
-                            {{nurse[1]}}
+                        <option class="table-danger" id="code-assign-{{nurse[0]}}" value="{{nurse[0]}}">{{nurse[1]}}
                         </option>
                         {% else %}
-                        <option id='code-assign-{{nurse[0]}}' value="{{nurse[0]}}">{{nurse[1]}}</option>
+                        <option id="code-assign-{{nurse[0]}}" value="{{nurse[0]}}">{{nurse[1]}}</option>
                         {% endif %}
                         {% endfor %}
                     </select>
@@ -124,7 +131,6 @@
                 class="card-footer text-center pod-spec" {% endif %}
                 style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
                 <h4>Clinical Area {{areas[area_iter.value]}}</h4>
-
             </div>
             <div class="card-body row justify-content-md-center">
                 <div class="col-6 row justify-content-md-center" id="pod-{{areas[area_iter.value]}}-col1">
@@ -135,20 +141,25 @@
                         <!--Icon Block-->
                         <i class="fas fa-exclamation-circle" style="position: relative; left: 87.5%; top: 5%;"></i>
                         <!--Patient Dropdown-->
+                        <!-- <p>{{areas[area_iter.value]+(asc_loop + 1)|string}}{{state['assignment'][areas[area_iter.value]+(asc_loop + 1)|string]}} -->
+                        </p>
                         <div class="input-group input-group-sm px-1">
                             <div class="input-group-prepend">
                                 <label class="input-group-text" style="width: 30px;">P</label>
                             </div>
                             <select class="form-control"
                                 id="pod-{{areas[area_iter.value]}}-bed-{{asc_loop + 1}}-patient-menu">
-                                {% for patient in patientList if patient[2]==areas[area_iter.value] and patient[3]==(asc_loop + 1) %}
-                                <option id="pod-{{areas[area_iter.value]}}-bed-{{ asc_loop + 1 }}-p-{{patient[0]}}"
-                                    value="{{patient[0]}}">{{patient[1]}}
-                                </option selected>
-                                {% else %}
+                                {% if state['assignment'][areas[area_iter.value]+(asc_loop + 1)|string][0] %}
+                                {% set patient_id = state['assignment'][areas[area_iter.value]+(asc_loop + 1)|string][0] %}
+                                <option id="pod-{{areas[area_iter.value]}}-bed-{{ asc_loop + 1 }}-p-{{patient_id}}"
+                                    value="{{patient_id}}" selected>
+                                    {% for patient in patientList if patient[0]==patient_id %}
+                                    {{patient[1]}}
+                                    {% endfor %}
+                                </option>
+                                {% endif %}
                                 <option id="pod-{{areas[area_iter.value]}}-bed-{{ asc_loop + 1 }}-p-blank" value="">
-                                </option selected>
-                                {% endfor %}
+                                </option>
                                 {% for index, patient in enumerate(patientList) %}
                                 <option id='pod-{{areas[area_iter.value]}}-bed-{{ asc_loop + 1 }}-p-{{patient[0]}}'
                                     value="{{patient[0]}}">{{patient[1]}}</option>
@@ -160,20 +171,16 @@
                             <div class="input-group-prepend">
                                 <label class="input-group-text" style="width: 30px;">N</label>
                             </div>
-                            <select class=" form-control"
+                            <select class="form-control"
                                 id="pod-{{areas[area_iter.value]}}-bed-{{asc_loop + 1}}-nurse-menu">
-                                {% for id in curr_assignment %}
-                                {% for bed in curr_assignment[id]['bed']%}
-                                {% if bed[:1]==areas[area_iter.value] and bed[1:]==((asc_loop + 1)|string) %}
-                                {% for nurse in nurseList if nurse[0]==id|int %}
-                                <option selected
-                                    id='pod-{{areas[area_iter.value]}}-bed-{{ asc_loop + 1 }}-n-{{nurse[0]}}'
-                                    value="{{nurse[0]}}">{{nurse[1]}}</option>
-                                {% else %}
-                                {% endfor %}
+                                {% if state['assignment'][areas[area_iter.value]+(asc_loop + 1)|string][1] %}
+                                {% set nurse_id = state['assignment'][areas[area_iter.value]+(asc_loop + 1)|string][1] %}
+                                <option id="pod-{{areas[area_iter.value]}}-bed-{{ asc_loop + 1 }}-n-{{nurse_id}}"
+                                    value="{{nurse_id}}" selected>{% for nurse in nurseList if nurse[0]==nurse_id %}
+                                    {{nurse[1]}}
+                                    {% endfor %}
+                                </option>
                                 {% endif %}
-                                {% endfor %}
-                                {% endfor %}
                                 <option id="pod-{{areas[area_iter.value]}}-bed-{{ asc_loop + 1 }}-n-blank" value="">
                                 </option>
                                 {% for index, nurse in enumerate(nurseList) %}
@@ -199,20 +206,25 @@
                         <i class="fas fa-exclamation-circle" style="position: relative; left: 87.5%; top: 5%;"></i>
                         {% endif %}
                         <!--Patient Dropdown-->
+                        <!-- <p>{{areas[area_iter.value]+(desc_loop + 8)|string}}{{state['assignment'][areas[area_iter.value]+(desc_loop + 8)|string]}} -->
+                        </p>
                         <div class="input-group input-group-sm px-1">
                             <div class="input-group-prepend">
                                 <label class="input-group-text" style="width: 30px;">P</label>
                             </div>
                             <select class="form-control"
                                 id="pod-{{areas[area_iter.value]}}-bed-{{ desc_loop + 8 }}-patient-menu">
-                                {% for patient in patientList if patient[2]==areas[area_iter.value] and patient[3]==(desc_loop + 8) %}
-                                <option id="pod-{{areas[area_iter.value]}}-bed-{{ desc_loop + 8 }}-p-{{patient[0]}}"
-                                    value="{{patient[0]}}">{{patient[1]}}
-                                </option selected>
-                                {% else %}
+                                {% if state['assignment'][areas[area_iter.value]+(desc_loop + 8)|string][0] %}
+                                {% set patient_id = state['assignment'][areas[area_iter.value]+(desc_loop + 8)|string][0] %}
+                                <option id="pod-{{areas[area_iter.value]}}-bed-{{ desc_loop + 8 }}-p-{{patient_id}}"
+                                    value="{{patient_id}}" selected>
+                                    {% for patient in patientList if patient[0]==patient_id %}
+                                    {{patient[1]}}
+                                    {% endfor %}
+                                </option>
+                                {% endif %}
                                 <option id="pod-{{areas[area_iter.value]}}-bed-{{ desc_loop + 8 }}-p-blank" value="">
                                 </option selected>
-                                {% endfor %}
                                 {% for index, patient in enumerate(patientList) %}
                                 <option id='pod-{{areas[area_iter.value]}}-bed-{{ desc_loop + 8 }}-p-{{patient[0]}}'
                                     value="{{patient[0]}}">{{patient[1]}}</option>
@@ -225,18 +237,15 @@
                                 <label class="input-group-text" style="width: 30px;">N</label>
                             </div>
                             <select class=" form-control" id="bed-{{ desc_loop + 8 }}-nurse-menu">
-                                {% for id in curr_assignment %}
-                                {% for bed in curr_assignment[id]['bed']%}
-                                {% if bed[:1]==areas[area_iter.value] and bed[1:]==((desc_loop + 8)|string) %}
-                                {% for nurse in nurseList if nurse[0]==id|int %}
-                                <option selected
-                                    id='pod-{{areas[area_iter.value]}}-bed-{{ desc_loop + 8 }}-n-{{nurse[0]}}'
-                                    value="{{nurse[0]}}">{{nurse[1]}}</option>
-                                {% else %}
-                                {% endfor %}
+                                {% if state['assignment'][areas[area_iter.value]+( desc_loop + 8 )|string][1] %}
+                                {% set nurse_id = state['assignment'][areas[area_iter.value]+(desc_loop + 8 )|string][1] %}
+                                <option id="pod-{{areas[area_iter.value]}}-bed-{{ desc_loop + 8 }}-n-{{nurse_id}}"
+                                    value="{{nurse_id}}" selected>
+                                    {% for nurse in nurseList if nurse[0]==nurse_id %}
+                                    {{nurse[1]}}
+                                    {% endfor %}
+                                </option>
                                 {% endif %}
-                                {% endfor %}
-                                {% endfor %}
                                 <option id="pod-{{areas[area_iter.value]}}-bed-{{ desc_loop + 8 }}-n-blank" value="">
                                 </option selected>
                                 {% for index, nurse in enumerate(nurseList) %}
@@ -258,22 +267,6 @@
 </div>
 
 <script>
-    function filterFunction() {
-        var input, filter, ul, li, a, i;
-        input = document.getElementById("myInput");
-        filter = input.value.toUpperCase();
-        div = document.getElementById("myDropdown");
-        a = div.getElementsByTagName("a");
-        for (i = 0; i < a.length; i++) {
-            txtValue = a[i].textContent || a[i].innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                a[i].style.display = "";
-            } else {
-                a[i].style.display = "none";
-            }
-        }
-    }
-
     // Print Page
     function printPage() {
         var css = 'body',
@@ -300,6 +293,7 @@
             }
         }
         $("#saveStateData").val(JSON.stringify(saveStateData))
+
         if (saveStateData.length % 2 == 0) {
             $('#alertArea').append("<div class='alert alert-danger alert-dismissable fade show'> " +
                 "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>Invalid Assignment</div>")
@@ -308,5 +302,4 @@
         }
     })
 </script>
-
 {% endblock %}

@@ -8,9 +8,9 @@ table {
   display: "block";
 }
 
-/* div {
-    border: 1px solid red;
-  } */
+// div {
+//   border: 1px solid red;
+// }
 
 /******* Class Styling *******/
 
@@ -68,13 +68,6 @@ table {
   background: #ffffff;
 }
 
-/* Start of login page */
-.login-elements {
-  margin-top: 150px;
-  height: 600px;
-  /* border: 5px solid; */
-}
-
 /* Sidebar */
 
 /* The side navigation menu */
@@ -82,10 +75,10 @@ table {
   height: 100%;
   width: 0;
   position: fixed;
-  z-index: 1;
+  z-index: 9998;
   top: 0;
   left: 0;
-  background-color: rgb(173, 173, 173);
+  background-color: #f5f5f5;
   overflow-x: hidden;
   padding-top: 60px;
   transition: 0.5s;
@@ -96,23 +89,24 @@ table {
   padding: 8px 8px 8px 32px;
   text-decoration: none;
   font-size: 20px;
-  color: #000000;
+  color: black;
   display: block;
   transition: 0.3s;
 }
 
 /* Sidebar link hover */
 .sidebar a:hover {
-  color: #f1f1f1;
+  color: lightskyblue;
 }
 
 /* Sidebar close button */
 .sidebar .closebtn {
   position: absolute;
-  top: 0;
-  right: 25px;
-  font-size: 36px;
-  margin-left: 50px;
+  top: 0px;
+  right: 30px;
+  font-size: 30px;
+  width: 35px;
+  height: 35px;
 }
 
 .sidebar-content {
@@ -131,20 +125,25 @@ table {
 }
 
 .quick-links {
-  height: 550px;
-  width: 30px;
+  height: 500px;
+  width: 20px;
   position: fixed;
   z-index: 1;
-  top: 20%;
-  right: 0;
-  background-color: rgb(173, 173, 173);
+  top: 22.5%;
+  right: -1px;
+  background-color: #f5f5f5;
   overflow-x: hidden;
-  padding-top: 60px;
+  overflow-y: hidden;
+  padding-top: 30px;
   transition: 0.5s;
+  cursor: pointer;
+  border: 0.5px solid #ced4da;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
 }
 
 .quick-links a {
-  padding: 8px 8px 8px 32px;
+  padding: 7px 2px;
   text-decoration: none;
   font-size: 20px;
   color: #000000;
@@ -153,6 +152,10 @@ table {
   text-align: center;
   white-space: nowrap;
   word-wrap: none;
+}
+
+.quick-links a:hover {
+  color: lightskyblue;
 }
 
 .quick-links-content {
@@ -164,20 +167,20 @@ table {
 }
 
 .quick-link-tab-container {
-  height: 550px;
-  width: 30px;
+  height: 500px;
+  width: 20px;
   position: absolute;
   top: 50%;
   transform: translate(0%, -50%);
 }
 
 .quick-link-tab-icon {
-  height: 30px;
-  width: 30px;
+  height: 20px;
+  width: 20px;
   position: absolute;
   top: 50%;
   transform: translate(0%, -50%);
-  padding: 0px 3px 0px 3px;
+  padding: 0px 3px;
   transition: 0.5s;
 }
 
@@ -250,12 +253,12 @@ label + input[type="radio"] + label {
 }
 
 .toggle {
-    cursor: pointer;
-    padding-right: 35px;
-    position: relative;
-    display: block;
-    padding: 0px 0px;
-    width: 170px;
+  cursor: pointer;
+  padding-right: 35px;
+  position: relative;
+  display: block;
+  padding: 0px 0px;
+  width: 170px;
 
   &:before,
   &:after {
@@ -294,8 +297,8 @@ input[type="radio"]:checked + label {
 }
 
 .text_area {
-    width: 100%;
-    border: 2px solid #ced4da;
+  width: 100%;
+  border: 2px solid #ced4da;
 }
 
 /* End of Record Pages */
