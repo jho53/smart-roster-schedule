@@ -4,7 +4,159 @@
 
 <!--Content Here-->
 
-Profile Page
+<div class="container-fluid" style="padding: 30px 10px 30px 10px;">
+  <div class="profile-content">
+    <div>
+      <h2>Profile Page</h2>
+      <br><br>
+    </div>
+    <div class="profile-picture user-image">
+      <!-- Testing image circle -->
+    </div>
+    <br><br>
+    <div class="profile-links">
+      <!-- <a data-toggle="modal" data-target="#exampleModalCenter"><h5>Change Profile Picture</h5></a> -->
+      <a href="#profilePictureModal" data-toggle="modal">
+        <h5>Change Profile Picture</h5>
+      </a>
+      <a href="#backgroundPictureModal" data-toggle="modal">
+        <h5>Change Background</h5>
+      </a>
+      <a href="#passwordModal" data-toggle="modal">
+        <h5>Change Password</h5>
+      </a>
+      <a href="/logout">
+        <h5>Logout</h5>
+      </a>
+    </div>
+  </div>
+</div>
 
+
+
+
+
+<!-- Profile Image Upload Modal -->
+<div class="modal fade" id="profilePictureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalLongTitle">Change Profile Picture</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <input type="file" accept="image/png, image/jpg" class="form-control-file" id="uploadedProfilePicture"
+              style="overflow: hidden;">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="changeProfilePicture()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Background Image Upload Modal -->
+<div class="modal fade" id="backgroundPictureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalLongTitle">Change Background</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <input type="file" accept="image/png, image/jpg" class="form-control-file" id="uploadedBackgroundPicture"
+              style="overflow: hidden;">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="changeBackgroundPicture()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Change Password Modal -->
+<div class="modal fade passwordModal" id="passwordModal" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Change Password</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="#" method="post">
+                      <div class="form-group">
+                        <label for="oldPassword" class="col-form-label">Old Password</label>
+                        <input type="password" class="form-control" id="oldPassword">
+                      </div>
+                      <div class="form-group">
+                        <label for="newPassword" class="col-form-label">New Password</label>
+                        <input type="password" class="form-control" id="newPassword">
+                      </div>
+                      <div class="form-group">
+                        <label for="confirmNewPassword" class="col-form-label">Confirm New Password</label>
+                        <input type="password" class="form-control" id="confirmNewPassword">
+                      </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary" onclick="changePassword()">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+  function changeProfilePicture() {
+    var input = document.getElementById("uploadedProfilePicture");
+    console.log(input.files[0]);
+
+    // Check if file size is within 500KB limit
+    if (!input.files[0].size / 1000 <= 500) {
+      alert("File is too large. Please try again.");
+      return;
+    }
+
+    console.log()
+  }
+
+  function changeBackgroundPicture() {
+    var input = document.getElementById("uploadedBackgroundPicture");
+    console.log(input.files[0]);
+
+    // Check if file size is within 500KB limit
+    if (!input.files[0].size / 1000 <= 500) {
+      alert("File is too large. Please try again.");
+      return;
+    }
+
+    console.log()
+  }
+
+  function changePassword() {
+    var oldPassword = document.getElementById("oldPassword");
+    var newPassword = document.getElementById("newPassword");
+    var confirmNewPassword = document.getElementById("confirmNewPassword");
+  }
+</script>
 
 {% endblock %}
