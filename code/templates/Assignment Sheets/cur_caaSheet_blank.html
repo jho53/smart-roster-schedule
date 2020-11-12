@@ -1,0 +1,157 @@
+{% extends "base.html" %} {% block content %}
+
+<!--Content Here-->
+<!--Jumbotron-->
+<div class="jumbotron py-3">
+  <div class="jumbotron-content">
+    <div class="row justify-content-md-center">
+      <h1 class="jumbotron-title col">Clinical Area Assignment Page</h1>
+    </div>
+    <a href="#" onclick="printPage()" style="position: absolute; right: 50px; top: 30px;">
+      <i class="fas fa-print fa-3x" style="color:black"></i>
+      <br><small>Print</small>
+    </a>
+    <br><br>
+    <!--Charge Nurse-->
+    <div class="row">
+      <div class="col rounded pt-3 px-4 mx-5 shadow-sm" style="background-color: lightgray">
+        <div class="row justify-content-center">
+          <div class="col-9">
+            <h6>Charge Nurses</h6>
+          </div>
+          <div class="col-3">
+            <h6>Skill Level</h6>
+          </div>
+        </div>
+        {% for i in range(3)%}
+        <div class="row justify-content-center mb-2">
+          <input class="col-8 form-control form-control-sm rounded text-center" type="text" value="" disabled>
+          <input class="col-2 offset-1 form-control form-control-sm rounded text-center" type="text" value="" disabled>
+        </div>
+        {% endfor %}
+      </div>
+      <!--Support Nurses-->
+      <div class="col rounded pt-3 pl-4 pr-5 mx-5 shadow-sm" style="background-color: lightgray;">
+        <div class="row justify-content-center">
+          <div class="col-8">
+            <h6>Support Nurses</h6>
+          </div>
+          <div class="col-2">
+            <h6>Area</h6>
+          </div>
+          <div class="col-2">
+            <h6>Rotation</h6>
+          </div>
+        </div>
+        {% for i in range(3)%}
+        <div class="row justify-content-center mb-2">
+          <input class="col-6 offset-1 form-control form-control-sm rounded text-center" type="text" value="" disabled>
+          <input class="col-2 offset-1 form-control form-control-sm rounded text-center" type="text" value="" disabled>
+          <input class="col-2 form-control form-control-sm rounded text-center" type="text" value="" disabled>
+        </div>
+        {% endfor %}
+      </div>
+      <!--Right Column-->
+      <div class="col mx-5">
+        <div class="row w-100 px-2 shadow-sm"
+          style="background-color: lightgray; padding: 10px 30px; border-radius: 5px;">
+          <div class="col-4">
+            <h6>Code RN</h6>
+          </div>
+          <input class="col-6 form-control form-control-sm rounded text-center" type="text" value="" disabled>
+          <div class="col-1"></div>
+        </div>
+        <div class="mt-5 rounded col-12 row w-100 px-2 shadow-sm"
+          style="background-color: lightgray; padding: 10px 30px; width: 100px">
+          <div class="row col-12">
+            <h6 class="mt-1 col-4">Fixed</h6>
+            <input class="col-4 ml-2 mb-2 form-control form-control-sm rounded text-center" type="text" value=""
+              disabled>
+          </div>
+          <div class="row col-12">
+            <h6 class="mt-1 col-4">Flex</h6>
+            <input class="col-4 ml-2 form-control form-control-sm rounded text-center" type="text" value="" disabled>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+</div>
+
+{% set areas=["A", "B", "C", "D", "E", "F"] %}
+{% set area_iter = namespace(value=0) %}
+
+<div class="container-fluid px-5">
+  <div class="justify-content-center">
+    <div class="col-12">
+      <!--Clinical Area Container-->
+      {% for i in range(6) %}
+      <div class="row col-12 mb-3 m-0 p-0 shadow-sm" style="border-radius: 10px; border: 1px solid lightgrey;">
+        <div style="border-top-left-radius: 10px; border-bottom-left-radius: 10px;" {% if area_iter.value < 4 %}
+          class="pod-norm px-4 py-2" {% else %} class="pod-spec px-4 py-2" {% endif %}>
+          <p class="text-center" style="margin-top: 125px;"><b>{{areas[area_iter.value]}}</b></p>
+          {% set area_iter.value = area_iter.value + 1 %}
+        </div>
+        {% for i in range(2) %}
+        <div class="col-5">
+          <div class="row justify-content-center">
+            <div class="col-5">
+              <small class="mt-1"><b>Name</b></small>
+            </div>
+            <div class="col-1 mx-1">
+              <small class="mt-1"><b>Skill</b></small>
+            </div>
+            <div class="col-1 mx-1 ">
+              <small class="mt-1"><b>Team</b></small>
+            </div>
+            <div class="col-1 mx-1">
+              <small class="mt-1"><b>Shift</b></small>
+            </div>
+            <div class="col-1">
+
+            </div>
+          </div>
+          {% for i in range(7) %}
+          <div class="row justify-content-center mb-2">
+            <input class="col-5 form-control form-control-sm rounded text-center mx-1" type="text" value="" disabled>
+            <input class="col-1 form-control form-control-sm rounded text-center mx-1" type="text" value="" disabled>
+            <input class="col-1 form-control form-control-sm rounded text-center mx-1" type="text" value="" disabled>
+            <input class="col-1 form-control form-control-sm rounded text-center mx-1" type="text" value="" disabled>
+            <button class="col-1 btn form-control-sm btn-warning mx-1" data-toggle="modal" data-target="#flagModal">
+              <i class="fas fa-exclamation-circle"></i></button>
+          </div>
+          {% endfor %}
+        </div>
+        {% endfor %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<!--Flag Modal-->
+<div class="modal fade" id="flagModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="flagModalLabel">DTA/Comments for </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h6>Comments</h6>
+        <small id="flag-comment"></small>
+        <hr>
+        <h6>DTA</h6>
+        <small id="flag-dta"></small>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

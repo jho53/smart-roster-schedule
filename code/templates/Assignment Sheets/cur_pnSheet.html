@@ -109,6 +109,9 @@
     </div>
 </div>
 
+<!--Alert-->
+<div id="alertArea" class="container-fluid"></div>
+
 {% set areas=["A", "B", "C", "D", "E", "F"] %}
 {% set area_iter = namespace(value=0) %}
 
@@ -129,7 +132,9 @@
                     <div class="col-11 p-2 row mb-2" style="background-color: lightgrey; border-radius: 10px;"
                         id="pod-{{areas[area_iter.value]}}-bed-{{asc_loop + 1}}-view">
                         <p style="position: relative; left: 5%;">{{ asc_loop + 1 }}</p>
+                        <!--Icon Block-->
                         <i class="fas fa-exclamation-circle" style="position: relative; left: 87.5%; top: 5%;"></i>
+                        <!--Patient Dropdown-->
                         <div class="input-group input-group-sm px-1">
                             <div class="input-group-prepend">
                                 <label class="input-group-text" style="width: 30px;">P</label>
@@ -295,7 +300,12 @@
             }
         }
         $("#saveStateData").val(JSON.stringify(saveStateData))
-        $("#save-state-form").submit()
+        if (saveStateData.length % 2 == 0) {
+            $('#alertArea').append("<div class='alert alert-danger alert-dismissable fade show'> " +
+                "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>Invalid Assignment</div>")
+        } else {
+            $("#save-state-form").submit()
+        }
     })
 </script>
 

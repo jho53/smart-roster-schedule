@@ -49,6 +49,8 @@ def inject_enumerate():
 
 #### Global Variables ####
 CURR_DIR = os.path.dirname(__file__)
+AREA_LIST = ["A", "B", "C", "D", "E", "F"]
+MAX_BED = 14
 # Headers
 PATIENT_HEADERS = ["ID", "Name", "Clinical Area", "Bed #", "Acuity Level",
                    "A-trained Req", "Transfer Req", "IV Req", "1:1", "Previous Nurses", "Date Admitted",
@@ -447,13 +449,38 @@ def settings():
 
 @app.route("/currentCAASheet")
 def current_CAASheet():
+    area_nurse_list = []
+
     if 'loggedin' in session:
         # Grab nurse and patient tables
         cursor.execute("SELECT * FROM nurses WHERE current_shift=1")
         nurse_list = cursor.fetchall()
-        cursor.execute("SELECT * FROM patients")
-        patient_list = cursor.fetchall()
-        return render_template("./Assignment Sheets/cur_caaSheet.html", loggedin=session['loggedin'], nurseList=nurse_list, patientList=patient_list)
+
+        if os.path.exists("{0}/cache/current_shift/state.json".format(CURR_DIR)):
+            with open("{0}/cache/current_shift/state.json".format(CURR_DIR), 'r') as jsonfile:
+                state = json.load(jsonfile)
+
+            for i, area in enumerate(AREA_LIST):
+                area_nurse_list.append([])
+                for j in range(MAX_BED):
+                    try:
+                        if state["assignment"][f"{area}{j + 1}"][1] not in area_nurse_list[i]:
+                            area_nurse_list[i].append(
+                                state["assignment"][f"{area}{j + 1}"][1])
+                    except:
+                        continue
+
+            print(area_nurse_list)
+
+            return render_template("./Assignment Sheets/cur_caaSheet.html",
+                                   loggedin=session['loggedin'],
+                                   nurseList=nurse_list,
+                                   areaNurseList=area_nurse_list,
+                                   state=state)
+
+        return render_template("./Assignment Sheets/cur_caaSheet_blank.html",
+                               loggedin=session['loggedin'])
+
     return redirect(url_for('login'))
 
 
@@ -474,7 +501,6 @@ def current_PNSheet():
         if os.path.exists("{0}/cache/current_shift/state.json".format(CURR_DIR)):
             with open("{0}/cache/current_shift/state.json".format(CURR_DIR), 'r') as jsonfile:
                 state = json.load(jsonfile)
-            print("this is working")
             return render_template("./Assignment Sheets/cur_pnSheetState.html",
                                    loggedin=session['loggedin'],
                                    state=state,
@@ -555,10 +581,7 @@ def save_current_state():
                 "timestamp": datetime.now().strftime("%B %d, %Y - %I:%M:%S %p")
             }
 
-            area_list = ["A", "B", "C", "D", "E", "F"]
-            MAX_BED = 14
-
-            for area in area_list:
+            for area in AREA_LIST:
                 for i in range(MAX_BED):
                     state_assignment["assignment"]["{0}{1}".format(
                         area, i + 1)] = []
@@ -615,7 +638,9 @@ def save_current_state():
                     "{0}/cache/current_shift/state.json".format(CURR_DIR))
             with open("./cache/current_shift/state.json", 'w') as jsonfile:
                 json.dump(state_assignment, jsonfile)
+
             return redirect(url_for('current_PNSheet'))
+
         except Exception as error:
             print(error)
             return redirect(url_for('current_PNSheet'))
@@ -787,6 +812,9 @@ def assign_nurse_patient() -> dict:
     if os.path.exists("{0}/cache/current_shift/curr_assignment.json".format(CURR_DIR)):
         os.remove(
             "{0}/cache/current_shift/curr_assignment.json".format(CURR_DIR))
+    if os.path.exists("{0}/cache/current_shift/state.json".format(CURR_DIR)):
+        os.remove(
+            "{0}/cache/current_shift/state.json".format(CURR_DIR))
 
     # Create curr_assignment.json
     with open("./cache/current_shift/curr_assignment.json", 'w') as jsonfile:
