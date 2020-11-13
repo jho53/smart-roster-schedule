@@ -9,14 +9,12 @@ flags = {
     'iv': 0,
     'clinical_area': 0,
     'previous_patient': 0,
-    'priority': 0,
-    'dta': "",
-    'comments': ""
+    'priority': 0
 }
 
 assignments = ""
 
-with open("./cache/current_shift/somejson.json", 'w') as jsonfile:
+with open("./cache/current_shift/curr_assignment.json", 'r') as jsonfile:
         json.dump(assignments, jsonfile)
 
 curr_assignment = json.loads(assignments)

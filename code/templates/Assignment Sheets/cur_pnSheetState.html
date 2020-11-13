@@ -5,7 +5,6 @@
 <!--Content Here-->
 <!--Jumbotron-->
 
-
 <div class="jumbotron py-3">
     <div class="jumbotron-content">
         <div class="row justify-content-md-center">
@@ -138,8 +137,15 @@
                     <div class="col-11 p-2 row mb-2" style="background-color: lightgrey; border-radius: 10px;"
                         id="pod-{{areas[area_iter.value]}}-bed-{{asc_loop + 1}}-view">
                         <p style="position: relative; left: 5%;">{{ asc_loop + 1 }}</p>
-                        <!--Icon Block-->
-                        <i class="fas fa-exclamation-circle" style="position: relative; left: 87.5%; top: 5%;"></i>
+                        {% if flags[areas[area_iter.value]+(asc_loop + 1)|string] != ['0', '0', '0', '0', '0', '0', '0', '0', '0'] %}
+                        {% if flags[areas[area_iter.value]+(asc_loop + 1)|string][0] == '1' or flags[areas[area_iter.value]+(asc_loop + 1)|string][1] == '1' or flags[areas[area_iter.value]+(asc_loop + 1)|string][2] == '1' or flags[areas[area_iter.value]+(asc_loop + 1)|string][3] == '1' %}
+                        <a style="color: tomato; position: relative; left: 90%;" href="#" data-toggle="modal" data-target=".flagspopup" data-skill_level="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][0]}}" data-a_trained="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][1]}}" data-transfer="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][2]}}" data-one_to_one="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][3]}}" data-previous_patient="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][4]}}" data-priority="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][5]}}" data-twin="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][6]}}" data-iv="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][7]}}" data-home_area="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][8]}}"><i class="fas fa-exclamation-circle"></i></a>
+                        {% elif flags[areas[area_iter.value]+(asc_loop + 1)|string][4] == '1' or flags[areas[area_iter.value]+(asc_loop + 1)|string][5] == '1' %}
+                        <a style="color: gold; position: relative; left: 90%;" href="#" data-toggle="modal" data-target=".flagspopup" data-skill_level="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][0]}}" data-a_trained="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][1]}}" data-transfer="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][2]}}" data-one_to_one="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][3]}}" data-previous_patient="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][4]}}" data-priority="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][5]}}" data-twin="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][6]}}" data-iv="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][7]}}" data-home_area="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][8]}}"><i class="fas fa-exclamation-circle"></i></a>
+                        {% else %}
+                        <a style="color: green; position: relative; left: 90%;" href="#" data-toggle="modal" data-target=".flagspopup" data-skill_level="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][0]}}" data-a_trained="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][1]}}" data-transfer="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][2]}}" data-one_to_one="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][3]}}" data-previous_patient="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][4]}}" data-priority="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][5]}}" data-twin="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][6]}}" data-iv="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][7]}}" data-home_area="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][8]}}"><i class="fas fa-exclamation-circle"></i></a>
+                        {% endif %}
+                        {% endif %}
                         <!--Patient Dropdown-->
                         <!-- <p>{{areas[area_iter.value]+(asc_loop + 1)|string}}{{state['assignment'][areas[area_iter.value]+(asc_loop + 1)|string]}} -->
                         </p>
@@ -197,13 +203,14 @@
                     <div class="col-11 p-2 row mb-2" style="background-color: lightgrey; border-radius: 10px;"
                         id="pod-{{areas[area_iter.value]}}-bed-{{desc_loop + 8}}-view">
                         <p style="position: relative; left: 5%;">{{ desc_loop + 8 }}</p>
-                        <!--Icon Block-->
-                        {% if (desc_loop + 8) > 10 and (desc_loop + 8) != 11 %}
-                        <i class="fas fa-exclamation-circle" style="position: relative; left: 82.5%; top: 5%;"></i>
-                        {% elif (desc_loop + 8) > 9 %}
-                        <i class="fas fa-exclamation-circle" style="position: relative; left: 83%; top: 5%;"></i>
+                        {% if flags[areas[area_iter.value]+(desc_loop + 8)|string] != ['0', '0', '0', '0', '0', '0', '0', '0', '0'] %}
+                        {% if flags[areas[area_iter.value]+(desc_loop + 8)|string][0] == '1' or flags[areas[area_iter.value]+(desc_loop + 8)|string][1] == '1' or flags[areas[area_iter.value]+(desc_loop + 8)|string][2] == '1' or flags[areas[area_iter.value]+(desc_loop + 8)|string][3] == '1' %}
+                        <a style="color: tomato; position: relative; left: 90%;" href="#" data-toggle="modal" data-target=".flagspopup" data-skill_level="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][0]}}" data-a_trained="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][1]}}" data-transfer="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][2]}}" data-one_to_one="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][3]}}" data-previous_patient="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][4]}}" data-priority="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][5]}}" data-twin="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][6]}}" data-iv="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][7]}}" data-home_area="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][8]}}"><i class="fas fa-exclamation-circle"></i></a>
+                        {% elif flags[areas[area_iter.value]+(desc_loop + 8)|string][4] == '1' or flags[areas[area_iter.value]+(desc_loop + 8)|string][5] == '1' %}
+                        <a style="color: gold; position: relative; left: 90%;" href="#" data-toggle="modal" data-target=".flagspopup" data-skill_level="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][0]}}" data-a_trained="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][1]}}" data-transfer="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][2]}}" data-one_to_one="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][3]}}" data-previous_patient="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][4]}}" data-priority="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][5]}}" data-twin="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][6]}}" data-iv="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][7]}}" data-home_area="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][8]}}"><i class="fas fa-exclamation-circle"></i></a>
                         {% else %}
-                        <i class="fas fa-exclamation-circle" style="position: relative; left: 87.5%; top: 5%;"></i>
+                        <a style="color: green; position: relative; left: 90%;" href="#" data-toggle="modal" data-target=".flagspopup" data-skill_level="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][0]}}" data-a_trained="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][1]}}" data-transfer="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][2]}}" data-one_to_one="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][3]}}" data-previous_patient="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][4]}}" data-priority="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][5]}}" data-twin="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][6]}}" data-iv="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][7]}}" data-home_area="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][8]}}"><i class="fas fa-exclamation-circle"></i></a>
+                        {% endif %}
                         {% endif %}
                         <!--Patient Dropdown-->
                         <!-- <p>{{areas[area_iter.value]+(desc_loop + 8)|string}}{{state['assignment'][areas[area_iter.value]+(desc_loop + 8)|string]}} -->
@@ -266,6 +273,30 @@
     {% endfor %}
 </div>
 
+<div class="modal fade flagspopup" id="flag_popup" tabindex="-1" role="dialog" aria-labelledby="flagsPopupModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Flags</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="skill_level_flag"></p>
+                <p id="a_trained_flag"></p>
+                <p id="transfer_flag"></p>
+                <p id="one_to_one_flag"></p>
+                <p id="previous_patient_flag"></p>
+                <p id="priority_flag"></p>
+                <p id="twin_flag"></p>
+                <p id="iv_flag"></p>
+                <p id="home_area_flag"></p> 
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     // Print Page
     function printPage() {
@@ -282,6 +313,65 @@
         head.appendChild(style);
         window.print();
     }
+
+    // Load Modal Data
+    $('#flag_popup').on('show.bs.modal', function (e) {
+            $(e.currentTarget).find('#skill_level_flag').html('');
+            $(e.currentTarget).find('#a_trained_flag').html('');
+            $(e.currentTarget).find('#transfer_flag').html('');
+            $(e.currentTarget).find('#one_to_one_flag').html('');
+            $(e.currentTarget).find('#previous_patient_flag').html('');
+            $(e.currentTarget).find('#priority_flag').html('');
+            $(e.currentTarget).find('#twin_flag').html('');
+            $(e.currentTarget).find('#iv_flag').html('');
+            $(e.currentTarget).find('#home_area_flag').html('');
+
+        var skill_level = $(e.relatedTarget).data('skill_level');
+        var a_trained = $(e.relatedTarget).data('a_trained');
+        var transfer = $(e.relatedTarget).data('transfer');
+        var one_to_one = $(e.relatedTarget).data('one_to_one');
+        var previous_patient = $(e.relatedTarget).data('previous_patient');
+        var priority = $(e.relatedTarget).data('priority');
+        var twin = $(e.relatedTarget).data('twin');
+        var iv = $(e.relatedTarget).data('iv');
+        var home_area = $(e.relatedTarget).data('home_area');
+
+        if(skill_level == '1'){
+            $(e.currentTarget).find('#skill_level_flag').html('<i class="fas fa-flag" style="color: tomato"></i> Nurse Skill Level too low.');
+        }
+
+        if(a_trained == '1'){
+            $(e.currentTarget).find('#a_trained_flag').html('<i class="fas fa-flag" style="color: tomato"></i> Nurse is not A Trained.');
+        }
+        
+        if(transfer == '1'){
+            $(e.currentTarget).find('#transfer_flag').html('<i class="fas fa-flag" style="color: tomato"></i> Nurse does not have Transfer.');
+        }
+        
+        if(one_to_one == '1'){
+            $(e.currentTarget).find('#one_to_one_flag').html('<i class="fas fa-flag" style="color: tomato"></i> Patient is 1:1 or Nurse already was assigned to a 1:1.');
+        }
+
+        if(previous_patient == '1'){
+            $(e.currentTarget).find('#previous_patient_flag').html('<p id="previous_patient_flag"><i class="fas fa-flag" style="color: gold"></i> Nurse is <strong>not</strong> assigned with previous patient</p>');
+        }
+        
+        if(priority == '1'){
+            $(e.currentTarget).find('#priority_flag').html('<i class="fas fa-flag" style="color: gold"></i> Nurse is not priority');
+        }
+
+        if(twin == '1'){
+            $(e.currentTarget).find('#twin_flag').html('<i class="fas fa-flag" style="color: green"></i> Patient is a twin.');
+        }
+
+        if(iv == '1'){
+            $(e.currentTarget).find('#iv_flag').html('<i class="fas fa-flag" style="color: green"></i> Nurse does not have advanced IV.');
+        }
+
+        if(home_area == '1'){
+            $(e.currentTarget).find('#home_area_flag').html('<i class="fas fa-flag" style="color: green"></i> Nurse <strong>not</strong> assigned to home Clinical Area');
+        }
+    });
 
     // Save State
     $("#saveStateSubmit").on("click", (event) => {
@@ -301,5 +391,7 @@
             $("#save-state-form").submit()
         }
     })
+
 </script>
+
 {% endblock %}

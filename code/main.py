@@ -98,10 +98,6 @@ def home():
                 if nurse[11] == "Code":
                     code_nurse_ids.append(nurse[0])
 
-        print(cn_nurse_ids)
-        print(supp_nurse_ids)
-        print(code_nurse_ids)
-
         return render_template('mainPage.html',
                                loggedin=session['loggedin'],
                                nurseList=nurse_list,
@@ -512,8 +508,6 @@ def current_CAASheet():
                     except:
                         continue
 
-            print(area_nurse_list)
-
             return render_template("./Assignment Sheets/cur_caaSheet.html",
                                    loggedin=session['loggedin'],
                                    nurseList=nurse_list,
@@ -543,9 +537,14 @@ def current_PNSheet():
         if os.path.exists("{0}/cache/current_shift/state.json".format(CURR_DIR)):
             with open("{0}/cache/current_shift/state.json".format(CURR_DIR), 'r') as jsonfile:
                 state = json.load(jsonfile)
+            if os.path.exists("{0}/cache/current_shift/flags.json".format(CURR_DIR)):
+                with open("{0}/cache/current_shift/flags.json".format(CURR_DIR), 'r') as flagfile:
+                    flags = json.load(flagfile)
+
             return render_template("./Assignment Sheets/cur_pnSheetState.html",
                                    loggedin=session['loggedin'],
                                    state=state,
+                                   flags=flags,
                                    nurseList=nurse_list,
                                    patientList=patient_list)
         elif os.path.exists('{0}/cache/current_shift/curr_assignment.json'.format(CURR_DIR)):
@@ -612,6 +611,13 @@ def save_current_state():
     # variable init
     bed_value = ""  # reset on new pair
     patient_nurse_pair = []
+
+    # Grab nurse and patient tables
+    cursor.execute("SELECT * FROM nurses WHERE current_shift=1")
+    nurse_list = cursor.fetchall()
+    cursor.execute("SELECT * FROM patients WHERE discharged_date='-'")
+    patient_list = cursor.fetchall()
+
     if 'loggedin' in session:
         try:
             # dict init
@@ -623,10 +629,18 @@ def save_current_state():
                 "timestamp": datetime.now().strftime("%B %d, %Y - %I:%M:%S %p")
             }
 
+            # flag dict init
+            flags = {}
+
+            if os.path.exists("{0}/cache/current_shift/curr_assignment.json".format(CURR_DIR)):
+                with open("{0}/cache/current_shift/curr_assignment.json".format(CURR_DIR), 'r') as jsonfile:
+                    assignments = json.load(jsonfile)
+
             for area in AREA_LIST:
                 for i in range(MAX_BED):
                     state_assignment["assignment"]["{0}{1}".format(
                         area, i + 1)] = []
+                    flags["{0}{1}".format(area, i + 1)] = []
 
             # Parse request
             state_data = request.form['saveStateData']
@@ -635,6 +649,7 @@ def save_current_state():
             # clean elements + dict storage
             for i in range(len(state_data)):
 
+                # remove quotation marks
                 state_data[i] = state_data[i][1:-1]
                 # adv role states
                 if state_data[i][:2] == "cn":
@@ -649,9 +664,11 @@ def save_current_state():
                     # patient
                     bed_value = ""  # reset on new pair
                     patient_nurse_pair = []
+
                     pod = state_data[i][4]
-                    bed_num = state_data[i][10:12]
+                    bed_num = state_data[i][10:12] # '5-' or '12'
                     try:
+                        # bed number is two digits
                         int(bed_num)
                         bed_value = (pod + bed_num)
                         try:
@@ -660,6 +677,7 @@ def save_current_state():
                         except:
                             patient_nurse_pair.append(int(state_data[i][-1:]))
                     except:
+                        # bed number is 1 digit
                         bed_value = (pod + bed_num[:-1])
                         try:
                             patient_nurse_pair.append(
@@ -674,12 +692,104 @@ def save_current_state():
                         patient_nurse_pair.append(int(state_data[i][-1:]))
                     state_assignment["assignment"][bed_value] = patient_nurse_pair
 
+            for area in AREA_LIST:
+                for i in range(MAX_BED):
+                    flag_list = []
+                    curr_pair = state_assignment["assignment"]["{0}{1}".format(
+                        area, i + 1)]
+                    
+                    if len(curr_pair) == 0:
+                        flag_list = ['0', '0', '0', '0', '0', '0', '0', '0', '0']
+                    else:
+
+                        cursor.execute(f"SELECT * FROM patients WHERE id={curr_pair[0]}")
+                        patient = cursor.fetchone()
+
+                        cursor.execute(f"SELECT * FROM nurses WHERE id={curr_pair[1]}")
+                        nurse = cursor.fetchone()
+
+                        print(nurse)
+
+                        # Flag skill level
+                        if nurse[7] < patient[4]:
+                            flag_list.append('1')
+                        else:
+                            flag_list.append('0')
+
+                        # Flag A trained
+                        if nurse[8] < patient[5]:
+                            flag_list.append('1')
+                        else:
+                            flag_list.append('0')
+
+                        # Flag Transfer
+                        if nurse[9] < patient[6]:
+                            flag_list.append('1')
+                        else:
+                            flag_list.append('0')
+                        
+                        # Flag 1:1
+                        # case 1: current patient is 1:1
+                        if int(patient[8]):
+                            if len(assignments[str(nurse[0])]['patients']) > 1:
+                                flag_list.append('1')
+                            else:
+                                flag_list.append('0')
+                            
+                        else:
+                            # case 2: nurse being assigned is already assigned to another 1:1 patient
+                            flag_list.append('0')
+                            for p in assignments[str(nurse[0])]['patients']:
+                                cursor.execute('SELECT one_to_one FROM patients WHERE id={0}'.format(p))
+                                fetched_p = cursor.fetchone()
+                                if fetched_p[0]:
+                                    flag_list[3] = '1'
+
+                        # Flag previous patient
+                        flag_list.append('0')
+                        for n in patient[9].strip('][').split(', '):
+                            if n in list(nurse_list):
+                                if nurse[0] != n:
+                                    flag_list[4] = '1'
+                        
+                        # Flag priority
+                        if nurse[15]:
+                            flag_list.append('1')
+                        else:
+                            flag_list.append('0')
+                            
+                        # Flag twin
+                        if patient[13]:
+                            flag_list.append('1')
+                        else:
+                            flag_list.append('0')
+
+                        # Flag iv
+                        if nurse[10] == patient[7]:
+                            flag_list.append('1')
+                        else:
+                            flag_list.append('0')
+
+                        # Flag clinical area
+                        if nurse[2] != patient[2]:
+                            flag_list.append('1')
+                        else:
+                            flag_list.append('0')
+                    
+                    flags["{0}{1}".format(area, i + 1)] = flag_list
+
             # Write/Overwrite state.json
             if os.path.exists("{0}/cache/current_shift/state.json".format(CURR_DIR)):
                 os.remove(
                     "{0}/cache/current_shift/state.json".format(CURR_DIR))
             with open("./cache/current_shift/state.json", 'w') as jsonfile:
                 json.dump(state_assignment, jsonfile)
+            
+            if os.path.exists("{0}/cache/current_shift/flags.json".format(CURR_DIR)):
+                os.remove(
+                    "{0}/cache/current_shift/flags.json".format(CURR_DIR))
+            with open("./cache/current_shift/flags.json", 'w') as flagjson:
+                json.dump(flags, flagjson)
 
             return redirect(url_for('current_PNSheet'))
 
@@ -687,8 +797,6 @@ def save_current_state():
             print(error)
             return redirect(url_for('current_PNSheet'))
     return redirect(url_for('login'))
-
-# Algorithm
 
 
 @ app.route('/assign', methods=['GET'])
@@ -871,6 +979,7 @@ def assign_nurse_patient() -> dict:
 
 # @app.route('/flag', methods=['GET'])
 # def assign_nurse_patient() -> dict:
+
 
 
 if __name__ == "__main__":
