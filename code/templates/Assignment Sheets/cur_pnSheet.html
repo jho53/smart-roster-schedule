@@ -132,8 +132,6 @@
                     <div class="col-11 p-2 row mb-2" style="background-color: lightgrey; border-radius: 10px;"
                         id="pod-{{areas[area_iter.value]}}-bed-{{asc_loop + 1}}-view">
                         <p style="position: relative; left: 5%;">{{ asc_loop + 1 }}</p>
-                        <!--Icon Block-->
-                        <i class="fas fa-exclamation-circle" style="position: relative; left: 87.5%; top: 5%;"></i>
                         <!--Patient Dropdown-->
                         <div class="input-group input-group-sm px-1">
                             <div class="input-group-prepend">
@@ -190,14 +188,6 @@
                     <div class="col-11 p-2 row mb-2" style="background-color: lightgrey; border-radius: 10px;"
                         id="pod-{{areas[area_iter.value]}}-bed-{{desc_loop + 8}}-view">
                         <p style="position: relative; left: 5%;">{{ desc_loop + 8 }}</p>
-                        <!--Icon Block-->
-                        {% if (desc_loop + 8) > 10 and (desc_loop + 8) != 11 %}
-                        <i class="fas fa-exclamation-circle" style="position: relative; left: 82.5%; top: 5%;"></i>
-                        {% elif (desc_loop + 8) > 9 %}
-                        <i class="fas fa-exclamation-circle" style="position: relative; left: 83%; top: 5%;"></i>
-                        {% else %}
-                        <i class="fas fa-exclamation-circle" style="position: relative; left: 87.5%; top: 5%;"></i>
-                        {% endif %}
                         <!--Patient Dropdown-->
                         <div class="input-group input-group-sm px-1">
                             <div class="input-group-prepend">
