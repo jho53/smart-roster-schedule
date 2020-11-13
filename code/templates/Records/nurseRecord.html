@@ -40,7 +40,7 @@
                     <form action="/nurseRecords" method="GET">
                         <tr id="nurse-table-headers">
                             {% for index, header in enumerate(nurseHeaders) %}
-                            <th>{{header}} </th>
+                            <th>{{header}}</th>
                             {% endfor %}
                         </tr>
                     </form>
@@ -54,7 +54,7 @@
                         </td>
                         {% else %}
                         <td>
-                            <div id="{{('n'~nurse[0])~'-id'}}"> {{nurse[0]}} </div>
+                            <div id="{{('n'~nurse[0])~'-id'}}">{{nurse[0]}}</div>
                         </td>
                         {% endif %}
                         <td>
