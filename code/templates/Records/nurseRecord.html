@@ -119,45 +119,49 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <form action="/addNurseRecords" method="post">
                 <div class="form-group">
                     <label for="create_nurse_name">Name</label>
-                    <input class="form-control" id="create_nurse_name"
-                        type="text" placeholder="eg. John Doe">
+                    <input class="form-control" name="create_nurse_name" id="create_nurse_name"
+                        type="text" placeholder="eg. John Doe" required>
                 </div>
                 <div class="form-row">
                     <div class="col">
                         <label for="create_nurse_area">Clinical Area</label>
-                        <input id="create_nurse_area" type="text" class="form-control" placeholder="eg. A1">
+                        <input id="create_nurse_area" name="create_nurse_area" type="text" class="form-control" placeholder="eg. A1" required>
                     </div>
                     <div class="col">
                         <label for="create_nurse_rotation">Rotation</label>
-                        <input id="create_nurse_rotation" type="text" class="form-control" placeholder="eg. A01">
+                        <input id="create_nurse_rotation" name="create_nurse_rotation" type="text" class="form-control" placeholder="eg. A01" required>
+                    </div>
+                    <div class="col">
+                        <label for="create_nurse_group">Group</label>
+                        <input id="create_nurse_group" name="create_nurse_group" type="text" class="form-control" placeholder="eg. 1" required>
                     </div>
                     <div class="col">
                         <label for="create_nurse_fte">FTE</label>
-                        <input id="create_nurse_fte" type="text" class="form-control" placeholder="eg. A01">
+                        <input id="create_nurse_fte" name="create_nurse_fte" type="number" min="0" max="1" step="0.01" class="form-control" placeholder="eg. A01" required>
                     </div>
                 </div>
                 <div class="mt-3">
                     <label>Skill Level</label><br>
                     <div class="radio-group">
-                        <input type="radio" id="nurse_skill_1" name="skill_level" checked>
+                        <input type="radio" id="nurse_skill_1" name="create_nurse_skill"  value="1" checked>
                         <label for="nurse_skill_1" class="button-select">1</label>
 
-                        <input type="radio" id="nurse_skill_2" name="skill_level">
+                        <input type="radio" id="nurse_skill_2" name="create_nurse_skill" value="2">
                         <label for="nurse_skill_2" class="button-select">2</label>
 
-                        <input type="radio" id="nurse_skill_3" name="skill_level">
+                        <input type="radio" id="nurse_skill_3" name="create_nurse_skill" value="3">
                         <label for="nurse_skill_3" class="button-select">3</label>
 
-                        <input type="radio" id="nurse_skill_4" name="skill_level">
+                        <input type="radio" id="nurse_skill_4" name="create_nurse_skill" value="4">
                         <label for="nurse_skill_4" class="button-select">4</label>
 
-                        <input type="radio" id="nurse_skill_5" name="skill_level">
+                        <input type="radio" id="nurse_skill_5" name="create_nurse_skill" value="5">
                         <label for="nurse_skill_5" class="button-select">5</label>
                     </div>
                 </div>
                 <div class="form-group mt-3">
-                    <input type="checkbox" name="a_trained_toggle" id="a_trained_toggle">
-                    <label for="a_trained_toggle" class="toggle">A Trained</label>
+                    <input type="checkbox" name="create_a_trained_toggle" id="create_a_trained_toggle">
+                    <label for="create_a_trained_toggle" class="toggle">A Trained</label>
                 </div>
                 <div class="form-group mt-3">
                     <input type="checkbox" name="create_transfer_toggle" id="create_transfer_toggle">
@@ -168,24 +172,24 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <input style="display: inline-block; visibility: visible; position: relative;" class="ml-5" type="checkbox" name="L_check_1" id="L_check_1">
                     <label for="L_check_1">L</label>
                     <div class="radio-group" style="width: 450px">
-                        <input type="radio" id="advanced_role_1" name="advanced_role" checked>
-                        <label for="advanced_role_1" class="button-select">None</label>
+                        <input type="radio" id="create_advanced_role_1" name="create_advanced_role" value="None" checked>
+                        <label for="create_advanced_role_1" class="button-select">None</label>
 
-                        <input type="radio" id="advanced_role_2" name="advanced_role">
-                        <label for="advanced_role_2" class="button-select">Charge</label>
+                        <input type="radio" id="create_advanced_role_2" name="create_advanced_role" value="Charge">
+                        <label for="create_advanced_role_2" class="button-select">Charge</label>
 
-                        <input type="radio" id="advanced_role_3" name="advanced_role">
-                        <label for="advanced_role_3" class="button-select">Support</label>
+                        <input type="radio" id="create_advanced_role_3" name="create_advanced_role" value="Support">
+                        <label for="create_advanced_role_3" class="button-select">Support</label>
 
-                        <input type="radio" id="advanced_role_4" name="advanced_role">
-                        <label for="advanced_role_4" class="button-select">Code</label>
+                        <input type="radio" id="create_advanced_role_4" name="create_advanced_role" value="Code">
+                        <label for="create_advanced_role_4" class="button-select">Code</label>
                     </div>
                 </div>
                 <div class="form-group mt-3">
                     <div class="form-row">
                         <div class="col-6">
-                            <input type="checkbox" name="iv_toggle" id="iv_toggle">
-                            <label for="iv_toggle" class="toggle">IV</label>
+                            <input type="checkbox" name="create_iv_toggle" id="create_iv_toggle">
+                            <label for="create_iv_toggle" class="toggle">IV</label>
                         </div>
                         <div class="col-6">
                             <input style="display: inline-block; visibility: visible; position: relative;" class="ml-5" type="checkbox" name="L_check_2" id="L_check_2">
@@ -229,73 +233,77 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         placeholder="name"><br>
                         <div class="form-group">
                             <label for="edit_nurse_name">Name</label>
-                            <input class="form-control" id="edit_nurse_name"
-                                type="text" placeholder="eg. John">
+                            <input class="form-control" name="edit_nurse_name" id="edit_nurse_name"
+                                type="text" placeholder="eg. John" required>
                         </div>
                         <div class="form-row">
                             <div class="col">
                                 <label for="edit_nurse_area">Clinical Area</label>
-                                <input id="edit_nurse_area" type="text" class="form-control" placeholder="eg. A1">
+                                <input id="edit_nurse_area" name="edit_nurse_area" type="text" class="form-control" placeholder="eg. A1" required>
                             </div>
                             <div class="col">
                                 <label for="edit_nurse_rotation">Rotation</label>
-                                <input id="edit_nurse_rotation" type="text" class="form-control" placeholder="eg. A01">
+                                <input id="edit_nurse_rotation" name="edit_nurse_rotation" type="text" class="form-control" placeholder="eg. A01" required>
+                            </div>
+                            <div class="col">
+                                <label for="edit_nurse_group">Group</label>
+                                <input id="edit_nurse_group" name="edit_nurse_group" type="text" class="form-control" placeholder="eg. 1" required>
                             </div>
                             <div class="col">
                                 <label for="edit_nurse_fte">FTE</label>
-                                <input id="edit_nurse_fte" type="text" class="form-control" placeholder="eg. A01">
+                                <input id="edit_nurse_fte" name="edit_nurse_fte" type="number" min="0" max="1" step="0.01" class="form-control" placeholder="eg. A01" required>
                             </div>
                         </div>
                         <div class="mt-3">
                             <label>Skill Level</label><br>
                             <div class="radio-group">
-                                <input type="radio" id="nurse_skill_1_edit" name="skill_level" checked>
+                                <input type="radio" id="nurse_skill_1_edit" name="edit_nurse_skill" value="1" checked>
                                 <label for="nurse_skill_1_edit" class="button-select">1</label>
         
-                                <input type="radio" id="nurse_skill_2_edit" name="skill_level">
+                                <input type="radio" id="nurse_skill_2_edit" name="edit_nurse_skill" value="2">
                                 <label for="nurse_skill_2_edit" class="button-select">2</label>
         
-                                <input type="radio" id="nurse_skill_3_edit" name="skill_level">
+                                <input type="radio" id="nurse_skill_3_edit" name="edit_nurse_skill" value="3">
                                 <label for="nurse_skill_3_edit" class="button-select">3</label>
         
-                                <input type="radio" id="nurse_skill_4_edit" name="skill_level">
+                                <input type="radio" id="nurse_skill_4_edit" name="edit_nurse_skill" value="4">
                                 <label for="nurse_skill_4_edit" class="button-select">4</label>
         
-                                <input type="radio" id="nurse_skill_5_edit" name="skill_level">
+                                <input type="radio" id="nurse_skill_5_edit" name="edit_nurse_skill" value="5">
                                 <label for="nurse_skill_5_edit" class="button-select">5</label>
                             </div>
                         </div>
                         <div class="form-group mt-3">
-                            <input type="checkbox" name="a_trained_toggle_edit" id="a_trained_toggle_edit">
-                            <label for="a_trained_toggle_edit" class="toggle">A Trained</label>
+                            <input type="checkbox" name="edit_a_trained_toggle" id="edit_a_trained_toggle">
+                            <label for="edit_a_trained_toggle" class="toggle">A Trained</label>
                         </div>
                         <div class="form-group mt-3">
-                            <input type="checkbox" name="transfer_toggle_edit" id="transfer_toggle_edit">
-                            <label for="transfer_toggle_edit" class="toggle">Transfer</label>
+                            <input type="checkbox" name="edit_transfer_toggle" id="edit_transfer_toggle">
+                            <label for="edit_transfer_toggle" class="toggle">Transfer</label>
                         </div>
                         <div class="mt-3">
                             <label>Advanced Role</label>
                             <input style="display: inline-block; visibility: visible; position: relative;" class="ml-5" type="checkbox" name="L_check_3" id="L_check_3">
                             <label for="L_check_3">L</label>
                             <div class="radio-group" style="width: 450px">
-                                <input type="radio" id="advanced_role_1_edit" name="advanced_role_edit" checked>
+                                <input type="radio" id="advanced_role_1_edit" name="edit_advanced_role" value="None" checked>
                                 <label for="advanced_role_1_edit" class="button-select">None</label>
         
-                                <input type="radio" id="advanced_role_2_edit" name="advanced_role_edit">
+                                <input type="radio" id="advanced_role_2_edit" name="edit_advanced_role" value="Charge">
                                 <label for="advanced_role_2_edit" class="button-select">Charge</label>
         
-                                <input type="radio" id="advanced_role_3_edit" name="advanced_role_edit">
+                                <input type="radio" id="advanced_role_3_edit" name="edit_advanced_role"  value="Support">
                                 <label for="advanced_role_3_edit" class="button-select">Support</label>
         
-                                <input type="radio" id="advanced_role_4_edit" name="advanced_role_edit">
+                                <input type="radio" id="advanced_role_4_edit" name="edit_advanced_role"  value="Code">
                                 <label for="advanced_role_4_edit" class="button-select">Code</label>
                             </div>
                         </div>
                         <div class="form-group mt-3">
                             <div class="row">
                                 <div class="col-6">
-                                    <input type="checkbox" name="iv_toggle_edit" id="iv_toggle_edit">
-                                    <label for="iv_toggle_edit" class="toggle">IV</label>
+                                    <input type="checkbox" name="edit_iv_toggle" id="edit_iv_toggle">
+                                    <label for="edit_iv_toggle" class="toggle">IV</label>
                                 </div>
                                 <div class="col-6">
                                     <input style="display: inline-block; visibility: visible; position: relative;" class="ml-5" type="checkbox" name="L_check_4" id="L_check_4">
@@ -415,6 +423,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         var edit_nurse_prev_pat = table.rows[rowId].cells[11].innerText;
         var edit_nurse_DTA = table.rows[rowId].cells[12].innerText;
         var edit_nurse_comments = table.rows[rowId].cells[13].innerText;
+        console.log(edit_nurse_DTA)
 
         // Sets input values
         document.getElementById('edit_nurse_id').value = edit_nurse_id;
@@ -423,13 +432,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         document.getElementById('edit_nurse_rotation').value = edit_nurse_rotation;
         document.getElementById('edit_nurse_group').value = edit_nurse_group;
         document.getElementById('edit_nurse_fte').value = edit_nurse_fte;
-        document.getElementById('edit_nurse_skill').value = edit_nurse_skill;
-        document.getElementById('edit_nurse_a_trained').value = edit_nurse_a_trained;
-        document.getElementById('edit_nurse_transfer').value = edit_nurse_transfer;
-        document.getElementById('edit_nurse_iv').value = edit_nurse_iv;
-        document.getElementById('edit_nurse_adv_role').value = edit_nurse_adv_role;
-        document.getElementById('edit_nurse_prev_pat').value = edit_nurse_prev_pat;
-        document.getElementById('edit_nurse_DTA').value = edit_nurse_DTA;
+        document.getElementById('edit_nurse_dta').value = edit_nurse_DTA;
         document.getElementById('edit_nurse_comments').value = edit_nurse_comments;
     }
 

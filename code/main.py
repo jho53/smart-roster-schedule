@@ -268,19 +268,49 @@ def add_nurse_records():
     nurse_group = request.form['create_nurse_group']
     nurse_fte = request.form['create_nurse_fte']
     nurse_skill = request.form['create_nurse_skill']
-    nurse_a_trained = request.form['create_nurse_a_trained']
-    nurse_transfer = request.form['create_nurse_transfer']
-    nurse_iv = request.form['create_nurse_iv']
-    nurse_adv_role = request.form['create_nurse_adv_role']
-    nurse_prev_pat = request.form['create_nurse_prev_pat']
-    nurse_DTA = request.form['create_nurse_DTA']
+    try:
+        nurse_a_trained = request.form['create_a_trained_toggle']
+        nurse_a_trained = 1
+
+    except:
+        nurse_a_trained = 0
+
+    try:
+        nurse_transfer = request.form['create_transfer_toggle']
+        nurse_transfer = 1
+
+    except:
+        nurse_transfer = 0
+
+    try:
+        nurse_iv = request.form['create_iv_toggle']
+        nurse_iv = 2
+
+    except:
+        nurse_iv = 1
+    
+    try:
+        L_check_2 = request.form['L_check_2']
+        nurse_iv = 3
+    except:
+        pass
+        
+    nurse_adv_role = request.form['create_advanced_role']
+    try:
+        L_check_1 = request.form['L_check_1']
+        L_check_1 = 'L'
+        nurse_adv_role = L_check_1 + " " + nurse_adv_role
+    except:
+        pass
+
+    nurse_DTA = request.form['create_nurse_dta']
     nurse_comments = request.form['create_nurse_comments']
 
     query = "insert into smartroster.nurses(name, clinical_area, rotation, group_num, fte, " \
-            " skill_level, a_trained, transfer, iv, advanced_role, previous_patients, dta, comments) " \
-            "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+            " skill_level, a_trained, transfer, iv, advanced_role, dta, comments) " \
+            "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
     arguments = (nurse_name, nurse_area, nurse_rotation, nurse_group,
-                 nurse_fte, nurse_skill, nurse_a_trained, nurse_transfer, nurse_iv, nurse_adv_role, nurse_prev_pat,
+                 nurse_fte, nurse_skill, nurse_a_trained, nurse_transfer, nurse_iv, nurse_adv_role,
                  nurse_DTA, nurse_comments)
 
     try:
@@ -300,19 +330,49 @@ def edit_nurse_records():
     nurse_group = request.form['edit_nurse_group']
     nurse_fte = request.form['edit_nurse_fte']
     nurse_skill = request.form['edit_nurse_skill']
-    nurse_a_trained = request.form['edit_nurse_a_trained']
-    nurse_transfer = request.form['edit_nurse_transfer']
-    nurse_iv = request.form['edit_nurse_iv']
-    nurse_adv_role = request.form['edit_nurse_adv_role']
-    nurse_prev_pat = request.form['edit_nurse_prev_pat']
-    nurse_DTA = request.form['edit_nurse_DTA']
+    try:
+        nurse_a_trained = request.form['edit_a_trained_toggle']
+        nurse_a_trained = 1
+
+    except:
+        nurse_a_trained = 0
+
+    try:
+        nurse_transfer = request.form['edit_transfer_toggle']
+        nurse_transfer = 1
+
+    except:
+        nurse_transfer = 0
+
+    try:
+        nurse_iv = request.form['edit_iv_toggle']
+        nurse_iv = 2
+
+    except:
+        nurse_iv = 1
+    
+    try:
+        L_check_4 = request.form['L_check_4']
+        nurse_iv = 3
+    except:
+        pass
+        
+    nurse_adv_role = request.form['edit_advanced_role']
+    try:
+        L_check_3 = request.form['L_check_3']
+        L_check_3 = 'L'
+        nurse_adv_role = L_check_3 + " " + nurse_adv_role
+    except:
+        pass
+
+    nurse_DTA = request.form['edit_nurse_dta']
     nurse_comments = request.form['edit_nurse_comments']
 
     query = "UPDATE smartroster.nurses SET name = %s, clinical_area = %s, rotation = %s, group_num = %s, fte = %s, " \
-            " skill_level = %s, a_trained = %s, transfer = %s, iv = %s, advanced_role = %s, previous_patients = %s, dta = %s, comments = %s WHERE id = %s"
+            " skill_level = %s, a_trained = %s, transfer = %s, iv = %s, advanced_role = %s, dta = %s, comments = %s WHERE id = %s"
 
     arguments = (nurse_name, nurse_area, nurse_rotation, nurse_group,
-                 nurse_fte, nurse_skill, nurse_a_trained, nurse_transfer, nurse_iv, nurse_adv_role, nurse_prev_pat,
+                 nurse_fte, nurse_skill, nurse_a_trained, nurse_transfer, nurse_iv, nurse_adv_role,
                  nurse_DTA, nurse_comments, nurse_id)
 
     try:
@@ -354,24 +414,55 @@ def patient_records():
 def add_patient_records():
     # Checks for required fields
 
-    patient_name = request.form['create_name']
-    patient_clinical_area = request.form['create_clinical_area']
-    patient_bed = request.form['create_bed_num']
-    patient_acuity = request.form['create_acuity']
-    patient_a_trained = request.form['create_a_trained']
-    patient_transfer = request.form['create_patient_transfer']
-    patient_iv = request.form['create_patient_iv']
-    patient_one_to_one = request.form['create_patient_one_to_one']
-    patient_previous_nurses = request.form['create_patient_previous_nurses']
+    patient_name = request.form['create_patient_name']
+    patient_clinical_area = request.form['create_patient_area']
+    patient_bed = request.form['create_patient_bed_number']
+    patient_acuity = request.form['create_acuity_level']
+    try:
+        patient_a_trained = request.form['create_a_trained_toggle']
+        patient_a_trained = 1
+
+    except:
+        patient_a_trained = 0
+
+    try:
+        patient_transfer = request.form['create_transfer_toggle']
+        patient_transfer = 1
+
+    except:
+        patient_transfer = 0
+        
+    try:
+        patient_iv = request.form['create_iv_toggle']
+        patient_iv = 1
+
+    except:
+        patient_iv = 0
+
+    try:
+        patient_one_to_one = request.form['create_one_to_one_toggle']
+        patient_one_to_one = 1
+
+    except:
+        patient_one_to_one = 0
+
+    try:
+        patient_twin = request.form['create_twin_toggle']
+        patient_twin = 1
+
+    except:
+        patient_twin = 0
+
     patient_date_admitted = request.form['create_patient_date_admitted']
     patient_comments = request.form['create_patient_comments']
+        
 
-    query = "insert into smartroster.patients(name, clinical_area, bed_num, acuity, a_trained, transfer, iv, one_to_one, previous_nurses, admission_date, comments )" \
+    query = "insert into smartroster.patients(name, clinical_area, bed_num, acuity, a_trained, transfer, iv, one_to_one, admission_date, comments, twin )" \
             "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
 
     arguments = (patient_name, patient_clinical_area, patient_bed, patient_acuity,
-                 patient_a_trained, patient_transfer, patient_iv, patient_one_to_one, patient_previous_nurses,
-                 patient_date_admitted, patient_comments)
+                 patient_a_trained, patient_transfer, patient_iv, patient_one_to_one,
+                 patient_date_admitted, patient_comments, patient_twin)
 
     try:
         cursor.execute(query, arguments)
@@ -387,25 +478,55 @@ def edit_patient_records():
     # Grabs discharge data so it knows if the patient has been discharged
 
     patientid = request.form['edit_patient_id']
-    patient_name = request.form['edit_name']
-    patient_clinical_area = request.form['edit_clinical_area']
-    patient_bed = request.form['edit_bed_num']
-    patient_acuity = request.form['edit_acuity']
-    patient_a_trained = request.form['edit_a_trained']
-    patient_transfer = request.form['edit_patient_transfer']
-    patient_iv = request.form['edit_patient_iv']
-    patient_one_to_one = request.form['edit_patient_one_to_one']
-    patient_previous_nurses = request.form['edit_patient_previous_nurses']
-    patient_date_admitted = request.form['edit_patient_date_admitted']
-    patient_date_discharged = request.form['edit_patient_date_discharge']
-    patient_comments = request.form['edit_patient_comments']
+    patient_name = request.form['edit_patient_name']
+    patient_clinical_area = request.form['edit_patient_area']
+    patient_bed = request.form['edit_patient_bed_number']
+    patient_acuity = request.form['edit_acuity_level']
+    try:
+        patient_a_trained = request.form['edit_a_trained_toggle']
+        patient_a_trained = 1
+
+    except:
+        patient_a_trained = 0
+    try:
+        patient_transfer = request.form['edit_transfer_toggle']
+        patient_transfer = 1
+
+    except:
+        patient_transfer = 0
+
+    try:
+        patient_iv = request.form['edit_iv_toggle']
+        patient_iv = 1
+
+    except:
+        patient_iv = 0
+
+    try:
+        patient_one_to_one = request.form['edit_one_to_one_toggle']
+        patient_one_to_one = 1
+
+    except:
+        patient_one_to_one = 0
+
+    try:
+        patient_twin = request.form['edit_twin_toggle']
+        patient_twin = 1
+
+    except:
+        patient_twin = 0
+    patient_date_admitted = request.form['edit_date_admitted']
+    patient_date_discharged = request.form['edit_date_discharged']
+    patient_comments = request.form['edit_comments']
+
+
 
     query = "UPDATE smartroster.patients SET name = %s, clinical_area = %s, bed_num = %s, acuity = %s, a_trained = %s, " \
-            " transfer = %s, iv = %s, one_to_one = %s, previous_nurses = %s, admission_date = %s, discharged_date = %s, comments = %s WHERE id = %s"
+            " transfer = %s, iv = %s, one_to_one = %s, admission_date = %s, discharged_date = %s, comments = %s, twin = %s WHERE id = %s"
 
     arguments = (patient_name, patient_clinical_area, patient_bed, patient_acuity, patient_a_trained, patient_transfer,
-                 patient_iv, patient_one_to_one, patient_previous_nurses, patient_date_admitted,
-                 patient_date_discharged, patient_comments, patientid)
+                 patient_iv, patient_one_to_one, patient_date_admitted,
+                 patient_date_discharged, patient_comments, patient_twin, patientid)
 
     try:
         cursor.execute(query, arguments)
