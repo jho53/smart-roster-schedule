@@ -105,62 +105,66 @@
             <div class="modal-body">
                 <form action="/addPatientRecords" method="post">
                     <div class="form-group">
-                        <label for="patient_name">Name</label>
-                        <input class="form-control" id="patient_name"
+                        <label for="create_patient_name">Name</label>
+                        <input class="form-control" id="create_patient_name" name="create_patient_name"
                             type="text" placeholder="eg. John Doe">
                     </div>
                     <div class="form-row">
                         <div class="col-3">
-                            <label for="patient_area">Clinical Area</label>
-                            <input id="patient_area" type="text" class="form-control" placeholder="eg. A">
+                            <label for="create_patient_area">Clinical Area</label>
+                            <input id="create_patient_area" name="create_patient_area" type="text" class="form-control" placeholder="eg. A">
                         </div>
                         <div class="col-3 offset-3">
-                            <label for="patient_bed_number">Bed Number</label>
-                            <input id="patient_bed_number" type="text" class="form-control" placeholder="eg. 3">
+                            <label for="create_patient_bed_number">Bed Number</label>
+                            <input id="create_patient_bed_number" name="create_patient_bed_number" type="text" class="form-control" placeholder="eg. 3">
                         </div>
                     </div>
                     <div class="mt-3">
                         <label>Acuity Level</label><br>
                         <div class="radio-group">
-                            <input type="radio" id="acuity_1" name="acuity_level" checked>
+                            <input type="radio" id="acuity_1" name="create_acuity_level" value="1" checked>
                             <label for="acuity_1" class="button-select">1</label>
     
-                            <input type="radio" id="acuity_2" name="acuity_level">
+                            <input type="radio" id="acuity_2" name="create_acuity_level" value="2">
                             <label for="acuity_2" class="button-select">2</label>
     
-                            <input type="radio" id="acuity_3" name="acuity_level">
+                            <input type="radio" id="acuity_3" name="create_acuity_level" value="3">
                             <label for="acuity_3" class="button-select">3</label>
     
-                            <input type="radio" id="acuity_4" name="acuity_level">
+                            <input type="radio" id="acuity_4" name="create_acuity_level" value="4">
                             <label for="acuity_4" class="button-select">4</label>
     
-                            <input type="radio" id="acuity_5" name="acuity_level">
+                            <input type="radio" id="acuity_5" name="create_acuity_level" value="5">
                             <label for="acuity_5" class="button-select">5</label>
                         </div>
                     </div>
                     <div class="form-group mt-3">
-                        <input type="checkbox" name="a_trained_toggle" id="a_trained_toggle">
-                        <label for="a_trained_toggle" class="toggle">A Trained</label>
+                        <input type="checkbox" name="create_a_trained_toggle" id="create_a_trained_toggle">
+                        <label for="create_a_trained_toggle" class="toggle">A Trained</label>
                     </div>
                     <div class="form-group mt-3">
-                        <input type="checkbox" name="transfer_toggle" id="transfer_toggle">
-                        <label for="transfer_toggle" class="toggle">Transfer</label>
+                        <input type="checkbox" name="create_transfer_toggle" id="create_transfer_toggle">
+                        <label for="create_transfer_toggle" class="toggle">Transfer</label>
                     </div>
                     <div class="form-group mt-3">
-                        <input type="checkbox" name="iv_toggle" id="iv_toggle">
-                        <label for="iv_toggle" class="toggle">IV</label>
+                        <input type="checkbox" name="create_iv_toggle" id="create_iv_toggle">
+                        <label for="create_iv_toggle" class="toggle">IV</label>
                     </div>
                     <div class="form-group mt-3">
-                        <input type="checkbox" name="one_to_one_toggle" id="one_to_one_toggle">
-                        <label for="one_to_one_toggle" class="toggle">1:1</label>
+                        <input type="checkbox" name="create_one_to_one_toggle" id="create_one_to_one_toggle">
+                        <label for="create_one_to_one_toggle" class="toggle">1:1</label>
+                    </div>
+                    <div class="form-group mt-3">
+                        <input type="checkbox" name="create_twin_toggle" id="create_twin_toggle">
+                        <label for="create_twin_toggle" class="toggle">Twin</label>
                     </div>
                     <div class="form-group">
-                        <label for="date_admitted">Date Admitted</label><br>
-                        <input type="date" id="date_admitted" name="date_admitted" style="border: 1px solid #ced4da;">
+                        <label for="create_patient_date_admitted">Date Admitted</label><br>
+                        <input type="date" id="create_patient_date_admitted" name="create_patient_date_admitted" style="border: 1px solid #ced4da;">
                     </div>
                     <div class="form-group">
-                        <label for="create_patient_dta">Comments</label><br>
-                        <textarea id="create_patient_dta" name="create_patient_dta" rows="3" class="text_area" placeholder="Eg. Additional comments"></textarea>
+                        <label for="create_patient_comments">Comments</label><br>
+                        <textarea id="create_patient_comments" name="create_patient_comments" rows="3" class="text_area" placeholder="Eg. Additional comments"></textarea>
                     </div>
                     <br>
                     <div class="modal-footer">
@@ -188,66 +192,70 @@
                 <form action="/editPatientRecords" method="post">
                     <input id="edit_patient_id" hidden name="edit_patient_id" required="" size="32" type="text" value="" placeholder=""><br>
                     <div class="form-group">
-                        <label for="patient_name_edit">Name</label>
-                        <input class="form-control" id="patient_name_edit"
+                        <label for="edit_patient_name">Name</label>
+                        <input class="form-control" id="edit_patient_name" name="edit_patient_name"
                             type="text" placeholder="eg. John Doe">
                     </div>
                     <div class="form-row">
                         <div class="col-3">
-                            <label for="patient_area_edit">Clinical Area</label>
-                            <input id="patient_area_edit" type="text" class="form-control" placeholder="eg. A">
+                            <label for="edit_patient_area">Clinical Area</label>
+                            <input id="edit_patient_area" name="edit_patient_area" type="text" class="form-control" placeholder="eg. A">
                         </div>
                         <div class="col-3 offset-3">
-                            <label for="patient_bed_number_edit">Bed Number</label>
-                            <input id="patient_bed_number_edit" type="text" class="form-control" placeholder="eg. 3">
+                            <label for="edit_patient_bed_number">Bed Number</label>
+                            <input id="edit_patient_bed_number" name="edit_patient_bed_number" type="text" class="form-control" placeholder="eg. 3">
                         </div>
                     </div>
                     <div class="mt-3">
                         <label>Acuity Level</label><br>
                         <div class="radio-group">
-                            <input type="radio" id="acuity_1_edit" name="acuity_level_edit" checked>
+                            <input type="radio" id="acuity_1_edit" name="edit_acuity_level" value="1" checked>
                             <label for="acuity_1_edit" class="button-select">1</label>
     
-                            <input type="radio" id="acuity_2_edit" name="acuity_level_edit">
+                            <input type="radio" id="acuity_2_edit" name="edit_acuity_level" value="2">
                             <label for="acuity_2_edit" class="button-select">2</label>
     
-                            <input type="radio" id="acuity_3_edit" name="acuity_level_edit">
+                            <input type="radio" id="acuity_3_edit" name="edit_acuity_level" value="3">
                             <label for="acuity_3_edit" class="button-select">3</label>
     
-                            <input type="radio" id="acuity_4_edit" name="acuity_level_edit">
+                            <input type="radio" id="acuity_4_edit" name="edit_acuity_level" value="4">
                             <label for="acuity_4_edit" class="button-select">4</label>
     
-                            <input type="radio" id="acuity_5_edit" name="acuity_level_edit">
+                            <input type="radio" id="acuity_5_edit" name="edit_acuity_level" value="5">
                             <label for="acuity_5_edit" class="button-select">5</label>
                         </div>
                     </div>
                     <div class="form-group mt-3">
-                        <input type="checkbox" name="a_trained_toggle_edit" id="a_trained_toggle_edit">
-                        <label for="a_trained_toggle_edit" class="toggle">A Trained</label>
+                        <input type="checkbox" name="edit_a_trained_toggle" id="edit_a_trained_toggle">
+                        <label for="edit_a_trained_toggle" class="toggle">A Trained</label>
                     </div>
                     <div class="form-group mt-3">
-                        <input type="checkbox" name="transfer_toggle_edit" id="transfer_toggle_edit">
-                        <label for="transfer_toggle_edit" class="toggle">Transfer</label>
+                        <input type="checkbox" name="edit_transfer_toggle" id="edit_transfer_toggle">
+                        <label for="edit_transfer_toggle" class="toggle">Transfer</label>
                     </div>
                     <div class="form-group mt-3">
-                        <input type="checkbox" name="iv_toggle_edit" id="iv_toggle_edit">
-                        <label for="iv_toggle_edit" class="toggle">IV</label>
+                        <input type="checkbox" name="edit_iv_toggle" id="edit_iv_toggle">
+                        <label for="edit_iv_toggle" class="toggle">IV</label>
                     </div>
                     <div class="form-group mt-3">
-                        <input type="checkbox" name="one_to_one_toggle_edit" id="one_to_one_toggle_edit">
-                        <label for="one_to_one_toggle_edit" class="toggle">1:1</label>
+                        <input type="checkbox" name="edit_one_to_one_toggle" id="edit_one_to_one_toggle">
+                        <label for="edit_one_to_one_toggle" class="toggle">1:1</label>
+                    </div>
+                    <div class="form-group mt-3">
+                        <input type="checkbox" name="edit_twin_toggle" id="edit_twin_toggle">
+                        <label for="edit_twin_toggle" class="toggle">Twin</label>
                     </div>
                     <div class="form-group">
-                        <label for="date_admitted_edit">Date Admitted</label><br>
-                        <input type="date" id="date_admitted_edit" name="date_admitted_edit" style="border: 1px solid #ced4da;">
+                        <label for="edit_date_admitted">Date Admitted</label><br>
+                        <input type="date" id="edit_date_admitted" name="edit_date_admitted" style="border: 1px solid #ced4da;">
                     </div>
                     <div class="form-group">
-                        <label for="date_discharged_edit">Date Discharged</label><br>
-                        <input type="date" id="date_discharged_edit" name="date_discharged_edit" style="border: 1px solid #ced4da;">
+                        <label for="edit_date_discharged">Date Discharged</label><br>
+                        <input type="date" id="edit_date_discharged" name="edit_date_discharged" style="border: 1px solid #ced4da;">
                     </div>
                     <div class="form-group">
-                        <label for="create_nurse_dta_edit">Comments</label><br>
-                        <textarea id="create_nurse_dta_edit" name="create_nurse_dta_edit" rows="3" class="text_area" placeholder="Eg. Additional comments"></textarea>
+                        <label for="edit_comments">Comments</label><br>
+                        <textarea id="edit_comments" name="edit_comments" rows="3" class="text_area" placeholder="Eg. Additional comments"></textarea>
                     </div>
                     <br>
                     <div class="modal-footer">
@@ -358,18 +366,10 @@
 
         //Sets input values
         document.getElementById('edit_patient_id').value = patient_id;
-        document.getElementById('edit_name').value = patient_name;
-        document.getElementById('edit_clinical_area').value = patient_clinical_area;
-        document.getElementById('edit_bed_num').value = patient_bed;
-        document.getElementById('edit_acuity').value = patient_acuity_level;
-        document.getElementById('edit_a_trained').value = patient_a_trained;
-        document.getElementById('edit_patient_transfer').value = patient_transfer
-        document.getElementById('edit_patient_iv').value = patient_iv
-        document.getElementById('edit_patient_one_to_one').value = patient_1_to_1
-        document.getElementById('edit_patient_previous_nurses').value = patient_prev_nurses
-        document.getElementById('edit_patient_date_admitted').value = patient_date_admitted
-        document.getElementById('edit_patient_date_discharge').value = patient_date_discharged
-        document.getElementById('edit_patient_comments').value = patient_date_comments
+        document.getElementById('edit_patient_name').value = patient_name;
+        document.getElementById('edit_patient_area').value = patient_clinical_area;
+        document.getElementById('edit_patient_bed_number').value = patient_bed;
+        document.getElementById('edit_comments').value = patient_date_comments
     }
 
 
