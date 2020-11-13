@@ -48,16 +48,16 @@
         </button>
       </div>
       <div class="modal-body">
-        <form>
+        <form action="/upload_image" method="POST" enctype="multipart/form-data">
           <div class="form-group">
-            <input type="file" accept="image/png, image/jpg" class="form-control-file" id="uploadedProfilePicture"
-              style="overflow: hidden;">
+            <input type="file" accept="image/*" class="form-control-file" id="file"
+              style="overflow: hidden;" name="file">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
           </div>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onclick="changeProfilePicture()">Save changes</button>
       </div>
     </div>
   </div>
@@ -75,17 +75,16 @@
         </button>
       </div>
       <div class="modal-body">
-        <form>
+        <form action="/upload_image" method="POST" enctype="multipart/form-data">
           <div class="form-group">
-            <input type="file" accept="image/png, image/jpg" class="form-control-file" id="uploadedBackgroundPicture"
-              style="overflow: hidden;">
+            <input type="file" accept="image/*" class="form-control-file" id="file"
+              style="overflow: hidden;" name="file">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
           </div>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onclick="changeBackgroundPicture()">Save changes</button>
-      </div>
     </div>
   </div>
 </div>
