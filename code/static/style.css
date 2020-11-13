@@ -342,7 +342,7 @@ input[type="radio"]:checked + label:after {
 }
 
 .user-image {
-  background-image: url("/images/clinical-area-assignment-icon.png");
+  background-image: url("/images/base-avatar.png");
 }
 
 .profile-links {
