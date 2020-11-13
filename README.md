@@ -33,3 +33,7 @@ No
 **Dependencies**
 Python - mysql-connector, Flask, SQLAlchemy
 MySQL
+
+Documentation:
+improve the read-me
+code comments?
