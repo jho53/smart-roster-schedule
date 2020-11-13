@@ -120,24 +120,24 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div class="form-group">
                     <label for="create_nurse_name">Name</label>
                     <input class="form-control" name="create_nurse_name" id="create_nurse_name"
-                        type="text" placeholder="eg. John Doe">
+                        type="text" placeholder="eg. John Doe" required>
                 </div>
                 <div class="form-row">
                     <div class="col">
                         <label for="create_nurse_area">Clinical Area</label>
-                        <input id="create_nurse_area" name="create_nurse_area" type="text" class="form-control" placeholder="eg. A1">
+                        <input id="create_nurse_area" name="create_nurse_area" type="text" class="form-control" placeholder="eg. A1" required>
                     </div>
                     <div class="col">
                         <label for="create_nurse_rotation">Rotation</label>
-                        <input id="create_nurse_rotation" name="create_nurse_rotation" type="text" class="form-control" placeholder="eg. A01">
+                        <input id="create_nurse_rotation" name="create_nurse_rotation" type="text" class="form-control" placeholder="eg. A01" required>
                     </div>
                     <div class="col">
                         <label for="create_nurse_group">Group</label>
-                        <input id="create_nurse_group" name="create_nurse_group" type="text" class="form-control" placeholder="eg. A01">
+                        <input id="create_nurse_group" name="create_nurse_group" type="text" class="form-control" placeholder="eg. 1" required>
                     </div>
                     <div class="col">
                         <label for="create_nurse_fte">FTE</label>
-                        <input id="create_nurse_fte" name="create_nurse_fte" type="text" class="form-control" placeholder="eg. A01">
+                        <input id="create_nurse_fte" name="create_nurse_fte" type="number" min="0" max="1" step="0.01" class="form-control" placeholder="eg. A01" required>
                     </div>
                 </div>
                 <div class="mt-3">
@@ -234,24 +234,24 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         <div class="form-group">
                             <label for="edit_nurse_name">Name</label>
                             <input class="form-control" name="edit_nurse_name" id="edit_nurse_name"
-                                type="text" placeholder="eg. John">
+                                type="text" placeholder="eg. John" required>
                         </div>
                         <div class="form-row">
                             <div class="col">
                                 <label for="edit_nurse_area">Clinical Area</label>
-                                <input id="edit_nurse_area" name="edit_nurse_area" type="text" class="form-control" placeholder="eg. A1">
+                                <input id="edit_nurse_area" name="edit_nurse_area" type="text" class="form-control" placeholder="eg. A1" required>
                             </div>
                             <div class="col">
                                 <label for="edit_nurse_rotation">Rotation</label>
-                                <input id="edit_nurse_rotation" name="edit_nurse_rotation" type="text" class="form-control" placeholder="eg. A01">
+                                <input id="edit_nurse_rotation" name="edit_nurse_rotation" type="text" class="form-control" placeholder="eg. A01" required>
                             </div>
                             <div class="col">
                                 <label for="edit_nurse_group">Group</label>
-                                <input id="edit_nurse_group" name="edit_nurse_group" type="text" class="form-control" placeholder="eg. 1">
+                                <input id="edit_nurse_group" name="edit_nurse_group" type="text" class="form-control" placeholder="eg. 1" required>
                             </div>
                             <div class="col">
                                 <label for="edit_nurse_fte">FTE</label>
-                                <input id="edit_nurse_fte" name="edit_nurse_fte" type="text" class="form-control" placeholder="eg. A01">
+                                <input id="edit_nurse_fte" name="edit_nurse_fte" type="number" min="0" max="1" step="0.01" class="form-control" placeholder="eg. A01" required>
                             </div>
                         </div>
                         <div class="mt-3">
