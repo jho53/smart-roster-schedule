@@ -39,7 +39,7 @@ def grab_patients(patients, cursor, twins):
         x = Patient(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10], row[11],
                     row[12], row[13])
         patients.append(x)
-        if row[13]  == "1":
+        if row[13] == "1":
             twins.append(x)
     return patients, twins
 
@@ -110,46 +110,53 @@ def calculate_weights(eligible_nurse_objects, clinical_area, picc, p, assignment
     max_points = 0
 
     for eno in eligible_nurse_objects:
-        if eno.get_id() not in nurse_weights:
-            nurse_weights[eno.get_id()] = 0
+        eno_id = eno.get_id()
+        eno_area = eno.get_clinical_area()
+        eno_picc = eno.get_picc()
+        eno_priority = eno.get_priority()
+        eno_prev_p = eno.get_previous_patients()
+
+        if eno_id not in nurse_weights:
+            nurse_weights[eno_id] = 0
 
         # if nurse matches clinical area, give nurse points
-        if eno.get_clinical_area() == clinical_area:
-            nurse_weights[eno.get_id()] += 2
+        if eno_area == clinical_area:
+            nurse_weights[eno_id] += 2
 
         # if nurse matches picc, give nurse 3 points
-        if eno.get_picc() == picc:
-            nurse_weights[eno.get_id()] += 2
+        if eno_picc == picc:
+            nurse_weights[eno_id] += 2
 
         # if nurse matches priority, give nurse points
-        if eno.get_priority() == 1:
-            nurse_weights[eno.get_id()] += 7
+        if eno_priority == 1:
+            nurse_weights[eno_id] += 7
 
         # if nurse has previous assignments, give nurse points
-        prev_p = eno.get_previous_patients().strip('][').split(', ')
+        prev_p = eno_prev_p.strip('][').split(', ')
 
         if prev_p != "[]":
             if str(p.get_id()) in prev_p:
-                nurse_weights[eno.get_id()] += 10
+                nurse_weights[eno_id] += 10
 
         # if secondary patient is in the same clinical area as the nurse's first assigned patient, give 7 points
         # This is so that the nurse can stay in the same area when he/she has more than 2 patients.
-        if eno.get_id() in assignments:
-            if len(assignments[eno.get_id()]['patients']) > 0:
-                first_prev_patient_id = assignments[eno.get_id()]['patients'][0]
+        if eno_id in assignments:
+            if len(assignments[eno_id]['patients']) > 0:
+                first_prev_patient_id = assignments[eno_id]['patients'][0]
                 cursor.execute(f"SELECT clinical_area FROM patients WHERE id={first_prev_patient_id}")
                 first_prev_patient_pod = cursor.fetchone()
                 if p.get_clinical_area() == first_prev_patient_pod[0]:
-                    nurse_weights[eno.get_id()] += 7
+                    nurse_weights[eno_id] += 7
 
-        if nurse_weights[eno.get_id()] > max_points:
-            max_points = nurse_weights[eno.get_id()]
+        if nurse_weights[eno_id] > max_points:
+            max_points = nurse_weights[eno_id]
 
     eligible_max_nurses = []
 
     for eno in eligible_nurse_objects:
-        if nurse_weights[eno.get_id()] == max_points:
-            eligible_max_nurses.append(eno.get_id())
+        eno_id = eno.get_id()
+        if nurse_weights[eno_id] == max_points:
+            eligible_max_nurses.append(eno_id)
     return eligible_max_nurses
 
 
@@ -162,27 +169,28 @@ def sort_eligible_nurse_objects_acuity(eligible_nurse_objects):
 
 def assign(sorted_eligible_nurses, eligible_max_nurses, assignments, one_to_one, p, twin, twins):
     for sen in sorted_eligible_nurses:
-        if sen.get_id() in eligible_max_nurses:
-            if sen.get_id() not in assignments:
-                assignments[sen.get_id()]["num_patients"] = 0
-                assignments[sen.get_id()]["patients"] = []
+        sen_id = sen.get_id()
+        if sen_id in eligible_max_nurses:
+            if sen_id not in assignments:
+                assignments[sen_id]["num_patients"] = 0
+                assignments[sen_id]["patients"] = []
 
             if twin == "1":
                 for twin_object in twins:
                     if p.get_name() == twin_object.get_name():
                         continue
                     elif p.get_last_name() == twin_object.get_last_name():
-                        assignments[sen.get_id()]["num_patients"] += 1
-                        assignments[sen.get_id()]["patients"].append(twin_object.get_id())
+                        assignments[sen_id]["num_patients"] += 1
+                        assignments[sen_id]["patients"].append(twin_object.get_id())
                         twin_object.set_assigned(1)
                         twins.remove(twin_object)
                         twins.remove(p)
                         break
 
             if one_to_one:
-                assignments[sen.get_id()]["num_patients"] = 98
-            assignments[sen.get_id()]["num_patients"] += 1
-            assignments[sen.get_id()]["patients"].append(p.get_id())
+                assignments[sen_id]["num_patients"] = 98
+            assignments[sen_id]["num_patients"] += 1
+            assignments[sen_id]["patients"].append(p.get_id())
 
             # set patient to be assigned
             p.set_assigned(1)

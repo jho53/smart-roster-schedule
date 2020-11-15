@@ -924,7 +924,6 @@ def save_current_state():
 def assign_nurse_patient() -> dict:
     """ Assign nurses to patients"""
     assignments = main_assign(cursor)
-
     # twins = []
     #
     # # Grab Patients
