@@ -17,10 +17,17 @@ def main_assign(cursor):
             transfer, a_trained, acuity, picc, one_to_one, clinical_area, twin = get_patient_constraints(p)
             eligible_nurses = make_and_execute_sql_query(acuity, transfer, a_trained, cursor)
             eligible_nurse_objects, assignments = to_object(eligible_nurses, assignments)
-            eligible_max_nurses = calculate_weights(eligible_nurse_objects, clinical_area, picc, p)
+            eligible_max_nurses = calculate_weights(eligible_nurse_objects, clinical_area, picc, p, assignments, cursor)
             sorted_eligible_nurses = sort_eligible_nurse_objects_acuity(eligible_nurse_objects)
             assignments = assign(sorted_eligible_nurses, eligible_max_nurses, assignments, one_to_one, p, twin, twins)
     print(assignments)
+
+    # Check if a patient is not set as assigned
+    for p in patients:
+        if p.get_assigned() != 1:
+            print("Patient", p.get_id(), " is not assigned!")
+
+    return assignments
 
 
 def grab_patients(patients, cursor, twins):
@@ -98,7 +105,7 @@ def to_object(eligible_nurses, assignments):
     return eligible_nurse_objects, assignments
 
 
-def calculate_weights(eligible_nurse_objects, clinical_area, picc, p):
+def calculate_weights(eligible_nurse_objects, clinical_area, picc, p, assignments, cursor):
     nurse_weights = {}
     max_points = 0
 
@@ -114,8 +121,6 @@ def calculate_weights(eligible_nurse_objects, clinical_area, picc, p):
         if eno.get_picc() == picc:
             nurse_weights[eno.get_id()] += 2
 
-        # if nurse has less patients, then give nurse 6 points
-
         # if nurse matches priority, give nurse points
         if eno.get_priority() == 1:
             nurse_weights[eno.get_id()] += 7
@@ -126,6 +131,16 @@ def calculate_weights(eligible_nurse_objects, clinical_area, picc, p):
         if prev_p != "[]":
             if str(p.get_id()) in prev_p:
                 nurse_weights[eno.get_id()] += 10
+
+        # if secondary patient is in the same clinical area as the nurse's first assigned patient, give 7 points
+        # This is so that the nurse can stay in the same area when he/she has more than 2 patients.
+        if eno.get_id() in assignments:
+            if len(assignments[eno.get_id()]['patients']) > 0:
+                first_prev_patient_id = assignments[eno.get_id()]['patients'][0]
+                cursor.execute(f"SELECT clinical_area FROM patients WHERE id={first_prev_patient_id}")
+                first_prev_patient_pod = cursor.fetchone()
+                if p.get_clinical_area() == first_prev_patient_pod[0]:
+                    nurse_weights[eno.get_id()] += 7
 
         if nurse_weights[eno.get_id()] > max_points:
             max_points = nurse_weights[eno.get_id()]
@@ -172,7 +187,3 @@ def assign(sorted_eligible_nurses, eligible_max_nurses, assignments, one_to_one,
             # set patient to be assigned
             p.set_assigned(1)
             return assignments
-
-
-cursor.execute('SELECT * FROM patients WHERE discharged_date="-"')
-patient_list = cursor.fetchall()
