@@ -1006,7 +1006,7 @@ def assign_nurse_patient() -> dict:
                 if eno.get_clinical_area() == clinical_area:
                     nurse_weights[eno.get_id()] += 2
 
-                # if nurse matches picc, give nurse 3 points
+                # if nurse matches picc, give nurse 2 points
                 if eno.get_picc() == picc:
                     nurse_weights[eno.get_id()] += 2
 
@@ -1019,6 +1019,16 @@ def assign_nurse_patient() -> dict:
                 if prev_p != "[]":
                     if str(p.get_id()) in prev_p:
                         nurse_weights[eno.get_id()] += 10
+
+                # if secondary patient is in the same clinical area as the nurse's first assigned patient, give 7 points
+                # This is so that the nurse can stay in the same area when he/she has more than 2 patients.
+                if eno.get_id() in assignments:
+                    if len(assignments[eno.get_id()]['patients']) > 0:
+                        first_prev_patient_id = assignments[eno.get_id()]['patients'][0]
+                        cursor.execute(f"SELECT clinical_area FROM patients WHERE id={first_prev_patient_id}")
+                        first_prev_patient_pod = cursor.fetchone()
+                        if p.get_clinical_area() == first_prev_patient_pod[0]:
+                            nurse_weights[eno.get_id()] += 7
 
                 # calculate the highest weight a nurse achieved
                 if nurse_weights[eno.get_id()] > max_points:
@@ -1063,7 +1073,11 @@ def assign_nurse_patient() -> dict:
                     p.set_assigned(1)
                     break
 
-    # We run through to check for one-to-one and fix appropriately
+    # Check if a patient is not set as assigned
+    for p in patients:
+        if p.get_assigned() != 1:
+            print("Patient", p.get_id(), " is not assigned!")
+
     print(assignments)
 
     cursor.execute(
