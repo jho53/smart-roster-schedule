@@ -5,30 +5,30 @@
 <div class="row">
     <!--Left Sidebar View-->
     <div class="col-2">
-        <div class="list-group" id="list-tab" role="tablist" style="z-index: 0;">
+        <div class="list-group tab_menu_custom" id="list-tab" role="tablist" style="z-index: 0;">
             <a href="#" data-toggle="modal" data-target="#runVerifyModal"
-                class="list-group-item list-group-item-action list-group-item-success"><img class="sidebar-icons"
+                class="list-group-item list-group-item-action tab_custom ml-3"><img class="sidebar-icons tab_image_custom"
                     src="/images/run.png">Run Scheduler</a>
-            <a class="list-group-item list-group-item-action active" id="list-assignments-list" data-toggle="list"
-                href="#list-assignments" role="tab" aria-controls="assignments"><img class="sidebar-icons"
+            <a class="list-group-item list-group-item-action tab_custom ml-3 active" id="list-assignments-list" data-toggle="list"
+                href="#list-assignments" role="tab" aria-controls="assignments"><img class="sidebar-icons tab_image_custom"
                     src="/images/current_shift.png">Current Shift</a>
-            <a class="list-group-item list-group-item-action" id="list-records-list" data-toggle="list"
-                href="#list-records" role="tab" aria-controls="records"><img class="sidebar-icons"
+            <a class="list-group-item list-group-item-action tab_custom ml-3" id="list-records-list" data-toggle="list"
+                href="#list-records" role="tab" aria-controls="records"><img class="sidebar-icons tab_image_custom"
                     src="/images/records.png">Records</a>
-            <a class="list-group-item list-group-item-action" id="list-pastsheets-list" data-toggle="list"
-                href="#list-pastsheets" role="tab" aria-controls="pastsheets"><img class="sidebar-icons"
+            <a class="list-group-item list-group-item-action tab_custom ml-3" id="list-pastsheets-list" data-toggle="list"
+                href="#list-pastsheets" role="tab" aria-controls="pastsheets"><img class="sidebar-icons tab_image_custom"
                     src="/images/pastsheets.png">Past Sheets</a>
         </div>
     </div>
     <!--Card Area-->
-    <div class="col-9">
+    <div class="col-9 mt-5">
         <div class="tab-content" id="nav-tabContent">
             <div class="tab-pane fade show active" id="list-assignments" role="tabpanel"
                 aria-labelledby="list-assignments-list">
-                <div class="row">
+                <div class="row ml-5">
                     <div class="card-deck">
-                        <div class="card text-center" style="width: 18rem; background: #add8e6">
-                            <img class="mx-auto m-4" height="80px" src="/images/add-nurse-icon.png"
+                        <div class="card text-center card_custom" style="width: 18rem;">
+                            <img class="mx-auto custom_card_img" height="80px" src="/images/add-nurse-icon.png"
                                 alt="nurse assignment image">
                             <div class="card-body">
                                 <div class="card-title">
@@ -38,11 +38,11 @@
                                     changes if necessary</p>
                             </div>
                             <div class="card-footer">
-                                <a href="/currentCAASheet" class="btn btn-lg btn-block btn-primary">View</a>
+                                <a href="/currentCAASheet" class="btn btn-lg btn-block button_custom">View</a>
                             </div>
                         </div>
-                        <div class="card text-center" style="width: 18rem; background: #add8e6">
-                            <img class="mx-auto m-4" height="80px" src="/images/patient_records.png"
+                        <div class="card text-center card_custom" style="width: 18rem;">
+                            <img class="mx-auto custom_card_img" height="80px" src="/images/patient_records.png"
                                 alt="patient assignment image">
                             <div class="card-body">
                                 <div class="card-title">
@@ -52,12 +52,12 @@
                                     changes if necessary</p>
                             </div>
                             <div class="card-footer">
-                                <a href="/currentPNSheet" class="btn btn-lg btn-block btn-primary">View</a>
+                                <a href="/currentPNSheet" class="btn btn-lg btn-block button_custom">View</a>
                             </div>
                         </div>
                         <!--Current Nurse Assignment-->
-                        <div class="card text-center" style="width: 18rem; background: #add8e6">
-                            <img class="mx-auto m-4" height="80px" src="/images/add_nurse.png"
+                        <div class="card text-center card_custom" style="width: 18rem;">
+                            <img class="mx-auto custom_card_img" height="80px" src="/images/add_nurse.png"
                                 alt="patient assignment image">
                             <div class="card-body">
                                 <div class="card-title">
@@ -67,13 +67,13 @@
                                 </p>
                             </div>
                             <div class="card-footer">
-                                <button type=button class="btn btn-lg btn-block  btn-primary" data-toggle="modal"
+                                <button type=button class="btn btn-lg btn-block button_custom" data-toggle="modal"
                                     data-target="#currAssignmentModal">Assign</button>
                             </div>
                         </div>
                         <!--Charge and Support Nurse Assignment-->
-                        <div class="card text-center" style="width: 18rem; background: #add8e6">
-                            <img class="mx-auto m-4" height="80px" src="/images/add_nurse.png"
+                        <div class="card text-center card_custom" style="width: 18rem;">
+                            <img class="mx-auto custom_card_img" height="80px" src="/images/add_nurse.png"
                                 alt="patient assignment image">
                             <div class="card-body">
                                 <div class="card-title">
@@ -84,7 +84,7 @@
                                 </p>
                             </div>
                             <div class="card-footer">
-                                <button type=button class="btn btn-lg btn-block btn-primary" data-toggle="modal"
+                                <button type=button class="btn btn-lg btn-block button_custom" data-toggle="modal"
                                     data-target="#cnSuppAssignmentModal">Assign</button>
                             </div>
                         </div>
@@ -92,10 +92,10 @@
                 </div>
             </div>
             <div class="tab-pane fade" id="list-records" role="tabpanel" aria-labelledby="list-records-list">
-                <div class="row">
+                <div class="row ml-5">
                     <div class="card-deck">
-                        <div class="card text-center" style="width: 18rem; background: #add8e6">
-                            <img class="mx-auto m-4" height="80px" src="/images/nurse-records-icon.png"
+                        <div class="card text-center card_custom" style="width: 18rem;">
+                            <img class="mx-auto custom_card_img" height="80px" src="/images/nurse-records-icon.png"
                                 alt="nurse records image">
                             <div class="card-body">
                                 <div class="card-title">
@@ -105,11 +105,11 @@
                                     nurses freely.</p>
                             </div>
                             <div class="card-footer">
-                                <a href="/nurseRecords" class="btn btn-lg btn-block btn-primary">View</a>
+                                <a href="/nurseRecords" class="btn btn-lg btn-block button_custom">View</a>
                             </div>
                         </div>
-                        <div class="card text-center" style="width: 18rem; background: #add8e6">
-                            <img class="mx-auto m-4" height="80px" src="/images/patient-records-icon.png"
+                        <div class="card text-center card_custom" style="width: 18rem;">
+                            <img class="mx-auto custom_card_img" height="80px" src="/images/patient-records-icon.png"
                                 alt="patient records image">
                             <div class="card-body">
                                 <div class="card-title">
@@ -119,17 +119,17 @@
                                     freely.</p>
                             </div>
                             <div class="card-footer">
-                                <a href="/patientRecords" class="btn btn-lg btn-block btn-primary">View</a>
+                                <a href="/patientRecords" class="btn btn-lg btn-block button_custom">View</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="tab-pane fade" id="list-pastsheets" role="tabpanel" aria-labelledby="list-pastsheets-list">
-                <div class="row">
+                <div class="row ml-5">
                     <div class="card-deck">
-                        <div class="card text-center" style="width: 18rem; background: #add8e6">
-                            <img class="mx-auto m-4" height="80px" src="/images/past-assignments-icon.png"
+                        <div class="card text-center card_custom" style="width: 18rem;">
+                            <img class="mx-auto custom_card_img" height="80px" src="/images/past-assignments-icon.png"
                                 alt="Past Clinical Area Assignments image">
                             <div class="card-body">
                                 <div class="card-title">
@@ -139,11 +139,11 @@
                                     by date.</p>
                             </div>
                             <div class="card-footer">
-                                <a href="/pastCAASheet" class="btn btn-lg btn-block btn-primary">View</a>
+                                <a href="/pastCAASheet" class="btn btn-lg btn-block button_custom">View</a>
                             </div>
                         </div>
-                        <div class="card text-center" style="width: 18rem; background: #add8e6">
-                            <img class="mx-auto m-4" height="80px" src="/images/past-assignments-icon.png"
+                        <div class="card text-center card_custom" style="width: 18rem;">
+                            <img class="mx-auto custom_card_img" height="80px" src="/images/past-assignments-icon.png"
                                 alt="Past Patient/Nurse Assignments">
                             <div class="card-body">
                                 <div class="card-title">
@@ -153,7 +153,7 @@
                                     date.</p>
                             </div>
                             <div class="card-footer">
-                                <a href="/pastPNSheet" class="btn btn-lg btn-block btn-primary">View</a>
+                                <a href="/pastPNSheet" class="btn btn-lg btn-block button_custom">View</a>
                             </div>
                         </div>
                     </div>
