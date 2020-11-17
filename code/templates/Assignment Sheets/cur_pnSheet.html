@@ -21,6 +21,8 @@
             <input id="saveStateData" type="text" name="saveStateData" hidden>
         </form>
         <small class="mb-2">{{now.strftime("%B %d, %Y - %I:%M:%S %p")}}</small>
+        <input type="date" value={{now.strftime("%Y-%m-%d")}}>
+        <input type="datetime-local" value={{now.strftime(""%Y-%m-%d"%I:%M:%S %p")}}>
         <br><br>
         <div class="row">
             <div class="col-8 offset-2 row">

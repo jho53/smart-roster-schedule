@@ -26,15 +26,15 @@
 
 <body>
     {% if loggedin %}
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar_custom">
         <a class="navbar-brand"><img class="hamburger-icon" src="/images/hamburger.png" onclick="openSidebar()"></a>
         <a class="navbar-brand" href="/"><img class="sr-logo" src="/images/SmartRosterLogoHighRes.png"></a>
         <div class="collapse navbar-collapse flex-grow-0 ml-auto">
             <ul class="navbar-nav text-right mr-auto">
-                <li class="nav-item"><a class="nav-link" href="/register">Create Account</a></li>
-                <li class="nav-item"><a class="nav-link" href="/settings">Settings</a></li>
-                <li class="nav-item"><a class="nav-link" href="/profile">Profile</a></li>
-                <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+                <li class="nav-item"><a class="nav-link navbar_text" href="/register">Create Account</a></li>
+                <li class="nav-item"><a class="nav-link navbar_text" href="/settings">Settings</a></li>
+                <li class="nav-item"><a class="nav-link navbar_text" href="/profile">Profile</a></li>
+                <li class="nav-item"><a class="nav-link navbar_text" href="/logout">Logout</a></li>
             </ul>
         </div>
     </nav>

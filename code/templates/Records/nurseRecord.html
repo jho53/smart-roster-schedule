@@ -75,15 +75,33 @@
                         <td>
                             <div id="{{('n'~nurse[0])~'-skill'}}">{{nurse[7]}}</div>
                         </td>
+                        {% if nurse[8]==1 %}
                         <td>
-                            <div id="{{('n'~nurse[0])~'-atrained'}}">{{nurse[8]}}</div>
+                            <div id="{{('n'~nurse[0])~'-atrained'}}">Yes</div>
                         </td>
+                        {% else %}
                         <td>
-                            <div id="{{('n'~nurse[0])~'-transfer'}}">{{nurse[9]}}</div>
+                            <div id="{{('n'~nurse[0])~'-atrained'}}">No</div>
                         </td>
+                        {% endif %}
+                        {% if nurse[9]==1 %}
                         <td>
-                            <div id="{{('n'~nurse[0])~'-iv'}}">{{nurse[10]}}</div>
+                            <div id="{{('n'~nurse[0])~'-transfer'}}">Yes</div>
                         </td>
+                        {% else %}
+                        <td>
+                            <div id="{{('n'~nurse[0])~'-transfer'}}">No</div>
+                        </td>
+                        {% endif %}
+                        {% if nurse[10]==2 %}
+                        <td>
+                            <div id="{{('n'~nurse[0])~'-iv'}}">Yes</div>
+                        </td>
+                        {% else %}
+                        <td>
+                            <div id="{{('n'~nurse[0])~'-iv'}}">No</div>
+                        </td>
+                        {% endif %}
                         <td>
                             <div id="{{('n'~nurse[0])~'-advrole'}}">{{nurse[11]}}</div>
                         </td>
