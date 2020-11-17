@@ -177,7 +177,7 @@
                 <div id="assign-section1" class="col-12 row">
                     <div class="form-group col-5" style="text-align: center;">
                         <label for="currNurseStore">Current Shift Nurses</label>
-                        <select multiple size="10" class="form-control" id="currNurseStore">
+                        <select multiple size="17" class="form-control" id="currNurseStore">
                             {% for index, nurse in enumerate(nurseList) %}
                             {% if nurse[-1]==1 %}
                             <option id="{{nurse[0]}}" name="{{nurse[0]}}" value="{{nurse[0]}}">{{nurse[1]}} -
@@ -195,7 +195,7 @@
                     </div>
                     <div class="form-group col-5" style="text-align: center;">
                         <label for="fullNurseList">Unassigned Nurse List</label>
-                        <select multiple size="10" class="form-control" id="fullNurseList">
+                        <select multiple size="17" class="form-control" id="fullNurseList">
                             {% for index, nurse in enumerate(nurseList) %}
                             {% if nurse[-1]==0 %}
                             <option id="{{nurse[0]}}" name="{{nurse[0]}}" value="{{nurse[0]}}">{{nurse[1]}} -
@@ -208,7 +208,7 @@
             </div>
             <div class="modal-footer">
                 <form action="/modalSubmit" method="post">
-                    <button id="currNurseSubmit" type="submit" class="btn btn-success" name="current_nurses_list"
+                    <button id="currNurseSubmit" type="submit" class="btn btn_create_custom" name="current_nurses_list"
                         value="">Save</button>
                     <button class="btn btn-secondary" data-dismiss="modal" aria-label="Close">Cancel</button>
                 </form>
@@ -327,7 +327,7 @@
                 <form action="/modalSubmit2" method="POST">
                     <input type="text" id="codeNurseSubmit" hidden name="code_nurses_list" value="">
                     <input type="text" id="suppNurseSubmit" hidden name="support_nurses_list" value="">
-                    <button type="submit" id="cNurseSubmit" class="btn btn-success" name="charge_nurses_list"
+                    <button type="submit" id="cNurseSubmit" class="btn btn_create_custom" name="charge_nurses_list"
                         value="">Save</button>
                     <button class="btn btn-secondary" data-dismiss="modal" aria-label="Close">Cancel</button>
                 </form>
@@ -435,14 +435,14 @@
                 <hr>
                 <div>
                     <h6>If you see any errors or inconsistencies:</h6>
-                    <button class="btn btn-outline-danger mb-2" data-toggle="modal" data-target="#currAssignmentModal"
+                    <button class="btn btn-outline-custom mb-2" data-toggle="modal" data-target="#currAssignmentModal"
                         data-dismiss="modal">Edit Current Shift</button><br>
-                    <button class="btn btn-outline-danger" data-toggle="modal" data-target="#cnSuppAssignmentModal"
+                    <button class="btn btn-outline-custom" data-toggle="modal" data-target="#cnSuppAssignmentModal"
                         data-dismiss="modal">Edit Advanced Roles</button>
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="/assign" class="btn btn-success" value="">Run Scheduler</a>
+                <a href="/assign" value=""><button class="btn btn_create_custom">Run Scheduler</button></a>
                 <button class="btn btn-secondary" data-dismiss="modal" aria-label="Close">Cancel</button>
             </div>
         </div>

@@ -115,15 +115,15 @@ table {
   background-color: transparent;
   transition: 0.3s ease-in;
   width: 18rem;
-  border: 3px solid rgba(213,52,100,1);
-  border-radius: 15px;
+  border: 2px solid rgba(213,52,100,1);
   color: black;
+  box-shadow: 2px 3px lightgray;
 
   &:hover {
-    background: linear-gradient(90deg, rgba(213,52,100,1) 0%, rgba(129,62,151,1) 50%);
+    background: linear-gradient(180deg, rgb(189, 138, 206) 0%, rgba(129,62,151,1) 50%);
     transition: 0.3s;
     color: white;
-    border: 3px solid rgba(129,62,151,0.3);
+    border: 2px solid rgba(129,62,151,0.3);
 
     .custom_card_img {
       height: 96px;
@@ -137,14 +137,14 @@ table {
   height: 4rem;
   display: flex;
   align-items: center;
-  background-color: white;
+  background: linear-gradient(90deg, rgba(213,52,100,1) 0%, rgba(129,62,151,1) 80%);
   border: 2px solid #D53464;
-  color: black;
+  color: white;
   font-weight: bold;
   width: 90%;
 
   &:hover {
-    background: linear-gradient(90deg, rgba(213,52,100,1) 0%, rgba(129,62,151,1) 50%);
+    background: linear-gradient(90deg, rgba(213,52,100,1) 0%, rgba(129,62,151,1) 80%);
     color: white;
     transition: 0.1s ease-in;
   }
@@ -160,13 +160,13 @@ table {
   color: black;
 
   &.active {
-    background: linear-gradient(90deg, rgba(213,52,100,1) 0%, rgba(129,62,151,1) 50%);
+    background: linear-gradient(90deg, rgba(129,62,151,1) 0%, rgb(189, 138, 206) 80%);
     border-color: transparent;
     font-weight: bolder;
     color: white;
 
     &:hover {
-      background: linear-gradient(90deg, rgba(213,52,100,1) 0%, rgba(129,62,151,1) 50%);
+      background: linear-gradient(90deg, rgba(129,62,151,1) 0%, rgb(189, 138, 206) 80%);
       border-color: transparent;
       font-weight: bolder;
       color: white;
@@ -194,6 +194,16 @@ table {
   height: 100vh;
 }
 
+.btn-outline-custom {
+  background-color: transparent;
+  border: 2px solid #D53464;
+  color: #D53464;
+
+  &:hover {
+    background-color: #D53464;
+    color: white;
+  }
+}
 
 /* Sidebar */
 
@@ -329,6 +339,11 @@ table {
   background-color: #D53464;
   color: white;
   margin: 0px 5px;
+
+  &:hover {
+    background-color: #af1946;
+    text-decoration: none;
+  }
 }
 
 .btn_edit_custom {
@@ -456,12 +471,27 @@ input[type="radio"]:checked + label {
 }
 
 .pod-norm {
-  background: #c3e6cb;
+  background: linear-gradient(90deg, rgb(66, 0, 88) 0%, rgba(129,62,151,1) 50%);
+  color: white;
 }
 
 .pod-spec {
-  background: #eb5757;
+  background: linear-gradient(90deg, rgb(160, 14, 57) 0%, rgba(213,52,100,1) 50%);
+  color: white;
 }
 
+.special_custom_box {
+  background-color: transparent;
+  border: 1px solid lightgray;
+}
 
+.bed_custom {
+  background-color: white;
+  border: 2px solid lightgray;
+  border-radius: 5px;
+
+  &:hover {
+    background-color: rgb(236, 236, 236);
+  }
+}
 /* End of Assignments Pages */
