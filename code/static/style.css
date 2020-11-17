@@ -302,9 +302,7 @@ input[type=radio]:checked + label:after {
 }
 
 /* End of Assignments Pages */
-
 /* Profile Page */
-
 .profile-content {
   text-align: center;
   display: block;
@@ -316,7 +314,6 @@ input[type=radio]:checked + label:after {
   height: 225px;
   border-radius: 50%;
   border: solid 3px;
-
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -331,4 +328,5 @@ input[type=radio]:checked + label:after {
 }
 
 /* End of Profile Page */
+
 /*# sourceMappingURL=style.css.map */
