@@ -402,5 +402,31 @@ input[type=radio]:checked + label:after {
 }
 
 /* End of Assignments Pages */
+/* Profile Page */
+.profile-content {
+  text-align: center;
+  display: block;
+}
+
+.profile-picture {
+  display: inline-block;
+  width: 225px;
+  height: 225px;
+  border-radius: 50%;
+  border: solid 3px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
+.user-image {
+  background-image: url("/images/base-avatar.png");
+}
+
+.profile-links {
+  display: inline-block;
+}
+
+/* End of Profile Page */
 
 /*# sourceMappingURL=style.css.map */
