@@ -76,6 +76,7 @@ NURSE_HEADERS = ["ID", "Name", "Clinical Area", "Rotation", "Group", "FTE",
 
 @app.route("/")
 def home():
+    """ Displays the home page """
     if 'loggedin' in session:
         curr_nurse_ids = []
         supp_nurse_ids = []
@@ -119,6 +120,7 @@ def home():
 
 @app.route("/modalSubmit", methods=["POST"])
 def update_current_nurses():
+    """ Updates the current nurses """
     try:
         if "loggedin" in session:
             current_nurses_id = "({0})".format(request.form['current_nurses_list'])
@@ -146,6 +148,7 @@ def update_current_nurses():
 
 @app.route("/modalSubmit2", methods=["POST"])
 def update_cn_supp():
+    """ Updates the advanced role nurses"""
     if "loggedin" in session:
         support_nurses_id = "({0})".format(
             request.form['support_nurses_list'])
@@ -180,6 +183,7 @@ def update_cn_supp():
 
 @app.route("/register", methods=['GET'])
 def register():
+    """ Display the register page """
     if 'loggedin' in session:
         return render_template('register.html', loggedin=session['loggedin'])
     return redirect(url_for('login'))
@@ -187,6 +191,7 @@ def register():
 
 @app.route("/registerUser", methods=['POST'])
 def register_user():
+    """ Registers the user """
     if 'username' in request.form and 'first_name' in request.form \
             and 'last_name' in request.form and 'password' in request.form \
             and 'password_conf' in request.form:
@@ -218,11 +223,13 @@ def register_user():
 
 @app.route('/login', methods=['GET'])
 def login():
+    """ Displays the login page """
     return render_template("login.html")
 
 
 @app.route('/loginUser', methods=['POST'])
 def login_user():
+    """ Logs the user in """
     if 'username' in request.form and 'password' in request.form:
         username = request.form['username']
         password = request.form['password']
@@ -253,6 +260,7 @@ def login_user():
 
 @app.route('/logout')
 def logout():
+    """ Logs the user out """
     session.pop('loggedin', None)
     session.pop('id', None)
     session.pop('username', None)
@@ -264,6 +272,7 @@ def logout():
 
 @app.route("/nurseRecords", methods=["GET"])
 def nurse_records():
+    """ Displays the nurse records page """
     if 'loggedin' in session:
         # Grabs all nurses
         cursor.execute("SELECT * FROM nurses")
@@ -280,6 +289,7 @@ def nurse_records():
 
 @app.route("/addNurseRecords", methods=["POST"])
 def add_nurse_records():
+    """ Adds nurse to the nurse records """
     nurse_name = request.form['create_nurse_name']
     nurse_area = request.form['create_nurse_area']
     nurse_rotation = request.form['create_nurse_rotation']
@@ -341,6 +351,7 @@ def add_nurse_records():
 
 @app.route("/editNurseRecords", methods=["POST"])
 def edit_nurse_records():
+    """ Edits the nurse records """
     nurse_id = request.form['edit_nurse_id']
     nurse_name = request.form['edit_nurse_name']
     nurse_area = request.form['edit_nurse_area']
@@ -403,6 +414,7 @@ def edit_nurse_records():
 
 @app.route("/deleteNurseRecords", methods=["POST"])
 def delete_nurse_records():
+    """ Delete from nurse records """
     nurse_id = request.form['remove_nurse_id']
     query = "DELETE FROM smartroster.nurses WHERE id = %s" % (nurse_id)
 
@@ -417,6 +429,7 @@ def delete_nurse_records():
 
 @app.route("/patientRecords", methods=["GET"])
 def patient_records():
+    """ Display the patient records page """
     # Grabs all patients
     cursor.execute("SELECT * FROM patients")
     patient_list = cursor.fetchall()
@@ -430,6 +443,7 @@ def patient_records():
 
 @app.route("/addPatientRecords", methods=["POST"])
 def add_patient_records():
+    """ Add to the patient records """
     # Checks for required fields
 
     patient_name = request.form['create_patient_name']
@@ -492,6 +506,7 @@ def add_patient_records():
 
 @app.route("/editPatientRecords", methods=["POST"])
 def edit_patient_records():
+    """ Edit the patient records """
     # Grabs discharge data so it knows if the patient has been discharged
 
     patientid = request.form['edit_patient_id']
@@ -554,6 +569,7 @@ def edit_patient_records():
 
 @app.route("/deletePatientRecords", methods=["POST"])
 def delete_patient_records():
+    """ Delete from patient records """
     # grabs patient id
     patient_id = request.form['remove_patient_id']
 
@@ -570,6 +586,7 @@ def delete_patient_records():
 
 @app.route("/profile", methods=['GET'])
 def profile():
+    """ Display the profile page """
     if 'loggedin' in session:
         cursor.execute('SELECT * FROM users WHERE username = %s',
                        (session['username'],))
@@ -581,12 +598,14 @@ def profile():
 
 
 def allowed_file(filename):
+    """ Check if the file uploaded is an image file """
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 @app.route('/upload_image', methods=['POST'])
 def upload_image():
+    """ Upload the image """
     if request.method == 'POST':
         # check if the post request has the file part
         if 'file' not in request.files:
@@ -608,12 +627,14 @@ def upload_image():
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
+    """ Shows the currently uploaded file """
     return send_from_directory(app.config['UPLOAD_FOLDER'],
                                filename)
 
 
 @app.route("/settings")
 def settings():
+    """ Display the settings page """
     if 'loggedin' in session:
         return render_template("./Account/settings.html", loggedin=session['loggedin'])
     return redirect(url_for('login'))
@@ -624,6 +645,7 @@ def settings():
 
 @app.route("/currentCAASheet")
 def current_CAASheet():
+    """ Displays the current clinical area page """
     area_nurse_list = []
 
     if 'loggedin' in session:
@@ -659,6 +681,7 @@ def current_CAASheet():
 
 @app.route("/currentPNSheet")
 def current_PNSheet():
+    """ Displays the current nurse-patient assignment sheet """
     # Variables
     curr_assignment = None
 
@@ -731,6 +754,7 @@ def current_PNSheet():
 
 @ app.route("/pastCAASheet")
 def past_CAASheet():
+    """ Displays a previous clinical area page """
     if 'loggedin' in session:
         return render_template("./Assignment Sheets/past_caaSheet.html", loggedin=session['loggedin'])
     return redirect(url_for('login'))
@@ -738,6 +762,7 @@ def past_CAASheet():
 
 @ app.route("/pastPNSheet")
 def past_PNSheet():
+    """ Displays a past nurse-patient assignemnt sheet """
     if 'loggedin' in session:
         return render_template("./Assignment Sheets/past_pnSheet.html", loggedin=session['loggedin'])
     return redirect(url_for('login'))
@@ -745,6 +770,7 @@ def past_PNSheet():
 
 @ app.route("/saveState", methods=['POST'])
 def save_current_state():
+    """ Saves changes to the nurse-patient assignment sheet. Also flags. """
     # variable init
     bed_value = ""  # reset on new pair
     patient_nurse_pair = []
