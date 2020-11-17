@@ -5,24 +5,24 @@
 <!--Content Here-->
 <div>
     <!--Jumbotron-->
-    <div class="jumbotron py-3">
+    <div class="jumbotron pb-0">
         <div class="jumbotron-content">
             <h1>Nurse Records</h1>
             <br><br>
             <div class="container-fluid">
-                <div class="row">
+                <div class="row" >
                     <!-- Extra div for center of row -->
                     <div class="col-sm"></div>
-                    <div class="col-">
-                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                    <div class="col- ">
+                        <button type="button" class="btn btn_create_custom" data-toggle="modal"
                             data-target=".createModalCenter">
                             <span class="fa fa-plus-square"></span> Create
                         </button>
-                        <button type="button" class="btn btn-primary" onclick="get_edit_data()" data-toggle="modal"
+                        <button type="button" class="btn btn_edit_custom" onclick="get_edit_data()" data-toggle="modal"
                             data-target=".editModalCenter">
                             <span class="fa fa-edit"></span> Edit
                         </button>
-                        <button class="btn btn-danger" onclick="get_delete_data()" data-toggle="modal"
+                        <button class="btn btn-secondary" onclick="get_delete_data()" data-toggle="modal"
                             data-target=".deleteModalCenter">
                             <span class="fa fa-trash"></span> Delete
                         </button>
@@ -34,7 +34,7 @@
     <div class="container-fluid">
         <!--Table-->
         <div>
-            <table id="nurse-record-table" class="table table-sm table-bordered table-responsive">
+            <table id="nurse-record-table" class="table table-sm table-bordered table-responsive table-hover">
                 <!--Dynamically generated table headers-->
                 <thead class="thead-light">
                     <form action="/nurseRecords" method="GET">
@@ -50,7 +50,7 @@
                     <tr id="{{'n'~nurse[0]}}" style="cursor: pointer; ">
                         {% if nurse[-1]==1 %}
                         <td>
-                            <div id="{{('n'~nurse[0])~'-id'}}" class="table-success">{{nurse[0]}}</div>
+                            <div id="{{('n'~nurse[0])~'-id'}}" class="table-danger">{{nurse[0]}}</div>
                         </td>
                         {% else %}
                         <td>
@@ -207,7 +207,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 </div>
                 <br>
                 <div class="modal-footer">
-                    <input class="btn btn-success" id="submit_new_nurse" name="submit" type="submit" value="Confirm">
+                    <input class="btn btn_create_custom" id="submit_new_nurse" name="submit" type="submit" value="Confirm">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 </div>
             </form>
@@ -321,7 +321,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         </div>
                         <br>
                         <div class="modal-footer">
-                            <input class="btn btn-success" id="submit_edit_nurse" name="submit_edit" type="submit" value="Confirm">
+                            <input class="btn btn_edit_custom" id="submit_edit_nurse" name="submit_edit" type="submit" value="Confirm">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                         </div>
                 </form>
@@ -349,7 +349,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <input id="remove_nurse_name" name="remove_nurse_name" required="" size="32" type="text" value=""
                         placeholder="" disabled>
                     <div class="modal-footer">
-                        <input class="btn btn-danger" id="submit_delete_nurse" name="submit" type="submit" value="Confirm">
+                        <input class="btn btn_edit_custom" id="submit_delete_nurse" name="submit" type="submit" value="Confirm">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     </div>
                 </form>

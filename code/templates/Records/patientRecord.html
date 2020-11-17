@@ -13,13 +13,13 @@
                     <!-- Extra div for center of row -->
                     <div class="col-sm"></div>
                     <div class="col-">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".createModalCenter">
+                        <button type="button" class="btn btn_create_custom" data-toggle="modal" data-target=".createModalCenter">
                             <span class="fa fa-plus-square"></span> Create
                         </button>
-                        <button type="button" class="btn btn-primary" onclick="get_edit_data()" data-toggle="modal" data-target=".editModalCenter">
+                        <button type="button" class="btn btn_edit_custom" onclick="get_edit_data()" data-toggle="modal" data-target=".editModalCenter">
                             <span class="fa fa-edit"></span> Edit
                         </button>
-                        <button class="btn btn-danger" onclick="get_delete_data()" data-toggle="modal" data-target=".deleteModalCenter">
+                        <button class="btn btn-secondary" onclick="get_delete_data()" data-toggle="modal" data-target=".deleteModalCenter">
                             <span class="fa fa-trash"></span> Delete
                         </button>
                     </div>
@@ -28,7 +28,7 @@
         </div>
     </div>
     <!--Table-->
-    <div class="table-content">
+    <div class="table-content mx-0">
         <table class="table table-sm table-bordered" id="patient-record-table" style="margin-bottom: 50px">
             <!--Dynamically generated table headers-->
             <thead class="thead-light">
@@ -168,7 +168,7 @@
                     </div>
                     <br>
                     <div class="modal-footer">
-                        <input class="btn btn-success" id="submit_new_patient" name="submit" type="submit" value="Confirm">
+                        <input class="btn btn_create_custom" id="submit_new_patient" name="submit" type="submit" value="Confirm">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     </div>
                 </form>
@@ -259,7 +259,7 @@
                     </div>
                     <br>
                     <div class="modal-footer">
-                        <input class="btn btn-success" id="submit_edit_patient" name="submit" type="submit" value="Confirm">
+                        <input class="btn btn_edit_custom" id="submit_edit_patient" name="submit" type="submit" value="Confirm">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     </div>
                 </form>
@@ -286,7 +286,7 @@
                     Are you sure you want to delete</p>
                     <input id="remove_patient_name" disabled name="remove_patient_name" required="" size="32" type="text" value="" placeholder="">
                     <div class="modal-footer">
-                      <input class="btn btn-danger" id="submit" name="submit" type="submit" value="Confirm">
+                      <input class="btn btn_edit_custom" id="submit" name="submit" type="submit" value="Confirm">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     </div>
                 </form>

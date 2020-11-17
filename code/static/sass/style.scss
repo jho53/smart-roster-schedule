@@ -4,8 +4,16 @@ body {
   background-color: white;
 }
 
+.container-fluid {
+  padding: 0;
+}
+
 table {
   display: "block";
+}
+
+.row {
+  margin: 0;
 }
 
 // div {
@@ -64,20 +72,18 @@ table {
   padding-top: 5px;
 }
 
-.card:hover {
-  background: #ffffff;
-}
-
 /* Navbar */
 .navbar_custom {
-  background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(213,52,100,1) 54%, rgba(129,62,151,1) 100%);
+  background-color: rgb(233, 233, 233);
+  padding-left: 0;
 }
 
 .navbar_text {
-  color: white;
+  color: #333333;
 
   &:hover {
-    color: pink;
+    color: #D53464;
+    font-weight: bolder;
   }
 
   &.current_link {
@@ -93,9 +99,9 @@ table {
   color: white;
 
   &:hover {
-    background-color: #813E97;
-    border-color: white;
     color: white;
+    border-color: white;
+    background-color: #D53464;
   }
 }
 
@@ -106,36 +112,41 @@ table {
 }
 
 .card_custom {
-  background-color: white;
-  transition: 0.4s ease-in;
+  background-color: transparent;
+  transition: 0.3s ease-in;
   width: 18rem;
-  border: 2px solid rgba(129,62,151,0.3);
+  border: 3px solid rgba(213,52,100,1);
+  border-radius: 15px;
+  color: black;
 
   &:hover {
-    background-color: rgba(129,62,151,0.4);
+    background: linear-gradient(90deg, rgba(213,52,100,1) 0%, rgba(129,62,151,1) 50%);
+    transition: 0.3s;
+    color: white;
+    border: 3px solid rgba(129,62,151,0.3);
+
     .custom_card_img {
       height: 96px;
-      transition: 0.4s;
+      transition: 0.3s;
       margin: 1rem;
     }
   }
 }
 
 .run_tab_custom {
-  height: 5rem;
+  height: 4rem;
   display: flex;
   align-items: center;
-  background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(129,62,151,0.25) 85%);
-  border-color: transparent;
-  padding-left: 2rem;
-  margin: 0px;
+  background-color: white;
+  border: 2px solid #D53464;
+  color: black;
+  font-weight: bold;
+  width: 90%;
 
   &:hover {
-    background: linear-gradient(90deg, rgba(129,62,151,0.25) 0%, rgba(129,62,151,0.6) 85%);
-    font-size: larger;
-    font-weight: bolder;
+    background: linear-gradient(90deg, rgba(213,52,100,1) 0%, rgba(129,62,151,1) 50%);
     color: white;
-    transition: 0.1s;
+    transition: 0.1s ease-in;
   }
 }
 
@@ -145,16 +156,20 @@ table {
   align-items: center;
   background-color: transparent;
   border-color: transparent;
-  border-radius: 10px;
   margin: 0rem;
+  color: black;
 
   &.active {
-    background-color: white;
+    background: linear-gradient(90deg, rgba(213,52,100,1) 0%, rgba(129,62,151,1) 50%);
     border-color: transparent;
-    color: black;
+    font-weight: bolder;
+    color: white;
 
     &:hover {
-      background-color: white;
+      background: linear-gradient(90deg, rgba(213,52,100,1) 0%, rgba(129,62,151,1) 50%);
+      border-color: transparent;
+      font-weight: bolder;
+      color: white;
     }
   }
 
@@ -165,6 +180,7 @@ table {
     font-size: larger;
     font-weight: bolder;
     transition: 0.1s ease-in;
+    color: black;
   }
 }
 
@@ -174,7 +190,8 @@ table {
 }
 
 .tab_menu_custom {
-  background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(213,52,100,0.25) 85%);
+  background-color: rgb(233, 233, 233);
+  height: 100vh;
 }
 
 
@@ -206,7 +223,7 @@ table {
 
 /* Sidebar link hover */
 .sidebar a:hover {
-  color: lightskyblue;
+  color: #D53464;
 }
 
 /* Sidebar close button */
@@ -265,7 +282,7 @@ table {
 }
 
 .quick-links a:hover {
-  color: lightskyblue;
+  color:  #D53464;
 }
 
 .quick-links-content {
@@ -298,10 +315,30 @@ table {
 
 /* Records Pages */
 
+.jumbotron {
+  background-color: white; 
+}
+
 .jumbotron-content {
   padding: 10px 10px 10px 10px;
   text-align: center;
   /* border: 5px solid; */
+}
+
+.btn_create_custom {
+  background-color: #D53464;
+  color: white;
+  margin: 0px 5px;
+}
+
+.btn_edit_custom {
+  background-color: #D53464;
+  color: white;
+  margin: 0px 2px;
+}
+
+.thead-light {
+  background-color: white;
 }
 
 .table-content {
@@ -402,7 +439,7 @@ input[type="checkbox"]:checked + label,
 input[type="radio"]:checked + label {
   &:after {
     right: 0px;
-    background: #ff9800;
+    background: #813E97;
   }
 }
 
@@ -425,5 +462,6 @@ input[type="radio"]:checked + label {
 .pod-spec {
   background: #eb5757;
 }
+
 
 /* End of Assignments Pages */
