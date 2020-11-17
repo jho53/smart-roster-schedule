@@ -7,17 +7,20 @@
     <div class="col-2">
         <div class="list-group tab_menu_custom" id="list-tab" role="tablist" style="z-index: 0;">
             <a href="#" data-toggle="modal" data-target="#runVerifyModal"
-                class="list-group-item list-group-item-action run_tab_custom"><img class="sidebar-icons tab_image_custom"
-                    src="/images/run.png">Run Scheduler</a>
-            <a class="list-group-item list-group-item-action tab_custom ml-3 active" id="list-assignments-list" data-toggle="list"
-                href="#list-assignments" role="tab" aria-controls="assignments"><img class="sidebar-icons tab_image_custom"
-                    src="/images/current_shift.png">Current Shift</a>
+                class="list-group-item list-group-item-action run_tab_custom"><img
+                    class="sidebar-icons tab_image_custom" src="/images/run.png">Run Scheduler</a>
+            <a class="list-group-item list-group-item-action tab_custom ml-3" id="list-assignments-list"
+                data-toggle="list" href="#list-assignments" role="tab" aria-controls="assignments"><img
+                    class="sidebar-icons tab_image_custom" src="/images/current_shift.png">Future Shift</a>
+            <a class="list-group-item list-group-item-action tab_custom ml-3 active" id="list-assignments-list"
+                data-toggle="list" href="#list-assignments" role="tab" aria-controls="assignments"><img
+                    class="sidebar-icons tab_image_custom" src="/images/current_shift.png">Current Shift</a>
             <a class="list-group-item list-group-item-action tab_custom ml-3" id="list-records-list" data-toggle="list"
                 href="#list-records" role="tab" aria-controls="records"><img class="sidebar-icons tab_image_custom"
                     src="/images/records.png">Records</a>
-            <a class="list-group-item list-group-item-action tab_custom ml-3" id="list-pastsheets-list" data-toggle="list"
-                href="#list-pastsheets" role="tab" aria-controls="pastsheets"><img class="sidebar-icons tab_image_custom"
-                    src="/images/pastsheets.png">Past Sheets</a>
+            <a class="list-group-item list-group-item-action tab_custom ml-3" id="list-pastsheets-list"
+                data-toggle="list" href="#list-pastsheets" role="tab" aria-controls="pastsheets"><img
+                    class="sidebar-icons tab_image_custom" src="/images/pastsheets.png">Past Sheets</a>
         </div>
     </div>
     <!--Card Area-->
@@ -167,6 +170,7 @@
 <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="currAssignmentModal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
+
             <div class="modal-header">
                 <h5 class="modal-title">Assign Nurses to Current Shift</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -181,7 +185,7 @@
                             {% for index, nurse in enumerate(nurseList) %}
                             {% if nurse[-1]==1 %}
                             <option id="{{nurse[0]}}" name="{{nurse[0]}}" value="{{nurse[0]}}">{{nurse[1]}} -
-                                {{nurse[4]}}</option>
+                                {{nurse[5]}}</option>
                             {% endif %}
                             {% endfor %}
                         </select>
@@ -199,15 +203,25 @@
                             {% for index, nurse in enumerate(nurseList) %}
                             {% if nurse[-1]==0 %}
                             <option id="{{nurse[0]}}" name="{{nurse[0]}}" value="{{nurse[0]}}">{{nurse[1]}} -
-                                {{nurse[4]}}</option>
+                                {{nurse[5]}}</option>
                             {% endif %}
                             {% endfor %}
                         </select>
                     </div>
                 </div>
+                <hr>
+                <div class="form-group">
+                    <label for="currPriority">Select Fixed Group</label>
+                    <select id="currPriority" class="form-control col-2">
+                        {% for num in groupNum %}
+                        <option id="option{{num}}" value={{num}}>{{num}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
             </div>
             <div class="modal-footer">
                 <form action="/modalSubmit" method="post">
+                    <input id="prioritySubmit" name="priority" value="" hidden>
                     <button id="currNurseSubmit" type="submit" class="btn btn-success" name="current_nurses_list"
                         value="">Save</button>
                     <button class="btn btn-secondary" data-dismiss="modal" aria-label="Close">Cancel</button>
@@ -237,7 +251,7 @@
                             {% if (nurse[-1]==1) and (nurse[11]=="Charge") %}
                             <option class="table-success" id="{{nurse[0]}}" name="{{nurse[0]}}" value="{{nurse[0]}}">
                                 {{nurse[1]}} -
-                                {{nurse[4]}}</option>
+                                {{nurse[5]}}</option>
                             {% endif %}
                             {% endfor %}
                         </select>
@@ -253,7 +267,7 @@
                             {% for index, nurse in enumerate(nurseList) %}
                             {% if (nurse[-1]==1) and (nurse[11]!="Charge") %}
                             <option id="{{nurse[0]}}" name="{{nurse[0]}}" value="{{nurse[0]}}">{{nurse[1]}} -
-                                {{nurse[4]}}</option>
+                                {{nurse[5]}}</option>
                             {% endif %}
                             {% endfor %}
                         </select>
@@ -269,7 +283,7 @@
                             {% if (nurse[-1]==1) and (nurse[11]=="Support") %}
                             <option class="table-warning" id="{{nurse[0]}}" name="{{nurse[0]}}" value="{{nurse[0]}}">
                                 {{nurse[1]}} -
-                                {{nurse[4]}}</option>
+                                {{nurse[5]}}</option>
                             {% endif %}
                             {% endfor %}
                         </select>
@@ -285,7 +299,7 @@
                             {% for index, nurse in enumerate(nurseList) %}
                             {% if (nurse[-1]==1) and (nurse[11]!="Support") %}
                             <option id="{{nurse[0]}}" name="{{nurse[0]}}" value="{{nurse[0]}}">{{nurse[1]}} -
-                                {{nurse[4]}}</option>
+                                {{nurse[5]}}</option>
                             {% endif %}
                             {% endfor %}
                         </select>
@@ -300,7 +314,7 @@
                             {% if (nurse[-1]==1) and (nurse[11]=="Code") %}
                             <option class="table-danger" id="{{nurse[0]}}" name="{{nurse[0]}}" value="{{nurse[0]}}">
                                 {{nurse[1]}} -
-                                {{nurse[4]}}</option>
+                                {{nurse[5]}}</option>
                             {% endif %}
                             {% endfor %}
                         </select>
@@ -316,7 +330,7 @@
                             {% for index, nurse in enumerate(nurseList) %}
                             {% if (nurse[-1]==1) and (nurse[11]!="Code") %}
                             <option id="{{nurse[0]}}" name="{{nurse[0]}}" value="{{nurse[0]}}">{{nurse[1]}} -
-                                {{nurse[4]}}</option>
+                                {{nurse[5]}}</option>
                             {% endif %}
                             {% endfor %}
                         </select>
@@ -369,9 +383,25 @@
                                 <td>{{nurse[4]}}</td>
                                 <td>{{nurse[5]}}</td>
                                 <td>{{nurse[7]}}</td>
-                                <td>{{nurse[8]}}</td>
-                                <td>{{nurse[9]}}</td>
-                                <td>{{nurse[10]}}</td>
+
+                                {% if nurse[8]==0 %}
+                                <td>No</td>
+                                {% else %}
+                                <td>Yes</td>
+                                {% endif %}
+
+                                {% if nurse[9]==0 %}
+                                <td>No</td>
+                                {% else %}
+                                <td>Yes</td>
+                                {% endif %}
+
+                                {% if nurse[10]==0 %}
+                                <td>No</td>
+                                {% else %}
+                                <td>Yes</td>
+                                {% endif %}
+
                                 <td>{{nurse[11]}}</td>
                             </tr>
                             {% endif %}
@@ -379,6 +409,7 @@
                         </tbody>
                     </table>
                     <!--Current Shift Assignment-->
+                    <hr>
                     <div class="col-3">
                         <h6>Current Shift Assignments</h6>
                         <select class="form-control" size="8">
@@ -457,8 +488,10 @@
     <div id="quicklinksContent" class="quick-links-content">
         <a href="#"><img class="quick-link-icons" src="/images/add-patient-icon.png"><br>Add Patient</a>
         <a href="#"><img class="quick-link-icons" src="/images/add-nurse-icon.png"><br>Add Nurse</a>
-        <a href="#" onclick="printExternal('/currentCAASheet')"><img class="quick-link-icons" src="/images/print-icon.png"><br>Print Current<br>CA Sheet</a>
-        <a href="#" onclick="printExternal('/currentPNSheet')"><img class="quick-link-icons" src="/images/print-icon.png"><br>Print Current<br>P/N Sheet</a>
+        <a href="#" onclick="printExternal('/currentCAASheet')"><img class="quick-link-icons"
+                src="/images/print-icon.png"><br>Print Current<br>CA Sheet</a>
+        <a href="#" onclick="printExternal('/currentPNSheet')"><img class="quick-link-icons"
+                src="/images/print-icon.png"><br>Print Current<br>P/N Sheet</a>
     </div>
 </div>
 
@@ -639,6 +672,10 @@
         $("#cNurseSubmit").val(cNurses)
     })
 
+    $("#currPriority").on('change', function () {
+        $('#prioritySubmit').val(this.value)
+    })
+
     // Filter Data by Column
     $(document).ready(function () {
         // Setup - add a text input to each header cell
@@ -656,7 +693,9 @@
         });
 
         var table = $('#verifyTable').DataTable({
-            "lengthMenu": [10, 20, 30, 50]
+            "lengthMenu": [10, 20, 30, 50],
+            orderCellsTop: true,
+            ordering: true
         });
     });
 
