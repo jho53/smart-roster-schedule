@@ -121,6 +121,24 @@ table {
   }
 }
 
+.run_tab_custom {
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(129,62,151,0.25) 85%);
+  border-color: transparent;
+  padding-left: 2rem;
+  margin: 0px;
+
+  &:hover {
+    background: linear-gradient(90deg, rgba(129,62,151,0.25) 0%, rgba(129,62,151,0.6) 85%);
+    font-size: larger;
+    font-weight: bolder;
+    color: white;
+    transition: 0.1s;
+  }
+}
+
 .tab_custom {
   height: 8rem;
   display: flex;
@@ -128,6 +146,7 @@ table {
   background-color: transparent;
   border-color: transparent;
   border-radius: 10px;
+  margin: 0rem;
 
   &.active {
     background-color: white;
