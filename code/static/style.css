@@ -113,6 +113,23 @@ table {
   margin: 1rem;
 }
 
+.run_tab_custom {
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(90deg, white 0%, rgba(129, 62, 151, 0.25) 85%);
+  border-color: transparent;
+  padding-left: 2rem;
+  margin: 0px;
+}
+.run_tab_custom:hover {
+  background: linear-gradient(90deg, rgba(129, 62, 151, 0.25) 0%, rgba(129, 62, 151, 0.6) 85%);
+  font-size: larger;
+  font-weight: bolder;
+  color: white;
+  transition: 0.1s;
+}
+
 .tab_custom {
   height: 8rem;
   display: flex;
@@ -120,6 +137,7 @@ table {
   background-color: transparent;
   border-color: transparent;
   border-radius: 10px;
+  margin: 0rem;
 }
 .tab_custom.active {
   background-color: white;
@@ -384,5 +402,31 @@ input[type=radio]:checked + label:after {
 }
 
 /* End of Assignments Pages */
+/* Profile Page */
+.profile-content {
+  text-align: center;
+  display: block;
+}
+
+.profile-picture {
+  display: inline-block;
+  width: 225px;
+  height: 225px;
+  border-radius: 50%;
+  border: solid 3px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
+.user-image {
+  background-image: url("/images/base-avatar.png");
+}
+
+.profile-links {
+  display: inline-block;
+}
+
+/* End of Profile Page */
 
 /*# sourceMappingURL=style.css.map */
