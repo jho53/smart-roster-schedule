@@ -62,7 +62,7 @@
             {% for nurse in nurseList if nurse[0]==state['support'][i]|int %} value="{{nurse[1]}}" {% endfor %}
             disabled>
           <input id="supp-area-{{i + 1}}" class="col-2 offset-1 form-control form-control-sm rounded text-center"
-            type="text" value="?" disabled>
+            type="text" {% for nurse in nurseList if nurse[0]==state['support'][i]|int %} value="{{nurse[2]}}" {% endfor %} disabled>
           <input id="supp-shift-{{i + 1}}" class="col-2 form-control form-control-sm rounded text-center" type="text"
             {% for nurse in nurseList if nurse[0]==state['support'][i]|int %} value="{{nurse[4]}}" {% endfor %}
             disabled>
@@ -95,13 +95,9 @@
         <div class="mt-5 rounded col-12 row w-100 px-2 shadow-sm"
           style="background-color: lightgray; padding: 10px 30px; width: 100px">
           <div class="row col-12">
-            <h6 class="mt-1 col-4">Fixed</h6>
-            <input class="col-4 ml-2 mb-2 form-control form-control-sm rounded text-center" type="text" value="?"
+            <h6 class="mt-1 col-4">Priority Group</h6>
+            <input class="col-4 ml-2 mb-3 form-control form-control-sm rounded text-center" type="text" value="{{groupNum}}"
               disabled>
-          </div>
-          <div class="row col-12">
-            <h6 class="mt-1 col-4">Flex</h6>
-            <input class="col-4 ml-2 form-control form-control-sm rounded text-center" type="text" value="?" disabled>
           </div>
         </div>
       </div>
@@ -153,13 +149,8 @@
               {% endfor %} {% endif %} disabled>
             <input id="{{pod_row_id}}-skill" class="col-1 form-control form-control-sm rounded text-center mx-1"
               type="text" {% if areaNurseList[area_iter.value][row_col_num] %}
-              {% for nurse in nurseList if nurse[0]==areaNurseList[area_iter.value][row_col_num] %} 
-              {% if nurse[8]==1 %}
-              value="{{nurse[7]}}A"
-              {% else %}
-              value="{{nurse[7]}}"
-              {% endif %}
-              {% endfor %} {% endif %} disabled>
+              {% for nurse in nurseList if nurse[0]==areaNurseList[area_iter.value][row_col_num] %} {% if nurse[8]==1 %}
+              value="{{nurse[7]}}A" {% else %} value="{{nurse[7]}}" {% endif %} {% endfor %} {% endif %} disabled>
             <input id="{{pod_row_id}}-team" class="col-1 form-control form-control-sm rounded text-center mx-1"
               type="text" {% if areaNurseList[area_iter.value][row_col_num] %}
               {% for nurse in nurseList if nurse[0]==areaNurseList[area_iter.value][row_col_num] %} value="{{nurse[5]}}"

@@ -1,16 +1,16 @@
 {
     "charge": [
-        "49",
-        "49",
-        "49"
+        "41",
+        "42",
+        "43"
     ],
     "support": [
         "47",
-        "47",
-        "47"
+        "35",
+        "34"
     ],
     "code": [
-        "54"
+        "53"
     ],
     "assignment": {
         "A1": [],
@@ -236,5 +236,8 @@
             57
         ]
     },
-    "timestamp": "November 16, 2020 - 08:32:21 PM"
+    "timestamp": "November 17, 2020 - 09:40:59 PM",
+    "shift-datetime": "November 11, 2020 - 12:00:00 AM",
+    "author": "Jimmy Ho",
+    "priority": 3
 }

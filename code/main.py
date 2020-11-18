@@ -121,13 +121,15 @@ def home():
 def update_current_nurses():
     try:
         if "loggedin" in session:
-            current_nurses_id = "({0})".format(request.form['current_nurses_list'])
+            current_nurses_id = "({0})".format(
+                request.form['current_nurses_list'])
             priority = request.form['priority']
 
             print(priority)
 
             if list(current_nurses_id)[1] == ",":
-                current_nurses_id = current_nurses_id[:1] + current_nurses_id[2:]
+                current_nurses_id = current_nurses_id[:1] + \
+                    current_nurses_id[2:]
 
             try:
                 cursor.execute("UPDATE nurses SET current_shift = 0")
@@ -232,6 +234,7 @@ def login_user():
             session['loggedin'] = True
             session['id'] = "charge_nurse"
             session['username'] = username
+            session['name'] = "Administrator"
             return redirect(url_for('home'))
 
         else:
@@ -630,6 +633,9 @@ def current_CAASheet():
         # Grab nurse and patient tables
         cursor.execute("SELECT * FROM nurses WHERE current_shift=1")
         nurse_list = cursor.fetchall()
+        cursor.execute(
+            "SELECT DISTINCT group_num FROM nurses WHERE priority = 1")
+        group_num = cursor.fetchone()
 
         if os.path.exists("{0}/cache/current_shift/state.json".format(CURR_DIR)):
             with open("{0}/cache/current_shift/state.json".format(CURR_DIR), 'r') as jsonfile:
@@ -648,6 +654,7 @@ def current_CAASheet():
             return render_template("./Assignment Sheets/cur_caaSheet.html",
                                    loggedin=session['loggedin'],
                                    nurseList=nurse_list,
+                                   groupNum=group_num[0],
                                    areaNurseList=area_nurse_list,
                                    state=state)
 
@@ -739,7 +746,21 @@ def past_CAASheet():
 @ app.route("/pastPNSheet")
 def past_PNSheet():
     if 'loggedin' in session:
-        return render_template("./Assignment Sheets/past_pnSheet.html", loggedin=session['loggedin'])
+        past_json_list = os.listdir(f"{CURR_DIR}/cache/past_shift/")
+        past_json_state = []
+        past_json_dates = []
+
+        for file in past_json_list:
+            with open(f'{CURR_DIR}/cache/past_shift/{file}', 'r') as jsonfile:
+                temp_dict = json.load(jsonfile)
+                past_json_state.append(temp_dict)
+                past_json_dates.append(file[:-5].split("-"))
+
+        print(past_json_state)
+        print(past_json_dates)
+
+        return "working"
+        # return render_template("./Assignment Sheets/past_pnSheet.html", loggedin=session['loggedin'])
     return redirect(url_for('login'))
 
 
@@ -749,11 +770,25 @@ def save_current_state():
     bed_value = ""  # reset on new pair
     patient_nurse_pair = []
 
+    try:
+        # Runs only on first save
+        date = request.form['shiftDate']
+        time = request.form['shiftTime']
+
+        date_time_obj = datetime.strptime(date + " " + time, '%Y-%m-%d %H:%M')
+        date_time_obj = datetime.strftime(
+            date_time_obj, "%B %d, %Y - %I:%M:%S %p")
+    except:
+        # Runs on subsequent saves
+        date_time_obj = request.form['datetime']
+
     # Grab nurse and patient tables
     cursor.execute("SELECT * FROM nurses WHERE current_shift=1")
     nurse_list = cursor.fetchall()
     cursor.execute("SELECT * FROM patients WHERE discharged_date='-'")
     patient_list = cursor.fetchall()
+    cursor.execute("SELECT DISTINCT group_num FROM nurses WHERE priority = 1;")
+    priority = cursor.fetchone()
 
     if 'loggedin' in session:
         try:
@@ -763,7 +798,10 @@ def save_current_state():
                 "support": [],
                 "code": [],
                 "assignment": {},
-                "timestamp": datetime.now().strftime("%B %d, %Y - %I:%M:%S %p")
+                "timestamp": datetime.now().strftime("%B %d, %Y - %I:%M:%S %p"),
+                "shift-datetime": date_time_obj,
+                "author": session['name'],
+                "priority": priority[0]
             }
 
             # flag dict init
@@ -848,8 +886,6 @@ def save_current_state():
                             f"SELECT * FROM nurses WHERE id={curr_pair[1]}")
                         nurse = cursor.fetchone()
 
-                        print(nurse)
-
                         # Flag skill level
                         if nurse[7] < patient[4]:
                             flag_list.append('1')
@@ -926,6 +962,7 @@ def save_current_state():
             with open("./cache/current_shift/state.json", 'w') as jsonfile:
                 json.dump(state_assignment, jsonfile)
 
+            # Write/Overwrite flags.json
             if os.path.exists("{0}/cache/current_shift/flags.json".format(CURR_DIR)):
                 os.remove(
                     "{0}/cache/current_shift/flags.json".format(CURR_DIR))
@@ -938,6 +975,35 @@ def save_current_state():
             print(error)
             return redirect(url_for('current_PNSheet'))
     return redirect(url_for('login'))
+
+
+@ app.route('/endShift', methods=['POST'])
+def end_shift():
+    # Load current state
+    with open("{0}/cache/current_shift/state.json".format(CURR_DIR), 'r') as jsonfile:
+        state = json.load(jsonfile)
+
+    date_time_obj = datetime.strptime(
+        state['shift-datetime'], "%B %d, %Y - %I:%M:%S %p")
+    date_time_obj = datetime.strftime(
+        date_time_obj, "%Y-%m-%d-%H-%M")
+
+    # Create past_shift folder on first run
+    try:
+        os.makedirs("{0}/cache/past_shift".format(CURR_DIR))
+    except:
+        print("Required directories exist")
+
+    # Copy state.json to past_shift folder
+    shutil.copyfile(f"{CURR_DIR}/cache/current_shift/state.json",
+                    f"{CURR_DIR}/cache/past_shift/{date_time_obj}.json")
+
+    # Remove curr_shift folder
+    shutil.rmtree("{0}/cache/current_shift".format(CURR_DIR))
+
+    return redirect(url_for('home'))
+
+# Algorithm
 
 
 @ app.route('/assign', methods=['GET'])
