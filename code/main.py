@@ -341,12 +341,13 @@ def edit_nurse_records():
 
     nurse_DTA = request.form['edit_nurse_dta']
     nurse_comments = request.form['edit_nurse_comments']
+    print(nurse_fte)
 
     query = "UPDATE smartroster.nurses SET name = %s, clinical_area = %s, rotation = %s, group_num = %s, fte = %s, " \
             " skill_level = %s, a_trained = %s, transfer = %s, iv = %s, advanced_role = %s, dta = %s, comments = %s WHERE id = %s"
 
     arguments = (nurse_name, nurse_area, nurse_rotation, nurse_group,
-                 nurse_fte, nurse_skill, nurse_a_trained, nurse_transfer, nurse_iv, nurse_adv_role,
+                 str(nurse_fte), nurse_skill, nurse_a_trained, nurse_transfer, nurse_iv, nurse_adv_role,
                  nurse_DTA, nurse_comments, nurse_id)
 
     try:
