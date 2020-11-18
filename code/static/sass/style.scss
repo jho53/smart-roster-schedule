@@ -16,6 +16,12 @@ table {
   margin: 0;
 }
 
+.form-control:focus {
+  outline: none !important;
+  border:1px solid #813E97;
+  box-shadow: 0 0 10px #813E97;
+}
+
 // div {
 //   border: 1px solid red;
 // }
@@ -117,7 +123,7 @@ table {
   width: 18rem;
   border: 2px solid rgba(213,52,100,1);
   color: black;
-  box-shadow: 2px 3px lightgray;
+  box-shadow: 2px 3px 10px lightgray;
 
   &:hover {
     background: linear-gradient(180deg, rgb(189, 138, 206) 0%, rgba(129,62,151,1) 50%);
@@ -393,7 +399,7 @@ input[type="checkbox"] {
 }
 
 input[type="radio"]:checked + label {
-  outline: 3px solid lightblue;
+  outline: 3px solid #813E97;
   outline-offset: -2px;
   box-sizing: border-box;
   border-radius: 10px;
@@ -501,6 +507,7 @@ input[type="radio"]:checked + label {
 .profile-content {
   text-align: center;
   display: block;
+  color: #af1946;
 }
 
 .profile-picture {
@@ -521,6 +528,15 @@ input[type="radio"]:checked + label {
 
 .profile-links {
   display: inline-block;
+}
+
+.profile_link {
+  color: #813E97;
+
+  &:hover {
+    color: #af1946;
+    text-decoration: none;
+  }
 }
 
 /* End of Profile Page */

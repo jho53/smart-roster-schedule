@@ -16,6 +16,12 @@ table {
   margin: 0;
 }
 
+.form-control:focus {
+  outline: none !important;
+  border: 1px solid #813E97;
+  box-shadow: 0 0 10px #813E97;
+}
+
 /******* Class Styling *******/
 /* Global */
 .sr-logo {
@@ -110,7 +116,7 @@ table {
   width: 18rem;
   border: 2px solid #d53464;
   color: black;
-  box-shadow: 2px 3px lightgray;
+  box-shadow: 2px 3px 10px lightgray;
 }
 .card_custom:hover {
   background: linear-gradient(180deg, #bd8ace 0%, #813e97 50%);
@@ -373,7 +379,7 @@ input[type=checkbox] {
 }
 
 input[type=radio]:checked + label {
-  outline: 3px solid lightblue;
+  outline: 3px solid #813E97;
   outline-offset: -2px;
   box-sizing: border-box;
   border-radius: 10px;
@@ -472,6 +478,7 @@ input[type=radio]:checked + label:after {
 .profile-content {
   text-align: center;
   display: block;
+  color: #af1946;
 }
 
 .profile-picture {
@@ -491,6 +498,14 @@ input[type=radio]:checked + label:after {
 
 .profile-links {
   display: inline-block;
+}
+
+.profile_link {
+  color: #813E97;
+}
+.profile_link:hover {
+  color: #af1946;
+  text-decoration: none;
 }
 
 /* End of Profile Page */
