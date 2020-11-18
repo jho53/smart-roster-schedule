@@ -257,7 +257,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         <div class="mt-3">
                             <label>Skill Level</label><br>
                             <div class="radio-group">
-                                <input type="radio" id="nurse_skill_1_edit" name="edit_nurse_skill" value="1" checked>
+                                <input type="radio" id="nurse_skill_1_edit" name="edit_nurse_skill" value="1">
                                 <label for="nurse_skill_1_edit" class="button-select">1</label>
         
                                 <input type="radio" id="nurse_skill_2_edit" name="edit_nurse_skill" value="2">
@@ -286,7 +286,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                             <input style="display: inline-block; visibility: visible; position: relative;" class="ml-5" type="checkbox" name="L_check_3" id="L_check_3">
                             <label for="L_check_3">L</label>
                             <div class="radio-group" style="width: 450px">
-                                <input type="radio" id="advanced_role_1_edit" name="edit_advanced_role" value="None" checked>
+                                <input type="radio" id="advanced_role_1_edit" name="edit_advanced_role" value="None" >
                                 <label for="advanced_role_1_edit" class="button-select">None</label>
         
                                 <input type="radio" id="advanced_role_2_edit" name="edit_advanced_role" value="Charge">
@@ -423,7 +423,6 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         var edit_nurse_prev_pat = table.rows[rowId].cells[11].innerText;
         var edit_nurse_DTA = table.rows[rowId].cells[12].innerText;
         var edit_nurse_comments = table.rows[rowId].cells[13].innerText;
-        console.log(edit_nurse_DTA)
 
         // Sets input values
         document.getElementById('edit_nurse_id').value = edit_nurse_id;
@@ -434,6 +433,49 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         document.getElementById('edit_nurse_fte').value = edit_nurse_fte;
         document.getElementById('edit_nurse_dta').value = edit_nurse_DTA;
         document.getElementById('edit_nurse_comments').value = edit_nurse_comments;
+
+        if (edit_nurse_skill == 1) {
+            document.getElementById("nurse_skill_1_edit").checked = true;
+        } else if (edit_nurse_skill == 2) {
+            document.getElementById("nurse_skill_2_edit").checked = true;
+        } else if (edit_nurse_skill == 3) {
+            document.getElementById("nurse_skill_3_edit").checked = true;
+        } else if (edit_nurse_skill == 4) {
+            document.getElementById("nurse_skill_4_edit").checked = true;
+        } else if (edit_nurse_skill == 5) {
+            document.getElementById("nurse_skill_5_edit").checked = true;
+        }
+
+        if (edit_nurse_a_trained == 1) {
+            document.getElementById("edit_a_trained_toggle").checked = true;
+        } else {
+            document.getElementById("edit_a_trained_toggle").checked = false;
+        }
+
+        if (edit_nurse_transfer == 1) {
+            document.getElementById("edit_nurse_transfer").checked = true;
+        } else {
+            document.getElementById("edit_nurse_transfer").checked = false;
+        }
+
+        if (edit_nurse_adv_role == 'None' || edit_nurse_adv_role == '') {
+            document.getElementById("advanced_role_1_edit").checked = true;
+        } else if (edit_nurse_adv_role == "Charge") {
+            document.getElementById("advanced_role_2_edit").checked = true;
+        } else if (edit_nurse_adv_role == "Support") {
+            document.getElementById("advanced_role_3_edit").checked = true;
+        } else if (edit_nurse_adv_role == "Code" || edit_nurse_adv_role == "L Code") {
+            document.getElementById("advanced_role_4_edit").checked = true;
+        }
+
+        if (edit_nurse_adv_role == "L Code") {
+            document.getElementById("L_check_3").checked = true;
+        } else {
+            document.getElementById("L_check_3").checked = false;
+        }
+
+
+        
     }
 
     // Filter Data by Column
