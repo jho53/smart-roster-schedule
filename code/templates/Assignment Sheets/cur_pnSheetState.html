@@ -15,14 +15,22 @@
             <br><small>Print</small>
         </a>
         <form id="save-state-form" action="/saveState" method="POST">
-            <a href="#" id="saveStateSubmit" style="position: absolute; right: 110px; top: 30px;">
+            <a href="#" id="saveStateSubmit" style="position: absolute; right: 120px; top: 30px;">
                 <i class="fas fa-save fa-3x" style="color:black"></i>
                 <br><small>Save</small>
             </a>
             <input id="saveStateData" type="text" name="saveStateData" hidden>
+            <input id="shiftDateTime" type="text" name="datetime" hidden>
         </form>
-        <small class="mb-2">{{now.strftime("%B %d, %Y - %I:%M:%S %p")}}</small> <br>
-        <small class="mb-2">Last Updated: {{state['timestamp']}}</small>
+        <a href="#" data-toggle="modal" data-target="#finalSubmitModal" id="finalSubmit"
+            style="position: absolute; right: 185px; top: 30px;">
+            <i class="fas fa-calendar-check fa-3x" style="color:black"></i>
+            <br><small>Finalize Shift</small>
+        </a>
+
+        <small class="mb-2">Current Shift: <span id="curr-datetime">{{state["shift-datetime"]}}</span></small> <br>
+        <small class="mb-2">Last Updated: {{state['timestamp']}} by {{state.author}}</small>
+
         <br><br>
         <div class="row">
             <div class="col-8 offset-2 row">
@@ -110,6 +118,34 @@
                         {% endfor %}
                     </select>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Confirmation Modal-->
+<div class="modal fade" id="finalSubmitModal" tabindex="-1" role="dialog" aria-labelledby="finalSubmitModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="finalSubmitModalLabel">Please Verify to End Shift</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h6>Before you end the shift, please check/do the following</h6>
+                <small>1. Advanced Role Assignments</small><br>
+                <small>2. Verify Patient/Nurse Assignments</small><br>
+                <small>3. Print Current Page for documentation</small>
+            </div>
+            <div class="modal-footer">
+                <form method="POST" action="/endShift">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">End Shift</button>
+                    <input id="shiftDateTime1" type="text" name="end-datetime" hidden>
+                </form>
             </div>
         </div>
     </div>
@@ -273,7 +309,8 @@
     {% endfor %}
 </div>
 
-<div class="modal fade flagspopup" id="flag_popup" tabindex="-1" role="dialog" aria-labelledby="flagsPopupModal" aria-hidden="true">
+<div class="modal fade flagspopup" id="flag_popup" tabindex="-1" role="dialog" aria-labelledby="flagsPopupModal"
+    aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -291,7 +328,7 @@
                 <p id="priority_flag"></p>
                 <p id="twin_flag"></p>
                 <p id="iv_flag"></p>
-                <p id="home_area_flag"></p> 
+                <p id="home_area_flag"></p>
             </div>
         </div>
     </div>
@@ -316,15 +353,15 @@
 
     // Load Modal Data
     $('#flag_popup').on('show.bs.modal', function (e) {
-            $(e.currentTarget).find('#skill_level_flag').html('');
-            $(e.currentTarget).find('#a_trained_flag').html('');
-            $(e.currentTarget).find('#transfer_flag').html('');
-            $(e.currentTarget).find('#one_to_one_flag').html('');
-            $(e.currentTarget).find('#previous_patient_flag').html('');
-            $(e.currentTarget).find('#priority_flag').html('');
-            $(e.currentTarget).find('#twin_flag').html('');
-            $(e.currentTarget).find('#iv_flag').html('');
-            $(e.currentTarget).find('#home_area_flag').html('');
+        $(e.currentTarget).find('#skill_level_flag').html('');
+        $(e.currentTarget).find('#a_trained_flag').html('');
+        $(e.currentTarget).find('#transfer_flag').html('');
+        $(e.currentTarget).find('#one_to_one_flag').html('');
+        $(e.currentTarget).find('#previous_patient_flag').html('');
+        $(e.currentTarget).find('#priority_flag').html('');
+        $(e.currentTarget).find('#twin_flag').html('');
+        $(e.currentTarget).find('#iv_flag').html('');
+        $(e.currentTarget).find('#home_area_flag').html('');
 
         var skill_level = $(e.relatedTarget).data('skill_level');
         var a_trained = $(e.relatedTarget).data('a_trained');
@@ -336,39 +373,39 @@
         var iv = $(e.relatedTarget).data('iv');
         var home_area = $(e.relatedTarget).data('home_area');
 
-        if(skill_level == '1'){
+        if (skill_level == '1') {
             $(e.currentTarget).find('#skill_level_flag').html('<i class="fas fa-flag" style="color: tomato"></i> Nurse Skill Level too low.');
         }
 
-        if(a_trained == '1'){
+        if (a_trained == '1') {
             $(e.currentTarget).find('#a_trained_flag').html('<i class="fas fa-flag" style="color: tomato"></i> Nurse is not A Trained.');
         }
-        
-        if(transfer == '1'){
+
+        if (transfer == '1') {
             $(e.currentTarget).find('#transfer_flag').html('<i class="fas fa-flag" style="color: tomato"></i> Nurse does not have Transfer.');
         }
-        
-        if(one_to_one == '1'){
+
+        if (one_to_one == '1') {
             $(e.currentTarget).find('#one_to_one_flag').html('<i class="fas fa-flag" style="color: tomato"></i> Patient is 1:1 or Nurse already was assigned to a 1:1.');
         }
 
-        if(previous_patient == '1'){
+        if (previous_patient == '1') {
             $(e.currentTarget).find('#previous_patient_flag').html('<p id="previous_patient_flag"><i class="fas fa-flag" style="color: gold"></i> Nurse is <strong>not</strong> assigned with previous patient</p>');
         }
-        
-        if(priority == '1'){
+
+        if (priority == '1') {
             $(e.currentTarget).find('#priority_flag').html('<i class="fas fa-flag" style="color: gold"></i> Nurse is not priority');
         }
 
-        if(twin == '1'){
+        if (twin == '1') {
             $(e.currentTarget).find('#twin_flag').html('<i class="fas fa-flag" style="color: green"></i> Patient is a twin.');
         }
 
-        if(iv == '1'){
+        if (iv == '1') {
             $(e.currentTarget).find('#iv_flag').html('<i class="fas fa-flag" style="color: green"></i> Nurse does not have advanced IV.');
         }
 
-        if(home_area == '1'){
+        if (home_area == '1') {
             $(e.currentTarget).find('#home_area_flag').html('<i class="fas fa-flag" style="color: green"></i> Nurse <strong>not</strong> assigned to home Clinical Area');
         }
     });
@@ -383,6 +420,8 @@
             }
         }
         $("#saveStateData").val(JSON.stringify(saveStateData))
+        $("#shiftDateTime").val($("#curr-datetime").text())
+        $("#shiftDateTime1").val($("#curr-datetime").text())
 
         if (saveStateData.length % 2 == 0) {
             $('#alertArea').append("<div class='alert alert-danger alert-dismissable fade show'> " +

@@ -58,18 +58,42 @@
                     <td>
                         <div id="{{'p'~patient[0]~'-acuity'}}">{{patient[4]}} </div>
                     </td>
+                    {% if patient[5]==1 %}
                     <td>
-                        <div id="{{'p'~patient[0]~'-atrainedReq'}}">{{patient[5]}} </div>
+                        <div id="{{'p'~patient[0]~'-atrainedReq'}}">Yes</div>
                     </td>
+                    {% else %}
                     <td>
-                        <div id="{{'p'~patient[0]~'-transferReq'}}">{{patient[6]}} </div>
+                        <div id="{{'p'~patient[0]~'-atrainedReq'}}">No</div>
                     </td>
+                    {% endif %}
+                    {% if patient[6]==1 %}
                     <td>
-                        <div id="{{'p'~patient[0]~'-ivReq'}}">{{patient[7]}} </div>
+                        <div id="{{'p'~patient[0]~'-transferReq'}}">Yes</div>
                     </td>
+                    {% else %}
                     <td>
-                        <div id="{{'p'~patient[0]~'-1to1'}}">{{patient[8]}} </div>
+                        <div id="{{'p'~patient[0]~'-transferReq'}}">No</div>
                     </td>
+                    {% endif %}
+                    {% if patient[7]==1 %}
+                    <td>
+                        <div id="{{'p'~patient[0]~'-ivReq'}}">Yes</div>
+                    </td>
+                    {% else %}
+                    <td>
+                        <div id="{{'p'~patient[0]~'-ivReq'}}">No</div>
+                    </td>
+                    {% endif %}
+                    {% if patient[8]==1 %}
+                    <td>
+                        <div id="{{'p'~patient[0]~'-1to1'}}">Yes</div>
+                    </td>
+                    {% else %}
+                    <td>
+                        <div id="{{'p'~patient[0]~'-1to1'}}">No</div>
+                    </td>
+                    {% endif %}
                     <td>
                         <div id="{{'p'~patient[0]~'-prevNurses'}}">{{patient[9]}} </div>
                     </td>
@@ -209,7 +233,7 @@
                     <div class="mt-3">
                         <label>Acuity Level</label><br>
                         <div class="radio-group">
-                            <input type="radio" id="acuity_1_edit" name="edit_acuity_level" value="1" checked>
+                            <input type="radio" id="acuity_1_edit" name="edit_acuity_level" value="1">
                             <label for="acuity_1_edit" class="button-select">1</label>
     
                             <input type="radio" id="acuity_2_edit" name="edit_acuity_level" value="2">
@@ -370,6 +394,55 @@
         document.getElementById('edit_patient_area').value = patient_clinical_area;
         document.getElementById('edit_patient_bed_number').value = patient_bed;
         document.getElementById('edit_comments').value = patient_date_comments
+        document.getElementById("edit_date_admitted").value = patient_date_admitted
+        document.getElementById("edit_date_discharged").value = patient_date_discharged
+
+        if (patient_acuity_level == 1) {
+            document.getElementById("acuity_1_edit").checked = true;
+        } else if (patient_acuity_level == 2) {
+            document.getElementById("acuity_2_edit").checked = true;
+        } else if (patient_acuity_level == 3) {
+            document.getElementById("acuity_3_edit").checked = true;
+        } else if (patient_acuity_level == 4) {
+            document.getElementById("acuity_4_edit").checked = true;
+        } else if (patient_acuity_level == 5) {
+            document.getElementById("acuity_5_edit").checked = true;
+        }
+
+        if (patient_a_trained == "Yes") {
+            document.getElementById("edit_a_trained_toggle").checked = true;
+        } else {
+            document.getElementById("edit_a_trained_toggle").checked = false;
+        }
+
+        if (patient_transfer == "Yes") {
+            document.getElementById("edit_transfer_toggle").checked = true;
+        } else {
+            document.getElementById("edit_transfer_toggle").checked = false;
+        }
+
+        if (patient_iv == "Yes") {
+            document.getElementById("edit_iv_toggle").checked = true;
+
+        } else {
+            document.getElementById("edit_iv_toggle").checked = false;
+
+        }
+        if (patient_iv == "Yes") {
+            document.getElementById("edit_one_to_one_toggle").checked = true;
+
+        } else {
+            document.getElementById("edit_one_to_one_toggle").checked = false;
+
+        }
+        if (patient_iv == "Yes") {
+            document.getElementById("edit_twin_toggle").checked = true;
+
+        } else {
+            document.getElementById("edit_twin_toggle").checked = false;
+
+        }
+
     }
 
 

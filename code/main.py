@@ -81,12 +81,19 @@ def home():
         supp_nurse_ids = []
         cn_nurse_ids = []
         code_nurse_ids = []
+        group_num = []
 
         # Grab database information
         cursor.execute("SELECT * FROM nurses")
         nurse_list = cursor.fetchall()
         cursor.execute("SELECT * FROM patients")
         patient_list = cursor.fetchall()
+        cursor.execute("SELECT DISTINCT group_num FROM nurses")
+        for i in cursor.fetchall():
+            if i[0] == 0:
+                pass
+            else:
+                group_num.append(i[0])
 
         for nurse in nurse_list:
             if nurse[-1] == 1:
@@ -105,26 +112,38 @@ def home():
                                currNurseIds=curr_nurse_ids,
                                suppNursesIds=supp_nurse_ids,
                                cnNurseIds=cn_nurse_ids,
-                               codeNurseIds=code_nurse_ids)
+                               codeNurseIds=code_nurse_ids,
+                               groupNum=group_num)
     return redirect(url_for('login'))
 
 
 @app.route("/modalSubmit", methods=["POST"])
 def update_current_nurses():
-    if "loggedin" in session:
-        current_nurses_id = "({0})".format(request.form['current_nurses_list'])
+    try:
+        if "loggedin" in session:
+            current_nurses_id = "({0})".format(
+                request.form['current_nurses_list'])
+            priority = request.form['priority']
 
-        if list(current_nurses_id)[1] == ",":
-            current_nurses_id = current_nurses_id[:1] + current_nurses_id[2:]
+            print(priority)
 
-        try:
-            cursor.execute("UPDATE nurses SET current_shift = 0")
-            cursor.execute("UPDATE nurses SET current_shift = 1 WHERE id in {0}".format(
-                current_nurses_id))
-            db.commit()
-            return redirect(url_for('home'))
-        except Exception as error:
-            print(error)
+            if list(current_nurses_id)[1] == ",":
+                current_nurses_id = current_nurses_id[:1] + \
+                    current_nurses_id[2:]
+
+            try:
+                cursor.execute("UPDATE nurses SET current_shift = 0")
+                cursor.execute("UPDATE nurses SET current_shift = 1 WHERE id in {0}".format(
+                    current_nurses_id))
+                cursor.execute("UPDATE nurses SET priority = 0")
+                cursor.execute(
+                    "UPDATE nurses SET priority = 1 WHERE group_num = {0}".format(priority))
+                db.commit()
+                return redirect(url_for('home'))
+            except Exception as error:
+                print(error)
+    except:
+        print(Exception)
 
 
 @app.route("/modalSubmit2", methods=["POST"])
@@ -215,6 +234,7 @@ def login_user():
             session['loggedin'] = True
             session['id'] = "charge_nurse"
             session['username'] = username
+            session['name'] = "Administrator"
             return redirect(url_for('home'))
 
         else:
@@ -228,6 +248,7 @@ def login_user():
                 session['loggedin'] = True
                 session['id'] = account[0]
                 session['username'] = username
+                session['name'] = account[3] + " " + account[4]
                 return redirect(url_for('home'))
             else:
                 return render_template("login.html", msg="Invalid Login")
@@ -288,13 +309,13 @@ def add_nurse_records():
 
     except:
         nurse_iv = 1
-    
+
     try:
         L_check_2 = request.form['L_check_2']
         nurse_iv = 3
     except:
         pass
-        
+
     nurse_adv_role = request.form['create_advanced_role']
     try:
         L_check_1 = request.form['L_check_1']
@@ -350,13 +371,13 @@ def edit_nurse_records():
 
     except:
         nurse_iv = 1
-    
+
     try:
         L_check_4 = request.form['L_check_4']
         nurse_iv = 3
     except:
         pass
-        
+
     nurse_adv_role = request.form['edit_advanced_role']
     try:
         L_check_3 = request.form['L_check_3']
@@ -367,12 +388,13 @@ def edit_nurse_records():
 
     nurse_DTA = request.form['edit_nurse_dta']
     nurse_comments = request.form['edit_nurse_comments']
+    print(nurse_fte)
 
     query = "UPDATE smartroster.nurses SET name = %s, clinical_area = %s, rotation = %s, group_num = %s, fte = %s, " \
             " skill_level = %s, a_trained = %s, transfer = %s, iv = %s, advanced_role = %s, dta = %s, comments = %s WHERE id = %s"
 
     arguments = (nurse_name, nurse_area, nurse_rotation, nurse_group,
-                 nurse_fte, nurse_skill, nurse_a_trained, nurse_transfer, nurse_iv, nurse_adv_role,
+                 str(nurse_fte), nurse_skill, nurse_a_trained, nurse_transfer, nurse_iv, nurse_adv_role,
                  nurse_DTA, nurse_comments, nurse_id)
 
     try:
@@ -431,7 +453,7 @@ def add_patient_records():
 
     except:
         patient_transfer = 0
-        
+
     try:
         patient_iv = request.form['create_iv_toggle']
         patient_iv = 1
@@ -455,7 +477,6 @@ def add_patient_records():
 
     patient_date_admitted = request.form['create_patient_date_admitted']
     patient_comments = request.form['create_patient_comments']
-        
 
     query = "insert into smartroster.patients(name, clinical_area, bed_num, acuity, a_trained, transfer, iv, one_to_one, admission_date, comments, twin )" \
             "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
@@ -519,8 +540,6 @@ def edit_patient_records():
     patient_date_discharged = request.form['edit_date_discharged']
     patient_comments = request.form['edit_comments']
 
-
-
     query = "UPDATE smartroster.patients SET name = %s, clinical_area = %s, bed_num = %s, acuity = %s, a_trained = %s, " \
             " transfer = %s, iv = %s, one_to_one = %s, admission_date = %s, discharged_date = %s, comments = %s, twin = %s WHERE id = %s"
 
@@ -569,6 +588,7 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+
 @app.route('/upload_image', methods=['POST'])
 def upload_image():
     if request.method == 'POST':
@@ -614,6 +634,9 @@ def current_CAASheet():
         # Grab nurse and patient tables
         cursor.execute("SELECT * FROM nurses WHERE current_shift=1")
         nurse_list = cursor.fetchall()
+        cursor.execute(
+            "SELECT DISTINCT group_num FROM nurses WHERE priority = 1")
+        group_num = cursor.fetchone()
 
         if os.path.exists("{0}/cache/current_shift/state.json".format(CURR_DIR)):
             with open("{0}/cache/current_shift/state.json".format(CURR_DIR), 'r') as jsonfile:
@@ -632,6 +655,7 @@ def current_CAASheet():
             return render_template("./Assignment Sheets/cur_caaSheet.html",
                                    loggedin=session['loggedin'],
                                    nurseList=nurse_list,
+                                   groupNum=group_num[0],
                                    areaNurseList=area_nurse_list,
                                    state=state)
 
@@ -723,7 +747,21 @@ def past_CAASheet():
 @ app.route("/pastPNSheet")
 def past_PNSheet():
     if 'loggedin' in session:
-        return render_template("./Assignment Sheets/past_pnSheet.html", loggedin=session['loggedin'])
+        past_json_list = os.listdir(f"{CURR_DIR}/cache/past_shift/")
+        past_json_state = []
+        past_json_dates = []
+
+        for file in past_json_list:
+            with open(f'{CURR_DIR}/cache/past_shift/{file}', 'r') as jsonfile:
+                temp_dict = json.load(jsonfile)
+                past_json_state.append(temp_dict)
+                past_json_dates.append(file[:-5].split("-"))
+
+        print(past_json_state)
+        print(past_json_dates)
+
+        return "working"
+        # return render_template("./Assignment Sheets/past_pnSheet.html", loggedin=session['loggedin'])
     return redirect(url_for('login'))
 
 
@@ -733,11 +771,25 @@ def save_current_state():
     bed_value = ""  # reset on new pair
     patient_nurse_pair = []
 
+    try:
+        # Runs only on first save
+        date = request.form['shiftDate']
+        time = request.form['shiftTime']
+
+        date_time_obj = datetime.strptime(date + " " + time, '%Y-%m-%d %H:%M')
+        date_time_obj = datetime.strftime(
+            date_time_obj, "%B %d, %Y - %I:%M:%S %p")
+    except:
+        # Runs on subsequent saves
+        date_time_obj = request.form['datetime']
+
     # Grab nurse and patient tables
     cursor.execute("SELECT * FROM nurses WHERE current_shift=1")
     nurse_list = cursor.fetchall()
     cursor.execute("SELECT * FROM patients WHERE discharged_date='-'")
     patient_list = cursor.fetchall()
+    cursor.execute("SELECT DISTINCT group_num FROM nurses WHERE priority = 1;")
+    priority = cursor.fetchone()
 
     if 'loggedin' in session:
         try:
@@ -747,7 +799,10 @@ def save_current_state():
                 "support": [],
                 "code": [],
                 "assignment": {},
-                "timestamp": datetime.now().strftime("%B %d, %Y - %I:%M:%S %p")
+                "timestamp": datetime.now().strftime("%B %d, %Y - %I:%M:%S %p"),
+                "shift-datetime": date_time_obj,
+                "author": session['name'],
+                "priority": priority[0]
             }
 
             # flag dict init
@@ -787,7 +842,7 @@ def save_current_state():
                     patient_nurse_pair = []
 
                     pod = state_data[i][4]
-                    bed_num = state_data[i][10:12] # '5-' or '12'
+                    bed_num = state_data[i][10:12]  # '5-' or '12'
                     try:
                         # bed number is two digits
                         int(bed_num)
@@ -818,18 +873,19 @@ def save_current_state():
                     flag_list = []
                     curr_pair = state_assignment["assignment"]["{0}{1}".format(
                         area, i + 1)]
-                    
+
                     if len(curr_pair) == 0:
-                        flag_list = ['0', '0', '0', '0', '0', '0', '0', '0', '0']
+                        flag_list = ['0', '0', '0', '0',
+                                     '0', '0', '0', '0', '0']
                     else:
 
-                        cursor.execute(f"SELECT * FROM patients WHERE id={curr_pair[0]}")
+                        cursor.execute(
+                            f"SELECT * FROM patients WHERE id={curr_pair[0]}")
                         patient = cursor.fetchone()
 
-                        cursor.execute(f"SELECT * FROM nurses WHERE id={curr_pair[1]}")
+                        cursor.execute(
+                            f"SELECT * FROM nurses WHERE id={curr_pair[1]}")
                         nurse = cursor.fetchone()
-
-                        print(nurse)
 
                         # Flag skill level
                         if nurse[7] < patient[4]:
@@ -848,7 +904,7 @@ def save_current_state():
                             flag_list.append('1')
                         else:
                             flag_list.append('0')
-                        
+
                         # Flag 1:1
                         # case 1: current patient is 1:1
                         if int(patient[8]):
@@ -856,12 +912,13 @@ def save_current_state():
                                 flag_list.append('1')
                             else:
                                 flag_list.append('0')
-                            
+
                         else:
                             # case 2: nurse being assigned is already assigned to another 1:1 patient
                             flag_list.append('0')
                             for p in assignments[str(nurse[0])]['patients']:
-                                cursor.execute('SELECT one_to_one FROM patients WHERE id={0}'.format(p))
+                                cursor.execute(
+                                    'SELECT one_to_one FROM patients WHERE id={0}'.format(p))
                                 fetched_p = cursor.fetchone()
                                 if fetched_p[0]:
                                     flag_list[3] = '1'
@@ -872,13 +929,13 @@ def save_current_state():
                             if n in list(nurse_list):
                                 if nurse[0] != n:
                                     flag_list[4] = '1'
-                        
+
                         # Flag priority
                         if nurse[15]:
                             flag_list.append('1')
                         else:
                             flag_list.append('0')
-                            
+
                         # Flag twin
                         if patient[13]:
                             flag_list.append('1')
@@ -896,7 +953,7 @@ def save_current_state():
                             flag_list.append('1')
                         else:
                             flag_list.append('0')
-                    
+
                     flags["{0}{1}".format(area, i + 1)] = flag_list
 
             # Write/Overwrite state.json
@@ -905,7 +962,8 @@ def save_current_state():
                     "{0}/cache/current_shift/state.json".format(CURR_DIR))
             with open("./cache/current_shift/state.json", 'w') as jsonfile:
                 json.dump(state_assignment, jsonfile)
-            
+
+            # Write/Overwrite flags.json
             if os.path.exists("{0}/cache/current_shift/flags.json".format(CURR_DIR)):
                 os.remove(
                     "{0}/cache/current_shift/flags.json".format(CURR_DIR))
@@ -918,6 +976,35 @@ def save_current_state():
             print(error)
             return redirect(url_for('current_PNSheet'))
     return redirect(url_for('login'))
+
+
+@ app.route('/endShift', methods=['POST'])
+def end_shift():
+    # Load current state
+    with open("{0}/cache/current_shift/state.json".format(CURR_DIR), 'r') as jsonfile:
+        state = json.load(jsonfile)
+
+    date_time_obj = datetime.strptime(
+        state['shift-datetime'], "%B %d, %Y - %I:%M:%S %p")
+    date_time_obj = datetime.strftime(
+        date_time_obj, "%Y-%m-%d-%H-%M")
+
+    # Create past_shift folder on first run
+    try:
+        os.makedirs("{0}/cache/past_shift".format(CURR_DIR))
+    except:
+        print("Required directories exist")
+
+    # Copy state.json to past_shift folder
+    shutil.copyfile(f"{CURR_DIR}/cache/current_shift/state.json",
+                    f"{CURR_DIR}/cache/past_shift/{date_time_obj}.json")
+
+    # Remove curr_shift folder
+    shutil.rmtree("{0}/cache/current_shift".format(CURR_DIR))
+
+    return redirect(url_for('home'))
+
+# Algorithm
 
 
 @ app.route('/assign', methods=['GET'])
@@ -1100,7 +1187,6 @@ def assign_nurse_patient() -> dict:
 
 # @app.route('/flag', methods=['GET'])
 # def assign_nurse_patient() -> dict:
-
 
 
 if __name__ == "__main__":
