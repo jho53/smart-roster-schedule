@@ -3,5 +3,169 @@
 {% block content %}
 
 <!--Content Here-->
-Past PN Sheet
+<!--Jumbotron-->
+<div class="jumbotron py-3">
+  <div class="jumbotron-content">
+    <div class="row justify-content-md-center">
+      <h1 class="jumbotron-title col-11">Patient/Nurse Assignment Page</h1>
+    </div>
+    <br><br>
+    <!--Charge Nurse-->
+    <div class="row">
+      <div class="col rounded pt-3 px-4 mx-5 shadow-sm" style="background-color: lightgray">
+        <div class="row justify-content-center">
+          <div class="col-9">
+            <h6>Charge Nurses</h6>
+          </div>
+          <div class="col-3">
+            <h6>Skill Level</h6>
+          </div>
+        </div>
+        {% for i in range(3)%}
+        <div class="row justify-content-center mb-2">
+          <input class="col-8 form-control form-control-sm rounded text-center" type="text" value="" disabled>
+          <input class="col-2 offset-1 form-control form-control-sm rounded text-center" type="text" value="" disabled>
+        </div>
+        {% endfor %}
+      </div>
+      <!--Support Nurses-->
+      <div class="col rounded pt-3 pl-4 pr-5 mx-5 shadow-sm" style="background-color: lightgray;">
+        <div class="row justify-content-center">
+          <div class="col-8">
+            <h6>Support Nurses</h6>
+          </div>
+          <div class="col-2">
+            <h6>Area</h6>
+          </div>
+          <div class="col-2">
+            <h6>Rotation</h6>
+          </div>
+        </div>
+        {% for i in range(3)%}
+        <div class="row justify-content-center mb-2">
+          <input class="col-6 offset-1 form-control form-control-sm rounded text-center" type="text" value="" disabled>
+          <input class="col-2 offset-1 form-control form-control-sm rounded text-center" type="text" value="" disabled>
+          <input class="col-2 form-control form-control-sm rounded text-center" type="text" value="" disabled>
+        </div>
+        {% endfor %}
+      </div>
+      <!--Right Column-->
+      <div class="col mx-5">
+        <div class="row w-100 px-2 shadow-sm"
+          style="background-color: lightgray; padding: 10px 30px; border-radius: 5px;">
+          <div class="col-4">
+            <h6>Code RN</h6>
+          </div>
+          <input class="col-6 form-control form-control-sm rounded text-center" type="text" value="" disabled>
+          <div class="col-1"></div>
+        </div><br>
+        <div class="mt-5 rounded col-12 row w-100 px-2 shadow-sm"
+          style="background-color: lightgray; padding: 10px 30px; width: 100px">
+          <div class="row col-12">
+            <h6 class="mt-1 col-4">Fixed</h6>
+            <input class="col-4 ml-2 mb-3 form-control form-control-sm rounded text-center" type="text" value=""
+              disabled>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% set areas=["A", "B", "C", "D", "E", "F"] %}
+{% set area_iter = namespace(value=0) %}
+
+<div class="container-fluid">
+  {% for card_row in range(2) %}
+  <div class="card-deck" id="row-{{card_row + 1}}">
+    {% for card_col in range(3) %}
+    <div class="card shadow" style="border-radius: 15px;" id="pod-{{areas[area_iter.value]}}">
+      <div {% if area_iter.value < 4 %} class="card-footer text-center pod-norm" {% else %}
+        class="card-footer text-center pod-spec" {% endif %}
+        style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
+        <h4>Clinical Area {{areas[area_iter.value]}}</h4>
+
+      </div>
+      <div class="card-body row justify-content-md-center">
+        <div class="col-6 row justify-content-md-center" id="pod-{{areas[area_iter.value]}}-col1">
+          {% for asc_loop in range(7) %}
+          <div class="col-11 p-2 row mb-2" style="background-color: lightgrey; border-radius: 10px;"
+            id="pod-{{areas[area_iter.value]}}-bed-{{asc_loop + 1}}-view">
+            <p style="position: relative; left: 5%;">{{ asc_loop + 1 }}</p>
+            <div class="input-group input-group-sm px-1">
+              <div class="input-group-prepend">
+                <label class="input-group-text" style="width: 30px;">P</label>
+              </div>
+              <select class="form-control" id="pod-{{areas[area_iter.value]}}-bed-{{asc_loop + 1}}-patient-menu">
+                <option id="pod-{{areas[area_iter.value]}}-bed-{{ asc_loop + 1 }}-p-blank" value="">
+                </option selected>
+              </select>
+            </div>
+            <!--Nurse Dropdown-->
+            <div class="input-group input-group-sm px-1">
+              <div class="input-group-prepend">
+                <label class="input-group-text" style="width: 30px;">N</label>
+              </div>
+              <select class=" form-control" id="pod-{{areas[area_iter.value]}}-bed-{{asc_loop + 1}}-nurse-menu">
+                <option id="pod-{{areas[area_iter.value]}}-bed-{{ asc_loop + 1 }}-n-blank" value="">
+                </option>
+              </select>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="col-6 row justify-content-md-center" id="pod-{{areas[area_iter.value]}}-col2">
+          {% for desc_loop in range(7)|reverse %}
+          <div class="col-11 p-2 row mb-2" style="background-color: lightgrey; border-radius: 10px;"
+            id="pod-{{areas[area_iter.value]}}-bed-{{desc_loop + 8}}-view">
+            <p style="position: relative; left: 5%;">{{ desc_loop + 8 }}</p>
+            <!--Patient Dropdown-->
+            <div class="input-group input-group-sm px-1">
+              <div class="input-group-prepend">
+                <label class="input-group-text" style="width: 30px;">P</label>
+              </div>
+              <select class="form-control" id="pod-{{areas[area_iter.value]}}-bed-{{ desc_loop + 8 }}-patient-menu">
+                <option id="pod-{{areas[area_iter.value]}}-bed-{{ desc_loop + 8 }}-p-blank" value="">
+                </option selected>
+              </select>
+            </div>
+            <!--Nurse Dropdown-->
+            <div class="input-group input-group-sm px-1">
+              <div class="input-group-prepend">
+                <label class="input-group-text" style="width: 30px;">N</label>
+              </div>
+              <select class=" form-control" id="bed-{{ desc_loop + 8 }}-nurse-menu">
+                <option id="pod-{{areas[area_iter.value]}}-bed-{{ desc_loop + 8 }}-n-blank" value="">
+                </option selected>
+              </select>
+            </div>
+          </div>
+          {% endfor %}
+          {% set area_iter.value = area_iter.value + 1 %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <br>
+  {% endfor %}
+</div>
+
+<script>
+  // Print Page
+  function printPage() {
+    var css = 'body',
+      head = document.head || document.getElementsByTagName('head')[0],
+      style = document.createElement('style');
+    style.type = 'text/css';
+    style.media = 'print';
+    if (style.styleSheet) {
+      style.styleSheet.cssText = css;
+    } else {
+      style.appendChild(document.createTextNode(css));
+    }
+    head.appendChild(style);
+    window.print();
+  }
+</script>
 {% endblock %}

@@ -6,9 +6,12 @@
 
 {% for id in response %}
 <div class="p-2 mb-1" style="background-color: lightblue;">
+    <h6>Nurse:</h6>
     <p>{{nurseList[id - 1][0]}}: {{nurseList[id - 1][1]}}</p>
-    {% for patient in response[id]['patients']%}
-    <p>{{patientList[patient - 1][1]}} {{patientList[patient - 1][2]}}{{patientList[patient - 1][3]}}</p>
+    <h6>Patient(s):</h6>
+    {% for patient_id in response[id]['patients']%}
+    <p>{{patientList[patient_id - 1][0]}}: {{patientList[patient_id - 1][1]}}
+        ({{patientList[patient_id - 1][2]}}{{patientList[patient_id - 1][3]}})</p>
     {% endfor %}
 </div>
 {% endfor %}

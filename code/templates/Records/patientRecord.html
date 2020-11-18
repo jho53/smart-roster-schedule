@@ -58,18 +58,42 @@
                     <td>
                         <div id="{{'p'~patient[0]~'-acuity'}}">{{patient[4]}} </div>
                     </td>
+                    {% if patient[5]==1 %}
                     <td>
-                        <div id="{{'p'~patient[0]~'-atrainedReq'}}">{{patient[5]}} </div>
+                        <div id="{{'p'~patient[0]~'-atrainedReq'}}">Yes</div>
                     </td>
+                    {% else %}
                     <td>
-                        <div id="{{'p'~patient[0]~'-transferReq'}}">{{patient[6]}} </div>
+                        <div id="{{'p'~patient[0]~'-atrainedReq'}}">No</div>
                     </td>
+                    {% endif %}
+                    {% if patient[6]==1 %}
                     <td>
-                        <div id="{{'p'~patient[0]~'-ivReq'}}">{{patient[7]}} </div>
+                        <div id="{{'p'~patient[0]~'-transferReq'}}">Yes</div>
                     </td>
+                    {% else %}
                     <td>
-                        <div id="{{'p'~patient[0]~'-1to1'}}">{{patient[8]}} </div>
+                        <div id="{{'p'~patient[0]~'-transferReq'}}">No</div>
                     </td>
+                    {% endif %}
+                    {% if patient[7]==1 %}
+                    <td>
+                        <div id="{{'p'~patient[0]~'-ivReq'}}">Yes</div>
+                    </td>
+                    {% else %}
+                    <td>
+                        <div id="{{'p'~patient[0]~'-ivReq'}}">No</div>
+                    </td>
+                    {% endif %}
+                    {% if patient[8]==1 %}
+                    <td>
+                        <div id="{{'p'~patient[0]~'-1to1'}}">Yes</div>
+                    </td>
+                    {% else %}
+                    <td>
+                        <div id="{{'p'~patient[0]~'-1to1'}}">No</div>
+                    </td>
+                    {% endif %}
                     <td>
                         <div id="{{'p'~patient[0]~'-prevNurses'}}">{{patient[9]}} </div>
                     </td>

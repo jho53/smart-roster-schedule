@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!--Content Here-->
+<!--Jumbotron-->
+<div class="jumbotron py-3">
+    <div class="jumbotron-content">
+        <div class="row justify-content-md-center">
+            <h1 class="jumbotron-title col-11">Patient/Nurse Assignment Page</h1>
+        </div>
+        <br><br>
+        <div class="row">
+            <div class="col-8 offset-2 row">
+                <!--Charge Nurse Dropdowns-->
+                <div class="input-group mb-3 shadow-sm">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" style="width: 140px">Charge Nurse</label>
+                    </div>
+                    {% for i in range(3)%}
+                    <select class="form-control" id="cn-assign-form">
+                        <option id="cn-assign-blank" value="" selected></option>
+                        </option>
+                        {% for index, nurse in enumerate(nurseList) %}
+                        {% if nurse[11] == "Charge" %}
+                        <option class="table-success" id='cn-assign-{{nurse[0]}}' value="{{nurse[0]}}">
+                            {{nurse[1]}}
+                        </option>
+                        {% else %}
+                        <option id='cn-assign-{{nurse[0]}}' value="{{nurse[0]}}">{{nurse[1]}}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                    {% endfor %}
+                </div>
+                <!--Support Nurse Dropdowns-->
+                <div class="input-group mb-3 shadow-sm">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" style="width: 140px">Support Nurse</label>
+                    </div>
+                    {% for i in range(3)%}
+                    <select class="form-control" id="support-assign-form">
+                        <option id="support-assign-blank" value="" selected></option>
+                        </option>
+                        {% for index, nurse in enumerate(nurseList) %}
+                        {% if nurse[11] == "Support" %}
+                        <option class="table-warning" id='support-assign-{{nurse[0]}}' value="{{nurse[0]}}">{{nurse[1]}}
+                        </option>
+                        {% else %}
+                        <option id='support-assign-{{nurse[0]}}' value="{{nurse[0]}}">{{nurse[1]}}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                    {% endfor %}
+                </div>
+                <!--Code Nurse Dropdowns-->
+                <div class="input-group shadow-sm">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" style="width: 140px">Code Nurse</label>
+                    </div>
+                    <select class="form-control" id="code-assign-form">
+                        <option id="code-assign-blank" value="" selected></option>
+                        {% for index, nurse in enumerate(nurseList) %}
+                        {% if nurse[11] == "Code" %}
+                        <option class="table-danger" id="code-assign-{{nurse[0]}}" value="{{nurse[0]}}">{{nurse[1]}}
+                        </option>
+                        {% else %}
+                        <option id="code-assign-{{nurse[0]}}" value="{{nurse[0]}}">{{nurse[1]}}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% set areas=["A", "B", "C", "D", "E", "F"] %}
+{% set area_iter = namespace(value=0) %}
+
+<div class="container-fluid">
+    {% for card_row in range(2) %}
+    <div class="card-deck" id="row-{{card_row + 1}}">
+        {% for card_col in range(3) %}
+        <div class="card shadow" style="border-radius: 15px;" id="pod-{{areas[area_iter.value]}}">
+            <div {% if area_iter.value < 4 %} class="card-footer text-center pod-norm" {% else %}
+                class="card-footer text-center pod-spec" {% endif %}
+                style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                <h4>Clinical Area {{areas[area_iter.value]}}</h4>
+
+            </div>
+            <div class="card-body row justify-content-md-center">
+                <div class="col-6 row justify-content-md-center" id="pod-{{areas[area_iter.value]}}-col1">
+                    {% for asc_loop in range(7) %}
+                    <div class="col-11 p-2 row mb-2" style="background-color: lightgrey; border-radius: 10px;"
+                        id="pod-{{areas[area_iter.value]}}-bed-{{asc_loop + 1}}-view">
+                        <p style="position: relative; left: 5%;">{{ asc_loop + 1 }}</p>
+                        <i class="fas fa-exclamation-circle" style="position: relative; left: 87.5%; top: 5%;"></i>
+                        <div class="input-group input-group-sm px-1">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" style="width: 30px;">P</label>
+                            </div>
+                            <select class="form-control"
+                                id="pod-{{areas[area_iter.value]}}-bed-{{asc_loop + 1}}-patient-menu">
+                                <option id="pod-{{areas[area_iter.value]}}-bed-{{ asc_loop + 1 }}-p-blank" value="">
+                                </option selected>
+                            </select>
+                        </div>
+                        <!--Nurse Dropdown-->
+                        <div class="input-group input-group-sm px-1">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" style="width: 30px;">N</label>
+                            </div>
+                            <select class=" form-control"
+                                id="pod-{{areas[area_iter.value]}}-bed-{{asc_loop + 1}}-nurse-menu">
+                                <option id="pod-{{areas[area_iter.value]}}-bed-{{ asc_loop + 1 }}-n-blank" value="">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="col-6 row justify-content-md-center" id="pod-{{areas[area_iter.value]}}-col2">
+                    {% for desc_loop in range(7)|reverse %}
+                    <div class="col-11 p-2 row mb-2" style="background-color: lightgrey; border-radius: 10px;"
+                        id="pod-{{areas[area_iter.value]}}-bed-{{desc_loop + 8}}-view">
+                        <p style="position: relative; left: 5%;">{{ desc_loop + 8 }}</p>
+                        <!--Patient Dropdown-->
+                        <div class="input-group input-group-sm px-1">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" style="width: 30px;">P</label>
+                            </div>
+                            <select class="form-control"
+                                id="pod-{{areas[area_iter.value]}}-bed-{{ desc_loop + 8 }}-patient-menu">
+                                <option id="pod-{{areas[area_iter.value]}}-bed-{{ desc_loop + 8 }}-p-blank" value="">
+                                </option selected>
+                            </select>
+                        </div>
+                        <!--Nurse Dropdown-->
+                        <div class="input-group input-group-sm px-1">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" style="width: 30px;">N</label>
+                            </div>
+                            <select class=" form-control" id="bed-{{ desc_loop + 8 }}-nurse-menu">
+                                <option id="pod-{{areas[area_iter.value]}}-bed-{{ desc_loop + 8 }}-n-blank" value="">
+                                </option selected>
+                            </select>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% set area_iter.value = area_iter.value + 1 %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <br>
+    {% endfor %}
+</div>
+
+<script>
+    $("document").ready(function () {
+        alert("Please run the scheduler to populate the page")
+    })
+</script>
+
+{% endblock %}

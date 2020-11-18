@@ -8,10 +8,6 @@ table {
   display: "block";
 }
 
-/* div {
-    border: 1px solid red;
-  } */
-
 /******* Class Styling *******/
 /* Global */
 .sr-logo {
@@ -69,19 +65,104 @@ table {
   background: #ffffff;
 }
 
-.rounded {
-  border-radius: 15px;
+/* Navbar */
+.navbar_custom {
+  background: linear-gradient(90deg, white 0%, #d53464 54%, #813e97 100%);
 }
 
-.active {
-  z-index: 0;
+.navbar_text {
+  color: white;
+}
+.navbar_text:hover {
+  color: pink;
+}
+.navbar_text.current_link {
+  color: yellow;
 }
 
-/* Start of login page */
-.login-elements {
-  margin-top: 150px;
-  height: 600px;
-  /* border: 5px solid; */
+/* Main Page */
+.button_custom {
+  background-color: #D53464;
+  border-color: white;
+  color: white;
+}
+.button_custom:hover {
+  background-color: #813E97;
+  border-color: white;
+  color: white;
+}
+
+.custom_card_img {
+  height: 80px;
+  transition: 0.4s;
+  margin: 1.5rem;
+}
+
+.card_custom {
+  background-color: white;
+  transition: 0.4s ease-in;
+  width: 18rem;
+  border: 2px solid rgba(129, 62, 151, 0.3);
+}
+.card_custom:hover {
+  background-color: rgba(129, 62, 151, 0.4);
+}
+.card_custom:hover .custom_card_img {
+  height: 96px;
+  transition: 0.4s;
+  margin: 1rem;
+}
+
+.run_tab_custom {
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(90deg, white 0%, rgba(129, 62, 151, 0.25) 85%);
+  border-color: transparent;
+  padding-left: 2rem;
+  margin: 0px;
+}
+.run_tab_custom:hover {
+  background: linear-gradient(90deg, rgba(129, 62, 151, 0.25) 0%, rgba(129, 62, 151, 0.6) 85%);
+  font-size: larger;
+  font-weight: bolder;
+  color: white;
+  transition: 0.1s;
+}
+
+.tab_custom {
+  height: 8rem;
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border-color: transparent;
+  border-radius: 10px;
+  margin: 0rem;
+}
+.tab_custom.active {
+  background-color: white;
+  border-color: transparent;
+  color: black;
+}
+.tab_custom.active:hover {
+  background-color: white;
+}
+.tab_custom:hover {
+  background-color: transparent;
+  border-color: transparent;
+  border-radius: 0px;
+  font-size: larger;
+  font-weight: bolder;
+  transition: 0.1s ease-in;
+}
+
+.tab_image_custom {
+  height: 3rem;
+  width: auto;
+}
+
+.tab_menu_custom {
+  background: linear-gradient(90deg, white 0%, rgba(213, 52, 100, 0.25) 85%);
 }
 
 /* Sidebar */
@@ -104,7 +185,7 @@ table {
   padding: 8px 8px 8px 32px;
   text-decoration: none;
   font-size: 20px;
-  color: #000000;
+  color: black;
   display: block;
   transition: 0.3s;
 }
@@ -130,6 +211,7 @@ table {
   white-space: nowrap;
   word-wrap: none;
 }
+
 /* End of Sidebar */
 /* Quick-links */
 .input-group-text {
@@ -219,13 +301,13 @@ table {
   position: relative;
 }
 
-input[type="radio"] {
+input[type=radio] {
   position: absolute;
   visibility: hidden;
   display: none;
 }
 
-input[type="checkbox"] {
+input[type=checkbox] {
   display: none;
   position: absolute;
   visibility: hidden;
@@ -240,7 +322,7 @@ input[type="checkbox"] {
   margin: 0;
 }
 
-input[type="radio"]:checked + label {
+input[type=radio]:checked + label {
   outline: 3px solid lightblue;
   outline-offset: -2px;
   box-sizing: border-box;
@@ -249,7 +331,7 @@ input[type="radio"]:checked + label {
   margin: 0px;
 }
 
-label + input[type="radio"] + label {
+label + input[type=radio] + label {
   margin: 0;
 }
 
@@ -270,8 +352,7 @@ label + input[type="radio"] + label {
   padding: 0px 0px;
   width: 170px;
 }
-.toggle:before,
-.toggle:after {
+.toggle:before, .toggle:after {
   content: "";
   position: absolute;
   top: 50%;
@@ -295,8 +376,8 @@ label + input[type="radio"] + label {
   transition: all 200ms ease-out;
 }
 
-input[type="checkbox"]:checked + label:after,
-input[type="radio"]:checked + label:after {
+input[type=checkbox]:checked + label:after,
+input[type=radio]:checked + label:after {
   right: 0px;
   background: #ff9800;
 }

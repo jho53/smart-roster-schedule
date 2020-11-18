@@ -1,0 +1,502 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!--Content Here-->
+<!--Jumbotron-->
+
+<div class="jumbotron py-3">
+    <div class="jumbotron-content">
+        <div class="row justify-content-md-center">
+            <h1 class="jumbotron-title col-11">Patient/Nurse Assignment Page</h1>
+        </div>
+        <a href="#" onclick="printPage()" style="position: absolute; right: 50px; top: 30px;">
+            <i class="fas fa-print fa-3x" style="color:black"></i>
+            <br><small>Print</small>
+        </a>
+        <form id="save-state-form" action="/saveState" method="POST">
+            <a href="#" id="saveStateSubmit" style="position: absolute; right: 120px; top: 30px;">
+                <i class="fas fa-save fa-3x" style="color:black"></i>
+                <br><small>Save</small>
+            </a>
+            <input id="saveStateData" type="text" name="saveStateData" hidden>
+            <input id="shiftDateTime" type="text" name="datetime" hidden>
+        </form>
+        <a href="#" data-toggle="modal" data-target="#finalSubmitModal" id="finalSubmit"
+            style="position: absolute; right: 185px; top: 30px;">
+            <i class="fas fa-calendar-check fa-3x" style="color:black"></i>
+            <br><small>Finalize Shift</small>
+        </a>
+
+        <small class="mb-2">Current Shift: <span id="curr-datetime">{{state["shift-datetime"]}}</span></small> <br>
+        <small class="mb-2">Last Updated: {{state['timestamp']}} by {{state.author}}</small>
+
+        <br><br>
+        <div class="row">
+            <div class="col-8 offset-2 row">
+                <!--Charge Nurse Dropdowns-->
+                <div class="input-group mb-3 shadow-sm">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" style="width: 140px">Charge Nurse</label>
+                    </div>
+                    {% for i in range(3)%}
+                    <select class="form-control" id="cn-assign-form">
+                        {% if state["charge"][i] %}
+                        <option id="cn-assign-{{state['charge'][i]}}" value="{{state['charge'][i]}}" selected>
+                            {% for nurse in nurseList if nurse[0]==state['charge'][i]|int %}
+                            {{nurse[1]}}
+                            {% endfor %}
+                        </option>
+                        {% else %}
+                        <option id="cn-assign-blank" value="" selected></option>
+                        {% endif %}
+                        <option id="cn-assign-blank" value=""></option>
+                        {% for index, nurse in enumerate(nurseList) %}
+                        {% if nurse[11] == "Charge" %}
+                        <option class="table-success" id='cn-assign-{{nurse[0]}}' value="{{nurse[0]}}">
+                            {{nurse[1]}}
+                        </option>
+                        {% else %}
+                        <option id='cn-assign-{{nurse[0]}}' value="{{nurse[0]}}">{{nurse[1]}}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                    {% endfor %}
+                </div>
+                <!--Support Nurse Dropdowns-->
+                <div class="input-group mb-3 shadow-sm">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" style="width: 140px">Support Nurse</label>
+                    </div>
+                    {% for i in range(3)%}
+                    <select class="form-control" id="support-assign-form">
+                        {% if state["support"][i] %}
+                        <option id="support-assign-{{state['support'][i]}}" value="{{state['support'][i]}}" selected>
+                            {% for nurse in nurseList if nurse[0]==state['support'][i]|int %}
+                            {{nurse[1]}}
+                            {% endfor %}
+                        </option>
+                        {% else %}
+                        <option id="support-assign-blank" value="" selected></option>
+                        {% endif %}
+                        <option id="support-assign-blank" value=""></option>
+                        </option>
+                        {% for index, nurse in enumerate(nurseList) %}
+                        {% if nurse[11] == "Support" %}
+                        <option class="table-warning" id='support-assign-{{nurse[0]}}' value="{{nurse[0]}}">{{nurse[1]}}
+                        </option>
+                        {% else %}
+                        <option id='support-assign-{{nurse[0]}}' value="{{nurse[0]}}">{{nurse[1]}}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                    {% endfor %}
+                </div>
+                <!--Code Nurse Dropdowns-->
+                <div class="input-group shadow-sm">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" style="width: 140px">Code Nurse</label>
+                    </div>
+                    <select class="form-control" id="code-assign-form">
+                        {% if state["code"][0] %}
+                        <option id="code-assign-{{state['code'][0]}}" value="{{state['code'][0]}}" selected>
+                            {% for nurse in nurseList if nurse[0]==state['code'][0]|int %}
+                            {{nurse[1]}}
+                            {% endfor %}
+                        </option>
+                        {% else %}
+                        <option id="code-assign-blank" value="" selected></option>
+                        {% endif %}
+                        <option id="code-assign-blank" value=""></option>
+                        {% for index, nurse in enumerate(nurseList) %}
+                        {% if nurse[11] == "Code" %}
+                        <option class="table-danger" id="code-assign-{{nurse[0]}}" value="{{nurse[0]}}">{{nurse[1]}}
+                        </option>
+                        {% else %}
+                        <option id="code-assign-{{nurse[0]}}" value="{{nurse[0]}}">{{nurse[1]}}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Confirmation Modal-->
+<div class="modal fade" id="finalSubmitModal" tabindex="-1" role="dialog" aria-labelledby="finalSubmitModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="finalSubmitModalLabel">Please Verify to End Shift</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h6>Before you end the shift, please check/do the following</h6>
+                <small>1. Advanced Role Assignments</small><br>
+                <small>2. Verify Patient/Nurse Assignments</small><br>
+                <small>3. Print Current Page for documentation</small>
+            </div>
+            <div class="modal-footer">
+                <form method="POST" action="/endShift">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">End Shift</button>
+                    <input id="shiftDateTime1" type="text" name="end-datetime" hidden>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Alert-->
+<div id="alertArea" class="container-fluid"></div>
+
+{% set areas=["A", "B", "C", "D", "E", "F"] %}
+{% set area_iter = namespace(value=0) %}
+
+<div class="container-fluid">
+    {% for card_row in range(2) %}
+    <div class="card-deck" id="row-{{card_row + 1}}">
+        {% for card_col in range(3) %}
+        <div class="card shadow" style="border-radius: 15px;" id="pod-{{areas[area_iter.value]}}">
+            <div {% if area_iter.value < 4 %} class="card-footer text-center pod-norm" {% else %}
+                class="card-footer text-center pod-spec" {% endif %}
+                style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                <h4>Clinical Area {{areas[area_iter.value]}}</h4>
+            </div>
+            <div class="card-body row justify-content-md-center">
+                <div class="col-6 row justify-content-md-center" id="pod-{{areas[area_iter.value]}}-col1">
+                    {% for asc_loop in range(7) %}
+                    <div class="col-11 p-2 row mb-2" style="background-color: lightgrey; border-radius: 10px;"
+                        id="pod-{{areas[area_iter.value]}}-bed-{{asc_loop + 1}}-view">
+                        <p style="position: relative; left: 5%;">{{ asc_loop + 1 }}</p>
+                        {% if flags[areas[area_iter.value]+(asc_loop + 1)|string] != ['0', '0', '0', '0', '0', '0', '0', '0', '0'] %}
+                        {% if flags[areas[area_iter.value]+(asc_loop + 1)|string][0] == '1' or flags[areas[area_iter.value]+(asc_loop + 1)|string][1] == '1' or flags[areas[area_iter.value]+(asc_loop + 1)|string][2] == '1' or flags[areas[area_iter.value]+(asc_loop + 1)|string][3] == '1' %}
+                        <a style="color: tomato; position: relative; left: 90%;" href="#" data-toggle="modal"
+                            data-target=".flagspopup"
+                            data-skill_level="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][0]}}"
+                            data-a_trained="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][1]}}"
+                            data-transfer="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][2]}}"
+                            data-one_to_one="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][3]}}"
+                            data-previous_patient="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][4]}}"
+                            data-priority="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][5]}}"
+                            data-twin="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][6]}}"
+                            data-iv="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][7]}}"
+                            data-home_area="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][8]}}"><i
+                                class="fas fa-exclamation-circle"></i></a>
+                        {% elif flags[areas[area_iter.value]+(asc_loop + 1)|string][4] == '1' or flags[areas[area_iter.value]+(asc_loop + 1)|string][5] == '1' %}
+                        <a style="color: gold; position: relative; left: 90%;" href="#" data-toggle="modal"
+                            data-target=".flagspopup"
+                            data-skill_level="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][0]}}"
+                            data-a_trained="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][1]}}"
+                            data-transfer="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][2]}}"
+                            data-one_to_one="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][3]}}"
+                            data-previous_patient="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][4]}}"
+                            data-priority="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][5]}}"
+                            data-twin="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][6]}}"
+                            data-iv="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][7]}}"
+                            data-home_area="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][8]}}"><i
+                                class="fas fa-exclamation-circle"></i></a>
+                        {% else %}
+                        <a style="color: green; position: relative; left: 90%;" href="#" data-toggle="modal"
+                            data-target=".flagspopup"
+                            data-skill_level="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][0]}}"
+                            data-a_trained="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][1]}}"
+                            data-transfer="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][2]}}"
+                            data-one_to_one="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][3]}}"
+                            data-previous_patient="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][4]}}"
+                            data-priority="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][5]}}"
+                            data-twin="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][6]}}"
+                            data-iv="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][7]}}"
+                            data-home_area="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][8]}}"><i
+                                class="fas fa-exclamation-circle"></i></a>
+                        {% endif %}
+                        {% endif %}
+                        <!--Patient Dropdown-->
+                        <!-- <p>{{areas[area_iter.value]+(asc_loop + 1)|string}}{{state['assignment'][areas[area_iter.value]+(asc_loop + 1)|string]}} -->
+                        </p>
+                        <div class="input-group input-group-sm px-1">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" style="width: 30px;">P</label>
+                            </div>
+                            <select class="form-control"
+                                id="pod-{{areas[area_iter.value]}}-bed-{{asc_loop + 1}}-patient-menu">
+                                {% if state['assignment'][areas[area_iter.value]+(asc_loop + 1)|string][0] %}
+                                {% set patient_id = state['assignment'][areas[area_iter.value]+(asc_loop + 1)|string][0] %}
+                                <option id="pod-{{areas[area_iter.value]}}-bed-{{ asc_loop + 1 }}-p-{{patient_id}}"
+                                    value="{{patient_id}}" selected>
+                                    {% for patient in patientList if patient[0]==patient_id %}
+                                    {{patient[1]}}
+                                    {% endfor %}
+                                </option>
+                                {% endif %}
+                                <option id="pod-{{areas[area_iter.value]}}-bed-{{ asc_loop + 1 }}-p-blank" value="">
+                                </option>
+                                {% for index, patient in enumerate(patientList) %}
+                                <option id='pod-{{areas[area_iter.value]}}-bed-{{ asc_loop + 1 }}-p-{{patient[0]}}'
+                                    value="{{patient[0]}}">{{patient[1]}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <!--Nurse Dropdown-->
+                        <div class="input-group input-group-sm px-1">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" style="width: 30px;">N</label>
+                            </div>
+                            <select class="form-control"
+                                id="pod-{{areas[area_iter.value]}}-bed-{{asc_loop + 1}}-nurse-menu">
+                                {% if state['assignment'][areas[area_iter.value]+(asc_loop + 1)|string][1] %}
+                                {% set nurse_id = state['assignment'][areas[area_iter.value]+(asc_loop + 1)|string][1] %}
+                                <option id="pod-{{areas[area_iter.value]}}-bed-{{ asc_loop + 1 }}-n-{{nurse_id}}"
+                                    value="{{nurse_id}}" selected>{% for nurse in nurseList if nurse[0]==nurse_id %}
+                                    {{nurse[1]}}
+                                    {% endfor %}
+                                </option>
+                                {% endif %}
+                                <option id="pod-{{areas[area_iter.value]}}-bed-{{ asc_loop + 1 }}-n-blank" value="">
+                                </option>
+                                {% for index, nurse in enumerate(nurseList) %}
+                                <option id='pod-{{areas[area_iter.value]}}-bed-{{ asc_loop + 1 }}-n-{{nurse[0]}}'
+                                    value="{{nurse[0]}}">{{nurse[1]}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="col-6 row justify-content-md-center" id="pod-{{areas[area_iter.value]}}-col2">
+                    {% for desc_loop in range(7)|reverse %}
+                    <div class="col-11 p-2 row mb-2" style="background-color: lightgrey; border-radius: 10px;"
+                        id="pod-{{areas[area_iter.value]}}-bed-{{desc_loop + 8}}-view">
+                        <p style="position: relative; left: 5%;">{{ desc_loop + 8 }}</p>
+                        {% if flags[areas[area_iter.value]+(desc_loop + 8)|string] != ['0', '0', '0', '0', '0', '0', '0', '0', '0'] %}
+                        {% if flags[areas[area_iter.value]+(desc_loop + 8)|string][0] == '1' or flags[areas[area_iter.value]+(desc_loop + 8)|string][1] == '1' or flags[areas[area_iter.value]+(desc_loop + 8)|string][2] == '1' or flags[areas[area_iter.value]+(desc_loop + 8)|string][3] == '1' %}
+                        <a style="color: tomato; position: relative; left: 90%;" href="#" data-toggle="modal"
+                            data-target=".flagspopup"
+                            data-skill_level="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][0]}}"
+                            data-a_trained="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][1]}}"
+                            data-transfer="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][2]}}"
+                            data-one_to_one="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][3]}}"
+                            data-previous_patient="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][4]}}"
+                            data-priority="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][5]}}"
+                            data-twin="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][6]}}"
+                            data-iv="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][7]}}"
+                            data-home_area="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][8]}}"><i
+                                class="fas fa-exclamation-circle"></i></a>
+                        {% elif flags[areas[area_iter.value]+(desc_loop + 8)|string][4] == '1' or flags[areas[area_iter.value]+(desc_loop + 8)|string][5] == '1' %}
+                        <a style="color: gold; position: relative; left: 90%;" href="#" data-toggle="modal"
+                            data-target=".flagspopup"
+                            data-skill_level="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][0]}}"
+                            data-a_trained="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][1]}}"
+                            data-transfer="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][2]}}"
+                            data-one_to_one="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][3]}}"
+                            data-previous_patient="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][4]}}"
+                            data-priority="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][5]}}"
+                            data-twin="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][6]}}"
+                            data-iv="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][7]}}"
+                            data-home_area="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][8]}}"><i
+                                class="fas fa-exclamation-circle"></i></a>
+                        {% else %}
+                        <a style="color: green; position: relative; left: 90%;" href="#" data-toggle="modal"
+                            data-target=".flagspopup"
+                            data-skill_level="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][0]}}"
+                            data-a_trained="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][1]}}"
+                            data-transfer="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][2]}}"
+                            data-one_to_one="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][3]}}"
+                            data-previous_patient="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][4]}}"
+                            data-priority="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][5]}}"
+                            data-twin="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][6]}}"
+                            data-iv="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][7]}}"
+                            data-home_area="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][8]}}"><i
+                                class="fas fa-exclamation-circle"></i></a>
+                        {% endif %}
+                        {% endif %}
+                        <!--Patient Dropdown-->
+                        <!-- <p>{{areas[area_iter.value]+(desc_loop + 8)|string}}{{state['assignment'][areas[area_iter.value]+(desc_loop + 8)|string]}} -->
+                        </p>
+                        <div class="input-group input-group-sm px-1">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" style="width: 30px;">P</label>
+                            </div>
+                            <select class="form-control"
+                                id="pod-{{areas[area_iter.value]}}-bed-{{ desc_loop + 8 }}-patient-menu">
+                                {% if state['assignment'][areas[area_iter.value]+(desc_loop + 8)|string][0] %}
+                                {% set patient_id = state['assignment'][areas[area_iter.value]+(desc_loop + 8)|string][0] %}
+                                <option id="pod-{{areas[area_iter.value]}}-bed-{{ desc_loop + 8 }}-p-{{patient_id}}"
+                                    value="{{patient_id}}" selected>
+                                    {% for patient in patientList if patient[0]==patient_id %}
+                                    {{patient[1]}}
+                                    {% endfor %}
+                                </option>
+                                {% endif %}
+                                <option id="pod-{{areas[area_iter.value]}}-bed-{{ desc_loop + 8 }}-p-blank" value="">
+                                </option selected>
+                                {% for index, patient in enumerate(patientList) %}
+                                <option id='pod-{{areas[area_iter.value]}}-bed-{{ desc_loop + 8 }}-p-{{patient[0]}}'
+                                    value="{{patient[0]}}">{{patient[1]}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <!--Nurse Dropdown-->
+                        <div class="input-group input-group-sm px-1">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" style="width: 30px;">N</label>
+                            </div>
+                            <select class=" form-control" id="bed-{{ desc_loop + 8 }}-nurse-menu">
+                                {% if state['assignment'][areas[area_iter.value]+( desc_loop + 8 )|string][1] %}
+                                {% set nurse_id = state['assignment'][areas[area_iter.value]+(desc_loop + 8 )|string][1] %}
+                                <option id="pod-{{areas[area_iter.value]}}-bed-{{ desc_loop + 8 }}-n-{{nurse_id}}"
+                                    value="{{nurse_id}}" selected>
+                                    {% for nurse in nurseList if nurse[0]==nurse_id %}
+                                    {{nurse[1]}}
+                                    {% endfor %}
+                                </option>
+                                {% endif %}
+                                <option id="pod-{{areas[area_iter.value]}}-bed-{{ desc_loop + 8 }}-n-blank" value="">
+                                </option selected>
+                                {% for index, nurse in enumerate(nurseList) %}
+                                <option id='pod-{{areas[area_iter.value]}}-bed-{{ desc_loop + 8 }}-n-{{nurse[0]}}'
+                                    value="{{nurse[0]}}">{{nurse[1]}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% set area_iter.value = area_iter.value + 1 %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <br>
+    {% endfor %}
+</div>
+
+<div class="modal fade flagspopup" id="flag_popup" tabindex="-1" role="dialog" aria-labelledby="flagsPopupModal"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Flags</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="skill_level_flag"></p>
+                <p id="a_trained_flag"></p>
+                <p id="transfer_flag"></p>
+                <p id="one_to_one_flag"></p>
+                <p id="previous_patient_flag"></p>
+                <p id="priority_flag"></p>
+                <p id="twin_flag"></p>
+                <p id="iv_flag"></p>
+                <p id="home_area_flag"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Print Page
+    function printPage() {
+        var css = 'body',
+            head = document.head || document.getElementsByTagName('head')[0],
+            style = document.createElement('style');
+        style.type = 'text/css';
+        style.media = 'print';
+        if (style.styleSheet) {
+            style.styleSheet.cssText = css;
+        } else {
+            style.appendChild(document.createTextNode(css));
+        }
+        head.appendChild(style);
+        window.print();
+    }
+
+    // Load Modal Data
+    $('#flag_popup').on('show.bs.modal', function (e) {
+        $(e.currentTarget).find('#skill_level_flag').html('');
+        $(e.currentTarget).find('#a_trained_flag').html('');
+        $(e.currentTarget).find('#transfer_flag').html('');
+        $(e.currentTarget).find('#one_to_one_flag').html('');
+        $(e.currentTarget).find('#previous_patient_flag').html('');
+        $(e.currentTarget).find('#priority_flag').html('');
+        $(e.currentTarget).find('#twin_flag').html('');
+        $(e.currentTarget).find('#iv_flag').html('');
+        $(e.currentTarget).find('#home_area_flag').html('');
+
+        var skill_level = $(e.relatedTarget).data('skill_level');
+        var a_trained = $(e.relatedTarget).data('a_trained');
+        var transfer = $(e.relatedTarget).data('transfer');
+        var one_to_one = $(e.relatedTarget).data('one_to_one');
+        var previous_patient = $(e.relatedTarget).data('previous_patient');
+        var priority = $(e.relatedTarget).data('priority');
+        var twin = $(e.relatedTarget).data('twin');
+        var iv = $(e.relatedTarget).data('iv');
+        var home_area = $(e.relatedTarget).data('home_area');
+
+        if (skill_level == '1') {
+            $(e.currentTarget).find('#skill_level_flag').html('<i class="fas fa-flag" style="color: tomato"></i> Nurse Skill Level too low.');
+        }
+
+        if (a_trained == '1') {
+            $(e.currentTarget).find('#a_trained_flag').html('<i class="fas fa-flag" style="color: tomato"></i> Nurse is not A Trained.');
+        }
+
+        if (transfer == '1') {
+            $(e.currentTarget).find('#transfer_flag').html('<i class="fas fa-flag" style="color: tomato"></i> Nurse does not have Transfer.');
+        }
+
+        if (one_to_one == '1') {
+            $(e.currentTarget).find('#one_to_one_flag').html('<i class="fas fa-flag" style="color: tomato"></i> Patient is 1:1 or Nurse already was assigned to a 1:1.');
+        }
+
+        if (previous_patient == '1') {
+            $(e.currentTarget).find('#previous_patient_flag').html('<p id="previous_patient_flag"><i class="fas fa-flag" style="color: gold"></i> Nurse is <strong>not</strong> assigned with previous patient</p>');
+        }
+
+        if (priority == '1') {
+            $(e.currentTarget).find('#priority_flag').html('<i class="fas fa-flag" style="color: gold"></i> Nurse is not priority');
+        }
+
+        if (twin == '1') {
+            $(e.currentTarget).find('#twin_flag').html('<i class="fas fa-flag" style="color: green"></i> Patient is a twin.');
+        }
+
+        if (iv == '1') {
+            $(e.currentTarget).find('#iv_flag').html('<i class="fas fa-flag" style="color: green"></i> Nurse does not have advanced IV.');
+        }
+
+        if (home_area == '1') {
+            $(e.currentTarget).find('#home_area_flag').html('<i class="fas fa-flag" style="color: green"></i> Nurse <strong>not</strong> assigned to home Clinical Area');
+        }
+    });
+
+    // Save State
+    $("#saveStateSubmit").on("click", (event) => {
+        var saveStateData = []
+        var selectedList = document.querySelectorAll("option:checked")
+        for (item in selectedList) {
+            if (selectedList[item].value != "") {
+                saveStateData.push(selectedList[item].id)
+            }
+        }
+        $("#saveStateData").val(JSON.stringify(saveStateData))
+        $("#shiftDateTime").val($("#curr-datetime").text())
+        $("#shiftDateTime1").val($("#curr-datetime").text())
+
+        if (saveStateData.length % 2 == 0) {
+            $('#alertArea').append("<div class='alert alert-danger alert-dismissable fade show'> " +
+                "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>Invalid Assignment</div>")
+        } else {
+            $("#save-state-form").submit()
+        }
+    })
+
+</script>
+
+{% endblock %}

@@ -22,20 +22,19 @@
     <!--Favicon-->
     <link rel="shortcut icon" type="image/ico" href="/images/favicon.ico">
 
-
 </head>
 
 <body>
     {% if loggedin %}
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar_custom">
         <a class="navbar-brand"><img class="hamburger-icon" src="/images/hamburger.png" onclick="openSidebar()"></a>
         <a class="navbar-brand" href="/"><img class="sr-logo" src="/images/SmartRosterLogoHighRes.png"></a>
         <div class="collapse navbar-collapse flex-grow-0 ml-auto">
             <ul class="navbar-nav text-right mr-auto">
-                <li class="nav-item"><a class="nav-link" href="/register">Create Account</a></li>
-                <li class="nav-item"><a class="nav-link" href="/settings">Settings</a></li>
-                <li class="nav-item"><a class="nav-link" href="/profile">Profile</a></li>
-                <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+                <li class="nav-item"><a class="nav-link navbar_text" href="/register">Create Account</a></li>
+                <li class="nav-item"><a class="nav-link navbar_text" href="/settings">Settings</a></li>
+                <li class="nav-item"><a class="nav-link navbar_text" href="/profile">Profile</a></li>
+                <li class="nav-item"><a class="nav-link navbar_text" href="/logout">Logout</a></li>
             </ul>
         </div>
     </nav>
@@ -126,10 +125,9 @@
             document.getElementById("mainSidebar").style.width = "0";
             $('#backdrop').removeClass('modal-backdrop');
         }
-    </script>
 
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
     <script type="text/javascript"
         src="https://cdn.datatables.net/v/bs4/jq-3.3.1/dt-1.10.22/datatables.min.js"></script>
