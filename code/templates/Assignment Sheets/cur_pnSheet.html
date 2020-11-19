@@ -119,52 +119,49 @@
                 </div>
             </div>
             <div class="col-4">
+                <!--L Charge Assignment-->
                 <div class="input-group shadow-sm mb-3">
                     <div class="input-group-prepend">
                         <label class="input-group-text" style="width: 140px">L Charge</label>
                     </div>
-                    <select class="form-control" id="l-cn-assign-form">
-                        <option id="l-cn-assign-blank" value="" selected></option>
+                    <select class="form-control" id="lcn-assign-form">
+                        <option id="lcn-assign-blank" value="" selected></option>
                         {% for index, nurse in enumerate(nurseList) %}
-                        {% if nurse[11] == "Code" %}
-                        <option class="table-danger" id="l-cn-assign-{{nurse[0]}}" value="{{nurse[0]}}">{{nurse[1]}}
+                        {% if nurse[11] == "L Charge" %}
+                        <option id="lcn-assign-{{nurse[0]}}" value="{{nurse[0]}}">{{nurse[1]}}
                         </option>
-                        {% else %}
-                        <option id="l-cn-assign-{{nurse[0]}}" value="{{nurse[0]}}">{{nurse[1]}}</option>
                         {% endif %}
                         {% endfor %}
                     </select>
                 </div>
+                <!--L Support Assignment-->
                 <div class="input-group shadow-sm mb-3">
                     <div class="input-group-prepend">
                         <label class="input-group-text" style="width: 140px">L Support</label>
                     </div>
-                    <select class="form-control" id="l-support-assign-form">
-                        <option id="l-support-assign-blank" value="" selected></option>
+                    <select class="form-control" id="lsupport-assign-form">
+                        <option id="lsupport-assign-blank" value="" selected></option>
                         {% for index, nurse in enumerate(nurseList) %}
-                        {% if nurse[11] == "Code" %}
-                        <option class="table-danger" id="l-support-assign-{{nurse[0]}}" value="{{nurse[0]}}">
+                        {% if nurse[11] == "L Support" %}
+                        <option id="lsupport-assign-{{nurse[0]}}" value="{{nurse[0]}}">
                             {{nurse[1]}}
                         </option>
-                        {% else %}
-                        <option id="l-support-assign-{{nurse[0]}}" value="{{nurse[0]}}">{{nurse[1]}}</option>
                         {% endif %}
                         {% endfor %}
                     </select>
                 </div>
+                <!--L Code Assignment-->
                 <div class="input-group shadow-sm">
                     <div class="input-group-prepend">
                         <label class="input-group-text" style="width: 140px">L Code</label>
                     </div>
-                    <select class="form-control" id="l-support-assign-form">
-                        <option id="l-code-assign-blank" value="" selected></option>
+                    <select class="form-control" id="lcode-assign-form">
+                        <option id="lcode-assign-blank" value="" selected></option>
                         {% for index, nurse in enumerate(nurseList) %}
-                        {% if nurse[11] == "Code" %}
-                        <option class="table-danger" id="l-code-assign-{{nurse[0]}}" value="{{nurse[0]}}">
+                        {% if nurse[11] == "L Code" %}
+                        <option id="lcode-assign-{{nurse[0]}}" value="{{nurse[0]}}">
                             {{nurse[1]}}
                         </option>
-                        {% else %}
-                        <option id="l-code-assign-{{nurse[0]}}" value="{{nurse[0]}}">{{nurse[1]}}</option>
                         {% endif %}
                         {% endfor %}
                     </select>
@@ -220,7 +217,6 @@
                 class="card-footer text-center pod-spec" {% endif %}
                 style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
                 <h4>Clinical Area {{areas[area_iter.value]}}</h4>
-
             </div>
             <div class="card-body row justify-content-md-center">
                 <div class="col-6 row justify-content-md-center" id="pod-{{areas[area_iter.value]}}-col1">
@@ -372,12 +368,7 @@
         $("#saveStateData").val(JSON.stringify(saveStateData))
         $("#shiftTimeData").val($("#shiftTime").val())
         $("#shiftDateData").val($("#shiftDate").val())
-        if (saveStateData.length % 2 == 0) {
-            $('#alertArea').append("<div class='alert alert-danger alert-dismissable fade show'> " +
-                "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>Invalid Assignment</div>")
-        } else {
-            $("#save-state-form").submit()
-        }
+
     })
 
     // Load Modal Data

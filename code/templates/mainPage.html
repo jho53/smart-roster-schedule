@@ -209,9 +209,17 @@
                     </div>
                 </div>
                 <hr>
-                <div class="form-group">
-                    <label for="currPriority">Select Fixed Group</label>
-                    <select id="currPriority" class="form-control col-2">
+                <div class="form-group row col-6">
+                    <label for="curr-fixed" class="align-middle col-6">Select Fixed Group: </label>
+                    <select id="curr-fixed" class="form-control form-control-sm col-4">
+                        {% for num in groupNum %}
+                        <option id="option{{num}}" value={{num}}>{{num}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group row col-6">
+                    <label for="curr-flex" class="align-middle col-6">Select Flex Group: </label>
+                    <select id="curr-flex" class="form-control form-control-sm col-4">
                         {% for num in groupNum %}
                         <option id="option{{num}}" value={{num}}>{{num}}</option>
                         {% endfor %}
@@ -219,8 +227,9 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <form action="/modalSubmit" method="post">
-                    <input id="prioritySubmit" name="priority" value="" hidden>
+                <form action="/updateCurrNurses" method="post">
+                    <input id="fixed-submit" name="fixed" value="1" hidden>
+                    <input id="flex-submit" name="flex" value="1" hidden>
                     <button id="currNurseSubmit" type="submit" class="btn btn-create_custom" name="current_nurses_list"
                         value="">Save</button>
                     <button class="btn btn-secondary" data-dismiss="modal" aria-label="Close">Cancel</button>
@@ -336,42 +345,9 @@
                         </select>
                     </div>
                 </div>
-                <!--L Charge Nurse Assignment-->
-                <!-- <hr>
-                <h5>Learning Roles</h5>
-                <div id="l-cn-assignment" class="col-12 row">
-                    <div class="form-group col-5" style="text-align: center;">
-                        <label for="curr-l-cn-store">L Charge Nurses</label>
-                        <select multiple size="8" class="form-control" id="curr-l-cn-store">
-                            {% for index, nurse in enumerate(nurseList) %}
-                            {% if (nurse[-1]==1) and (nurse[11]=="Code") %}
-                            <option class="table-danger" id="{{nurse[0]}}" name="{{nurse[0]}}" value="{{nurse[0]}}">
-                                {{nurse[1]}} -
-                                {{nurse[5]}}</option>
-                            {% endif %}
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="btn-group-vertical col-2">
-                        <button class="btn" onclick="codeToggle('left')"><i class="fas fa-chevron-left"></i></button>
-                        <br>
-                        <button class="btn" onclick="codeToggle('right')"><i class="fas fa-chevron-right"></i></button>
-                    </div>
-                    <div class="form-group col-5" style="text-align: center;">
-                        <label for="curr-l-cn">Current Shift Nurses</label>
-                        <select multiple size="8" class="form-control" id="curr-l-cn">
-                            {% for index, nurse in enumerate(nurseList) %}
-                            {% if (nurse[-1]==1) and (nurse[11]!="Code") %}
-                            <option id="{{nurse[0]}}" name="{{nurse[0]}}" value="{{nurse[0]}}">{{nurse[1]}} -
-                                {{nurse[5]}}</option>
-                            {% endif %}
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div> -->
             </div>
             <div class="modal-footer">
-                <form action="/modalSubmit2" method="POST">
+                <form action="/updateAdvRole" method="POST">
                     <input type="text" id="codeNurseSubmit" hidden name="code_nurses_list" value="">
                     <input type="text" id="suppNurseSubmit" hidden name="support_nurses_list" value="">
                     <button type="submit" id="cNurseSubmit" class="btn btn_create_custom" name="charge_nurses_list"
@@ -705,8 +681,12 @@
         $("#cNurseSubmit").val(cNurses)
     })
 
-    $("#currPriority").on('change', function () {
-        $('#prioritySubmit').val(this.value)
+    $("#curr-fixed").on('change', function () {
+        $('#fixed-submit').val(this.value)
+    })
+
+    $("#curr-flex").on('change', function () {
+        $('#flex-submit').val(this.value)
     })
 
     // Filter Data by Column

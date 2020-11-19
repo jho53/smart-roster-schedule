@@ -6,8 +6,30 @@
 <!--Jumbotron-->
 <div class="jumbotron py-3">
   <div class="jumbotron-content">
-    <div class="row justify-content-md-center">
+    <div class="justify-content-md-center row">
       <h1 class="jumbotron-title col-11">Past Assignment Page</h1>
+    </div>
+    <small>Shift: {{latestState['timestamp']}}</small> <br>
+    <small>Last Updated: {{latestState['shift-datetime']}} by {{latestState['author']}}</small><br>
+    <div class="text-left" style="position: absolute; top: 1.75%; left: 5%">
+      <small>Shift</small>
+      <form class="row form-group">
+        <select id="date-select" class="form-control form-control-sm col-10">
+          {% for date in dates %}
+          <option>{{date}}</option>
+          {% endfor %}
+        </select>
+        <span><button class="btn btn-sm btn-success" type="submit">View</button></span>
+      </form>
+      <small>Version</small>
+      <form class="row form-group">
+        <select id="date-select" class="form-control form-control-sm col-10">
+          {% for date in dates %}
+          <option>{{date}}</option>
+          {% endfor %}
+        </select>
+        <span><button class="btn btn-sm btn-success" type="submit">View</button></span>
+      </form>
     </div>
     <br><br>
     <!--Charge Nurse-->
@@ -17,14 +39,12 @@
           <div class="col-9">
             <h6>Charge Nurses</h6>
           </div>
-          <div class="col-3">
-            <h6>Skill Level</h6>
-          </div>
         </div>
         {% for i in range(3)%}
         <div class="row justify-content-center mb-2">
-          <input class="col-8 form-control form-control-sm rounded text-center" type="text" value="" disabled>
-          <input class="col-2 offset-1 form-control form-control-sm rounded text-center" type="text" value="" disabled>
+          <input class="col-8 form-control form-control-sm rounded text-center" type="text"
+            {% for nurse in nurseList if nurse[0]==latestState['charge'][i]|int %} value="{{nurse[1]}}" {% endfor %}
+            disabled>
         </div>
         {% endfor %}
       </div>
@@ -34,18 +54,12 @@
           <div class="col-8">
             <h6>Support Nurses</h6>
           </div>
-          <div class="col-2">
-            <h6>Area</h6>
-          </div>
-          <div class="col-2">
-            <h6>Rotation</h6>
-          </div>
         </div>
         {% for i in range(3)%}
         <div class="row justify-content-center mb-2">
-          <input class="col-6 offset-1 form-control form-control-sm rounded text-center" type="text" value="" disabled>
-          <input class="col-2 offset-1 form-control form-control-sm rounded text-center" type="text" value="" disabled>
-          <input class="col-2 form-control form-control-sm rounded text-center" type="text" value="" disabled>
+          <input class="col-6 offset-1 form-control form-control-sm rounded text-center" type="text"
+            {% for nurse in nurseList if nurse[0]==latestState['support'][i]|int %} value="{{nurse[1]}}" {% endfor %}
+            disabled>
         </div>
         {% endfor %}
       </div>
@@ -56,14 +70,21 @@
           <div class="col-4">
             <h6>Code RN</h6>
           </div>
-          <input class="col-6 form-control form-control-sm rounded text-center" type="text" value="" disabled>
+          <input class="col-6 form-control form-control-sm rounded text-center" type="text"
+            {% for nurse in nurseList if nurse[0]==latestState['code'][0]|int %} value="{{nurse[1]}}" {% endfor %}
+            disabled>
           <div class="col-1"></div>
         </div><br>
         <div class="mt-5 rounded col-12 row w-100 px-2 shadow-sm"
           style="background-color: lightgray; padding: 10px 30px; width: 100px">
           <div class="row col-12">
             <h6 class="mt-1 col-4">Fixed</h6>
-            <input class="col-4 ml-2 mb-3 form-control form-control-sm rounded text-center" type="text" value=""
+            <input class="col-4 ml-2 mb-2 form-control form-control-sm rounded text-center" type="text" value="{{latestState['priority']}}"
+              disabled>
+          </div>
+          <div class="row col-12">
+            <h6 class="mt-1 col-4">Flex</h6>
+            <input class="col-4 ml-2 form-control form-control-sm rounded text-center" type="text" value="{{latestState['priority']}}"
               disabled>
           </div>
         </div>
@@ -71,6 +92,9 @@
     </div>
   </div>
 </div>
+{{nurseList[52][1]}}
+{{nurseList[73][1]}}
+{{latestState}}
 
 {% set areas=["A", "B", "C", "D", "E", "F"] %}
 {% set area_iter = namespace(value=0) %}

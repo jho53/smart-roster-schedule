@@ -117,15 +117,14 @@ def home():
     return redirect(url_for('login'))
 
 
-@app.route("/modalSubmit", methods=["POST"])
+@app.route("/updateCurrNurses", methods=["POST"])
 def update_current_nurses():
     try:
         if "loggedin" in session:
             current_nurses_id = "({0})".format(
                 request.form['current_nurses_list'])
-            priority = request.form['priority']
-
-            print(priority)
+            fixed = request.form['fixed']
+            flex = request.form['flex']
 
             if list(current_nurses_id)[1] == ",":
                 current_nurses_id = current_nurses_id[:1] + \
@@ -137,17 +136,20 @@ def update_current_nurses():
                     current_nurses_id))
                 cursor.execute("UPDATE nurses SET priority = 0")
                 cursor.execute(
-                    "UPDATE nurses SET priority = 1 WHERE group_num = {0}".format(priority))
+                    "UPDATE nurses SET priority = 1 WHERE group_num = {0}".format(flex))
+                cursor.execute(
+                    "UPDATE nurses SET priority = 2 WHERE group_num = {0}".format(fixed))
                 db.commit()
                 return redirect(url_for('home'))
             except Exception as error:
                 print(error)
+                return str(error)
     except:
         print(Exception)
 
 
-@app.route("/modalSubmit2", methods=["POST"])
-def update_cn_supp():
+@app.route("/updateAdvRole", methods=["POST"])
+def update_adv_role():
     if "loggedin" in session:
         support_nurses_id = "({0})".format(
             request.form['support_nurses_list'])
@@ -740,6 +742,38 @@ def current_PNSheet():
 @ app.route("/pastPNSheet")
 def past_PNSheet():
     if 'loggedin' in session:
+        cursor.execute("SELECT * FROM nurses")
+        nurse_list = cursor.fetchall()
+        cursor.execute("SELECT * FROM patients")
+        patient_list = cursor.fetchall()
+
+        past_json_list = sorted(os.listdir(
+            f"{CURR_DIR}/cache/past_shift/"), reverse=True)
+        past_json_states = []
+        past_json_dates = []
+
+        for file in past_json_list:
+            with open(f'{CURR_DIR}/cache/past_shift/{file}', 'r') as jsonfile:
+                temp_dict = json.load(jsonfile)
+                past_json_states.append(temp_dict)
+                past_json_dates.append(temp_dict[0]['timestamp'])
+
+        print(past_json_dates)
+
+        return render_template("./Assignment Sheets/past_pnSheet.html",
+                               # Load most recent past assignment
+                               nurseList=nurse_list,
+                               patientList=patient_list,
+                               latestState=past_json_states[0][-1],
+                               state=past_json_states,
+                               dates=past_json_dates,
+                               loggedin=session['loggedin'])
+    return redirect(url_for('login'))
+
+
+@ app.route("/pastPNSheetState")
+def past_PNSheetState():
+    if 'loggedin' in session:
         past_json_list = sorted(os.listdir(
             f"{CURR_DIR}/cache/past_shift/"), reverse=True)
         past_json_states = []
@@ -795,6 +829,9 @@ def save_current_state():
             "charge": [],
             "support": [],
             "code": [],
+            "l_charge": [],
+            "l_support": [],
+            "l_code": [],
             "assignment": {},
             "timestamp": datetime.now().strftime("%B %d, %Y - %I:%M:%S %p"),
             "shift-datetime": date_time_obj,
@@ -826,51 +863,46 @@ def save_current_state():
         state_data = request.form['saveStateData']
         state_data = state_data.strip('][').split(',')
         state_data = list(filter(('null').__ne__, state_data))
+
+        # initiate bed areas
+        for area in AREA_LIST:
+            for i in range(MAX_BED):
+                bed_value = f"{area}{i + 1}"
+                # create p and n for storing
+                state_assignment["assignment"]["{0}".format(bed_value)] = {
+                    "p": [], "n": []}
+
         # clean elements + dict storage
         for i in range(len(state_data)):
-
             # remove quotation marks
             state_data[i] = state_data[i][1:-1]
+
+            # adv role = <advcode>-"assign"-<nurse id>
+            state_data[i] = state_data[i].split('-')
+
             # adv role states
-            if state_data[i][:2] == "cn":
-                state_assignment["charge"].append(state_data[i][10:])
-            if state_data[i][:2] == "su":
-                state_assignment["support"].append(state_data[i][15:])
-            if state_data[i][:2] == "co":
-                state_assignment["code"].append(state_data[i][12:])
+            if state_data[i][0] == "cn":
+                state_assignment["charge"].append(state_data[i][-1])
+            if state_data[i][0] == "support":
+                state_assignment["support"].append(state_data[i][-1])
+            if state_data[i][0] == "code":
+                state_assignment["code"].append(state_data[i][-1])
+            if state_data[i][0] == "lcn":
+                state_assignment["l_charge"].append(state_data[i][-1])
+            if state_data[i][0] == "lsupport":
+                state_assignment["l_support"].append(state_data[i][-1])
+            if state_data[i][0] == "lcode":
+                state_assignment["l_code"].append(state_data[i][-1])
 
-            # assignment states
-            if (i % 2) != 0 and i > 6:
-                # patient
-                bed_value = ""  # reset on new pair
-                patient_nurse_pair = []
-
-                pod = state_data[i][4]
-                bed_num = state_data[i][10:12]  # '5-' or '12'
-                try:
-                    # bed number is two digits
-                    int(bed_num)
-                    bed_value = (pod + bed_num)
-                    try:
-                        patient_nurse_pair.append(
-                            abs(int(state_data[i][-2:])))
-                    except:
-                        patient_nurse_pair.append(int(state_data[i][-1:]))
-                except:
-                    # bed number is 1 digit
-                    bed_value = (pod + bed_num[:-1])
-                    try:
-                        patient_nurse_pair.append(
-                            abs(int(state_data[i][-2:])))
-                    except:
-                        patient_nurse_pair.append(int(state_data[i][-1:]))
-            elif i > 6:
-                # nurse
-                try:
-                    patient_nurse_pair.append(abs(int(state_data[i][-2:])))
-                except:
-                    patient_nurse_pair.append(int(state_data[i][-1:]))
-                state_assignment["assignment"][bed_value] = patient_nurse_pair
+            # Assign patient and nurses to beds
+            if state_data[i][0] == "pod":
+                bed_value = f"{state_data[i][1]}{state_data[i][3]}"  # eg. A3
+                if state_data[-2] == "p":
+                    state_assignment["assignment"][bed_value]['p'].append(
+                        state_data[-1])
+                if state_data[-2] == "n":
+                    state_assignment["assignment"][bed_value]['n'].append(
+                        state_data[-1])
 
         for area in AREA_LIST:
             for i in range(MAX_BED):
@@ -878,17 +910,16 @@ def save_current_state():
                 curr_pair = state_assignment["assignment"]["{0}{1}".format(
                     area, i + 1)]
 
-                if len(curr_pair) == 0:
+                if len(curr_pair['p']) == 0:
                     flag_list = ['0', '0', '0', '0',
                                  '0', '0', '0', '0', '0']
                 else:
-
                     cursor.execute(
-                        f"SELECT * FROM patients WHERE id={curr_pair[0]}")
+                        f"SELECT * FROM patients WHERE id={curr_pair['p'][0]}")
                     patient = cursor.fetchone()
 
                     cursor.execute(
-                        f"SELECT * FROM nurses WHERE id={curr_pair[1]}")
+                        f"SELECT * FROM nurses WHERE id={curr_pair['n'][0]}")
                     nurse = cursor.fetchone()
 
                     # Flag skill level
