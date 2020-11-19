@@ -897,18 +897,21 @@ def save_current_state():
             # Assign patient and nurses to beds
             if state_data[i][0] == "pod":
                 bed_value = f"{state_data[i][1]}{state_data[i][3]}"  # eg. A3
-                if state_data[-2] == "p":
+
+                if state_data[i][-2] == "p":
                     state_assignment["assignment"][bed_value]['p'].append(
-                        state_data[-1])
-                if state_data[-2] == "n":
+                        state_data[i][-1])
+                if state_data[i][-2] == "n":
                     state_assignment["assignment"][bed_value]['n'].append(
-                        state_data[-1])
+                        state_data[i][-1])
 
         for area in AREA_LIST:
             for i in range(MAX_BED):
                 flag_list = []
                 curr_pair = state_assignment["assignment"]["{0}{1}".format(
                     area, i + 1)]
+
+                print(curr_pair)
 
                 if len(curr_pair['p']) == 0:
                     flag_list = ['0', '0', '0', '0',
