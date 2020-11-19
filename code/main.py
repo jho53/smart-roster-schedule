@@ -737,31 +737,28 @@ def current_PNSheet():
     return redirect(url_for('login'))
 
 
-@ app.route("/pastCAASheet")
-def past_CAASheet():
-    if 'loggedin' in session:
-        return render_template("./Assignment Sheets/past_caaSheet.html", loggedin=session['loggedin'])
-    return redirect(url_for('login'))
-
-
 @ app.route("/pastPNSheet")
 def past_PNSheet():
     if 'loggedin' in session:
-        past_json_list = os.listdir(f"{CURR_DIR}/cache/past_shift/")
-        past_json_state = []
+        past_json_list = sorted(os.listdir(
+            f"{CURR_DIR}/cache/past_shift/"), reverse=True)
+        past_json_states = []
         past_json_dates = []
 
         for file in past_json_list:
             with open(f'{CURR_DIR}/cache/past_shift/{file}', 'r') as jsonfile:
                 temp_dict = json.load(jsonfile)
-                past_json_state.append(temp_dict)
-                past_json_dates.append(file[:-5].split("-"))
+                past_json_states.append(temp_dict)
+                past_json_dates.append(temp_dict[0]['timestamp'])
 
-        print(past_json_state)
         print(past_json_dates)
 
-        return "working"
-        # return render_template("./Assignment Sheets/past_pnSheet.html", loggedin=session['loggedin'])
+        return render_template("./Assignment Sheets/past_pnSheet.html",
+                               # Load most recent past assignment
+                               latestState=past_json_states[0][-1],
+                               states=past_json_states,
+                               dates=past_json_dates,
+                               loggedin=session['loggedin'])
     return redirect(url_for('login'))
 
 
@@ -989,7 +986,7 @@ def end_shift():
         state = json.load(jsonfile)
 
     date_time_obj = datetime.strptime(
-        state['shift-datetime'], "%B %d, %Y - %I:%M:%S %p")
+        state[0]['shift-datetime'], "%B %d, %Y - %I:%M:%S %p")
     date_time_obj = datetime.strftime(
         date_time_obj, "%Y-%m-%d-%H-%M")
 
@@ -1005,6 +1002,10 @@ def end_shift():
 
     # Remove curr_shift folder
     shutil.rmtree("{0}/cache/current_shift".format(CURR_DIR))
+
+    # Reset all nurses to unassigned
+    cursor.execute("UPDATE nurses SET current_shift = 0")
+    db.commit()
 
     return redirect(url_for('home'))
 

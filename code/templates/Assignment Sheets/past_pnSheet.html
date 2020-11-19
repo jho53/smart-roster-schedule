@@ -7,7 +7,7 @@
 <div class="jumbotron py-3">
   <div class="jumbotron-content">
     <div class="row justify-content-md-center">
-      <h1 class="jumbotron-title col-11">Patient/Nurse Assignment Page</h1>
+      <h1 class="jumbotron-title col-11">Past Assignment Page</h1>
     </div>
     <br><br>
     <!--Charge Nurse-->
@@ -75,7 +75,7 @@
 {% set areas=["A", "B", "C", "D", "E", "F"] %}
 {% set area_iter = namespace(value=0) %}
 
-<div class="container-fluid">
+<div>
   {% for card_row in range(2) %}
   <div class="card-deck" id="row-{{card_row + 1}}">
     {% for card_col in range(3) %}
