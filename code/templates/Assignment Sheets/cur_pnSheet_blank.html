@@ -78,7 +78,7 @@
 {% set areas=["A", "B", "C", "D", "E", "F"] %}
 {% set area_iter = namespace(value=0) %}
 
-<div class="container-fluid">
+<div class="container-fluid px-5">
     {% for card_row in range(2) %}
     <div class="card-deck" id="row-{{card_row + 1}}">
         {% for card_col in range(3) %}
@@ -87,7 +87,6 @@
                 class="card-footer text-center pod-spec" {% endif %}
                 style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
                 <h4>Clinical Area {{areas[area_iter.value]}}</h4>
-
             </div>
             <div class="card-body row justify-content-md-center">
                 <div class="col-6 row justify-content-md-center" id="pod-{{areas[area_iter.value]}}-col1">

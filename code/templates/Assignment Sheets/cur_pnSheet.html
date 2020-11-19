@@ -159,7 +159,7 @@
 {% set areas=["A", "B", "C", "D", "E", "F"] %}
 {% set area_iter = namespace(value=0) %}
 
-<div class="container-fluid">
+<div class="container-fluid px-5">
     {% for card_row in range(2) %}
     <div class="card-deck" id="row-{{card_row + 1}}">
         {% for card_col in range(3) %}
