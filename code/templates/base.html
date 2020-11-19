@@ -31,6 +31,8 @@
         <a class="navbar-brand" href="/"><img class="sr-logo" src="/images/SmartRosterLogoHighRes.png"></a>
         <div class="collapse navbar-collapse flex-grow-0 ml-auto">
             <ul class="navbar-nav text-right mr-auto">
+                <li class="nav-item"><a class="nav-link navbar_text mx-3" href="#" data-toggle="modal"
+                        data-target="#referenceModal"><i class="far fa-question-circle fa-1x"></i></a></li>
                 <li class="nav-item"><a class="nav-link navbar_text" href="/register">Create Account</a></li>
                 <li class="nav-item"><a class="nav-link navbar_text" href="/settings">Settings</a></li>
                 <li class="nav-item"><a class="nav-link navbar_text" href="/profile">Profile</a></li>
@@ -50,7 +52,7 @@
             <div class="mb-3" style="height: 30%; width: 100%">
                 <a href="/profile" style="padding: 0">
                     <img src="/images/base-avatar.png"
-                        style="width: 150px; height: 150px; border-radius: 50%; display:block; position:relative; left:27.5%; border: 2px solid lightskyblue">
+                        style="width: 150px; height: 150px; border-radius: 50%; display:block; position:relative; left:27.5%; border: 2px solid #af1946">
                     <h5 class="text-center" style="position: relative;">Admin Account</h5>
                 </a>
             </div>
@@ -78,12 +80,7 @@
             <hr class="my-1">
             <a href="#">
                 <img class="sidebar-icons" src="/images/past-assignments-icon.png">
-                <small>Past Patient Assignments</small>
-            </a>
-            <hr class="my-1">
-            <a href="#">
-                <img class="sidebar-icons" src="/images/past-assignments-icon.png">
-                <small>Past Clinical Area Assignment</small>
+                <small>Past Assignments</small>
             </a>
             <hr class="my-1">
             <a href="/settings">
@@ -101,12 +98,33 @@
     <!-- Dark Overlay element -->
     <div id="backdrop" class="show"></div>
 
+    <!--Reference Modal-->
+    <div class="modal fade show" tabindex="-1" role="dialog" id="referenceModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Modal body text goes here.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="page-container">
         <div id="content-wrap">
             {% block content %}
             {% endblock %}
             {% if loggedin %}
-            <footer class="footer navbar-light bg-light">
+            <footer class="footer navbar_custom">
                 <p>Smart Roster © {{ now.year }} All Rights Reserved</p>
             </footer>
             {% endif %}

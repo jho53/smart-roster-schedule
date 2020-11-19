@@ -1,4 +1,5 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %}
+{% block content %}
 
 <!--Content Here-->
 <!--Jumbotron-->
@@ -60,17 +61,13 @@
           </div>
           <input class="col-6 form-control form-control-sm rounded text-center" type="text" value="" disabled>
           <div class="col-1"></div>
-        </div>
+        </div><br>
         <div class="mt-5 rounded col-12 row w-100 px-2 shadow-sm"
           style="background-color: lightgray; padding: 10px 30px; width: 100px">
           <div class="row col-12">
-            <h6 class="mt-1 col-4">Fixed</h6>
+            <h6 class="mt-1 col-4">Fixed Group</h6>
             <input class="col-4 ml-2 mb-2 form-control form-control-sm rounded text-center" type="text" value=""
               disabled>
-          </div>
-          <div class="row col-12">
-            <h6 class="mt-1 col-4">Flex</h6>
-            <input class="col-4 ml-2 form-control form-control-sm rounded text-center" type="text" value="" disabled>
           </div>
         </div>
       </div>
@@ -118,7 +115,7 @@
             <input class="col-1 form-control form-control-sm rounded text-center mx-1" type="text" value="" disabled>
             <input class="col-1 form-control form-control-sm rounded text-center mx-1" type="text" value="" disabled>
             <input class="col-1 form-control form-control-sm rounded text-center mx-1" type="text" value="" disabled>
-            <button class="col-1 btn form-control-sm btn-warning mx-1" data-toggle="modal" data-target="#flagModal">
+            <button class="col-1 btn form-control-sm btn-warning mx-1 invisible" data-toggle="modal" data-target="#flagModal">
               <i class="fas fa-exclamation-circle"></i></button>
           </div>
           {% endfor %}
@@ -153,5 +150,11 @@
     </div>
   </div>
 </div>
+
+<script>
+  $("document").ready(function () {
+    alert("Please: \n\t1. Run the scheduler \n\t2. Save Patient/Nurse Assignment")
+  })
+</script>
 
 {% endblock %}
