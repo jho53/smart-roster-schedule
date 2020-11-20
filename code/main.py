@@ -687,6 +687,7 @@ def current_CAASheet():
 
     return redirect(url_for('login'))
 
+
 @app.route("/futureCAASheet")
 def future_CAASheet():
     """ Displays the future clinical area page """
@@ -698,9 +699,96 @@ def future_CAASheet():
         future_nurse_list = cursor.fetchall()
 
         return render_template("./Assignment Sheets/future_caaSheet.html",
-                                   loggedin=session['loggedin'],
-                                   futureList=future_nurse_list,
-                                   )
+                               loggedin=session['loggedin'],
+                               futureList=future_nurse_list,
+                               )
+    return redirect(url_for('login'))
+
+
+@app.route("/futureSave", methods=["POST"])
+def future_save():
+    cursor.execute("SELECT * FROM nurses")
+    full_nurse_list = cursor.fetchall()
+
+    if 'loggedin' in session:
+        try:
+            # POST variables
+            date = request.form['shiftDate']
+            time = request.form['shiftTime']
+
+            # Convert date-time -> datetime obj -> string
+            date_time_obj = datetime.strptime(
+                date + " " + time, '%Y-%m-%d %H:%M')
+            date_time_obj_formatted = datetime.strftime(
+                date_time_obj, "%B %d, %Y - %I:%M:%S %p")
+            filename = datetime.strftime(
+                date_time_obj, "%Y-%m-%d-%H-%M")
+
+            # Parse request
+            future_data = request.form['saveFutureData']
+            future_data = future_data.strip('][').split(',')
+            future_data = list(filter(('null').__ne__, future_data))
+
+            # init dict
+            state_assignment = {
+                "charge": [],
+                "support": [],
+                "code": [],
+                "assignment": {},
+                "timestamp": datetime.now().strftime("%B %d, %Y - %I:%M:%S %p"),
+                "shift-datetime": date_time_obj_formatted,
+                "author": session['name'],
+                "fixed": "",
+                "flex": ""
+            }
+
+            # create area key with list
+            for area in AREA_LIST:
+                state_assignment['assignment'][area] = []
+
+            # clean elements + dict storage
+            for i in range(len(future_data)):
+                # remove quotation marks
+                future_data[i] = future_data[i][1:-1]
+
+                # adv role = <advcode>-"assign"-<nurse id>
+                future_data[i] = future_data[i].split('-')
+
+                # adv role states
+                if future_data[i][0] == "cn":
+                    state_assignment["charge"].append(future_data[i][-1])
+                if future_data[i][0] == "support":
+                    state_assignment["support"].append(future_data[i][-1])
+                if future_data[i][0] == "code":
+                    state_assignment["code"].append(future_data[i][-1])
+
+                # fixed/flex
+                if future_data[i][0] == "fixed":
+                    state_assignment['fixed'] = future_data[i][-1]
+                if future_data[i][0] == "flex":
+                    state_assignment['flex'] = future_data[i][-1]
+
+                # append nurse id to corresponding areas
+                if future_data[i][0] in AREA_LIST:
+                    state_assignment['assignment'][future_data[i][0]].append(
+                        future_data[i][-1])
+
+            # Create future_shift folder on first run
+            try:
+                os.makedirs("{0}/cache/future_shift".format(CURR_DIR))
+            except:
+                print("Required directories exist")
+
+            # Overwrite if future shift json already exists
+            if os.path.exists(f"{CURR_DIR}/cache/future_shift/{filename}.json"):
+                os.remove(f"{CURR_DIR}/cache/future_shift/{filename}.json")
+
+            with open(f"{CURR_DIR}/cache/future_shift/{filename}.json", "w") as jsonfile:
+                json.dump(state_assignment, jsonfile)
+
+            return date_time_obj
+        except Exception as error:
+            return str(error)
 
     return redirect(url_for('login'))
 
