@@ -678,6 +678,23 @@ def current_CAASheet():
 
     return redirect(url_for('login'))
 
+@app.route("/futureCAASheet")
+def future_CAASheet():
+    """ Displays the future clinical area page """
+    future_nurse_list = []
+
+    if 'loggedin' in session:
+        # Grab nurse and patient tables
+        cursor.execute("SELECT * FROM nurses")
+        future_nurse_list = cursor.fetchall()
+
+        return render_template("./Assignment Sheets/future_caaSheet.html",
+                                   loggedin=session['loggedin'],
+                                   futureList=future_nurse_list,
+                                   )
+
+    return redirect(url_for('login'))
+
 
 @app.route("/currentPNSheet")
 def current_PNSheet():
