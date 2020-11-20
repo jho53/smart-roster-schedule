@@ -124,15 +124,19 @@
                     <div class="input-group-prepend">
                         <label class="input-group-text" style="width: 140px">L Charge</label>
                     </div>
-                    <select class="form-control" id="l-cn-assign-form">
-                        <option id="l-cn-assign-blank" value="" selected></option>
-                        {% for index, nurse in enumerate(nurseList) %}
-                        {% if nurse[11] == "Code" %}
-                        <option class="table-danger" id="l-cn-assign-{{nurse[0]}}" value="{{nurse[0]}}">{{nurse[1]}}
+                    <select class="form-control" id="lcn-assign-form">
+                        {% if state['l_charge'][0] %}
+                        {% for nurse in nurseList if nurse[0] == state['l_charge'][0]|int %}
+                        <option id="lcn-assign-{{nurse[0]}}" value="{{nurse[0]}}">
+                            {{nurse[1]}}
                         </option>
-                        {% else %}
-                        <option id="l-cn-assign-{{nurse[0]}}" value="{{nurse[0]}}">{{nurse[1]}}</option>
+                        {% endfor %}
                         {% endif %}
+                        <option id="lcn-assign-blank" value=""></option>
+                        {% for nurse in nurseList if nurse[11] == "L Charge" and nurse[-1] == 1 %}
+                        <option id="lcn-assign-{{nurse[0]}}" value="{{nurse[0]}}">
+                            {{nurse[1]}}
+                        </option>
                         {% endfor %}
                     </select>
                 </div>
@@ -140,16 +144,19 @@
                     <div class="input-group-prepend">
                         <label class="input-group-text" style="width: 140px">L Support</label>
                     </div>
-                    <select class="form-control" id="l-support-assign-form">
-                        <option id="l-support-assign-blank" value="" selected></option>
-                        {% for index, nurse in enumerate(nurseList) %}
-                        {% if nurse[11] == "Code" %}
-                        <option class="table-danger" id="l-support-assign-{{nurse[0]}}" value="{{nurse[0]}}">
+                    <select class="form-control" id="lsupport-assign-form">
+                        {% if state['l_support'][0] %}
+                        {% for nurse in nurseList if nurse[0] == state['l_support'][0]|int %}
+                        <option id="lsupport-assign-{{nurse[0]}}" value="{{nurse[0]}}">
                             {{nurse[1]}}
                         </option>
-                        {% else %}
-                        <option id="l-support-assign-{{nurse[0]}}" value="{{nurse[0]}}">{{nurse[1]}}</option>
+                        {% endfor %}
                         {% endif %}
+                        <option id="lsupport-assign-blank" value=""></option>
+                        {% for nurse in nurseList if nurse[11] == "L Support" and nurse[-1] == 1 %}
+                        <option id="lsupport-assign-{{nurse[0]}}" value="{{nurse[0]}}">
+                            {{nurse[1]}}
+                        </option>
                         {% endfor %}
                     </select>
                 </div>
@@ -157,16 +164,19 @@
                     <div class="input-group-prepend">
                         <label class="input-group-text" style="width: 140px">L Code</label>
                     </div>
-                    <select class="form-control" id="l-support-assign-form">
-                        <option id="l-code-assign-blank" value="" selected></option>
-                        {% for index, nurse in enumerate(nurseList) %}
-                        {% if nurse[11] == "Code" %}
-                        <option class="table-danger" id="l-code-assign-{{nurse[0]}}" value="{{nurse[0]}}">
+                    <select class="form-control" id="lcode-assign-form">
+                        {% if state['l_code'][0] %}
+                        {% for nurse in nurseList if nurse[0] == state['l_code'][0]|int %}
+                        <option id="l_code-assign-{{nurse[0]}}" value="{{nurse[0]}}">
                             {{nurse[1]}}
                         </option>
-                        {% else %}
-                        <option id="l-code-assign-{{nurse[0]}}" value="{{nurse[0]}}">{{nurse[1]}}</option>
+                        {% endfor %}
                         {% endif %}
+                        <option id="lcode-assign-blank" value=""></option>
+                        {% for nurse in nurseList if nurse[11] == "L Code" and nurse[-1] == 1 %}
+                        <option id="lcode-assign-{{nurse[0]}}" value="{{nurse[0]}}">
+                            {{nurse[1]}}
+                        </option>
                         {% endfor %}
                     </select>
                 </div>
@@ -237,8 +247,11 @@
                             data-priority="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][5]}}"
                             data-twin="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][6]}}"
                             data-iv="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][7]}}"
-                            data-home_area="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][8]}}"><i
-                                class="fas fa-exclamation-circle"></i></a>
+                            data-home_area="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][8]}}"
+                            data-dta="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][9]}}"
+                            data-comments="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][10]}}">
+
+                            <i class="fas fa-exclamation-circle"></i></a>
                         {% elif flags[areas[area_iter.value]+(asc_loop + 1)|string][4] == '1' or flags[areas[area_iter.value]+(asc_loop + 1)|string][5] == '1' %}
                         <a style="color: gold; position: absolute; left: -25px;" href="#" data-toggle="modal"
                             data-target=".flagspopup"
@@ -250,8 +263,10 @@
                             data-priority="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][5]}}"
                             data-twin="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][6]}}"
                             data-iv="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][7]}}"
-                            data-home_area="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][8]}}"><i
-                                class="fas fa-exclamation-circle"></i></a>
+                            data-home_area="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][8]}}"
+                            data-dta="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][9]}}"
+                            data-comments="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][10]}}">
+                            <i class="fas fa-exclamation-circle"></i></a>
                         {% else %}
                         <a style="color: green; position: absolute; left: -25px;" href="#" data-toggle="modal"
                             data-target=".flagspopup"
@@ -263,8 +278,10 @@
                             data-priority="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][5]}}"
                             data-twin="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][6]}}"
                             data-iv="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][7]}}"
-                            data-home_area="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][8]}}"><i
-                                class="fas fa-exclamation-circle"></i></a>
+                            data-home_area="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][8]}}"
+                            data-dta="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][9]}}"
+                            data-comments="{{flags[areas[area_iter.value]+(asc_loop + 1)|string][10]}}">
+                            <i class="fas fa-exclamation-circle"></i></a>
                         {% endif %}
                         {% endif %}
                         <!--Patient Dropdown-->
@@ -276,8 +293,8 @@
                             </div>
                             <select class="form-control"
                                 id="pod-{{areas[area_iter.value]}}-bed-{{asc_loop + 1}}-patient-menu">
-                                {% if state['assignment'][areas[area_iter.value]+(asc_loop + 1)|string][0] %}
-                                {% set patient_id = state['assignment'][areas[area_iter.value]+(asc_loop + 1)|string][0] %}
+                                {% if state['assignment'][areas[area_iter.value]+(asc_loop + 1)|string]['p'][0] %}
+                                {% set patient_id = state['assignment'][areas[area_iter.value]+(asc_loop + 1)|string]['p'][0] | int %}
                                 <option id="pod-{{areas[area_iter.value]}}-bed-{{ asc_loop + 1 }}-p-{{patient_id}}"
                                     value="{{patient_id}}" selected>
                                     {% for patient in patientList if patient[0]==patient_id %}
@@ -300,8 +317,8 @@
                             </div>
                             <select class="form-control"
                                 id="pod-{{areas[area_iter.value]}}-bed-{{asc_loop + 1}}-nurse-menu">
-                                {% if state['assignment'][areas[area_iter.value]+(asc_loop + 1)|string][1] %}
-                                {% set nurse_id = state['assignment'][areas[area_iter.value]+(asc_loop + 1)|string][1] %}
+                                {% if state['assignment'][areas[area_iter.value]+(asc_loop + 1)|string]['n'][0] %}
+                                {% set nurse_id = state['assignment'][areas[area_iter.value]+(asc_loop + 1)|string]['n'][0] | int %}
                                 <option id="pod-{{areas[area_iter.value]}}-bed-{{ asc_loop + 1 }}-n-{{nurse_id}}"
                                     value="{{nurse_id}}" selected>{% for nurse in nurseList if nurse[0]==nurse_id %}
                                     {{nurse[1]}}
@@ -336,8 +353,10 @@
                             data-priority="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][5]}}"
                             data-twin="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][6]}}"
                             data-iv="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][7]}}"
-                            data-home_area="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][8]}}"><i
-                                class="fas fa-exclamation-circle"></i></a>
+                            data-home_area="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][8]}}"
+                            data-dta="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][9]}}"
+                            data-comments="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][10]}}">
+                            <i class="fas fa-exclamation-circle"></i></a>
                         {% elif flags[areas[area_iter.value]+(desc_loop + 8)|string][4] == '1' or flags[areas[area_iter.value]+(desc_loop + 8)|string][5] == '1' %}
                         <a style="color: gold; position: absolute; left: -25px;" href="#" data-toggle="modal"
                             data-target=".flagspopup"
@@ -349,8 +368,10 @@
                             data-priority="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][5]}}"
                             data-twin="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][6]}}"
                             data-iv="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][7]}}"
-                            data-home_area="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][8]}}"><i
-                                class="fas fa-exclamation-circle"></i></a>
+                            data-home_area="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][8]}}"
+                            data-dta="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][9]}}"
+                            data-comments="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][10]}}">
+                            <i class="fas fa-exclamation-circle"></i></a>
                         {% else %}
                         <a style="color: green; position: absolute; left: -25px;" href="#" data-toggle="modal"
                             data-target=".flagspopup"
@@ -362,8 +383,10 @@
                             data-priority="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][5]}}"
                             data-twin="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][6]}}"
                             data-iv="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][7]}}"
-                            data-home_area="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][8]}}"><i
-                                class="fas fa-exclamation-circle"></i></a>
+                            data-home_area="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][8]}}"
+                            data-dta="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][9]}}"
+                            data-comments="{{flags[areas[area_iter.value]+(desc_loop + 8)|string][10]}}">
+                            <i class="fas fa-exclamation-circle"></i></a>
                         {% endif %}
                         {% endif %}
                         <!--Patient Dropdown-->
@@ -375,8 +398,8 @@
                             </div>
                             <select class="form-control"
                                 id="pod-{{areas[area_iter.value]}}-bed-{{ desc_loop + 8 }}-patient-menu">
-                                {% if state['assignment'][areas[area_iter.value]+(desc_loop + 8)|string][0] %}
-                                {% set patient_id = state['assignment'][areas[area_iter.value]+(desc_loop + 8)|string][0] %}
+                                {% if state['assignment'][areas[area_iter.value]+(desc_loop + 8)|string]['p'][0] %}
+                                {% set patient_id = state['assignment'][areas[area_iter.value]+(desc_loop + 8)|string]['p'][0] | int %}
                                 <option id="pod-{{areas[area_iter.value]}}-bed-{{ desc_loop + 8 }}-p-{{patient_id}}"
                                     value="{{patient_id}}" selected>
                                     {% for patient in patientList if patient[0]==patient_id %}
@@ -398,8 +421,8 @@
                                 <label class="input-group-text" style="width: 30px;">N</label>
                             </div>
                             <select class=" form-control" id="bed-{{ desc_loop + 8 }}-nurse-menu">
-                                {% if state['assignment'][areas[area_iter.value]+( desc_loop + 8 )|string][1] %}
-                                {% set nurse_id = state['assignment'][areas[area_iter.value]+(desc_loop + 8 )|string][1] %}
+                                {% if state['assignment'][areas[area_iter.value]+( desc_loop + 8 )|string]['n'][0] %}
+                                {% set nurse_id = state['assignment'][areas[area_iter.value]+(desc_loop + 8 )|string]['n'][0] | int %}
                                 <option id="pod-{{areas[area_iter.value]}}-bed-{{ desc_loop + 8 }}-n-{{nurse_id}}"
                                     value="{{nurse_id}}" selected>
                                     {% for nurse in nurseList if nurse[0]==nurse_id %}
@@ -447,6 +470,8 @@
                 <p id="twin_flag"></p>
                 <p id="iv_flag"></p>
                 <p id="home_area_flag"></p>
+                <p id="dta_flag"></p>
+                <p id="comments_flag"></p>
             </div>
         </div>
     </div>
@@ -490,6 +515,8 @@
         var twin = $(e.relatedTarget).data('twin');
         var iv = $(e.relatedTarget).data('iv');
         var home_area = $(e.relatedTarget).data('home_area');
+        var dta = $(e.relatedTarget).data('dta');
+        var comments = $(e.relatedTarget).data('comments');
 
         if (skill_level == '1') {
             $(e.currentTarget).find('#skill_level_flag').html('<i class="fas fa-flag" style="color: tomato"></i> Nurse Skill Level too low.');
@@ -526,6 +553,15 @@
         if (home_area == '1') {
             $(e.currentTarget).find('#home_area_flag').html('<i class="fas fa-flag" style="color: green"></i> Nurse <strong>not</strong> assigned to home Clinical Area');
         }
+
+        if (dta != '0') {
+            $(e.currentTarget).find('#dta_flag').html(`<i class="fas fa-flag" style="color: green"></i> ${dta}`);
+        }
+
+        if (comments != '0') {
+            $(e.currentTarget).find('#comments_flag').html(`<i class="fas fa-flag" style="color: green"></i> ${comments}`);
+        }
+
     });
 
     // Save State
@@ -541,12 +577,7 @@
         $("#shiftDateTime").val($("#curr-datetime").text())
         $("#shiftDateTime1").val($("#curr-datetime").text())
 
-        if (saveStateData.length % 2 == 0) {
-            $('#alertArea').append("<div class='alert alert-danger alert-dismissable fade show'> " +
-                "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>Invalid Assignment</div>")
-        } else {
-            $("#save-state-form").submit()
-        }
+        $("#save-state-form").submit()
     })
 
 </script>
