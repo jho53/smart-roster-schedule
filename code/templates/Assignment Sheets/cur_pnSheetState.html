@@ -120,6 +120,7 @@
                 </div>
             </div>
             <div class="col-4">
+                <!--L Charge Dropdown-->
                 <div class="input-group shadow-sm mb-3">
                     <div class="input-group-prepend">
                         <label class="input-group-text" style="width: 140px">L Charge</label>
@@ -127,7 +128,7 @@
                     <select class="form-control" id="lcn-assign-form">
                         {% if state['l_charge'][0] %}
                         {% for nurse in nurseList if nurse[0] == state['l_charge'][0]|int %}
-                        <option id="lcn-assign-{{nurse[0]}}" value="{{nurse[0]}}">
+                        <option id="lcn-assign-{{nurse[0]}}" value="{{nurse[0]}}" selected>
                             {{nurse[1]}}
                         </option>
                         {% endfor %}
@@ -140,6 +141,7 @@
                         {% endfor %}
                     </select>
                 </div>
+                <!--L Support Dropdown-->
                 <div class="input-group shadow-sm mb-3">
                     <div class="input-group-prepend">
                         <label class="input-group-text" style="width: 140px">L Support</label>
@@ -147,7 +149,7 @@
                     <select class="form-control" id="lsupport-assign-form">
                         {% if state['l_support'][0] %}
                         {% for nurse in nurseList if nurse[0] == state['l_support'][0]|int %}
-                        <option id="lsupport-assign-{{nurse[0]}}" value="{{nurse[0]}}">
+                        <option id="lsupport-assign-{{nurse[0]}}" value="{{nurse[0]}}" selected>
                             {{nurse[1]}}
                         </option>
                         {% endfor %}
@@ -160,6 +162,7 @@
                         {% endfor %}
                     </select>
                 </div>
+                <!--L Code Dropdown-->
                 <div class="input-group shadow-sm">
                     <div class="input-group-prepend">
                         <label class="input-group-text" style="width: 140px">L Code</label>
@@ -167,7 +170,7 @@
                     <select class="form-control" id="lcode-assign-form">
                         {% if state['l_code'][0] %}
                         {% for nurse in nurseList if nurse[0] == state['l_code'][0]|int %}
-                        <option id="l_code-assign-{{nurse[0]}}" value="{{nurse[0]}}">
+                        <option id="l_code-assign-{{nurse[0]}}" value="{{nurse[0]}}" selected>
                             {{nurse[1]}}
                         </option>
                         {% endfor %}

@@ -636,9 +636,6 @@ def current_CAASheet():
         # Grab nurse and patient tables
         cursor.execute("SELECT * FROM nurses WHERE current_shift=1")
         nurse_list = cursor.fetchall()
-        cursor.execute(
-            "SELECT DISTINCT group_num FROM nurses WHERE priority = 1")
-        group_num = cursor.fetchone()
 
         # Load most up-to-date state
         if os.path.exists("{0}/cache/current_shift/state.json".format(CURR_DIR)):
@@ -660,7 +657,6 @@ def current_CAASheet():
             return render_template("./Assignment Sheets/cur_caaSheet.html",
                                    loggedin=session['loggedin'],
                                    nurseList=nurse_list,
-                                   groupNum=group_num[0],
                                    areaNurseList=area_nurse_list,
                                    state=state[-1])
 
@@ -754,10 +750,13 @@ def past_PNSheet():
         cursor.execute("SELECT * FROM patients")
         patient_list = cursor.fetchall()
 
-        past_json_list = sorted(os.listdir(
-            f"{CURR_DIR}/cache/past_shift/"), reverse=True)
-        past_json_states = []
-        past_json_dates = []
+        try:
+            past_json_list = sorted(os.listdir(
+                f"{CURR_DIR}/cache/past_shift/"), reverse=True)
+            past_json_states = []
+            past_json_dates = []
+        except:
+            return redirect(url_for('home'))
 
         for file in past_json_list:
             with open(f'{CURR_DIR}/cache/past_shift/{file}', 'r') as jsonfile:
@@ -830,6 +829,14 @@ def save_current_state():
     fixed = cursor.fetchone()
     cursor.execute("SELECT DISTINCT group_num FROM nurses WHERE priority = 1;")
     flex = cursor.fetchone()
+    cursor.execute("SELECT * FROM nurses")
+    full_nurse_list = cursor.fetchall()
+
+    # validate flex
+    try:
+        flex[0] = flex[0]
+    except:
+        flex = fixed
 
     if 'loggedin' in session:
         # Variables
@@ -907,33 +914,54 @@ def save_current_state():
             # Assign patient and nurses to beds
             if state_data[i][0] == "pod":
                 bed_value = f"{state_data[i][1]}{state_data[i][3]}"  # eg. A3
+                temp_p_name = ""
+                temp_n_name = ""
 
+                # Append ID and Name in []
                 if state_data[i][-2] == "p":
-                    state_assignment["assignment"][bed_value]['p'].append(
-                        state_data[i][-1])
+                    for patient in patient_list:
+                        if patient[0] == int(state_data[i][-1]):
+                            temp_p_name = patient[1]
+                            break
+                    state_assignment["assignment"][bed_value]['p'] = [
+                        state_data[i][-1], temp_p_name]
+
                 if state_data[i][-2] == "n":
-                    state_assignment["assignment"][bed_value]['n'].append(
-                        state_data[i][-1])
+                    for nurse in full_nurse_list:
+                        if nurse[0] == int(state_data[i][-1]):
+                            temp_n_name = nurse[1]
+                            break
+                    state_assignment["assignment"][bed_value]['n'] = [
+                        state_data[i][-1], temp_n_name]
 
         for area in AREA_LIST:
             for i in range(MAX_BED):
+
                 flag_list = []
                 curr_pair = state_assignment["assignment"]["{0}{1}".format(
                     area, i + 1)]
 
                 if len(curr_pair['p']) == 0:
-                    flag_list = ['0', '0', '0', '0',
+                    flag_list = ['0', '0', '0', '0', '0', '0',
                                  '0', '0', '0', '0', '0']
                 else:
-                    cursor.execute(
-                        f"SELECT * FROM patients WHERE id={curr_pair['p'][0]}")
-                    patient = cursor.fetchone()
+                    try:
+                        cursor.execute(
+                            f"SELECT * FROM patients WHERE id={curr_pair['p'][0]}")
+                        patient = cursor.fetchone()
+                    except:
+                        patient = ""
+                        continue
 
                     # Runs only if nurse is assigned to the patient in this pod
                     try:
-                        cursor.execute(
-                            f"SELECT * FROM nurses WHERE id={curr_pair['n'][0]}")
-                        nurse = cursor.fetchone()
+                        try:
+                            cursor.execute(
+                                f"SELECT * FROM nurses WHERE id={curr_pair['n'][0]}")
+                            nurse = cursor.fetchone()
+                        except:
+                            nurse = ""
+                            continue
 
                         # Flag skill level
                         if nurse[7] < patient[4]:
@@ -960,7 +988,6 @@ def save_current_state():
                                 flag_list.append('1')
                             else:
                                 flag_list.append('0')
-
                         else:
                             # case 2: nurse being assigned is already assigned to another 1:1 patient
                             flag_list.append('0')
@@ -1015,8 +1042,8 @@ def save_current_state():
                             flag_list.append('0')
 
                     except:
-                        flag_list = ['0', '0', '0', '0',
-                                     '0', '0', '0', '0', '0']
+                        flag_list = ['0', '0', '0', '0', '0',
+                                     '0', '0', '0', '0', '0', '0']
 
                 flags["{0}{1}".format(area, i + 1)] = flag_list
 
