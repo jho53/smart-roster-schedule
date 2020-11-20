@@ -700,6 +700,23 @@ def future_CAASheet():
 
         return render_template("./Assignment Sheets/future_caaSheet.html",
                                loggedin=session['loggedin'],
+                               futureList=future_nurse_list
+                               )
+    return redirect(url_for('login'))
+
+
+@app.route("/futureCAASheetState")
+def future_CAASheet_state():
+    """ Displays the future clinical area page """
+    future_nurse_list = []
+
+    if 'loggedin' in session:
+        # Grab nurse and patient tables
+        cursor.execute("SELECT * FROM nurses")
+        future_nurse_list = cursor.fetchall()
+
+        return render_template("./Assignment Sheets/future_caaSheet.html",
+                               loggedin=session['loggedin'],
                                futureList=future_nurse_list,
                                )
     return redirect(url_for('login'))
@@ -786,7 +803,7 @@ def future_save():
             with open(f"{CURR_DIR}/cache/future_shift/{filename}.json", "w") as jsonfile:
                 json.dump(state_assignment, jsonfile)
 
-            return date_time_obj
+            return redirect(url_for('future_CAASheet'))
         except Exception as error:
             return str(error)
 
