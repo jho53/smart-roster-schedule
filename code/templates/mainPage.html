@@ -201,8 +201,23 @@
                         <select multiple size="17" class="form-control" id="curr-nurse-store">
                             {% for index, nurse in enumerate(nurseList) %}
                             {% if nurse[-1]==1 %}
-                            <option id="{{nurse[0]}}" name="{{nurse[0]}}" value="{{nurse[0]}}">{{nurse[1]}} -
+                            {% if nurse[11]=="Charge" %}
+                            <option class="table-success" id="{{nurse[0]}}" name="{{nurse[0]}}" value="{{nurse[0]}}">
+                                {{nurse[1]}} -
                                 {{nurse[5]}}</option>
+                            {% elif nurse[11]=="Support" %}
+                            <option class="table-warning" id="{{nurse[0]}}" name="{{nurse[0]}}" value="{{nurse[0]}}">
+                                {{nurse[1]}} -
+                                {{nurse[5]}}</option>
+                            {% elif nurse[11]=="Code" %}
+                            <option class="table-danger" id="{{nurse[0]}}" name="{{nurse[0]}}" value="{{nurse[0]}}">
+                                {{nurse[1]}} -
+                                {{nurse[5]}}</option>
+                            {% else %}
+                            <option id="{{nurse[0]}}" name="{{nurse[0]}}" value="{{nurse[0]}}">
+                                {{nurse[1]}} -
+                                {{nurse[5]}}</option>
+                            {% endif %}
                             {% endif %}
                             {% endfor %}
                         </select>
@@ -731,9 +746,9 @@
     $(document).ready(function () {
         var $this, i, filter,
             $input = $('#fullFilter'),
-            $options = $('#full-nurse-list').find('option');
-        $input1 = $('#currFilter'),
-            $options1 = $('#curr-nurse-store').find('option');
+            $options = $('#full-nurse-list').find('option'),
+            $input1 = $('#currFilter'),
+            $options1 = $('#curr-nurse-store').find('option')
 
         $input.keyup(function () {
             filter = $(this).val();

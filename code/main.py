@@ -83,17 +83,18 @@ def home():
         code_nurse_ids = []
         group_num = []
 
-        # Grab database information
-        cursor.execute("SELECT * FROM nurses")
-        nurse_list = cursor.fetchall()
-        cursor.execute("SELECT * FROM patients")
-        patient_list = cursor.fetchall()
         cursor.execute("SELECT DISTINCT group_num FROM nurses")
         for i in cursor.fetchall():
             if i[0] == 0:
                 pass
             else:
                 group_num.append(i[0])
+
+        # Grab database information
+        cursor.execute("SELECT * FROM nurses")
+        nurse_list = cursor.fetchall()
+        cursor.execute("SELECT * FROM patients")
+        patient_list = cursor.fetchall()
 
         for nurse in nurse_list:
             if nurse[-1] == 1:
@@ -142,10 +143,10 @@ def update_current_nurses():
                 db.commit()
                 return redirect(url_for('home'))
             except Exception as error:
-                print(error)
+                return str(error)
                 return str(error)
     except:
-        print(Exception)
+        return str(Exception)
 
 
 @app.route("/updateAdvRole", methods=["POST"])
@@ -179,7 +180,7 @@ def update_adv_role():
             db.commit()
             return redirect(url_for('home'))
         except Exception as error:
-            print(error)
+            return str(error)
 
 
 @app.route("/register", methods=['GET'])
@@ -340,7 +341,7 @@ def add_nurse_records():
         cursor.execute(query, arguments)
         db.commit()
     except Exception as error:
-        print(error)
+        return str(error)
     return redirect(url_for('nurse_records'))
 
 
@@ -390,7 +391,6 @@ def edit_nurse_records():
 
     nurse_DTA = request.form['edit_nurse_dta']
     nurse_comments = request.form['edit_nurse_comments']
-    print(nurse_fte)
 
     query = "UPDATE smartroster.nurses SET name = %s, clinical_area = %s, rotation = %s, group_num = %s, fte = %s, " \
             " skill_level = %s, a_trained = %s, transfer = %s, iv = %s, advanced_role = %s, dta = %s, comments = %s WHERE id = %s"
@@ -403,7 +403,7 @@ def edit_nurse_records():
         cursor.execute(query, arguments)
         db.commit()
     except Exception as error:
-        print(error)
+        return str(error)
     return redirect(url_for('nurse_records'))
 
 
@@ -416,7 +416,7 @@ def delete_nurse_records():
         cursor.execute(query)
         db.commit()
     except Exception as error:
-        print(error)
+        return str(error)
 
     return redirect(url_for('nurse_records'))
 
@@ -491,7 +491,7 @@ def add_patient_records():
         cursor.execute(query, arguments)
         db.commit()
     except Exception as error:
-        print(error)
+        return str(error)
 
     return redirect(url_for('patient_records'))
 
@@ -553,7 +553,7 @@ def edit_patient_records():
         cursor.execute(query, arguments)
         db.commit()
     except Exception as error:
-        print(error)
+        return str(error)
 
     return redirect(url_for('patient_records'))
 
@@ -570,7 +570,7 @@ def delete_patient_records():
         cursor.execute(query)
         db.commit()
     except Exception as error:
-        print(error)
+        return str(error)
     return redirect(url_for('patient_records'))
 
 
@@ -640,17 +640,20 @@ def current_CAASheet():
             "SELECT DISTINCT group_num FROM nurses WHERE priority = 1")
         group_num = cursor.fetchone()
 
+        # Load most up-to-date state
         if os.path.exists("{0}/cache/current_shift/state.json".format(CURR_DIR)):
             with open("{0}/cache/current_shift/state.json".format(CURR_DIR), 'r') as jsonfile:
                 state = json.load(jsonfile)
 
+            # Create 2d array for storing nurse id per area
             for i, area in enumerate(AREA_LIST):
                 area_nurse_list.append([])
                 for j in range(MAX_BED):
+                    # Works only if there is valid nurse inside
                     try:
-                        if state["assignment"][f"{area}{j + 1}"][1] not in area_nurse_list[i]:
+                        if state[-1]["assignment"][f"{area}{j + 1}"]['n'][0] not in area_nurse_list[i]:
                             area_nurse_list[i].append(
-                                state["assignment"][f"{area}{j + 1}"][1])
+                                int(state[-1]["assignment"][f"{area}{j + 1}"]['n'][0]))
                     except:
                         continue
 
@@ -659,7 +662,7 @@ def current_CAASheet():
                                    nurseList=nurse_list,
                                    groupNum=group_num[0],
                                    areaNurseList=area_nurse_list,
-                                   state=state)
+                                   state=state[-1])
 
         return render_template("./Assignment Sheets/cur_caaSheet_blank.html",
                                loggedin=session['loggedin'])
@@ -687,6 +690,10 @@ def current_PNSheet():
             if os.path.exists("{0}/cache/current_shift/flags.json".format(CURR_DIR)):
                 with open("{0}/cache/current_shift/flags.json".format(CURR_DIR), 'r') as flagfile:
                     flags = json.load(flagfile)
+
+            # reset nurse_list
+            cursor.execute("SELECT * FROM nurses")
+            nurse_list = cursor.fetchall()
 
             return render_template("./Assignment Sheets/cur_pnSheetState.html",
                                    loggedin=session['loggedin'],
@@ -819,8 +826,10 @@ def save_current_state():
     nurse_list = cursor.fetchall()
     cursor.execute("SELECT * FROM patients WHERE discharged_date='-'")
     patient_list = cursor.fetchall()
+    cursor.execute("SELECT DISTINCT group_num FROM nurses WHERE priority = 2;")
+    fixed = cursor.fetchone()
     cursor.execute("SELECT DISTINCT group_num FROM nurses WHERE priority = 1;")
-    priority = cursor.fetchone()
+    flex = cursor.fetchone()
 
     if 'loggedin' in session:
         # Variables
@@ -836,7 +845,8 @@ def save_current_state():
             "timestamp": datetime.now().strftime("%B %d, %Y - %I:%M:%S %p"),
             "shift-datetime": date_time_obj,
             "author": session['name'],
-            "priority": priority[0],
+            "fixed": fixed[0],
+            "flex": flex[0],
             "id": 0
         }
 
@@ -911,8 +921,6 @@ def save_current_state():
                 curr_pair = state_assignment["assignment"]["{0}{1}".format(
                     area, i + 1)]
 
-                print(curr_pair)
-
                 if len(curr_pair['p']) == 0:
                     flag_list = ['0', '0', '0', '0',
                                  '0', '0', '0', '0', '0']
@@ -921,76 +929,94 @@ def save_current_state():
                         f"SELECT * FROM patients WHERE id={curr_pair['p'][0]}")
                     patient = cursor.fetchone()
 
-                    cursor.execute(
-                        f"SELECT * FROM nurses WHERE id={curr_pair['n'][0]}")
-                    nurse = cursor.fetchone()
+                    # Runs only if nurse is assigned to the patient in this pod
+                    try:
+                        cursor.execute(
+                            f"SELECT * FROM nurses WHERE id={curr_pair['n'][0]}")
+                        nurse = cursor.fetchone()
 
-                    # Flag skill level
-                    if nurse[7] < patient[4]:
-                        flag_list.append('1')
-                    else:
-                        flag_list.append('0')
-
-                    # Flag A trained
-                    if nurse[8] < patient[5]:
-                        flag_list.append('1')
-                    else:
-                        flag_list.append('0')
-
-                    # Flag Transfer
-                    if nurse[9] < patient[6]:
-                        flag_list.append('1')
-                    else:
-                        flag_list.append('0')
-
-                    # Flag 1:1
-                    # case 1: current patient is 1:1
-                    if int(patient[8]):
-                        if len(assignments[str(nurse[0])]['patients']) > 1:
+                        # Flag skill level
+                        if nurse[7] < patient[4]:
                             flag_list.append('1')
                         else:
                             flag_list.append('0')
 
-                    else:
-                        # case 2: nurse being assigned is already assigned to another 1:1 patient
-                        flag_list.append('0')
-                        for p in assignments[str(nurse[0])]['patients']:
-                            cursor.execute(
-                                'SELECT one_to_one FROM patients WHERE id={0}'.format(p))
-                            fetched_p = cursor.fetchone()
-                            if fetched_p[0]:
-                                flag_list[3] = '1'
+                        # Flag A trained
+                        if nurse[8] < patient[5]:
+                            flag_list.append('1')
+                        else:
+                            flag_list.append('0')
 
-                    # Flag previous patient
-                    flag_list.append('0')
-                    for n in patient[9].strip('][').split(', '):
-                        if n in list(nurse_list):
-                            if nurse[0] != n:
-                                flag_list[4] = '1'
+                        # Flag Transfer
+                        if nurse[9] < patient[6]:
+                            flag_list.append('1')
+                        else:
+                            flag_list.append('0')
 
-                    # Flag priority
-                    if nurse[15]:
-                        flag_list.append('1')
-                    else:
-                        flag_list.append('0')
+                        # Flag 1:1
+                        # case 1: current patient is 1:1
+                        if int(patient[8]):
+                            if len(assignments[str(nurse[0])]['patients']) > 1:
+                                flag_list.append('1')
+                            else:
+                                flag_list.append('0')
 
-                    # Flag twin
-                    if patient[13]:
-                        flag_list.append('1')
-                    else:
-                        flag_list.append('0')
+                        else:
+                            # case 2: nurse being assigned is already assigned to another 1:1 patient
+                            flag_list.append('0')
+                            for p in assignments[str(nurse[0])]['patients']:
+                                cursor.execute(
+                                    'SELECT one_to_one FROM patients WHERE id={0}'.format(p))
+                                fetched_p = cursor.fetchone()
+                                if fetched_p[0]:
+                                    flag_list[3] = '1'
 
-                    # Flag iv
-                    if nurse[10] == patient[7]:
-                        flag_list.append('1')
-                    else:
+                        # Flag previous patient
                         flag_list.append('0')
+                        for n in patient[9].strip('][').split(', '):
+                            if n in list(nurse_list):
+                                if nurse[0] != n:
+                                    flag_list[4] = '1'
 
-                    # Flag clinical area
-                    if nurse[2] != patient[2]:
-                        flag_list.append('1')
-                    else:
-                        flag_list.append('0')
+                        # Flag priority
+                        if nurse[15] != 2:
+                            flag_list.append('1')
+                        else:
+                            flag_list.append('0')
+
+                        # Flag twin
+                        if patient[13]:
+                            flag_list.append('1')
+                        else:
+                            flag_list.append('0')
+
+                        # Flag iv
+                        if nurse[10] == patient[7]:
+                            flag_list.append('1')
+                        else:
+                            flag_list.append('0')
+
+                        # Flag clinical area
+                        if nurse[2] != patient[2]:
+                            flag_list.append('1')
+                        else:
+                            flag_list.append('0')
+
+                        # Flag DTA
+                        if nurse[13] != "":
+                            flag_list.append(nurse[13])
+                        else:
+                            flag_list.append('0')
+
+                        # Flag Comments
+                        if nurse[14] != "":
+                            flag_list.append(nurse[14])
+                        else:
+                            flag_list.append('0')
+
+                    except:
+                        flag_list = ['0', '0', '0', '0',
+                                     '0', '0', '0', '0', '0']
 
                 flags["{0}{1}".format(area, i + 1)] = flag_list
 
@@ -1190,7 +1216,7 @@ def assign_nurse_patient() -> dict:
                     break
 
     # We run through to check for one-to-one and fix appropriately
-    print(assignments)
+    # print(assignments)
 
     cursor.execute('SELECT * FROM patients')
     patient_list = cursor.fetchall()
@@ -1216,15 +1242,20 @@ def assign_nurse_patient() -> dict:
     with open("./cache/current_shift/curr_assignment.json", 'w') as jsonfile:
         json.dump(assignments, jsonfile)
 
+    # try:
+    #     response = app.response_class(
+    #         status=200, response=json.dumps(assignments))
+    #     return render_template("./assign.html",
+    #                            response=assignments,
+    #                            nurseList=nurse_list,
+    #                            patientList=patient_list)
+    # except ValueError as error:
+    #     response = app.response_class(status=400, response=str(error))
+
     try:
-        response = app.response_class(
-            status=200, response=json.dumps(assignments))
-        return render_template("./assign.html",
-                               response=assignments,
-                               nurseList=nurse_list,
-                               patientList=patient_list)
-    except ValueError as error:
-        response = app.response_class(status=400, response=str(error))
+        return redirect(url_for('current_PNSheet'))
+    except Exception as error:
+        return str(error)
 
 # @app.route('/flag', methods=['GET'])
 # def assign_nurse_patient() -> dict:

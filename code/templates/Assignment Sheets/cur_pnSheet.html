@@ -125,13 +125,13 @@
                         <label class="input-group-text" style="width: 140px">L Charge</label>
                     </div>
                     <select class="form-control" id="lcn-assign-form">
-                        <option id="lcn-assign-blank" value="" selected></option>
                         {% for index, nurse in enumerate(nurseList) %}
                         {% if nurse[11] == "L Charge" %}
-                        <option id="lcn-assign-{{nurse[0]}}" value="{{nurse[0]}}">{{nurse[1]}}
+                        <option id="lcn-assign-{{nurse[0]}}" value="{{nurse[0]}}" selected>{{nurse[1]}}
                         </option>
                         {% endif %}
                         {% endfor %}
+                        <option id="lcn-assign-blank" value=""></option>
                     </select>
                 </div>
                 <!--L Support Assignment-->
@@ -140,14 +140,14 @@
                         <label class="input-group-text" style="width: 140px">L Support</label>
                     </div>
                     <select class="form-control" id="lsupport-assign-form">
-                        <option id="lsupport-assign-blank" value="" selected></option>
                         {% for index, nurse in enumerate(nurseList) %}
                         {% if nurse[11] == "L Support" %}
-                        <option id="lsupport-assign-{{nurse[0]}}" value="{{nurse[0]}}">
+                        <option id="lsupport-assign-{{nurse[0]}}" value="{{nurse[0]}}" selected>
                             {{nurse[1]}}
                         </option>
                         {% endif %}
                         {% endfor %}
+                        <option id="lsupport-assign-blank" value=""></option>
                     </select>
                 </div>
                 <!--L Code Assignment-->
@@ -156,14 +156,14 @@
                         <label class="input-group-text" style="width: 140px">L Code</label>
                     </div>
                     <select class="form-control" id="lcode-assign-form">
-                        <option id="lcode-assign-blank" value="" selected></option>
                         {% for index, nurse in enumerate(nurseList) %}
                         {% if nurse[11] == "L Code" %}
-                        <option id="lcode-assign-{{nurse[0]}}" value="{{nurse[0]}}">
+                        <option id="lcode-assign-{{nurse[0]}}" value="{{nurse[0]}}" selected>
                             {{nurse[1]}}
                         </option>
                         {% endif %}
                         {% endfor %}
+                        <option id="lcode-assign-blank" value=""></option>
                     </select>
                 </div>
             </div>
@@ -239,6 +239,8 @@
                                 <option id="pod-{{areas[area_iter.value]}}-bed-{{ asc_loop + 1 }}-p-blank" value="">
                                 </option selected>
                                 {% endfor %}
+                                <option id="pod-{{areas[area_iter.value]}}-bed-{{ asc_loop + 1 }}-p-blank" value="">
+                                </option>
                                 {% for index, patient in enumerate(patientList) %}
                                 <option id='pod-{{areas[area_iter.value]}}-bed-{{ asc_loop + 1 }}-p-{{patient[0]}}'
                                     value="{{patient[0]}}">{{patient[1]}}</option>
@@ -295,6 +297,8 @@
                                 <option id="pod-{{areas[area_iter.value]}}-bed-{{ desc_loop + 8 }}-p-blank" value="">
                                 </option selected>
                                 {% endfor %}
+                                <option id="pod-{{areas[area_iter.value]}}-bed-{{ desc_loop + 8 }}-p-blank" value="">
+                                </option>
                                 {% for index, patient in enumerate(patientList) %}
                                 <option id='pod-{{areas[area_iter.value]}}-bed-{{ desc_loop + 8 }}-p-{{patient[0]}}'
                                     value="{{patient[0]}}">{{patient[1]}}</option>

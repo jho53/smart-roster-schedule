@@ -43,7 +43,11 @@
         {% for i in range(3)%}
         <div class="row justify-content-center mb-2">
           <input class="col-8 form-control form-control-sm rounded text-center" type="text"
-            {% for nurse in nurseList if nurse[0]==latestState['charge'][i]|int %} value="{{nurse[1]}}" {% endfor %}
+          {% if latestState['charge'][i] %}  
+          {% for nurse in nurseList if nurse[0]==latestState['charge'][i]|int %}
+            value="{{nurse[1]}}" 
+            {% endfor %}
+            {% endif %}
             disabled>
         </div>
         {% endfor %}
@@ -58,7 +62,8 @@
         {% for i in range(3)%}
         <div class="row justify-content-center mb-2">
           <input class="col-6 offset-1 form-control form-control-sm rounded text-center" type="text"
-            {% for nurse in nurseList if nurse[0]==latestState['support'][i]|int %} value="{{nurse[1]}}" {% endfor %}
+          {% if latestState['support'][i] %}  
+            {% for nurse in nurseList if nurse[0]==latestState['support'][i]|int %} value="{{nurse[1]}}" {% endfor %} {% endif %}
             disabled>
         </div>
         {% endfor %}
@@ -71,7 +76,8 @@
             <h6>Code RN</h6>
           </div>
           <input class="col-6 form-control form-control-sm rounded text-center" type="text"
-            {% for nurse in nurseList if nurse[0]==latestState['code'][0]|int %} value="{{nurse[1]}}" {% endfor %}
+          {% if latestState['code'][0] %}  
+            {% for nurse in nurseList if nurse[0]==latestState['code'][0]|int %} value="{{nurse[1]}}" {% endfor %} {% endif %}
             disabled>
           <div class="col-1"></div>
         </div><br>
