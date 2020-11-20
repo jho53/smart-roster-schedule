@@ -687,10 +687,6 @@ def current_PNSheet():
                 with open("{0}/cache/current_shift/flags.json".format(CURR_DIR), 'r') as flagfile:
                     flags = json.load(flagfile)
 
-            # reset nurse_list
-            cursor.execute("SELECT * FROM nurses")
-            nurse_list = cursor.fetchall()
-
             return render_template("./Assignment Sheets/cur_pnSheetState.html",
                                    loggedin=session['loggedin'],
                                    state=state[-1],
@@ -701,15 +697,20 @@ def current_PNSheet():
             with open('./cache/current_shift/curr_assignment.json', 'r') as jsonfile:
                 curr_assignment = json.load(jsonfile)
 
+            print(curr_assignment)
+
             for nurse_id in curr_assignment:
+                print(nurse_id)
                 # Advanced Role Assignment
-                if full_nurse_list[int(nurse_id) - 1][11] != "":
-                    if full_nurse_list[int(nurse_id) - 1][11] == "Charge":
-                        curr_assignment[nurse_id]['adv'] = "Charge"
-                    if full_nurse_list[int(nurse_id) - 1][11] == "Support":
-                        curr_assignment[nurse_id]['adv'] = "Support"
-                    if full_nurse_list[int(nurse_id) - 1][11] == "Code":
-                        curr_assignment[nurse_id]['adv'] = "Code"
+                for nurse in full_nurse_list:
+                    if nurse[0] == int(nurse_id):
+                        if nurse[11] != "":
+                            if nurse[11] == "Charge":
+                                curr_assignment[nurse_id]['adv'] = "Charge"
+                            if nurse[11] == "Support":
+                                curr_assignment[nurse_id]['adv'] = "Support"
+                            if nurse[11] == "Code":
+                                curr_assignment[nurse_id]['adv'] = "Code"
 
                 # Bed Assignments
                 list_of_beds = []  # temp list of beds
@@ -754,17 +755,22 @@ def past_PNSheet():
             past_json_list = sorted(os.listdir(
                 f"{CURR_DIR}/cache/past_shift/"), reverse=True)
             past_json_states = []
-            past_json_dates = []
+            past_json_shifts = []
+            past_json_versions = []
         except:
             return redirect(url_for('home'))
 
-        for file in past_json_list:
+        for i, file in enumerate(past_json_list):
             with open(f'{CURR_DIR}/cache/past_shift/{file}', 'r') as jsonfile:
                 temp_dict = json.load(jsonfile)
+                past_json_versions.append([])
                 past_json_states.append(temp_dict)
-                past_json_dates.append(temp_dict[0]['timestamp'])
+                past_json_shifts.append(temp_dict[0]['shift-datetime'])
+                for version in temp_dict:
+                    past_json_versions[i].append(version['timestamp'])
 
-        print(past_json_dates)
+        print(past_json_shifts)
+        print(past_json_versions)
 
         return render_template("./Assignment Sheets/past_pnSheet.html",
                                # Load most recent past assignment
@@ -772,7 +778,8 @@ def past_PNSheet():
                                patientList=patient_list,
                                latestState=past_json_states[0][-1],
                                state=past_json_states,
-                               dates=past_json_dates,
+                               shifts=past_json_shifts,
+                               versions=past_json_versions,
                                loggedin=session['loggedin'])
     return redirect(url_for('login'))
 
@@ -783,21 +790,21 @@ def past_PNSheetState():
         past_json_list = sorted(os.listdir(
             f"{CURR_DIR}/cache/past_shift/"), reverse=True)
         past_json_states = []
-        past_json_dates = []
+        past_json_shifts = []
 
         for file in past_json_list:
             with open(f'{CURR_DIR}/cache/past_shift/{file}', 'r') as jsonfile:
                 temp_dict = json.load(jsonfile)
                 past_json_states.append(temp_dict)
-                past_json_dates.append(temp_dict[0]['timestamp'])
+                past_json_shifts.append(temp_dict[0]['timestamp'])
 
-        print(past_json_dates)
+        print(past_json_shifts)
 
         return render_template("./Assignment Sheets/past_pnSheet.html",
                                # Load most recent past assignment
                                latestState=past_json_states[0][-1],
                                states=past_json_states,
-                               dates=past_json_dates,
+                               dates=past_json_shifts,
                                loggedin=session['loggedin'])
     return redirect(url_for('login'))
 
@@ -1268,6 +1275,9 @@ def assign_nurse_patient() -> dict:
     # Create curr_assignment.json
     with open("./cache/current_shift/curr_assignment.json", 'w') as jsonfile:
         json.dump(assignments, jsonfile)
+
+    # cursor.execute("SELECT * FROM nurses")
+    # nurse_list = cursor.fetchall()
 
     # try:
     #     response = app.response_class(

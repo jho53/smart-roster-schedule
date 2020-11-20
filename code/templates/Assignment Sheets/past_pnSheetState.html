@@ -9,8 +9,8 @@
         <div class="justify-content-md-center row">
             <h1 class="jumbotron-title col-11">Past Assignment Page</h1>
         </div>
-        <small>Shift: {{latestState['timestamp']}}</small> <br>
-        <small>Last Updated: {{latestState['shift-datetime']}} by {{latestState['author']}}</small><br>
+        <small>Shift: {{latestState['shift-datetime']}}</small> <br>
+        <small>Last Updated: {{latestState['timestamp']}} by {{latestState['author']}}</small><br>
         <div class="text-left" style="position: absolute; top: 1.75%; left: 5%">
             <small>Shift</small>
             <form class="row form-group">
@@ -21,7 +21,7 @@
                 </select>
                 <span><button class="btn btn-sm btn-success" type="submit">View</button></span>
             </form>
-            <small>Version</small>
+            <small>History/Version</small>
             <form class="row form-group">
                 <select id="date-select" class="form-control form-control-sm col-10">
                     {% for date in dates %}
@@ -107,9 +107,6 @@
 {% if latestState['l_code'][0] %}
 <p>L Code: {{nurseList[latestState['l_code'][0]|int][1]}}</p>
 {% endif %}
-
-
-{{latestState}}
 
 {% set areas=["A", "B", "C", "D", "E", "F"] %}
 {% set area_iter = namespace(value=0) %}
@@ -221,6 +218,22 @@
 </div>
 
 <script>
+    // Date Change
+    $(document).ready(function () {
+        $("#type").change(function () {
+            var val = $(this).val();
+            if (val == "item1") {
+                $("#size").html("<option value='test'>item1: test 1</option><option value='test2'>item1: test 2</option>");
+            } else if (val == "item2") {
+                $("#size").html("<option value='test'>item2: test 1</option><option value='test2'>item2: test 2</option>");
+            } else if (val == "item3") {
+                $("#size").html("<option value='test'>item3: test 1</option><option value='test2'>item3: test 2</option>");
+            } else if (val == "item0") {
+                $("#size").html("<option value=''>--select one--</option>");
+            }
+        });
+    });
+
     // Print Page
     function printPage() {
         var css = 'body',
