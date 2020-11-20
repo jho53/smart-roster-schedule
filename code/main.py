@@ -1078,7 +1078,7 @@ def assign_nurse_patient() -> dict:
     #     if p.get_assigned() != 1:
     #         print("Patient", p.get_id(), " is not assigned!")
 
-    print(assignments)
+    # print(assignments)
 
     cursor.execute(
         'SELECT * FROM patients WHERE discharged_date="-"')

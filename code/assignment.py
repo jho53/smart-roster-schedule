@@ -206,7 +206,7 @@ def assign(sorted_eligible_nurses, eligible_max_nurses, assignments, one_to_one,
 def swap(assignments, cursor):
     temp_assignments = {}
     temp_assignments2 = {}
-    print(HIGH_WEIGHT)
+    # print(HIGH_WEIGHT)
     temp_high_weight = 0
 
     cursor.execute("SELECT * FROM patients WHERE discharged_date='-'")
@@ -229,41 +229,133 @@ def swap(assignments, cursor):
         # rand = random.randint(1, len(assignments))
         # cursor.execute(f"SELECT * from nurses where id={rand}")
         # nurse_obj = cursor.fetchone()
+    print(calculate_total_weight(temp_assignments, cursor))
+    print(temp_assignments)
+    print('------------')
 
-    i = 0
-    weights = {}
-    while i < 10:
-        for n in nurses:
-            temp_high_weight = 0
-            for p in patients:
+
+
+    # possible_combinations = []
+    o = 0
+    while o < 10:
+        weights = {}
+        temp_assignments2 = {}
+        for i in temp_assignments:
+            # if o < 1:
+            #     temp_assignments2[i] = [99]
+            #     continue
+            # temp_high_weight = 0
+            # cursor.execute(f"SELECT * from nurses where id={i}")
+            # row = cursor.fetchone()
+            # xx = Nurse(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9],
+            #           row[10], row[11], row[12], row[13], row[14], row[15], row[16])
+            # for p_index in range(len(temp_assignments[i])):
+            #     p = temp_assignments[i][p_index]
+            #     cursor.execute(f"SELECT * from patients where id={p}")
+            #     row = cursor.fetchone()
+            #     xp = Patient(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10],row[11],
+            #                 row[12], row[13])
+                # temp_high_weight += calculate_weight(x, xp, temp_assignments, cursor)
+            for j in temp_assignments:
+                _break = ''
+                temp_list = {}
+                rand = random.randint(1, len(temp_assignments))
                 temp_high_weight2 = 0
-                if i > 0:
-                    x = []
-                    x.append(p.get_id())
-                    if x in list(temp_assignments2.values()):
-                        continue
-                if (n.get_skill_level() < p.get_acuity()) or (n.get_a_trained() < p.get_a_trained()) or (n.get_transfer() < p.get_transfer()):
+                if i == j:
                     continue
-                temp_high_weight2 = calculate_weight(n, p, temp_assignments2, cursor)
-                # print(temp_high_weight2, 'vs', temp_high_weight)
-                if i > 0:
-                    # print(temp_high_weight2, 'vs', weights[n.get_id()])
-                    if temp_high_weight2 > weights[n.get_id()]:
-                        temp_high_weight = temp_high_weight2
-                        temp_assignments2[n.get_id()] = []
-                        temp_assignments2[n.get_id()].append(p.get_id())
-                        weights[n.get_id()] = temp_high_weight2
-                        # print('assssignnnneeedd')
-                elif i == 0:
-                    temp_high_weight = temp_high_weight2
-                    temp_assignments2[n.get_id()] = []
-                    temp_assignments2[n.get_id()].append(p.get_id())
-                    weights[n.get_id()] = 0
-        i += 1
-        print(weights)
-        total_weight = calculate_total_weight(temp_assignments2, cursor)
-        print('iteration', i, 'wieght', total_weight)
-        print(temp_assignments2)
+                try:
+                    if temp_assignments[j] in list(temp_assignments2.values()):
+                        continue
+                except:
+                    print()
+                temp_list[i] = temp_assignments[j]
+                # possible_combinations.append(temp_assignments2)
+                cursor.execute(f"select * from nurses where id={j}")
+                row = cursor.fetchone()
+                x = to_object_nurse(row)
+                for p in temp_list[i]:
+                    cursor.execute(f"SELECT * from patients where id={p}")
+                    row = cursor.fetchone()
+                    xp = to_object_patient(row)
+                    # if (x.get_skill_level() < xp.get_acuity()) or (x.get_a_trained() < xp.get_a_trained()) or (x.get_transfer() < xp.get_transfer()):
+                    #     temp_assignments2[i] = []
+                    if (x.get_skill_level() >= xp.get_acuity()) and (x.get_a_trained() >= xp.get_a_trained()) and (x.get_transfer() >= xp.get_transfer()):
+                        temp_assignments2[i] = temp_assignments[j]
+                        _break = True
+                        # _break = True
+                        # try:
+                        #     weight = weights[x.get_id()]
+                        #     replacement = calculate_weight(xx, xp, temp_assignments2, cursor)
+                        #     if replacement > weight:
+                        #         temp_assignments2[i] = temp_assignments[j]
+                        # except:
+                        #     weight = calculate_weight(xx, xp, temp_assignments2, cursor)
+                        #     weights[x.get_id()] = weight
+                        #     temp_assignments2[i] = temp_assignments[j]
+                    #
+                    else:
+                        # if temp_assignments[i] in list(temp_assignments2.values()):
+                        #     continue
+                        temp_assignments2[i] = temp_assignments[i]
+                if _break == True:
+                    break
+                # except:
+                #     continue
+
+                # temp_high_weight2 += calculate_weight(x, xp, temp_assignments2, cursor)
+                # print(temp_high_weight2, temp_high_weight, "aaaaaaaaaaa")
+                # if temp_high_weight2 < temp_high_weight:
+                #     del temp_assignments2[i]
+            #temp_assignments2[rand] = temp_assignments[i]
+        # if o > 1:
+        temp_assignments = temp_assignments2
+
+        temp_high_weight = calculate_total_weight(temp_assignments, cursor)
+        print(temp_high_weight)
+        print(temp_assignments)
+        o += 1
+    # for k in possible_combinations:
+    #     print(k)
+
+    # temp_high_weight = calculate_total_weight(temp_assignments2, cursor)
+    # print(temp_high_weight)
+    # print(temp_assignments2)
+
+    ########brute force#########
+    # i = 0
+    # weights = {}
+    # while i < 10:
+    #     for n in nurses:
+    #         temp_high_weight = 0
+    #         for p in patients:
+    #             temp_high_weight2 = 0
+    #             if i > 0:
+    #                 x = []
+    #                 x.append(p.get_id())
+    #                 if x in list(temp_assignments2.values()):
+    #                     continue
+    #             if (n.get_skill_level() < p.get_acuity()) or (n.get_a_trained() < p.get_a_trained()) or (n.get_transfer() < p.get_transfer()):
+    #                 continue
+    #             temp_high_weight2 = calculate_weight(n, p, temp_assignments2, cursor)
+    #             # print(temp_high_weight2, 'vs', temp_high_weight)
+    #             if i > 0:
+    #                 # print(temp_high_weight2, 'vs', weights[n.get_id()])
+    #                 if temp_high_weight2 > weights[n.get_id()]:
+    #                     temp_high_weight = temp_high_weight2
+    #                     temp_assignments2[n.get_id()] = []
+    #                     temp_assignments2[n.get_id()].append(p.get_id())
+    #                     weights[n.get_id()] = temp_high_weight2
+    #                     # print('assssignnnneeedd')
+    #             elif i == 0:
+    #                 temp_high_weight = temp_high_weight2
+    #                 temp_assignments2[n.get_id()] = []
+    #                 temp_assignments2[n.get_id()].append(p.get_id())
+    #                 weights[n.get_id()] = 0
+    #     i += 1
+    #     print(weights)
+    #     total_weight = calculate_total_weight(temp_assignments2, cursor)
+    #     print('iteration', i, 'wieght', total_weight)
+    #     print(temp_assignments2)
 
 
 def calculate_total_weight(temp_assignments, cursor):
@@ -272,83 +364,26 @@ def calculate_total_weight(temp_assignments, cursor):
         rand = random.randint(1, len(temp_assignments))
         cursor.execute(f"SELECT * from nurses where id={i}")
         row = cursor.fetchone()
-        x = Nurse(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9],
-                  row[10], row[11], row[12], row[13], row[14], row[15], row[16])
+        x = to_object_nurse(row)
         for p_index in range(len(temp_assignments[i])):
             p = temp_assignments[i][p_index]
             cursor.execute(f"SELECT * from patients where id={p}")
             row = cursor.fetchone()
-            xp = Patient(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10],row[11],
-                        row[12], row[13])
+            xp = to_object_patient(row)
             temp_high_weight += calculate_weight(x, xp, temp_assignments, cursor)
     return temp_high_weight
 
 
+def to_object_nurse(row):
+    x = Nurse(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9],
+              row[10], row[11], row[12], row[13], row[14], row[15], row[16])
+    return x
 
+def to_object_patient(row):
+    xp = Patient(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10], row[11],
+                 row[12], row[13])
+    return xp
 
-    #
-    # temp_high_weight = 0
-    # temp_high_weight2 = 0
-    # for i in temp_assignments:
-    #     temp_high_weight = 0
-    #     rand = random.randint(1, len(temp_assignments))
-    #     cursor.execute(f"SELECT * from nurses where id={i}")
-    #     row = cursor.fetchone()
-    #     x = Nurse(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9],
-    #               row[10], row[11], row[12], row[13], row[14], row[15], row[16])
-    #     for p_index in range(len(temp_assignments[i])):
-    #         p = temp_assignments[i][p_index]
-    #         cursor.execute(f"SELECT * from patients where id={p}")
-    #         row = cursor.fetchone()
-    #         xp = Patient(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10],row[11],
-    #                     row[12], row[13])
-    #         temp_high_weight += calculate_weight(x, xp, temp_assignments, cursor)
-    #
-    #
-    #     for j in temp_assignments:
-    #         temp_high_weight2 = 0
-    #         if i == j:
-    #             continue
-    #         if temp_assignments[j] in list(temp_assignments2.values()):
-    #             continue
-    #         temp_assignments2[i] = temp_assignments[j]
-    #         cursor.execute(f"select * from nurses where id={j}")
-    #         row = cursor.fetchone()
-    #         x = Nurse(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9],
-    #                   row[10], row[11], row[12], row[13], row[14], row[15], row[16])
-    #         for p_index in range(len(temp_assignments2[i])):
-    #             p = temp_assignments2[i][p_index]
-    #             cursor.execute(f"SELECT * from patients where id={p}")
-    #             row = cursor.fetchone()
-    #             xp = Patient(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10],row[11],
-    #                          row[12], row[13])
-    #         if (x.get_skill_level() < xp.get_acuity()) or (x.get_a_trained() < xp.get_a_trained()) or (x.get_transfer() < xp.get_transfer()):
-    #             del temp_assignments2[i]
-    #             break
-    #         temp_high_weight2 += calculate_weight(x, xp, temp_assignments2, cursor)
-    #         print(temp_high_weight2, temp_high_weight, "aaaaaaaaaaa")
-    #         if temp_high_weight2 < temp_high_weight:
-    #             del temp_assignments2[i]
-    #
-    #     # temp_assignments2[rand] = temp_assignments[i]
-    # print(temp_high_weight)
-    # print(temp_assignments2)
-    #
-    # temp_high_weight = 0
-    # for i in temp_assignments2:
-    #     rand = random.randint(1, len(temp_assignments2))
-    #     cursor.execute(f"SELECT * from nurses where id={i}")
-    #     row = cursor.fetchone()
-    #     x = Nurse(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9],
-    #               row[10], row[11], row[12], row[13], row[14], row[15], row[16])
-    #     for p_index in range(len(temp_assignments2[i])):
-    #         p = temp_assignments2[i][p_index]
-    #         cursor.execute(f"SELECT * from patients where id={p}")
-    #         row = cursor.fetchone()
-    #         xp = Patient(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10],row[11],
-    #                     row[12], row[13])
-    #         temp_high_weight += calculate_weight(x, xp, temp_assignments, cursor)
-    # print(temp_high_weight)
 
 
 def calculate_weight(eno, p, assignments, cursor):
