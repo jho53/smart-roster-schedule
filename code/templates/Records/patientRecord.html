@@ -2,116 +2,119 @@
 {% block content %}
 
 <!--Content Here-->
-<main>
-    <!--Jumbotron-->
-    <div class="jumbotron py-3">
-        <div class="jumbotron-content">
-            <h1>Patient Records</h1>
-            <br><br>
-            <div class="container-fluid">
-                <div class="row">
-                    <!-- Extra div for center of row -->
-                    <div class="col-sm"></div>
-                    <div class="col-">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".createModalCenter">
-                            <span class="fa fa-plus-square"></span> Create
-                        </button>
-                        <button type="button" class="btn btn-primary" onclick="get_edit_data()" data-toggle="modal" data-target=".editModalCenter">
-                            <span class="fa fa-edit"></span> Edit
-                        </button>
-                        <button class="btn btn-danger" onclick="get_delete_data()" data-toggle="modal" data-target=".deleteModalCenter">
-                            <span class="fa fa-trash"></span> Delete
-                        </button>
-                    </div>
+
+<!--Jumbotron-->
+<div class="jumbotron py-3">
+    <div class="jumbotron-content">
+        <h1>Patient Records</h1>
+        <br><br>
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Extra div for center of row -->
+                <div class="col-sm"></div>
+                <div class="col-">
+                    <button type="button" class="btn btn_create_custom" data-toggle="modal"
+                        data-target=".createModalCenter">
+                        <span class="fa fa-plus-square"></span> Create
+                    </button>
+                    <button type="button" class="btn btn_edit_custom" onclick="get_edit_data()" data-toggle="modal"
+                        data-target=".editModalCenter">
+                        <span class="fa fa-edit"></span> Edit
+                    </button>
+                    <button class="btn btn-secondary" onclick="get_delete_data()" data-toggle="modal"
+                        data-target=".deleteModalCenter">
+                        <span class="fa fa-trash"></span> Delete
+                    </button>
                 </div>
             </div>
         </div>
     </div>
-    <!--Table-->
-    <div class="table-content">
-        <table class="table table-sm table-bordered" id="patient-record-table" style="margin-bottom: 50px">
-            <!--Dynamically generated table headers-->
-            <thead class="thead-light">
-                <form action="/patientRecords" method="get">
-                    <tr id="patient-table-headers">
-                        {% for header in patientHeaders %}
-                        <th>{{header}} </th>
-                        {% endfor %}
-                    </tr>
-                </form>
-            </thead>
-            <tbody id="patient-tbody">
-                {% for patient in patientList %}
-                <tr id="{{'p'~patient[0]}}" style="cursor: pointer;">
-                    <td>
-                        <div id="{{'p'~patient[0]~'-id'}}">{{patient[0]}}</div>
-                    </td>
-                    <td>
-                        <div id="{{'p'~patient[0]~'-name'}}">{{patient[1]}}</div>
-                    </td>
-                    <td>
-                        <div id="{{'p'~patient[0]~'-area'}}">{{patient[2]}}</div>
-                    </td>
-                    <td>
-                        <div id="{{'p'~patient[0]~'-bednum'}}">{{patient[3]}} </div>
-                    </td>
-                    <td>
-                        <div id="{{'p'~patient[0]~'-acuity'}}">{{patient[4]}} </div>
-                    </td>
-                    {% if patient[5]==1 %}
-                    <td>
-                        <div id="{{'p'~patient[0]~'-atrainedReq'}}">Yes</div>
-                    </td>
-                    {% else %}
-                    <td>
-                        <div id="{{'p'~patient[0]~'-atrainedReq'}}">No</div>
-                    </td>
-                    {% endif %}
-                    {% if patient[6]==1 %}
-                    <td>
-                        <div id="{{'p'~patient[0]~'-transferReq'}}">Yes</div>
-                    </td>
-                    {% else %}
-                    <td>
-                        <div id="{{'p'~patient[0]~'-transferReq'}}">No</div>
-                    </td>
-                    {% endif %}
-                    {% if patient[7]==1 %}
-                    <td>
-                        <div id="{{'p'~patient[0]~'-ivReq'}}">Yes</div>
-                    </td>
-                    {% else %}
-                    <td>
-                        <div id="{{'p'~patient[0]~'-ivReq'}}">No</div>
-                    </td>
-                    {% endif %}
-                    {% if patient[8]==1 %}
-                    <td>
-                        <div id="{{'p'~patient[0]~'-1to1'}}">Yes</div>
-                    </td>
-                    {% else %}
-                    <td>
-                        <div id="{{'p'~patient[0]~'-1to1'}}">No</div>
-                    </td>
-                    {% endif %}
-                    <td>
-                        <div id="{{'p'~patient[0]~'-prevNurses'}}">{{patient[9]}} </div>
-                    </td>
-                    <td>
-                        <div id="{{'p'~patient[0]~'-dateAdmitted'}}">{{patient[10]}} </div>
-                    </td>
-                    <td>
-                        <div id="{{'p'~patient[0]~'-dischargedDate'}}">{{patient[11]}} </div>
-                    </td>
-                    <td>
-                        <div id="{{'p'~patient[0]~'-comments'}}">{{patient[12]}} </div>
-                    </td>
+</div>
+<!--Table-->
+<div>
+    <table class="table table-sm table-bordered" id="patient-record-table" style="margin-bottom: 50px">
+        <!--Dynamically generated table headers-->
+        <thead class="thead-light">
+            <form action="/patientRecords" method="get">
+                <tr id="patient-table-headers">
+                    {% for header in patientHeaders %}
+                    <th>{{header}} </th>
+                    {% endfor %}
                 </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</main>
+            </form>
+        </thead>
+        <tbody id="patient-tbody">
+            {% for patient in patientList %}
+            <tr id="{{'p'~patient[0]}}" style="cursor: pointer;">
+                <td>
+                    <div id="{{'p'~patient[0]~'-id'}}">{{patient[0]}}</div>
+                </td>
+                <td>
+                    <div id="{{'p'~patient[0]~'-name'}}">{{patient[1]}}</div>
+                </td>
+                <td>
+                    <div id="{{'p'~patient[0]~'-area'}}">{{patient[2]}}</div>
+                </td>
+                <td>
+                    <div id="{{'p'~patient[0]~'-bednum'}}">{{patient[3]}} </div>
+                </td>
+                <td>
+                    <div id="{{'p'~patient[0]~'-acuity'}}">{{patient[4]}} </div>
+                </td>
+                {% if patient[5]==1 %}
+                <td>
+                    <div id="{{'p'~patient[0]~'-atrainedReq'}}">Yes</div>
+                </td>
+                {% else %}
+                <td>
+                    <div id="{{'p'~patient[0]~'-atrainedReq'}}">No</div>
+                </td>
+                {% endif %}
+                {% if patient[6]==1 %}
+                <td>
+                    <div id="{{'p'~patient[0]~'-transferReq'}}">Yes</div>
+                </td>
+                {% else %}
+                <td>
+                    <div id="{{'p'~patient[0]~'-transferReq'}}">No</div>
+                </td>
+                {% endif %}
+                {% if patient[7]==1 %}
+                <td>
+                    <div id="{{'p'~patient[0]~'-ivReq'}}">Yes</div>
+                </td>
+                {% else %}
+                <td>
+                    <div id="{{'p'~patient[0]~'-ivReq'}}">No</div>
+                </td>
+                {% endif %}
+                {% if patient[8]==1 %}
+                <td>
+                    <div id="{{'p'~patient[0]~'-1to1'}}">Yes</div>
+                </td>
+                {% else %}
+                <td>
+                    <div id="{{'p'~patient[0]~'-1to1'}}">No</div>
+                </td>
+                {% endif %}
+                <td>
+                    <div id="{{'p'~patient[0]~'-prevNurses'}}">{{patient[9]}} </div>
+                </td>
+                <td>
+                    <div id="{{'p'~patient[0]~'-dateAdmitted'}}">{{patient[10]}} </div>
+                </td>
+                <td>
+                    <div id="{{'p'~patient[0]~'-dischargedDate'}}">{{patient[11]}} </div>
+                </td>
+                <td>
+                    <div id="{{'p'~patient[0]~'-comments'}}">{{patient[12]}} </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
 
 <!--Modal-->
 
@@ -130,8 +133,8 @@
                 <form action="/addPatientRecords" method="post">
                     <div class="form-group">
                         <label for="create_patient_name">Name</label>
-                        <input class="form-control" id="create_patient_name" name="create_patient_name"
-                            type="text" placeholder="eg. John Doe" required>
+                        <input class="form-control" id="create_patient_name" name="create_patient_name" type="text"
+                            placeholder="eg. John Doe" required>
                     </div>
                     <div class="form-row">
                         <div class="col-3">
@@ -148,16 +151,16 @@
                         <div class="radio-group">
                             <input type="radio" id="acuity_1" name="create_acuity_level" value="1" checked>
                             <label for="acuity_1" class="button-select">1</label>
-    
+
                             <input type="radio" id="acuity_2" name="create_acuity_level" value="2">
                             <label for="acuity_2" class="button-select">2</label>
-    
+
                             <input type="radio" id="acuity_3" name="create_acuity_level" value="3">
                             <label for="acuity_3" class="button-select">3</label>
-    
+
                             <input type="radio" id="acuity_4" name="create_acuity_level" value="4">
                             <label for="acuity_4" class="button-select">4</label>
-    
+
                             <input type="radio" id="acuity_5" name="create_acuity_level" value="5">
                             <label for="acuity_5" class="button-select">5</label>
                         </div>
@@ -188,11 +191,13 @@
                     </div>
                     <div class="form-group">
                         <label for="create_patient_comments">Comments</label><br>
-                        <textarea id="create_patient_comments" name="create_patient_comments" rows="3" class="text_area" placeholder="Eg. Additional comments"></textarea>
+                        <textarea id="create_patient_comments" name="create_patient_comments" rows="3" class="text_area"
+                            placeholder="Eg. Additional comments"></textarea>
                     </div>
                     <br>
                     <div class="modal-footer">
-                        <input class="btn btn-success" id="submit_new_patient" name="submit" type="submit" value="Confirm">
+                        <input class="btn btn_create_custom" id="submit_new_patient" name="submit" type="submit"
+                            value="Confirm">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     </div>
                 </form>
@@ -214,11 +219,12 @@
             </div>
             <div class="modal-body">
                 <form action="/editPatientRecords" method="post">
-                    <input id="edit_patient_id" hidden name="edit_patient_id" required="" size="32" type="text" value="" placeholder=""><br>
+                    <input id="edit_patient_id" hidden name="edit_patient_id" required="" size="32" type="text" value=""
+                        placeholder=""><br>
                     <div class="form-group">
                         <label for="edit_patient_name">Name</label>
-                        <input class="form-control" id="edit_patient_name" name="edit_patient_name"
-                            type="text" placeholder="eg. John Doe" required>
+                        <input class="form-control" id="edit_patient_name" name="edit_patient_name" type="text"
+                            placeholder="eg. John Doe" required>
                     </div>
                     <div class="form-row">
                         <div class="col-3">
@@ -235,16 +241,16 @@
                         <div class="radio-group">
                             <input type="radio" id="acuity_1_edit" name="edit_acuity_level" value="1">
                             <label for="acuity_1_edit" class="button-select">1</label>
-    
+
                             <input type="radio" id="acuity_2_edit" name="edit_acuity_level" value="2">
                             <label for="acuity_2_edit" class="button-select">2</label>
-    
+
                             <input type="radio" id="acuity_3_edit" name="edit_acuity_level" value="3">
                             <label for="acuity_3_edit" class="button-select">3</label>
-    
+
                             <input type="radio" id="acuity_4_edit" name="edit_acuity_level" value="4">
                             <label for="acuity_4_edit" class="button-select">4</label>
-    
+
                             <input type="radio" id="acuity_5_edit" name="edit_acuity_level" value="5">
                             <label for="acuity_5_edit" class="button-select">5</label>
                         </div>
@@ -271,19 +277,23 @@
                     </div>
                     <div class="form-group">
                         <label for="edit_date_admitted">Date Admitted</label><br>
-                        <input type="date" id="edit_date_admitted" name="edit_date_admitted" style="border: 1px solid #ced4da;">
+                        <input type="date" id="edit_date_admitted" name="edit_date_admitted"
+                            style="border: 1px solid #ced4da;">
                     </div>
                     <div class="form-group">
                         <label for="edit_date_discharged">Date Discharged</label><br>
-                        <input type="date" id="edit_date_discharged" name="edit_date_discharged" style="border: 1px solid #ced4da;">
+                        <input type="date" id="edit_date_discharged" name="edit_date_discharged"
+                            style="border: 1px solid #ced4da;">
                     </div>
                     <div class="form-group">
                         <label for="edit_comments">Comments</label><br>
-                        <textarea id="edit_comments" name="edit_comments" rows="3" class="text_area" placeholder="Eg. Additional comments"></textarea>
+                        <textarea id="edit_comments" name="edit_comments" rows="3" class="text_area"
+                            placeholder="Eg. Additional comments"></textarea>
                     </div>
                     <br>
                     <div class="modal-footer">
-                        <input class="btn btn-success" id="submit_edit_patient" name="submit" type="submit" value="Confirm">
+                        <input class="btn btn_edit_custom" id="submit_edit_patient" name="submit" type="submit"
+                            value="Confirm">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     </div>
                 </form>
@@ -306,12 +316,14 @@
             </div>
             <div class="modal-body">
                 <form action="/deletePatientRecords" method="post">
-                    <input id="remove_patient_id" hidden name="remove_patient_id" required="" size="32" type="text" value="" placeholder="">
+                    <input id="remove_patient_id" hidden name="remove_patient_id" required="" size="32" type="text"
+                        value="" placeholder="">
                     Are you sure you want to delete</p>
-                    <input id="remove_patient_name" disabled name="remove_patient_name" required="" size="32" type="text" value="" placeholder="">
+                    <input id="remove_patient_name" disabled name="remove_patient_name" required="" size="32"
+                        type="text" value="" placeholder="">
                     <div class="modal-footer">
-                      <input class="btn btn-danger" id="submit" name="submit" type="submit" value="Confirm">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <input class="btn btn_edit_custom" id="submit" name="submit" type="submit" value="Confirm">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     </div>
                 </form>
             </div>

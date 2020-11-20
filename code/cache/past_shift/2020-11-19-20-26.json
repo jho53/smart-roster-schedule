@@ -1,0 +1,1878 @@
+[
+    {
+        "charge": [
+            "40",
+            "40",
+            "40"
+        ],
+        "support": [
+            "37",
+            "37",
+            "37"
+        ],
+        "code": [
+            "38"
+        ],
+        "l_charge": [
+            "37"
+        ],
+        "l_support": [
+            "36"
+        ],
+        "l_code": [
+            "5"
+        ],
+        "assignment": {
+            "A1": {
+                "p": [],
+                "n": []
+            },
+            "A2": {
+                "p": [],
+                "n": []
+            },
+            "A3": {
+                "p": [],
+                "n": []
+            },
+            "A4": {
+                "p": [],
+                "n": []
+            },
+            "A5": {
+                "p": [],
+                "n": []
+            },
+            "A6": {
+                "p": [],
+                "n": []
+            },
+            "A7": {
+                "p": [
+                    "37",
+                    "Philippa Montes"
+                ],
+                "n": [
+                    "34",
+                    "Jacob Griffin"
+                ]
+            },
+            "A8": {
+                "p": [],
+                "n": []
+            },
+            "A9": {
+                "p": [],
+                "n": []
+            },
+            "A10": {
+                "p": [],
+                "n": []
+            },
+            "A11": {
+                "p": [],
+                "n": []
+            },
+            "A12": {
+                "p": [],
+                "n": []
+            },
+            "A13": {
+                "p": [],
+                "n": []
+            },
+            "A14": {
+                "p": [],
+                "n": []
+            },
+            "B1": {
+                "p": [
+                    "34",
+                    "Zaine Merritt"
+                ],
+                "n": [
+                    "1",
+                    "Rebeccca Smith"
+                ]
+            },
+            "B2": {
+                "p": [],
+                "n": []
+            },
+            "B3": {
+                "p": [],
+                "n": []
+            },
+            "B4": {
+                "p": [],
+                "n": []
+            },
+            "B5": {
+                "p": [],
+                "n": []
+            },
+            "B6": {
+                "p": [],
+                "n": []
+            },
+            "B7": {
+                "p": [],
+                "n": []
+            },
+            "B8": {
+                "p": [],
+                "n": []
+            },
+            "B9": {
+                "p": [],
+                "n": []
+            },
+            "B10": {
+                "p": [],
+                "n": []
+            },
+            "B11": {
+                "p": [],
+                "n": []
+            },
+            "B12": {
+                "p": [],
+                "n": []
+            },
+            "B13": {
+                "p": [],
+                "n": []
+            },
+            "B14": {
+                "p": [],
+                "n": []
+            },
+            "C1": {
+                "p": [
+                    "49",
+                    "Douglas Webber"
+                ],
+                "n": [
+                    "39",
+                    "Gerald Harrison"
+                ]
+            },
+            "C2": {
+                "p": [
+                    "43",
+                    "Dillan Pearson"
+                ],
+                "n": [
+                    "4",
+                    "Paige Lee"
+                ]
+            },
+            "C3": {
+                "p": [
+                    "44",
+                    "Conrad Quintana"
+                ],
+                "n": [
+                    "22",
+                    "Herman Lopez"
+                ]
+            },
+            "C4": {
+                "p": [
+                    "42",
+                    "Scarlet Odling"
+                ],
+                "n": [
+                    "17",
+                    "Frederick Graves"
+                ]
+            },
+            "C5": {
+                "p": [
+                    "33",
+                    "Fenella Velazquez"
+                ],
+                "n": [
+                    "21",
+                    "Wayne Alexander"
+                ]
+            },
+            "C6": {
+                "p": [
+                    "36",
+                    "Willie Mcnamara"
+                ],
+                "n": [
+                    "26",
+                    "Mason Martin"
+                ]
+            },
+            "C7": {
+                "p": [
+                    "50",
+                    "Jamaal Mackenzie"
+                ],
+                "n": [
+                    "21",
+                    "Wayne Alexander"
+                ]
+            },
+            "C8": {
+                "p": [],
+                "n": []
+            },
+            "C9": {
+                "p": [],
+                "n": []
+            },
+            "C10": {
+                "p": [
+                    "27",
+                    "Kaitlyn Lord"
+                ],
+                "n": [
+                    "16",
+                    "Ralph Erickson"
+                ]
+            },
+            "C11": {
+                "p": [],
+                "n": []
+            },
+            "C12": {
+                "p": [
+                    "30",
+                    "Bruce Baxter"
+                ],
+                "n": [
+                    "38",
+                    "Daniel Robinson"
+                ]
+            },
+            "C13": {
+                "p": [],
+                "n": []
+            },
+            "C14": {
+                "p": [],
+                "n": []
+            },
+            "D1": {
+                "p": [
+                    "16",
+                    "Aedan Sutherland"
+                ],
+                "n": [
+                    "22",
+                    "Herman Lopez"
+                ]
+            },
+            "D2": {
+                "p": [
+                    "17",
+                    "Kathryn Kendall"
+                ],
+                "n": [
+                    "8",
+                    "Maya Perry"
+                ]
+            },
+            "D3": {
+                "p": [
+                    "18",
+                    "Rosalie Callaghan"
+                ],
+                "n": [
+                    "7",
+                    "Emilia Carter"
+                ]
+            },
+            "D4": {
+                "p": [
+                    "19",
+                    "Kanye Wicks"
+                ],
+                "n": [
+                    "6",
+                    "Lily Marshall"
+                ]
+            },
+            "D5": {
+                "p": [
+                    "20",
+                    "Geoffrey Jimenez"
+                ],
+                "n": [
+                    "32",
+                    "Kane Matthews"
+                ]
+            },
+            "D6": {
+                "p": [
+                    "21",
+                    "Jordon Rhodes"
+                ],
+                "n": [
+                    "2",
+                    "Holly Baker"
+                ]
+            },
+            "D7": {
+                "p": [
+                    "22",
+                    "Preston Krause"
+                ],
+                "n": [
+                    "35",
+                    "Alfie Paul"
+                ]
+            },
+            "D8": {
+                "p": [
+                    "23",
+                    "Brenda Livingston"
+                ],
+                "n": [
+                    "10",
+                    "Kate Reyes"
+                ]
+            },
+            "D9": {
+                "p": [
+                    "24",
+                    "Tate Thomson"
+                ],
+                "n": [
+                    "14",
+                    "Anne Jeffery"
+                ]
+            },
+            "D10": {
+                "p": [
+                    "25",
+                    "Maxime Naylor"
+                ],
+                "n": [
+                    "12",
+                    "Erica Jackson"
+                ]
+            },
+            "D11": {
+                "p": [
+                    "28",
+                    "Spencer Waller"
+                ],
+                "n": [
+                    "25",
+                    "Tony Bowen"
+                ]
+            },
+            "D12": {
+                "p": [
+                    "38",
+                    "Robin Hendricks"
+                ],
+                "n": [
+                    "13",
+                    "Freya Read"
+                ]
+            },
+            "D13": {
+                "p": [
+                    "46",
+                    "Kate Montgomery"
+                ],
+                "n": [
+                    "18",
+                    "Fraser Rogers"
+                ]
+            },
+            "D14": {
+                "p": [
+                    "47",
+                    "Sherry Searle"
+                ],
+                "n": [
+                    "36",
+                    "Seth Lewis"
+                ]
+            },
+            "E1": {
+                "p": [
+                    "7",
+                    "Lauren Bolton"
+                ],
+                "n": [
+                    "31",
+                    "Kira Bishop"
+                ]
+            },
+            "E2": {
+                "p": [],
+                "n": []
+            },
+            "E3": {
+                "p": [
+                    "9",
+                    "Harley Reid"
+                ],
+                "n": [
+                    "40",
+                    "Jack Benson"
+                ]
+            },
+            "E4": {
+                "p": [
+                    "10",
+                    "Kieran Hodgson"
+                ],
+                "n": [
+                    "37",
+                    "Shawn Harmon"
+                ]
+            },
+            "E5": {
+                "p": [
+                    "11",
+                    "Olivia Fuller"
+                ],
+                "n": [
+                    "24",
+                    "Liberty Bowers"
+                ]
+            },
+            "E6": {
+                "p": [
+                    "12",
+                    "Nile Russo"
+                ],
+                "n": [
+                    "27",
+                    "Hector Morris "
+                ]
+            },
+            "E7": {
+                "p": [
+                    "13",
+                    "Frida Porter"
+                ],
+                "n": [
+                    "31",
+                    "Kira Bishop"
+                ]
+            },
+            "E8": {
+                "p": [
+                    "14",
+                    "Shayne Lane"
+                ],
+                "n": [
+                    "11",
+                    "Elise Diaz"
+                ]
+            },
+            "E9": {
+                "p": [
+                    "15",
+                    "Daisie Cohen"
+                ],
+                "n": [
+                    "9",
+                    "Kelly Campbell"
+                ]
+            },
+            "E10": {
+                "p": [
+                    "26",
+                    "Bentley Schneider"
+                ],
+                "n": [
+                    "28",
+                    "Robert Hopkins"
+                ]
+            },
+            "E11": {
+                "p": [
+                    "31",
+                    "Sofia Patel"
+                ],
+                "n": [
+                    "20",
+                    "Frederick Stewart"
+                ]
+            },
+            "E12": {
+                "p": [
+                    "41",
+                    "Merryn Fellows"
+                ],
+                "n": [
+                    "24",
+                    "Liberty Bowers"
+                ]
+            },
+            "E13": {
+                "p": [
+                    "48",
+                    "Emilis Burris"
+                ],
+                "n": [
+                    "33",
+                    "Faith Harrison"
+                ]
+            },
+            "E14": {
+                "p": [],
+                "n": []
+            },
+            "F1": {
+                "p": [],
+                "n": []
+            },
+            "F2": {
+                "p": [],
+                "n": []
+            },
+            "F3": {
+                "p": [],
+                "n": []
+            },
+            "F4": {
+                "p": [
+                    "32",
+                    "Avi Salgado"
+                ],
+                "n": [
+                    "23",
+                    "Douglas Ryan"
+                ]
+            },
+            "F5": {
+                "p": [],
+                "n": []
+            },
+            "F6": {
+                "p": [
+                    "45",
+                    "Rhea Christensen"
+                ],
+                "n": [
+                    "19",
+                    "Troy Shaw"
+                ]
+            },
+            "F7": {
+                "p": [],
+                "n": []
+            },
+            "F8": {
+                "p": [],
+                "n": []
+            },
+            "F9": {
+                "p": [
+                    "6",
+                    "Ariella Hussain"
+                ],
+                "n": [
+                    "5",
+                    "Hannah Moore"
+                ]
+            },
+            "F10": {
+                "p": [
+                    "39",
+                    "Kaci Porter"
+                ],
+                "n": [
+                    "37",
+                    "Shawn Harmon"
+                ]
+            },
+            "F11": {
+                "p": [
+                    "40",
+                    "Kathleen Farrow"
+                ],
+                "n": [
+                    "29",
+                    "Adam Bauer"
+                ]
+            },
+            "F12": {
+                "p": [],
+                "n": []
+            },
+            "F13": {
+                "p": [],
+                "n": []
+            },
+            "F14": {
+                "p": [
+                    "29",
+                    "Kady Franks"
+                ],
+                "n": [
+                    "30",
+                    "Zack Arnold"
+                ]
+            }
+        },
+        "timestamp": "November 19, 2020 - 08:26:52 PM",
+        "shift-datetime": "November 19, 2020 - 08:26:00 PM",
+        "author": "Jimmy Ho",
+        "fixed": 1,
+        "flex": 1,
+        "id": 0
+    },
+    {
+        "charge": [
+            "40",
+            "40",
+            "40"
+        ],
+        "support": [
+            "37",
+            "37",
+            "37"
+        ],
+        "code": [
+            "38"
+        ],
+        "l_charge": [
+            "37"
+        ],
+        "l_support": [
+            "36"
+        ],
+        "l_code": [],
+        "assignment": {
+            "A1": {
+                "p": [],
+                "n": []
+            },
+            "A2": {
+                "p": [],
+                "n": []
+            },
+            "A3": {
+                "p": [],
+                "n": []
+            },
+            "A4": {
+                "p": [],
+                "n": []
+            },
+            "A5": {
+                "p": [],
+                "n": []
+            },
+            "A6": {
+                "p": [],
+                "n": []
+            },
+            "A7": {
+                "p": [
+                    "37",
+                    "Philippa Montes"
+                ],
+                "n": [
+                    "34",
+                    "Jacob Griffin"
+                ]
+            },
+            "A8": {
+                "p": [],
+                "n": []
+            },
+            "A9": {
+                "p": [],
+                "n": []
+            },
+            "A10": {
+                "p": [],
+                "n": []
+            },
+            "A11": {
+                "p": [],
+                "n": []
+            },
+            "A12": {
+                "p": [],
+                "n": []
+            },
+            "A13": {
+                "p": [],
+                "n": []
+            },
+            "A14": {
+                "p": [],
+                "n": []
+            },
+            "B1": {
+                "p": [
+                    "34",
+                    "Zaine Merritt"
+                ],
+                "n": [
+                    "1",
+                    "Rebeccca Smith"
+                ]
+            },
+            "B2": {
+                "p": [],
+                "n": []
+            },
+            "B3": {
+                "p": [],
+                "n": []
+            },
+            "B4": {
+                "p": [],
+                "n": []
+            },
+            "B5": {
+                "p": [],
+                "n": []
+            },
+            "B6": {
+                "p": [],
+                "n": []
+            },
+            "B7": {
+                "p": [],
+                "n": []
+            },
+            "B8": {
+                "p": [],
+                "n": []
+            },
+            "B9": {
+                "p": [],
+                "n": []
+            },
+            "B10": {
+                "p": [],
+                "n": []
+            },
+            "B11": {
+                "p": [],
+                "n": []
+            },
+            "B12": {
+                "p": [],
+                "n": []
+            },
+            "B13": {
+                "p": [],
+                "n": []
+            },
+            "B14": {
+                "p": [],
+                "n": []
+            },
+            "C1": {
+                "p": [
+                    "49",
+                    "Douglas Webber"
+                ],
+                "n": [
+                    "39",
+                    "Gerald Harrison"
+                ]
+            },
+            "C2": {
+                "p": [
+                    "43",
+                    "Dillan Pearson"
+                ],
+                "n": [
+                    "4",
+                    "Paige Lee"
+                ]
+            },
+            "C3": {
+                "p": [
+                    "44",
+                    "Conrad Quintana"
+                ],
+                "n": [
+                    "22",
+                    "Herman Lopez"
+                ]
+            },
+            "C4": {
+                "p": [
+                    "42",
+                    "Scarlet Odling"
+                ],
+                "n": [
+                    "17",
+                    "Frederick Graves"
+                ]
+            },
+            "C5": {
+                "p": [
+                    "33",
+                    "Fenella Velazquez"
+                ],
+                "n": [
+                    "21",
+                    "Wayne Alexander"
+                ]
+            },
+            "C6": {
+                "p": [
+                    "36",
+                    "Willie Mcnamara"
+                ],
+                "n": [
+                    "26",
+                    "Mason Martin"
+                ]
+            },
+            "C7": {
+                "p": [
+                    "50",
+                    "Jamaal Mackenzie"
+                ],
+                "n": [
+                    "21",
+                    "Wayne Alexander"
+                ]
+            },
+            "C8": {
+                "p": [],
+                "n": []
+            },
+            "C9": {
+                "p": [],
+                "n": []
+            },
+            "C10": {
+                "p": [
+                    "27",
+                    "Kaitlyn Lord"
+                ],
+                "n": [
+                    "16",
+                    "Ralph Erickson"
+                ]
+            },
+            "C11": {
+                "p": [],
+                "n": []
+            },
+            "C12": {
+                "p": [
+                    "30",
+                    "Bruce Baxter"
+                ],
+                "n": [
+                    "38",
+                    "Daniel Robinson"
+                ]
+            },
+            "C13": {
+                "p": [],
+                "n": []
+            },
+            "C14": {
+                "p": [],
+                "n": []
+            },
+            "D1": {
+                "p": [
+                    "16",
+                    "Aedan Sutherland"
+                ],
+                "n": [
+                    "22",
+                    "Herman Lopez"
+                ]
+            },
+            "D2": {
+                "p": [
+                    "17",
+                    "Kathryn Kendall"
+                ],
+                "n": [
+                    "8",
+                    "Maya Perry"
+                ]
+            },
+            "D3": {
+                "p": [
+                    "18",
+                    "Rosalie Callaghan"
+                ],
+                "n": [
+                    "7",
+                    "Emilia Carter"
+                ]
+            },
+            "D4": {
+                "p": [
+                    "19",
+                    "Kanye Wicks"
+                ],
+                "n": [
+                    "6",
+                    "Lily Marshall"
+                ]
+            },
+            "D5": {
+                "p": [
+                    "20",
+                    "Geoffrey Jimenez"
+                ],
+                "n": [
+                    "32",
+                    "Kane Matthews"
+                ]
+            },
+            "D6": {
+                "p": [
+                    "21",
+                    "Jordon Rhodes"
+                ],
+                "n": [
+                    "2",
+                    "Holly Baker"
+                ]
+            },
+            "D7": {
+                "p": [
+                    "22",
+                    "Preston Krause"
+                ],
+                "n": [
+                    "35",
+                    "Alfie Paul"
+                ]
+            },
+            "D8": {
+                "p": [
+                    "23",
+                    "Brenda Livingston"
+                ],
+                "n": [
+                    "10",
+                    "Kate Reyes"
+                ]
+            },
+            "D9": {
+                "p": [
+                    "24",
+                    "Tate Thomson"
+                ],
+                "n": [
+                    "14",
+                    "Anne Jeffery"
+                ]
+            },
+            "D10": {
+                "p": [
+                    "25",
+                    "Maxime Naylor"
+                ],
+                "n": [
+                    "12",
+                    "Erica Jackson"
+                ]
+            },
+            "D11": {
+                "p": [
+                    "28",
+                    "Spencer Waller"
+                ],
+                "n": [
+                    "25",
+                    "Tony Bowen"
+                ]
+            },
+            "D12": {
+                "p": [
+                    "38",
+                    "Robin Hendricks"
+                ],
+                "n": [
+                    "13",
+                    "Freya Read"
+                ]
+            },
+            "D13": {
+                "p": [
+                    "46",
+                    "Kate Montgomery"
+                ],
+                "n": [
+                    "18",
+                    "Fraser Rogers"
+                ]
+            },
+            "D14": {
+                "p": [
+                    "47",
+                    "Sherry Searle"
+                ],
+                "n": [
+                    "36",
+                    "Seth Lewis"
+                ]
+            },
+            "E1": {
+                "p": [
+                    "7",
+                    "Lauren Bolton"
+                ],
+                "n": [
+                    "31",
+                    "Kira Bishop"
+                ]
+            },
+            "E2": {
+                "p": [],
+                "n": []
+            },
+            "E3": {
+                "p": [
+                    "9",
+                    "Harley Reid"
+                ],
+                "n": [
+                    "40",
+                    "Jack Benson"
+                ]
+            },
+            "E4": {
+                "p": [
+                    "10",
+                    "Kieran Hodgson"
+                ],
+                "n": [
+                    "37",
+                    "Shawn Harmon"
+                ]
+            },
+            "E5": {
+                "p": [
+                    "11",
+                    "Olivia Fuller"
+                ],
+                "n": [
+                    "24",
+                    "Liberty Bowers"
+                ]
+            },
+            "E6": {
+                "p": [
+                    "12",
+                    "Nile Russo"
+                ],
+                "n": [
+                    "27",
+                    "Hector Morris "
+                ]
+            },
+            "E7": {
+                "p": [
+                    "13",
+                    "Frida Porter"
+                ],
+                "n": [
+                    "31",
+                    "Kira Bishop"
+                ]
+            },
+            "E8": {
+                "p": [
+                    "14",
+                    "Shayne Lane"
+                ],
+                "n": [
+                    "11",
+                    "Elise Diaz"
+                ]
+            },
+            "E9": {
+                "p": [
+                    "15",
+                    "Daisie Cohen"
+                ],
+                "n": [
+                    "9",
+                    "Kelly Campbell"
+                ]
+            },
+            "E10": {
+                "p": [
+                    "26",
+                    "Bentley Schneider"
+                ],
+                "n": [
+                    "28",
+                    "Robert Hopkins"
+                ]
+            },
+            "E11": {
+                "p": [
+                    "31",
+                    "Sofia Patel"
+                ],
+                "n": [
+                    "20",
+                    "Frederick Stewart"
+                ]
+            },
+            "E12": {
+                "p": [
+                    "41",
+                    "Merryn Fellows"
+                ],
+                "n": [
+                    "24",
+                    "Liberty Bowers"
+                ]
+            },
+            "E13": {
+                "p": [
+                    "48",
+                    "Emilis Burris"
+                ],
+                "n": [
+                    "33",
+                    "Faith Harrison"
+                ]
+            },
+            "E14": {
+                "p": [],
+                "n": []
+            },
+            "F1": {
+                "p": [],
+                "n": []
+            },
+            "F2": {
+                "p": [],
+                "n": []
+            },
+            "F3": {
+                "p": [],
+                "n": []
+            },
+            "F4": {
+                "p": [
+                    "32",
+                    "Avi Salgado"
+                ],
+                "n": [
+                    "49",
+                    "Jimmy Webster"
+                ]
+            },
+            "F5": {
+                "p": [],
+                "n": []
+            },
+            "F6": {
+                "p": [
+                    "45",
+                    "Rhea Christensen"
+                ],
+                "n": [
+                    "19",
+                    "Troy Shaw"
+                ]
+            },
+            "F7": {
+                "p": [],
+                "n": []
+            },
+            "F8": {
+                "p": [],
+                "n": []
+            },
+            "F9": {
+                "p": [
+                    "6",
+                    "Ariella Hussain"
+                ],
+                "n": [
+                    "5",
+                    "Hannah Moore"
+                ]
+            },
+            "F10": {
+                "p": [
+                    "39",
+                    "Kaci Porter"
+                ],
+                "n": [
+                    "37",
+                    "Shawn Harmon"
+                ]
+            },
+            "F11": {
+                "p": [
+                    "40",
+                    "Kathleen Farrow"
+                ],
+                "n": [
+                    "29",
+                    "Adam Bauer"
+                ]
+            },
+            "F12": {
+                "p": [],
+                "n": []
+            },
+            "F13": {
+                "p": [],
+                "n": []
+            },
+            "F14": {
+                "p": [
+                    "29",
+                    "Kady Franks"
+                ],
+                "n": [
+                    "30",
+                    "Zack Arnold"
+                ]
+            }
+        },
+        "timestamp": "November 19, 2020 - 08:39:53 PM",
+        "shift-datetime": "November 19, 2020 - 08:26:00 PM",
+        "author": "Jimmy Ho",
+        "fixed": 1,
+        "flex": 1,
+        "id": 1
+    },
+    {
+        "charge": [
+            "15",
+            "2",
+            "40"
+        ],
+        "support": [
+            "8",
+            "18",
+            "37"
+        ],
+        "code": [
+            "12"
+        ],
+        "l_charge": [
+            "37"
+        ],
+        "l_support": [
+            "36"
+        ],
+        "l_code": [
+            "5"
+        ],
+        "assignment": {
+            "A1": {
+                "p": [],
+                "n": []
+            },
+            "A2": {
+                "p": [],
+                "n": []
+            },
+            "A3": {
+                "p": [],
+                "n": []
+            },
+            "A4": {
+                "p": [],
+                "n": []
+            },
+            "A5": {
+                "p": [],
+                "n": []
+            },
+            "A6": {
+                "p": [],
+                "n": []
+            },
+            "A7": {
+                "p": [
+                    "37",
+                    "Philippa Montes"
+                ],
+                "n": [
+                    "34",
+                    "Jacob Griffin"
+                ]
+            },
+            "A8": {
+                "p": [],
+                "n": []
+            },
+            "A9": {
+                "p": [],
+                "n": []
+            },
+            "A10": {
+                "p": [],
+                "n": []
+            },
+            "A11": {
+                "p": [],
+                "n": []
+            },
+            "A12": {
+                "p": [],
+                "n": []
+            },
+            "A13": {
+                "p": [],
+                "n": []
+            },
+            "A14": {
+                "p": [],
+                "n": []
+            },
+            "B1": {
+                "p": [
+                    "34",
+                    "Zaine Merritt"
+                ],
+                "n": [
+                    "1",
+                    "Rebeccca Smith"
+                ]
+            },
+            "B2": {
+                "p": [],
+                "n": []
+            },
+            "B3": {
+                "p": [],
+                "n": []
+            },
+            "B4": {
+                "p": [],
+                "n": []
+            },
+            "B5": {
+                "p": [],
+                "n": []
+            },
+            "B6": {
+                "p": [],
+                "n": []
+            },
+            "B7": {
+                "p": [],
+                "n": []
+            },
+            "B8": {
+                "p": [],
+                "n": []
+            },
+            "B9": {
+                "p": [],
+                "n": []
+            },
+            "B10": {
+                "p": [],
+                "n": []
+            },
+            "B11": {
+                "p": [],
+                "n": []
+            },
+            "B12": {
+                "p": [],
+                "n": []
+            },
+            "B13": {
+                "p": [],
+                "n": []
+            },
+            "B14": {
+                "p": [],
+                "n": []
+            },
+            "C1": {
+                "p": [
+                    "49",
+                    "Douglas Webber"
+                ],
+                "n": [
+                    "39",
+                    "Gerald Harrison"
+                ]
+            },
+            "C2": {
+                "p": [
+                    "43",
+                    "Dillan Pearson"
+                ],
+                "n": [
+                    "4",
+                    "Paige Lee"
+                ]
+            },
+            "C3": {
+                "p": [
+                    "44",
+                    "Conrad Quintana"
+                ],
+                "n": [
+                    "22",
+                    "Herman Lopez"
+                ]
+            },
+            "C4": {
+                "p": [
+                    "42",
+                    "Scarlet Odling"
+                ],
+                "n": [
+                    "17",
+                    "Frederick Graves"
+                ]
+            },
+            "C5": {
+                "p": [
+                    "33",
+                    "Fenella Velazquez"
+                ],
+                "n": [
+                    "21",
+                    "Wayne Alexander"
+                ]
+            },
+            "C6": {
+                "p": [
+                    "36",
+                    "Willie Mcnamara"
+                ],
+                "n": [
+                    "26",
+                    "Mason Martin"
+                ]
+            },
+            "C7": {
+                "p": [
+                    "50",
+                    "Jamaal Mackenzie"
+                ],
+                "n": [
+                    "21",
+                    "Wayne Alexander"
+                ]
+            },
+            "C8": {
+                "p": [],
+                "n": []
+            },
+            "C9": {
+                "p": [],
+                "n": []
+            },
+            "C10": {
+                "p": [
+                    "27",
+                    "Kaitlyn Lord"
+                ],
+                "n": [
+                    "16",
+                    "Ralph Erickson"
+                ]
+            },
+            "C11": {
+                "p": [],
+                "n": []
+            },
+            "C12": {
+                "p": [
+                    "30",
+                    "Bruce Baxter"
+                ],
+                "n": [
+                    "38",
+                    "Daniel Robinson"
+                ]
+            },
+            "C13": {
+                "p": [],
+                "n": []
+            },
+            "C14": {
+                "p": [],
+                "n": []
+            },
+            "D1": {
+                "p": [
+                    "16",
+                    "Aedan Sutherland"
+                ],
+                "n": [
+                    "22",
+                    "Herman Lopez"
+                ]
+            },
+            "D2": {
+                "p": [
+                    "17",
+                    "Kathryn Kendall"
+                ],
+                "n": [
+                    "8",
+                    "Maya Perry"
+                ]
+            },
+            "D3": {
+                "p": [
+                    "18",
+                    "Rosalie Callaghan"
+                ],
+                "n": [
+                    "7",
+                    "Emilia Carter"
+                ]
+            },
+            "D4": {
+                "p": [
+                    "19",
+                    "Kanye Wicks"
+                ],
+                "n": [
+                    "6",
+                    "Lily Marshall"
+                ]
+            },
+            "D5": {
+                "p": [
+                    "20",
+                    "Geoffrey Jimenez"
+                ],
+                "n": [
+                    "32",
+                    "Kane Matthews"
+                ]
+            },
+            "D6": {
+                "p": [
+                    "21",
+                    "Jordon Rhodes"
+                ],
+                "n": [
+                    "2",
+                    "Holly Baker"
+                ]
+            },
+            "D7": {
+                "p": [
+                    "22",
+                    "Preston Krause"
+                ],
+                "n": [
+                    "35",
+                    "Alfie Paul"
+                ]
+            },
+            "D8": {
+                "p": [
+                    "23",
+                    "Brenda Livingston"
+                ],
+                "n": [
+                    "10",
+                    "Kate Reyes"
+                ]
+            },
+            "D9": {
+                "p": [
+                    "24",
+                    "Tate Thomson"
+                ],
+                "n": [
+                    "14",
+                    "Anne Jeffery"
+                ]
+            },
+            "D10": {
+                "p": [
+                    "25",
+                    "Maxime Naylor"
+                ],
+                "n": [
+                    "12",
+                    "Erica Jackson"
+                ]
+            },
+            "D11": {
+                "p": [
+                    "28",
+                    "Spencer Waller"
+                ],
+                "n": [
+                    "25",
+                    "Tony Bowen"
+                ]
+            },
+            "D12": {
+                "p": [
+                    "38",
+                    "Robin Hendricks"
+                ],
+                "n": [
+                    "13",
+                    "Freya Read"
+                ]
+            },
+            "D13": {
+                "p": [
+                    "46",
+                    "Kate Montgomery"
+                ],
+                "n": [
+                    "18",
+                    "Fraser Rogers"
+                ]
+            },
+            "D14": {
+                "p": [
+                    "47",
+                    "Sherry Searle"
+                ],
+                "n": [
+                    "36",
+                    "Seth Lewis"
+                ]
+            },
+            "E1": {
+                "p": [
+                    "7",
+                    "Lauren Bolton"
+                ],
+                "n": [
+                    "31",
+                    "Kira Bishop"
+                ]
+            },
+            "E2": {
+                "p": [],
+                "n": []
+            },
+            "E3": {
+                "p": [
+                    "9",
+                    "Harley Reid"
+                ],
+                "n": [
+                    "40",
+                    "Jack Benson"
+                ]
+            },
+            "E4": {
+                "p": [
+                    "10",
+                    "Kieran Hodgson"
+                ],
+                "n": [
+                    "37",
+                    "Shawn Harmon"
+                ]
+            },
+            "E5": {
+                "p": [
+                    "11",
+                    "Olivia Fuller"
+                ],
+                "n": [
+                    "24",
+                    "Liberty Bowers"
+                ]
+            },
+            "E6": {
+                "p": [
+                    "12",
+                    "Nile Russo"
+                ],
+                "n": [
+                    "27",
+                    "Hector Morris "
+                ]
+            },
+            "E7": {
+                "p": [
+                    "13",
+                    "Frida Porter"
+                ],
+                "n": [
+                    "31",
+                    "Kira Bishop"
+                ]
+            },
+            "E8": {
+                "p": [
+                    "14",
+                    "Shayne Lane"
+                ],
+                "n": [
+                    "11",
+                    "Elise Diaz"
+                ]
+            },
+            "E9": {
+                "p": [
+                    "15",
+                    "Daisie Cohen"
+                ],
+                "n": [
+                    "9",
+                    "Kelly Campbell"
+                ]
+            },
+            "E10": {
+                "p": [
+                    "26",
+                    "Bentley Schneider"
+                ],
+                "n": [
+                    "28",
+                    "Robert Hopkins"
+                ]
+            },
+            "E11": {
+                "p": [
+                    "31",
+                    "Sofia Patel"
+                ],
+                "n": [
+                    "20",
+                    "Frederick Stewart"
+                ]
+            },
+            "E12": {
+                "p": [
+                    "41",
+                    "Merryn Fellows"
+                ],
+                "n": [
+                    "24",
+                    "Liberty Bowers"
+                ]
+            },
+            "E13": {
+                "p": [
+                    "48",
+                    "Emilis Burris"
+                ],
+                "n": [
+                    "33",
+                    "Faith Harrison"
+                ]
+            },
+            "E14": {
+                "p": [],
+                "n": []
+            },
+            "F1": {
+                "p": [],
+                "n": []
+            },
+            "F2": {
+                "p": [],
+                "n": []
+            },
+            "F3": {
+                "p": [],
+                "n": []
+            },
+            "F4": {
+                "p": [
+                    "32",
+                    "Avi Salgado"
+                ],
+                "n": [
+                    "49",
+                    "Jimmy Webster"
+                ]
+            },
+            "F5": {
+                "p": [],
+                "n": []
+            },
+            "F6": {
+                "p": [
+                    "45",
+                    "Rhea Christensen"
+                ],
+                "n": [
+                    "19",
+                    "Troy Shaw"
+                ]
+            },
+            "F7": {
+                "p": [],
+                "n": []
+            },
+            "F8": {
+                "p": [],
+                "n": []
+            },
+            "F9": {
+                "p": [
+                    "6",
+                    "Ariella Hussain"
+                ],
+                "n": [
+                    "5",
+                    "Hannah Moore"
+                ]
+            },
+            "F10": {
+                "p": [
+                    "39",
+                    "Kaci Porter"
+                ],
+                "n": [
+                    "37",
+                    "Shawn Harmon"
+                ]
+            },
+            "F11": {
+                "p": [
+                    "40",
+                    "Kathleen Farrow"
+                ],
+                "n": [
+                    "29",
+                    "Adam Bauer"
+                ]
+            },
+            "F12": {
+                "p": [],
+                "n": []
+            },
+            "F13": {
+                "p": [],
+                "n": []
+            },
+            "F14": {
+                "p": [
+                    "29",
+                    "Kady Franks"
+                ],
+                "n": [
+                    "30",
+                    "Zack Arnold"
+                ]
+            }
+        },
+        "timestamp": "November 19, 2020 - 08:40:10 PM",
+        "shift-datetime": "November 19, 2020 - 08:26:00 PM",
+        "author": "Jimmy Ho",
+        "fixed": 1,
+        "flex": 1,
+        "id": 2
+    }
+]

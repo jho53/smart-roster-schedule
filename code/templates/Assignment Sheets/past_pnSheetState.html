@@ -1,0 +1,228 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!--Content Here-->
+<!--Jumbotron-->
+<div class="jumbotron py-3">
+    <div class="jumbotron-content">
+        <div class="justify-content-md-center row">
+            <h1 class="jumbotron-title col-11">Past Assignment Page</h1>
+        </div>
+        <small>Shift: {{latestState['shift-datetime']}}</small> <br>
+        <small>Last Updated: {{latestState['timestamp']}} by {{latestState['author']}}</small><br>
+        <div class="text-left" style="position: absolute; top: 1%; left: 5%">
+            <form class="form form-group" action="/pastPNSheetState" method="POST">
+                <label for="date-select">
+                    <small>Shift</small>
+                </label>
+                <select id="date-select" class="form-control form-control-sm col-10" name="date-select">
+                    {% for i, shift in enumerate(shifts) %}
+                    <option id="shift-{{i}}" value="{{i}}">{{shift}}</option>
+                    {% endfor %}
+                </select>
+                <label for="version-select">
+                    <small>History/Version</small>
+                </label>
+                <select id="version-select" class="form-control form-control-sm col-10" name="version-select">
+                    {% for i, versionList in enumerate(versions) %}
+                    {% for j, version in enumerate(versionList) %}
+                    <option id="version-{{i}}-{{j}}" value="{{i}}-{{j}}" data-tag={{i}}>{{version}}</option>
+                    {% endfor %}
+                    {% endfor %}
+                </select>
+                <button class="btn btn-sm btn-block btn_create_custom" id="date-change-btn" type="submit"
+                    disabled>View</button>
+            </form>
+        </div>
+        <br><br>
+        <!--Charge Nurse-->
+        <div class="row">
+            <div class="col rounded pt-3 px-4 mx-5 shadow-sm" style="background-color: lightgray">
+                <div class="row justify-content-center">
+                    <div class="col-9">
+                        <h6>Charge Nurses</h6>
+                    </div>
+                </div>
+                {% for i in range(3)%}
+                <div class="row justify-content-center mb-2">
+                    <input class="col-8 form-control form-control-sm rounded text-center" type="text"
+                        {% if latestState['charge'][i] %}
+                        {% for nurse in nurseList if nurse[0]==latestState['charge'][i]|int %} value="{{nurse[1]}}"
+                        {% endfor %} {% endif %} disabled>
+                </div>
+                {% endfor %}
+            </div>
+            <!--Support Nurses-->
+            <div class="col rounded pt-3 pl-4 pr-5 mx-5 shadow-sm" style="background-color: lightgray;">
+                <div class="row justify-content-center">
+                    <div class="col-8">
+                        <h6>Support Nurses</h6>
+                    </div>
+                </div>
+                {% for i in range(3)%}
+                <div class="row justify-content-center mb-2">
+                    <input class="col-6 offset-1 form-control form-control-sm rounded text-center" type="text"
+                        {% if latestState['support'][i] %}
+                        {% for nurse in nurseList if nurse[0]==latestState['support'][i]|int %} value="{{nurse[1]}}"
+                        {% endfor %} {% endif %} disabled>
+                </div>
+                {% endfor %}
+            </div>
+            <!--Right Column-->
+            <div class="col mx-5">
+                <div class="row w-100 px-2 shadow-sm"
+                    style="background-color: lightgray; padding: 10px 30px; border-radius: 5px;">
+                    <div class="col-4">
+                        <h6>Code RN</h6>
+                    </div>
+                    <input class="col-6 form-control form-control-sm rounded text-center" type="text"
+                        {% if latestState['code'][0] %}
+                        {% for nurse in nurseList if nurse[0]==latestState['code'][0]|int %} value="{{nurse[1]}}"
+                        {% endfor %} {% endif %} disabled>
+                    <div class="col-1"></div>
+                </div><br>
+                <div class="mt-5 rounded col-12 row w-100 px-2 shadow-sm"
+                    style="background-color: lightgray; padding: 10px 30px; width: 100px">
+                    <div class="row col-12">
+                        <h6 class="mt-1 col-4">Fixed</h6>
+                        <input class="col-4 ml-2 mb-2 form-control form-control-sm rounded text-center" type="text"
+                            value="{{latestState['fixed']}}" disabled>
+                    </div>
+                    <div class="row col-12">
+                        <h6 class="mt-1 col-4">Flex</h6>
+                        <input class="col-4 ml-2 form-control form-control-sm rounded text-center" type="text"
+                            value="{{latestState['flex']}}" disabled>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if latestState['l_charge'][0] %}
+<p>L Charge: {{nurseList[latestState['l_charge'][0]|int][1]}}</p>
+{% endif %}
+
+{% if latestState['l_support'][0] %}
+<p>L Support: {{nurseList[latestState['l_support'][0]|int][1]}}</p>
+{% endif %}
+
+{% if latestState['l_code'][0] %}
+<p>L Code: {{nurseList[latestState['l_code'][0]|int][1]}}</p>
+{% endif %}
+
+{% set areas=["A", "B", "C", "D", "E", "F"] %}
+{% set area_iter = namespace(value=0) %}
+
+<div>
+    {% for card_row in range(2) %}
+    <div class="card-deck" id="row-{{card_row + 1}}">
+        {% for card_col in range(3) %}
+        <div class="card shadow" style="border-radius: 15px;" id="pod-{{areas[area_iter.value]}}">
+            <div {% if area_iter.value < 4 %} class="card-footer text-center pod-norm" {% else %}
+                class="card-footer text-center pod-spec" {% endif %}
+                style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                <h4>Clinical Area {{areas[area_iter.value]}}</h4>
+            </div>
+            <div class="card-body row justify-content-md-center">
+                <div class="col-6 row justify-content-md-center" id="pod-{{areas[area_iter.value]}}-col1">
+                    {% for asc_loop in range(7) %}
+                    <div class="col-11 p-2 row mb-2" style="background-color: lightgrey; border-radius: 10px;"
+                        id="pod-{{areas[area_iter.value]}}-bed-{{asc_loop + 1}}-view">
+                        <p style="position: relative; left: 5%;">{{ asc_loop + 1 }}</p>
+                        <div class="input-group input-group-sm px-1">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" style="width: 30px;">P</label>
+                            </div>
+                            <select class="form-control"
+                                id="pod-{{areas[area_iter.value]}}-bed-{{asc_loop + 1}}-patient-menu" disabled>
+                                <option>
+                                    {{latestState['assignment'][areas[area_iter.value]+(asc_loop + 1)|string]['p'][1]}}
+                                </option>
+                            </select>
+                        </div>
+                        <!--Nurse Dropdown-->
+                        <div class="input-group input-group-sm px-1">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" style="width: 30px;">N</label>
+                            </div>
+                            <select class=" form-control"
+                                id="pod-{{areas[area_iter.value]}}-bed-{{asc_loop + 1}}-nurse-menu" disabled>
+                                <option>
+                                    {{latestState['assignment'][areas[area_iter.value]+(asc_loop + 1)|string]['n'][1]}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="col-6 row justify-content-md-center" id="pod-{{areas[area_iter.value]}}-col2">
+                    {% for desc_loop in range(7)|reverse %}
+                    <div class="col-11 p-2 row mb-2" style="background-color: lightgrey; border-radius: 10px;"
+                        id="pod-{{areas[area_iter.value]}}-bed-{{desc_loop + 8}}-view">
+                        <p style="position: relative; left: 5%;">{{ desc_loop + 8 }}</p>
+                        <!--Patient Dropdown-->
+                        <div class="input-group input-group-sm px-1">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" style="width: 30px;">P</label>
+                            </div>
+                            <select class="form-control"
+                                id="pod-{{areas[area_iter.value]}}-bed-{{ desc_loop + 8 }}-patient-menu" disabled>
+                                <option>
+                                    {{latestState['assignment'][areas[area_iter.value]+(desc_loop + 8)|string]['p'][1]}}
+                                </option>
+                            </select>
+                        </div>
+                        <!--Nurse Dropdown-->
+                        <div class="input-group input-group-sm px-1">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" style="width: 30px;">N</label>
+                            </div>
+                            <select class=" form-control" id="bed-{{ desc_loop + 8 }}-nurse-menu" disabled>
+                                <option>
+                                    {{latestState['assignment'][areas[area_iter.value]+(desc_loop + 8)|string]['n'][1]}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% set area_iter.value = area_iter.value + 1 %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <br>
+    {% endfor %}
+</div>
+
+<script>
+    // Date Change
+    $(document).ready(function () {
+        $('#date-select').on('change focus', function () {
+            var selected = $(this).val();
+            $("#version-select option").each(function (item) {
+                var element = $(this);
+                if (element.data("tag") != selected) {
+                    element.hide();
+                } else {
+                    element.show();
+                }
+            });
+
+            $("#version-select").val($("#version-select option:visible:first").val());
+        });
+    });
+
+    $('form select').on('focus change', function () {
+        var empty = false;
+        $('form input').each(function () {
+            if (!empty && $(this).val() == '') {
+                empty = true;
+            }
+        });
+        $('#date-change-btn').prop('disabled', empty);
+    });
+</script>
+{% endblock %}
