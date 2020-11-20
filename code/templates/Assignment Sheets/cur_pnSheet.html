@@ -31,6 +31,8 @@
                     {% for i in range(3)%}
                     <select class="form-control" id="cn-assign-form-{{i + 1}}">
                         {% for id in curr_assignment if curr_assignment[id]['adv']=="Charge" %}
+                        <!--{{id}}-->
+                        <!--{{curr_assignment[id]['adv']}}-->
                         {% for nurse in nurseList if nurse[0]==id|int %}
                         <option id='cn-assign-{{nurse[0]}}' value='{{nurse[0]}}' data-nurse-name="{{nurse[1]}}"
                             selected>

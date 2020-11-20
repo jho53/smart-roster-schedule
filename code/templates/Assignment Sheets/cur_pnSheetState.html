@@ -120,6 +120,7 @@
                 </div>
             </div>
             <div class="col-4">
+                <!--L Charge Dropdown-->
                 <div class="input-group shadow-sm mb-3">
                     <div class="input-group-prepend">
                         <label class="input-group-text" style="width: 140px">L Charge</label>
@@ -127,7 +128,7 @@
                     <select class="form-control" id="lcn-assign-form">
                         {% if state['l_charge'][0] %}
                         {% for nurse in nurseList if nurse[0] == state['l_charge'][0]|int %}
-                        <option id="lcn-assign-{{nurse[0]}}" value="{{nurse[0]}}">
+                        <option id="lcn-assign-{{nurse[0]}}" value="{{nurse[0]}}" selected>
                             {{nurse[1]}}
                         </option>
                         {% endfor %}
@@ -140,6 +141,7 @@
                         {% endfor %}
                     </select>
                 </div>
+                <!--L Support Dropdown-->
                 <div class="input-group shadow-sm mb-3">
                     <div class="input-group-prepend">
                         <label class="input-group-text" style="width: 140px">L Support</label>
@@ -147,7 +149,7 @@
                     <select class="form-control" id="lsupport-assign-form">
                         {% if state['l_support'][0] %}
                         {% for nurse in nurseList if nurse[0] == state['l_support'][0]|int %}
-                        <option id="lsupport-assign-{{nurse[0]}}" value="{{nurse[0]}}">
+                        <option id="lsupport-assign-{{nurse[0]}}" value="{{nurse[0]}}" selected>
                             {{nurse[1]}}
                         </option>
                         {% endfor %}
@@ -160,6 +162,7 @@
                         {% endfor %}
                     </select>
                 </div>
+                <!--L Code Dropdown-->
                 <div class="input-group shadow-sm">
                     <div class="input-group-prepend">
                         <label class="input-group-text" style="width: 140px">L Code</label>
@@ -167,7 +170,7 @@
                     <select class="form-control" id="lcode-assign-form">
                         {% if state['l_code'][0] %}
                         {% for nurse in nurseList if nurse[0] == state['l_code'][0]|int %}
-                        <option id="l_code-assign-{{nurse[0]}}" value="{{nurse[0]}}">
+                        <option id="l_code-assign-{{nurse[0]}}" value="{{nurse[0]}}" selected>
                             {{nurse[1]}}
                         </option>
                         {% endfor %}
@@ -235,7 +238,7 @@
                     <div class="col-11 p-2 row mb-2 bed_custom"
                         id="pod-{{areas[area_iter.value]}}-bed-{{asc_loop + 1}}-view">
                         <p style="position: relative; left: 5%;">{{ asc_loop + 1 }}</p>
-                        {% if flags[areas[area_iter.value]+(asc_loop + 1)|string] != ['0', '0', '0', '0', '0', '0', '0', '0', '0'] %}
+                        {% if flags[areas[area_iter.value]+(asc_loop + 1)|string] != ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'] %}
                         {% if flags[areas[area_iter.value]+(asc_loop + 1)|string][0] == '1' or flags[areas[area_iter.value]+(asc_loop + 1)|string][1] == '1' or flags[areas[area_iter.value]+(asc_loop + 1)|string][2] == '1' or flags[areas[area_iter.value]+(asc_loop + 1)|string][3] == '1' %}
                         <a style="color: tomato; position: absolute; left: -25px;" href="#" data-toggle="modal"
                             data-target=".flagspopup"
@@ -341,7 +344,7 @@
                     <div class="col-11 p-2 row mb-2 bed_custom"
                         id="pod-{{areas[area_iter.value]}}-bed-{{desc_loop + 8}}-view">
                         <p style="position: relative; left: 5%;">{{ desc_loop + 8 }}</p>
-                        {% if flags[areas[area_iter.value]+(desc_loop + 8)|string] != ['0', '0', '0', '0', '0', '0', '0', '0', '0'] %}
+                        {% if flags[areas[area_iter.value]+(desc_loop + 8)|string] != ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'] %}
                         {% if flags[areas[area_iter.value]+(desc_loop + 8)|string][0] == '1' or flags[areas[area_iter.value]+(desc_loop + 8)|string][1] == '1' or flags[areas[area_iter.value]+(desc_loop + 8)|string][2] == '1' or flags[areas[area_iter.value]+(desc_loop + 8)|string][3] == '1' %}
                         <a style="color: tomato; position: absolute; left: -25px;" href="#" data-toggle="modal"
                             data-target=".flagspopup"
@@ -505,6 +508,8 @@
         $(e.currentTarget).find('#twin_flag').html('');
         $(e.currentTarget).find('#iv_flag').html('');
         $(e.currentTarget).find('#home_area_flag').html('');
+        $(e.currentTarget).find('#dta_flag').html('');
+        $(e.currentTarget).find('#comments_flag').html('');
 
         var skill_level = $(e.relatedTarget).data('skill_level');
         var a_trained = $(e.relatedTarget).data('a_trained');

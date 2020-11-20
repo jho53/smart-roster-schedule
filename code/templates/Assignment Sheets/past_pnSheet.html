@@ -9,26 +9,29 @@
     <div class="justify-content-md-center row">
       <h1 class="jumbotron-title col-11">Past Assignment Page</h1>
     </div>
-    <small>Shift: {{latestState['timestamp']}}</small> <br>
-    <small>Last Updated: {{latestState['shift-datetime']}} by {{latestState['author']}}</small><br>
-    <div class="text-left" style="position: absolute; top: 1.75%; left: 5%">
-      <small>Shift</small>
-      <form class="row form-group">
-        <select id="date-select" class="form-control form-control-sm col-10">
-          {% for date in dates %}
-          <option>{{date}}</option>
+    <small>Shift: {{latestState['shift-datetime']}}</small> <br>
+    <small>Last Updated: {{latestState['timestamp']}} by {{latestState['author']}}</small><br>
+    <div class="text-left" style="position: absolute; top: 1%; left: 5%">
+      <form class="form form-group" action="/pastPNSheetState" method="POST">
+        <label for="date-select">
+          <small>Shift</small>
+        </label>
+        <select id="date-select" class="form-control form-control-sm col-10" name="date-select">
+          {% for i, shift in enumerate(shifts) %}
+          <option id="shift-{{i}}" value="{{i}}">{{shift}}</option>
           {% endfor %}
         </select>
-        <span><button class="btn btn-sm btn-success" type="submit">View</button></span>
-      </form>
-      <small>Version</small>
-      <form class="row form-group">
-        <select id="date-select" class="form-control form-control-sm col-10">
-          {% for date in dates %}
-          <option>{{date}}</option>
+        <label for="version-select">
+          <small>History/Version</small>
+        </label>
+        <select id="version-select" class="form-control form-control-sm col-10" name="version-select">
+          {% for i, versionList in enumerate(versions) %}
+          {% for j, version in enumerate(versionList) %}
+          <option id="version-{{i}}-{{j}}" value="{{i}}-{{j}}" data-tag={{i}}>{{version}}</option>
+          {% endfor %}
           {% endfor %}
         </select>
-        <span><button class="btn btn-sm btn-success" type="submit">View</button></span>
+        <button class="btn btn-sm btn-block btn_create_custom" id="date-change-btn" type="submit" disabled>View</button>
       </form>
     </div>
     <br><br>
@@ -43,12 +46,8 @@
         {% for i in range(3)%}
         <div class="row justify-content-center mb-2">
           <input class="col-8 form-control form-control-sm rounded text-center" type="text"
-          {% if latestState['charge'][i] %}  
-          {% for nurse in nurseList if nurse[0]==latestState['charge'][i]|int %}
-            value="{{nurse[1]}}" 
-            {% endfor %}
-            {% endif %}
-            disabled>
+            {% if latestState['charge'][i] %} {% for nurse in nurseList if nurse[0]==latestState['charge'][i]|int %}
+            value="{{nurse[1]}}" {% endfor %} {% endif %} disabled>
         </div>
         {% endfor %}
       </div>
@@ -62,9 +61,8 @@
         {% for i in range(3)%}
         <div class="row justify-content-center mb-2">
           <input class="col-6 offset-1 form-control form-control-sm rounded text-center" type="text"
-          {% if latestState['support'][i] %}  
-            {% for nurse in nurseList if nurse[0]==latestState['support'][i]|int %} value="{{nurse[1]}}" {% endfor %} {% endif %}
-            disabled>
+            {% if latestState['support'][i] %} {% for nurse in nurseList if nurse[0]==latestState['support'][i]|int %}
+            value="{{nurse[1]}}" {% endfor %} {% endif %} disabled>
         </div>
         {% endfor %}
       </div>
@@ -76,31 +74,39 @@
             <h6>Code RN</h6>
           </div>
           <input class="col-6 form-control form-control-sm rounded text-center" type="text"
-          {% if latestState['code'][0] %}  
-            {% for nurse in nurseList if nurse[0]==latestState['code'][0]|int %} value="{{nurse[1]}}" {% endfor %} {% endif %}
-            disabled>
+            {% if latestState['code'][0] %} {% for nurse in nurseList if nurse[0]==latestState['code'][0]|int %}
+            value="{{nurse[1]}}" {% endfor %} {% endif %} disabled>
           <div class="col-1"></div>
         </div><br>
         <div class="mt-5 rounded col-12 row w-100 px-2 shadow-sm"
           style="background-color: lightgray; padding: 10px 30px; width: 100px">
           <div class="row col-12">
             <h6 class="mt-1 col-4">Fixed</h6>
-            <input class="col-4 ml-2 mb-2 form-control form-control-sm rounded text-center" type="text" value="{{latestState['priority']}}"
-              disabled>
+            <input class="col-4 ml-2 mb-2 form-control form-control-sm rounded text-center" type="text"
+              value="{{latestState['fixed']}}" disabled>
           </div>
           <div class="row col-12">
             <h6 class="mt-1 col-4">Flex</h6>
-            <input class="col-4 ml-2 form-control form-control-sm rounded text-center" type="text" value="{{latestState['priority']}}"
-              disabled>
+            <input class="col-4 ml-2 form-control form-control-sm rounded text-center" type="text"
+              value="{{latestState['flex']}}" disabled>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-{{nurseList[52][1]}}
-{{nurseList[73][1]}}
-{{latestState}}
+
+{% if latestState['l_charge'][0] %}
+<p>L Charge: {{nurseList[latestState['l_charge'][0]|int][1]}}</p>
+{% endif %}
+
+{% if latestState['l_support'][0] %}
+<p>L Support: {{nurseList[latestState['l_support'][0]|int][1]}}</p>
+{% endif %}
+
+{% if latestState['l_code'][0] %}
+<p>L Code: {{nurseList[latestState['l_code'][0]|int][1]}}</p>
+{% endif %}
 
 {% set areas=["A", "B", "C", "D", "E", "F"] %}
 {% set area_iter = namespace(value=0) %}
@@ -114,7 +120,6 @@
         class="card-footer text-center pod-spec" {% endif %}
         style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
         <h4>Clinical Area {{areas[area_iter.value]}}</h4>
-
       </div>
       <div class="card-body row justify-content-md-center">
         <div class="col-6 row justify-content-md-center" id="pod-{{areas[area_iter.value]}}-col1">
@@ -126,9 +131,9 @@
               <div class="input-group-prepend">
                 <label class="input-group-text" style="width: 30px;">P</label>
               </div>
-              <select class="form-control" id="pod-{{areas[area_iter.value]}}-bed-{{asc_loop + 1}}-patient-menu">
-                <option id="pod-{{areas[area_iter.value]}}-bed-{{ asc_loop + 1 }}-p-blank" value="">
-                </option selected>
+              <select class="form-control" id="pod-{{areas[area_iter.value]}}-bed-{{asc_loop + 1}}-patient-menu"
+                disabled>
+                <option>{{latestState['assignment'][areas[area_iter.value]+(asc_loop + 1)|string]['p'][1]}}</option>
               </select>
             </div>
             <!--Nurse Dropdown-->
@@ -136,9 +141,9 @@
               <div class="input-group-prepend">
                 <label class="input-group-text" style="width: 30px;">N</label>
               </div>
-              <select class=" form-control" id="pod-{{areas[area_iter.value]}}-bed-{{asc_loop + 1}}-nurse-menu">
-                <option id="pod-{{areas[area_iter.value]}}-bed-{{ asc_loop + 1 }}-n-blank" value="">
-                </option>
+              <select class=" form-control" id="pod-{{areas[area_iter.value]}}-bed-{{asc_loop + 1}}-nurse-menu"
+                disabled>
+                <option>{{latestState['assignment'][areas[area_iter.value]+(asc_loop + 1)|string]['n'][1]}}</option>
               </select>
             </div>
           </div>
@@ -154,9 +159,9 @@
               <div class="input-group-prepend">
                 <label class="input-group-text" style="width: 30px;">P</label>
               </div>
-              <select class="form-control" id="pod-{{areas[area_iter.value]}}-bed-{{ desc_loop + 8 }}-patient-menu">
-                <option id="pod-{{areas[area_iter.value]}}-bed-{{ desc_loop + 8 }}-p-blank" value="">
-                </option selected>
+              <select class="form-control" id="pod-{{areas[area_iter.value]}}-bed-{{ desc_loop + 8 }}-patient-menu"
+                disabled>
+                <option>{{latestState['assignment'][areas[area_iter.value]+(desc_loop + 8)|string]['p'][1]}}</option>
               </select>
             </div>
             <!--Nurse Dropdown-->
@@ -164,9 +169,8 @@
               <div class="input-group-prepend">
                 <label class="input-group-text" style="width: 30px;">N</label>
               </div>
-              <select class=" form-control" id="bed-{{ desc_loop + 8 }}-nurse-menu">
-                <option id="pod-{{areas[area_iter.value]}}-bed-{{ desc_loop + 8 }}-n-blank" value="">
-                </option selected>
+              <select class=" form-control" id="bed-{{ desc_loop + 8 }}-nurse-menu" disabled>
+                <option>{{latestState['assignment'][areas[area_iter.value]+(desc_loop + 8)|string]['n'][1]}}</option>
               </select>
             </div>
           </div>
@@ -182,20 +186,32 @@
 </div>
 
 <script>
-  // Print Page
-  function printPage() {
-    var css = 'body',
-      head = document.head || document.getElementsByTagName('head')[0],
-      style = document.createElement('style');
-    style.type = 'text/css';
-    style.media = 'print';
-    if (style.styleSheet) {
-      style.styleSheet.cssText = css;
-    } else {
-      style.appendChild(document.createTextNode(css));
-    }
-    head.appendChild(style);
-    window.print();
-  }
+  // Date Change
+  $(document).ready(function () {
+    $('#date-select').on('change focus', function () {
+      var selected = $(this).val();
+      $("#version-select option").each(function (item) {
+        var element = $(this);
+        if (element.data("tag") != selected) {
+          element.hide();
+        } else {
+          element.show();
+        }
+      });
+
+      $("#version-select").val($("#version-select option:visible:first").val());
+    });
+  });
+
+  $('form select').on('focus change', function () {
+    var empty = false;
+    $('form input').each(function () {
+      if (!empty && $(this).val() == '') {
+        empty = true;
+      }
+    });
+    $('#date-change-btn').prop('disabled', empty);
+  });
+
 </script>
 {% endblock %}

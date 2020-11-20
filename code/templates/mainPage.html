@@ -15,8 +15,11 @@
             <a class="list-group-item list-group-item-action tab_custom" id="list-records-list" data-toggle="list"
                 href="#list-records" role="tab" aria-controls="records"><img class="sidebar-icons tab_image_custom"
                     src="/images/records.png">Records</a>
-            <a class="list-group-item list-group-item-action tab_custom" id="list-pastsheets-list" data-toggle="list"
-                href="#list-pastsheets" role="tab" aria-controls="pastsheets"><img
+            <a class="list-group-item list-group-item-action tab_custom" id="list-future-list" data-toggle="list"
+                href="#list-future" role="tab" aria-controls="future"><img class="sidebar-icons tab_image_custom"
+                    src="/images/fastforward.png">Future Shifts</a>
+            <a class="list-group-item list-group-item-action tab_custom" id="list-pastsheets-list"
+                data-toggle="list" href="#list-pastsheets" role="tab" aria-controls="pastsheets"><img
                     class="sidebar-icons tab_image_custom" src="/images/pastsheets.png">Past Sheets</a>
         </div>
     </div>
@@ -120,6 +123,26 @@
                             </div>
                             <div class="card-footer">
                                 <a href="/patientRecords" class="btn btn-lg btn-block button_custom">View</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="list-future" role="tabpanel" aria-labelledby="list-future-list">
+                <div class="row ml-5">
+                    <div class="card-deck">
+                        <div class="card text-center card_custom" style="width: 18rem;">
+                            <img class="mx-auto custom_card_img" height="80px" src="/images/past-assignments-icon.png"
+                                alt="Past Clinical Area Assignments image">
+                            <div class="card-body">
+                                <div class="card-title">
+                                    <h5>Future Shifts Planning</h5>
+                                </div>
+                                <p class="card-text text-center">View clinical area assignment sheet that is editable.
+                                    Make changes and save them for future reference.</p>
+                            </div>
+                            <div class="card-footer">
+                                <a href="/futureCAASheet" class="btn btn-lg btn-block button_custom">View</a>
                             </div>
                         </div>
                     </div>
