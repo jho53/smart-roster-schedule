@@ -4,9 +4,9 @@ body {
   background-color: white;
 }
 
-/* .container-fluid {
+.container-fluid {
   padding: 0;
-} */
+}
 
 table {
   display: "block";
@@ -86,7 +86,6 @@ table {
 }
 .navbar_text:hover {
   color: #D53464;
-  font-weight: bolder;
 }
 .navbar_text.current_link {
   color: yellow;
