@@ -238,7 +238,7 @@
                     <div class="col-11 p-2 row mb-2 bed_custom"
                         id="pod-{{areas[area_iter.value]}}-bed-{{asc_loop + 1}}-view">
                         <p style="position: relative; left: 5%;">{{ asc_loop + 1 }}</p>
-                        {% if flags[areas[area_iter.value]+(asc_loop + 1)|string] != ['0', '0', '0', '0', '0', '0', '0', '0', '0'] %}
+                        {% if flags[areas[area_iter.value]+(asc_loop + 1)|string] != ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'] %}
                         {% if flags[areas[area_iter.value]+(asc_loop + 1)|string][0] == '1' or flags[areas[area_iter.value]+(asc_loop + 1)|string][1] == '1' or flags[areas[area_iter.value]+(asc_loop + 1)|string][2] == '1' or flags[areas[area_iter.value]+(asc_loop + 1)|string][3] == '1' %}
                         <a style="color: tomato; position: absolute; left: -25px;" href="#" data-toggle="modal"
                             data-target=".flagspopup"
@@ -344,7 +344,7 @@
                     <div class="col-11 p-2 row mb-2 bed_custom"
                         id="pod-{{areas[area_iter.value]}}-bed-{{desc_loop + 8}}-view">
                         <p style="position: relative; left: 5%;">{{ desc_loop + 8 }}</p>
-                        {% if flags[areas[area_iter.value]+(desc_loop + 8)|string] != ['0', '0', '0', '0', '0', '0', '0', '0', '0'] %}
+                        {% if flags[areas[area_iter.value]+(desc_loop + 8)|string] != ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'] %}
                         {% if flags[areas[area_iter.value]+(desc_loop + 8)|string][0] == '1' or flags[areas[area_iter.value]+(desc_loop + 8)|string][1] == '1' or flags[areas[area_iter.value]+(desc_loop + 8)|string][2] == '1' or flags[areas[area_iter.value]+(desc_loop + 8)|string][3] == '1' %}
                         <a style="color: tomato; position: absolute; left: -25px;" href="#" data-toggle="modal"
                             data-target=".flagspopup"
@@ -508,6 +508,8 @@
         $(e.currentTarget).find('#twin_flag').html('');
         $(e.currentTarget).find('#iv_flag').html('');
         $(e.currentTarget).find('#home_area_flag').html('');
+        $(e.currentTarget).find('#dta_flag').html('');
+        $(e.currentTarget).find('#comments_flag').html('');
 
         var skill_level = $(e.relatedTarget).data('skill_level');
         var a_trained = $(e.relatedTarget).data('a_trained');
