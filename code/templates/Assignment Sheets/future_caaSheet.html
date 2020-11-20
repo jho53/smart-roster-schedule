@@ -1,0 +1,355 @@
+{% extends "base.html" %} {% block content %}
+
+<!--Content Here-->
+<!--Jumbotron-->
+<div class="jumbotron py-3">
+    <div class="jumbotron-content">
+        <div class="row justify-content-md-center">
+            <h1 class="jumbotron-title col">Future Shift Planning Page</h1>
+        </div>
+        <label for="future_datetime" class="pt-3"><strong>Set Shift Time</strong></label><br>
+        <input type="date" id="shiftDate" class="form-control-sm" value={{now.strftime("%Y-%m-%d")}}>
+        <input type="time" id="shiftTime" class="form-control-sm" value={{now.strftime("%H:%M")}}>
+
+        <form id="save-future-form" action="/futureSave" method="POST">
+            <a href="#" id="saveFutureSubmit" style="position: absolute; right: 110px; top: 30px;">
+                <i class="fas fa-save fa-3x" style="color:black"></i>
+                <br><small>Save</small>
+            </a>
+            <input id="saveFutureData" type="text" name="saveFutureData" hidden>
+            <input id="shiftDateData" type="text" name="shiftDate" hidden>
+            <input id="shiftTimeData" type="text" name="shiftTime" hidden>
+        </form>
+
+        <a href="#" onclick="printPage()" style="position: absolute; right: 50px; top: 30px;">
+            <i class="fas fa-print fa-3x" style="color:black"></i>
+            <br><small>Print</small>
+        </a>
+
+        <a href="/futureCAASheet" style="position: absolute; right: 170px; top: 30px;">
+            <i class="fas fa-plus fa-3x" style="color:black"></i>
+            <br><small>New Shift</small>
+        </a>
+
+        <!--Load State-->
+        <div class="text-left" style="position: absolute; top: 1%; left: 5%">
+            <form class="form form-group" action="/futureCAASheetState" method="POST">
+                <label for="date-select">
+                    <small>Shift</small>
+                </label>
+                <select id="date-select" class="form-control form-control-sm col-10" name="date-select">
+                    {% for i, shift in enumerate(shifts) %}
+                    <option id="shift-{{i}}" value="{{i}}">{{shift}}</option>
+                    {% endfor %}
+                </select>
+                <button class="btn btn-sm btn-block btn_create_custom" id="date-change-btn" type="submit"
+                    disabled>View</button>
+            </form>
+        </div>
+        <br><br>
+        <!--Charge Nurse-->
+        <div class="row">
+            <div class="col rounded pt-3 px-4 mx-5 shadow-sm" style="background-color: lightgray">
+                <div class="row justify-content-center">
+                    <div class="col-9">
+                        <h6>Charge Nurses</h6>
+                    </div>
+                    <div class="col-3">
+                        <h6>Skill Level</h6>
+                    </div>
+                </div>
+                {% for i in range(3)%}
+                <div class="row justify-content-center mb-2">
+                    <select class="col-8 form-control form-control-sm rounded text-center" id="CN{{i}}" type="text"
+                        value="" onchange="updateCNDetails()">
+                        <option id="blank-cn"></option>
+                        {% for index, nurse in enumerate(futureList) %}
+                        {% if nurse[11] == "Charge" %}
+                        <option class="table-success" id='cn-assign-{{nurse[0]}}' value="{{nurse[0]}}"
+                            data-skill="{{nurse[7]}}">
+                            {{nurse[1]}}
+                        </option>
+                        {% else %}
+                        <option id='cn-assign-{{nurse[0]}}' value="{{nurse[0]}}" data-skill="{{nurse[7]}}">
+                            {{nurse[1]}}
+                        </option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                    <input class="col-2 offset-1 form-control form-control-sm rounded text-center" type="text"
+                        id="CN_skill{{i}}" value="" disabled>
+                </div>
+                {% endfor %}
+            </div>
+            <!--Support Nurses-->
+            <div class="col rounded pt-3 pl-4 pr-5 mx-5 shadow-sm" style="background-color: lightgray;">
+                <div class="row justify-content-center">
+                    <div class="col-6">
+                        <h6>Support Nurses</h6>
+                    </div>
+                    <div class="col-2">
+                        <h6>Area</h6>
+                    </div>
+                    <div class="col-2">
+                        <h6>Rotation</h6>
+                    </div>
+                </div>
+                {% for i in range(3)%}
+                <div class="row justify-content-center mb-2">
+                    <select class="col-6 form-control form-control-sm rounded text-center" type="text" value=""
+                        id="SN{{i}}" onchange="updateSNDetails()">
+                        <option id="blank-sn"></option>
+                        {% for index, nurse in enumerate(futureList) %}
+                        {% if nurse[11] == "Support" %}
+                        <option class="table-warning" id='sn-assign-{{nurse[0]}}' value="{{nurse[0]}}"
+                            data-area="{{nurse[2]}}" data-rotation="{{nurse[4]}}">
+                            {{nurse[1]}}
+                        </option>
+                        {% else %}
+                        <option id='sn-assign-{{nurse[0]}}' value="{{nurse[0]}}" data-area="{{nurse[2]}}"
+                            data-rotation="{{nurse[4]}}">{{nurse[1]}}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                    <input class="col-2 offset-1 form-control form-control-sm rounded text-center" type="text"
+                        id="SN_area{{i}}" value="" disabled>
+                    <input class="col-2 form-control form-control-sm rounded text-center" type="text"
+                        id="SN_rotation{{i}}" value="" disabled>
+                </div>
+                {% endfor %}
+            </div>
+            <!--Right Column-->
+            <div class="col mx-5">
+                <div class="row w-100 px-2 shadow-sm"
+                    style="background-color: lightgray; padding: 10px 30px; border-radius: 5px;">
+                    <div class="col-4">
+                        <h6>Code RN</h6>
+                    </div>
+                    <select class="col-6 form-control form-control-sm rounded text-center" type="text" value="">
+                        <option id="blank-code" value=""></option>
+                        {% for index, nurse in enumerate(futureList) %}
+                        {% if nurse[11] == "Code" %}
+                        <option class="table-danger" id='code-assign-{{nurse[0]}}' value="{{nurse[0]}}">
+                            {{nurse[1]}}
+                        </option>
+                        {% else %}
+                        <option id='code-assign-{{nurse[0]}}' value="{{nurse[0]}}">{{nurse[1]}}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                    <div class="col-1"></div>
+                </div>
+                <div class="mt-5 rounded col-12 row w-100 px-2 shadow-sm"
+                    style="background-color: lightgray; padding: 10px 30px; width: 100px">
+                    <div class="row col-12">
+                        <h6 class="mt-1 col-4">Fixed</h6>
+                        <select class="col-4 ml-2 mb-2 form-control form-control-sm rounded text-center" type="text"
+                            value="">
+                            <option id="fixed-blank" value=""></option>
+                            {% for i, x in enumerate(range(8)) %}
+                            <option id='fixed-{{i+1}}' value="{{i+1}}">{{i+1}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="row col-12">
+                        <h6 class="mt-1 col-4">Flex</h6>
+                        <select class="col-4 ml-2 mb-2 form-control form-control-sm rounded text-center" type="text"
+                            value="">
+                            <option id="flex-blank" value=""></option>
+                            {% for i, x in enumerate(range(8)) %}
+                            <option id='flex-{{i+1}}' value="{{i+1}}">{{i+1}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+</div>
+
+{% set areas=["A", "B", "C", "D", "E", "F"] %}
+{% set area_iter = namespace(value=0) %}
+
+<div class="container-fluid px-5">
+    <div class="justify-content-center">
+        <div class="col-12">
+            <!--Clinical Area Container-->
+            {% for k in range(6) %}
+            <div class="row col-12 mb-3 m-0 p-0 shadow-sm" style="border-radius: 10px; border: 1px solid lightgrey;">
+                <div style="border-top-left-radius: 10px; border-bottom-left-radius: 10px;" {% if area_iter.value < 4 %}
+                    class="pod-norm px-4 py-2" {% else %} class="pod-spec px-4 py-2" {% endif %}>
+                    <p class="text-center" style="margin-top: 125px;"><b>{{areas[area_iter.value]}}</b></p>
+                </div>
+                {% for j in range(2) %}
+                <div class="col-5">
+                    <div class="row justify-content-center">
+                        <div class="col-7">
+                            <small class="mt-1"><b>Name</b></small>
+                        </div>
+                        <div class="col-1 mx-1">
+                            <small class="mt-1"><b>Skill</b></small>
+                        </div>
+                        <div class="col-1 mx-1 ">
+                            <small class="mt-1"><b>Group</b></small>
+                        </div>
+                        <div class="col-1 mx-1">
+                            <small class="mt-1"><b>Shift</b></small>
+                        </div>
+                        <div class="col-1">
+
+                        </div>
+                    </div>
+                    {% for i in range(7) %}
+                    <div class="row justify-content-center mb-2">
+                        <select class="col-7 form-control form-control-sm rounded text-center mx-1" type="text" value=""
+                            id="Nurse{{k}}{{j}}{{i}}" onchange="updateNurseDetails()">
+                            <option id="blank-nurse-{{i+1}}" value=""></option>
+                            {% for index, nurse in enumerate(futureList) %}
+                            <option id='{{areas[area_iter.value]}}-{{nurse[0]}}' value="{{nurse[0]}}"
+                                data-skill={{nurse[7]}} data-group={{nurse[5]}} data-rotation={{nurse[4]}}>
+                                {{nurse[1]}}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <input class="col-1 form-control form-control-sm rounded text-center mx-1" type="text"
+                            id="Nurse_skill{{k}}{{j}}{{i}}" value="" disabled>
+                        <input class="col-1 form-control form-control-sm rounded text-center mx-1" type="text"
+                            id="Nurse_group{{k}}{{j}}{{i}}" value="" disabled>
+                        <input class="col-1 form-control form-control-sm rounded text-center mx-1" type="text"
+                            id="Nurse_rotation{{k}}{{j}}{{i}}" value="" disabled>
+                        <button class="col-1 btn form-control-sm btn-warning mx-1 invisible" data-toggle="modal"
+                            data-target="#flagModal">
+                            <i class="fas fa-exclamation-circle"></i></button>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+            {% set area_iter.value = area_iter.value + 1 %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!--Flag Modal-->
+<div class="modal fade" id="flagModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="flagModalLabel">DTA/Comments for </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h6>Comments</h6>
+                <small id="flag-comment"></small>
+                <hr>
+                <h6>DTA</h6>
+                <small id="flag-dta"></small>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Save State
+    $("#saveFutureSubmit").on("click", (event) => {
+        var saveFutureData = []
+        var selectedList = document.querySelectorAll("option:checked")
+        for (item in selectedList) {
+            if (selectedList[item].value != "") {
+                saveFutureData.push(selectedList[item].id)
+            }
+        }
+        $("#saveFutureData").val(JSON.stringify(saveFutureData))
+
+        console.log($("#saveFutureData").val())
+        $("#shiftTimeData").val($("#shiftTime").val())
+        $("#shiftDateData").val($("#shiftDate").val())
+        $("#save-future-form").submit()
+    })
+
+    function updateCNDetails() {
+        const chargenurse1 = document.querySelector('#CN0 option:checked');
+        if (chargenurse1.value != "") {
+            document.getElementById("CN_skill0").value = chargenurse1.dataset.skill;
+        }
+        else {
+            document.getElementById("CN_skill0").value = "";
+        }
+
+        const chargenurse2 = document.querySelector('#CN1 option:checked');
+        if (chargenurse2.value != "") {
+            document.getElementById("CN_skill1").value = chargenurse2.dataset.skill;
+        }
+        else {
+            document.getElementById("CN_skill1").value = "";
+        }
+
+        const chargenurse3 = document.querySelector('#CN2 option:checked');
+        if (chargenurse3.value != "") {
+            document.getElementById("CN_skill2").value = chargenurse3.dataset.skill;
+        }
+        else {
+            document.getElementById("CN_skill2").value = "";
+        }
+    }
+
+    function updateSNDetails() {
+        for (i = 0; i < 3; i++) {
+            const supportnurse = document.querySelector(`#SN${i} option:checked`);
+            if (supportnurse.value != "") {
+                document.getElementById(`SN_area${i}`).value = supportnurse.dataset.area;
+                document.getElementById(`SN_rotation${i}`).value = supportnurse.dataset.rotation;
+            }
+            else {
+                document.getElementById(`SN_area${i}`).value = "";
+                document.getElementById(`SN_rotation${i}`).value = "";
+            }
+        }
+    }
+
+    function updateNurseDetails() {
+        for (k = 0; k < 6; k++) {
+            for (j = 0; j < 2; j++) {
+                for (i = 0; i < 7; i++) {
+                    const nurse = document.querySelector(`#Nurse${k}${j}${i} option:checked`);
+                    if (nurse.value != "") {
+                        document.getElementById(`Nurse_skill${k}${j}${i}`).value = nurse.dataset.skill;
+                        document.getElementById(`Nurse_group${k}${j}${i}`).value = nurse.dataset.group;
+                        document.getElementById(`Nurse_rotation${k}${j}${i}`).value = nurse.dataset.rotation;
+                    }
+                    else {
+                        document.getElementById(`Nurse_skill${k}${j}${i}`).value = "";
+                        document.getElementById(`Nurse_group${k}${j}${i}`).value = "";
+                        document.getElementById(`Nurse_rotation${k}${j}${i}`).value = "";
+                    }
+                }
+            }
+        }
+    }
+
+    // Print Page
+    function printPage() {
+        var css = 'body',
+            head = document.head || document.getElementsByTagName('head')[0],
+            style = document.createElement('style');
+        style.type = 'text/css';
+        style.media = 'print';
+        if (style.styleSheet) {
+            style.styleSheet.cssText = css;
+        } else {
+            style.appendChild(document.createTextNode(css));
+        }
+        head.appendChild(style);
+        window.print();
+    }
+
+</script>
+
+{% endblock %}
