@@ -5,7 +5,7 @@
 <div class="jumbotron py-3">
     <div class="jumbotron-content">
         <div class="row justify-content-md-center">
-            <h1 class="jumbotron-title col">Future Clinical Area Assignment Page</h1>
+            <h1 class="jumbotron-title col">Future Shift Planning Page</h1>
         </div>
         <div class="form-group col-2 offset-5">
             <label for="future_datetime" class="pt-3"><strong>Set Shift Time</strong></label>
@@ -92,7 +92,7 @@
                     <div class="col-4">
                         <h6>Code RN</h6>
                     </div>
-                    <select class="col-6 form-control form-control-sm rounded text-center" type="text" value="" onchange="updateCodeDetails()">
+                    <select class="col-6 form-control form-control-sm rounded text-center" type="text" value="">
                         <option id="blank-code" value=""></option>
                         {% for index, nurse in enumerate(futureList) %}
                         {% if nurse[11] == "Code" %}
