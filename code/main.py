@@ -1,7 +1,7 @@
 from re import template
 from nurse import Nurse
 from patient import Patient
-# from assignment import main_assign
+from assignment import main_assign
 
 from flask import Flask, render_template, redirect, url_for, request, session, flash, send_from_directory
 
@@ -77,6 +77,7 @@ NURSE_HEADERS = ["ID", "Name", "Clinical Area", "Rotation", "Group", "FTE",
 
 @app.route("/")
 def home():
+    """ Displays the home page """
     if 'loggedin' in session:
         curr_nurse_ids = []
         supp_nurse_ids = []
@@ -121,6 +122,7 @@ def home():
 
 @app.route("/updateCurrNurses", methods=["POST"])
 def update_current_nurses():
+    """ Updates the current nurses """
     try:
         if "loggedin" in session:
             current_nurses_id = "({0})".format(
@@ -186,6 +188,7 @@ def update_adv_role():
 
 @app.route("/register", methods=['GET'])
 def register():
+    """ Display the register page """
     if 'loggedin' in session:
         return render_template('register.html', loggedin=session['loggedin'])
     return redirect(url_for('login'))
@@ -193,6 +196,7 @@ def register():
 
 @app.route("/registerUser", methods=['POST'])
 def register_user():
+    """ Registers the user """
     if 'username' in request.form and 'first_name' in request.form \
             and 'last_name' in request.form and 'password' in request.form \
             and 'password_conf' in request.form:
@@ -224,11 +228,13 @@ def register_user():
 
 @app.route('/login', methods=['GET'])
 def login():
+    """ Displays the login page """
     return render_template("login.html")
 
 
 @app.route('/loginUser', methods=['POST'])
 def login_user():
+    """ Logs the user in """
     if 'username' in request.form and 'password' in request.form:
         username = request.form['username']
         password = request.form['password']
@@ -260,6 +266,7 @@ def login_user():
 
 @app.route('/logout')
 def logout():
+    """ Logs the user out """
     session.pop('loggedin', None)
     session.pop('id', None)
     session.pop('username', None)
@@ -271,6 +278,7 @@ def logout():
 
 @app.route("/nurseRecords", methods=["GET"])
 def nurse_records():
+    """ Displays the nurse records page """
     if 'loggedin' in session:
         # Grabs all nurses
         cursor.execute("SELECT * FROM nurses")
@@ -287,6 +295,7 @@ def nurse_records():
 
 @app.route("/addNurseRecords", methods=["POST"])
 def add_nurse_records():
+    """ Adds nurse to the nurse records """
     nurse_name = request.form['create_nurse_name']
     nurse_area = request.form['create_nurse_area']
     nurse_rotation = request.form['create_nurse_rotation']
@@ -348,6 +357,7 @@ def add_nurse_records():
 
 @app.route("/editNurseRecords", methods=["POST"])
 def edit_nurse_records():
+    """ Edits the nurse records """
     nurse_id = request.form['edit_nurse_id']
     nurse_name = request.form['edit_nurse_name']
     nurse_area = request.form['edit_nurse_area']
@@ -410,6 +420,7 @@ def edit_nurse_records():
 
 @app.route("/deleteNurseRecords", methods=["POST"])
 def delete_nurse_records():
+    """ Delete from nurse records """
     nurse_id = request.form['remove_nurse_id']
     query = "DELETE FROM smartroster.nurses WHERE id = %s" % (nurse_id)
 
@@ -424,6 +435,7 @@ def delete_nurse_records():
 
 @app.route("/patientRecords", methods=["GET"])
 def patient_records():
+    """ Display the patient records page """
     # Grabs all patients
     cursor.execute("SELECT * FROM patients")
     patient_list = cursor.fetchall()
@@ -437,6 +449,7 @@ def patient_records():
 
 @app.route("/addPatientRecords", methods=["POST"])
 def add_patient_records():
+    """ Add to the patient records """
     # Checks for required fields
 
     patient_name = request.form['create_patient_name']
@@ -499,6 +512,7 @@ def add_patient_records():
 
 @app.route("/editPatientRecords", methods=["POST"])
 def edit_patient_records():
+    """ Edit the patient records """
     # Grabs discharge data so it knows if the patient has been discharged
 
     patientid = request.form['edit_patient_id']
@@ -561,6 +575,7 @@ def edit_patient_records():
 
 @app.route("/deletePatientRecords", methods=["POST"])
 def delete_patient_records():
+    """ Delete from patient records """
     # grabs patient id
     patient_id = request.form['remove_patient_id']
 
@@ -577,6 +592,7 @@ def delete_patient_records():
 
 @app.route("/profile", methods=['GET'])
 def profile():
+    """ Display the profile page """
     if 'loggedin' in session:
         cursor.execute('SELECT * FROM users WHERE username = %s',
                        (session['username'],))
@@ -588,12 +604,14 @@ def profile():
 
 
 def allowed_file(filename):
+    """ Check if the file uploaded is an image file """
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 @app.route('/upload_image', methods=['POST'])
 def upload_image():
+    """ Upload the image """
     if request.method == 'POST':
         # check if the post request has the file part
         if 'file' not in request.files:
@@ -615,12 +633,14 @@ def upload_image():
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
+    """ Shows the currently uploaded file """
     return send_from_directory(app.config['UPLOAD_FOLDER'],
                                filename)
 
 
 @app.route("/settings")
 def settings():
+    """ Display the settings page """
     if 'loggedin' in session:
         return render_template("./Account/settings.html", loggedin=session['loggedin'])
     return redirect(url_for('login'))
@@ -631,6 +651,7 @@ def settings():
 
 @app.route("/currentCAASheet")
 def current_CAASheet():
+    """ Displays the current clinical area page """
     area_nurse_list = []
 
     if 'loggedin' in session:
@@ -666,9 +687,27 @@ def current_CAASheet():
 
     return redirect(url_for('login'))
 
+@app.route("/futureCAASheet")
+def future_CAASheet():
+    """ Displays the future clinical area page """
+    future_nurse_list = []
+
+    if 'loggedin' in session:
+        # Grab nurse and patient tables
+        cursor.execute("SELECT * FROM nurses")
+        future_nurse_list = cursor.fetchall()
+
+        return render_template("./Assignment Sheets/future_caaSheet.html",
+                                   loggedin=session['loggedin'],
+                                   futureList=future_nurse_list,
+                                   )
+
+    return redirect(url_for('login'))
+
 
 @app.route("/currentPNSheet")
 def current_PNSheet():
+    """ Displays the current nurse-patient assignment sheet """
     # Variables
     curr_assignment = None
 
@@ -836,6 +875,7 @@ def past_PNSheetState():
 
 @ app.route("/saveState", methods=['POST'])
 def save_current_state():
+    """ Saves changes to the nurse-patient assignment sheet. Also flags. """
     # variable init
     bed_value = ""  # reset on new pair
     patient_nurse_pair = []
@@ -1134,148 +1174,162 @@ def end_shift():
 @ app.route('/assign', methods=['GET'])
 def assign_nurse_patient() -> dict:
     """ Assign nurses to patients"""
-    assignments = {}
-    twins = []
+    assignments = main_assign(cursor)
+    # twins = []
+    #
+    # # Grab Patients
+    # patients = []
+    # cursor.execute(
+    #     'SELECT * FROM patients WHERE discharged_date="-" ORDER BY length(previous_nurses) DESC, one_to_one DESC, twin DESC, acuity DESC, a_trained DESC, transfer DESC, iv DESC;')
+    # patient_list = cursor.fetchall()
+    #
+    # for row in patient_list:
+    #     x = Patient(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10], row[11],
+    #                 row[12], row[13])
+    #     if row[13] == "1":
+    #         twins.append(x)
+    #     patients.append(x)
+    #
+    # # Grab Nurses
+    # nurses = []
+    # cursor.execute("SELECT * FROM nurses WHERE current_shift=1")
+    # nurse_list = cursor.fetchall()
+    #
+    # for row in nurse_list:
+    #     x = Nurse(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10], row[11],
+    #               row[12], row[13], row[14], row[15], row[16])
+    #     nurses.append(x)
+    #
+    #     assignments[row[0]] = {'num_patients': 0, 'patients': [], 'prev_p': []}
+    #
+    # # Get all nurses that are eligible for each patient
+    # for p in patients:
+    #     if p.get_assigned() == 0:
+    #         transfer = p.get_transfer()
+    #         a_trained = p.get_a_trained()
+    #         acuity = p.get_acuity()
+    #         picc = p.get_picc()
+    #         one_to_one = p.get_one_to_one()
+    #         clinical_area = p.get_clinical_area()
+    #         twin = p.get_twin()
+    #
+    #         # get nurses that match the hard constraints
+    #         base = "SELECT * FROM nurses WHERE current_shift=1 AND skill_level>=%d" % acuity
+    #
+    #         if transfer:
+    #             base += " AND transfer=1"
+    #         if a_trained:
+    #             base += " AND a_trained=1"
+    #
+    #         cursor.execute(base)
+    #         eligible_nurses = cursor.fetchall()
+    #         eligible_nurse_objects = []
+    #
+    #         i = 0
+    #         while len(eligible_nurse_objects) < 1 and i < 3:
+    #             for row in eligible_nurses:
+    #                 # if nurse assigned
+    #                 if row[0] in assignments:
+    #                     # if nurse has i patients (we use this if our eligible nurses are all assigned. Then we
+    #                     # resort to assigning nurses with more than 1 patient)
+    #                     if assignments[row[0]]["num_patients"] == i:
+    #                         x = Nurse(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9],
+    #                                   row[10], row[11], row[12], row[13], row[14], row[15], row[16])
+    #                         eligible_nurse_objects.append(x)
+    #                 # if nurse is not assigned
+    #                 elif row[0] not in assignments:
+    #                     x = Nurse(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9],
+    #                               row[10], row[11], row[12], row[13], row[14], row[15], row[16])
+    #                     eligible_nurse_objects.append(x)
+    #             # for the next iteration, start considering nurses with i += 1 patients.
+    #             if len(eligible_nurse_objects) < 1:
+    #                 i += 1
+    #
+    #         # Calculate soft constraint weights
+    #         nurse_weights = {}
+    #         max_points = 0
+    #
+    #         for eno in eligible_nurse_objects:
+    #             if eno.get_id() not in nurse_weights:
+    #                 nurse_weights[eno.get_id()] = 0
+    #
+    #             # if nurse matches clinical area, give nurse 2 points
+    #             if eno.get_clinical_area() == clinical_area:
+    #                 nurse_weights[eno.get_id()] += 2
+    #
+    #             # if nurse matches picc, give nurse 2 points
+    #             if eno.get_picc() == picc:
+    #                 nurse_weights[eno.get_id()] += 2
+    #
+    #             # if nurse matches priority, give nurse 7 points
+    #             if eno.get_priority() == 1:
+    #                 nurse_weights[eno.get_id()] += 7
+    #
+    #             # if nurse has previous assignments, give nurse 10 points
+    #             prev_p = eno.get_previous_patients().strip('][').split(', ')
+    #             if prev_p != "[]":
+    #                 if str(p.get_id()) in prev_p:
+    #                     nurse_weights[eno.get_id()] += 10
+    #
+    #             # if secondary patient is in the same clinical area as the nurse's first assigned patient, give 7 points
+    #             # This is so that the nurse can stay in the same area when he/she has more than 2 patients.
+    #             if eno.get_id() in assignments:
+    #                 if len(assignments[eno.get_id()]['patients']) > 0:
+    #                     first_prev_patient_id = assignments[eno.get_id()]['patients'][0]
+    #                     cursor.execute(f"SELECT clinical_area FROM patients WHERE id={first_prev_patient_id}")
+    #                     first_prev_patient_pod = cursor.fetchone()
+    #                     if p.get_clinical_area() == first_prev_patient_pod[0]:
+    #                         nurse_weights[eno.get_id()] += 7
+    #
+    #             # calculate the highest weight a nurse achieved
+    #             if nurse_weights[eno.get_id()] > max_points:
+    #                 max_points = nurse_weights[eno.get_id()]
+    #
+    #         eligible_max_nurses = []
+    #
+    #         for eno in eligible_nurse_objects:
+    #             if nurse_weights[eno.get_id()] == max_points:
+    #                 eligible_max_nurses.append(eno.get_id())
+    #
+    #         # algorithm that matches nurse to patient starting from lowest skill level
+    #         sorted_eligible_nurses = sorted(
+    #             eligible_nurse_objects, key=lambda x: x.skill_level, reverse=False)
+    #
+    #         # assign
+    #         for sen in sorted_eligible_nurses:
+    #             if sen.get_id() in eligible_max_nurses:
+    #                 if sen.get_id() not in assignments:
+    #                     assignments[sen.get_id()]["num_patients"] = 0
+    #                     assignments[sen.get_id()]["patients"] = []
+    #
+    #                 if twin == "1":
+    #                     for twin_object in twins:
+    #                         if p.get_name() == twin_object.get_name():
+    #                             continue
+    #                         elif p.get_last_name() == twin_object.get_last_name():
+    #                             assignments[sen.get_id()]["num_patients"] += 1
+    #                             assignments[sen.get_id()]["patients"].append(
+    #                                 twin_object.get_id())
+    #                             twin_object.set_assigned(1)
+    #                             twins.remove(twin_object)
+    #                             twins.remove(p)
+    #                             break
+    #
+    #                 if one_to_one:
+    #                     assignments[sen.get_id()]["num_patients"] = 98
+    #                 assignments[sen.get_id()]["num_patients"] += 1
+    #                 assignments[sen.get_id()]["patients"].append(p.get_id())
+    #
+    #                 # set patient to be assigned
+    #                 p.set_assigned(1)
+    #                 break
+    #
+    # # Check if a patient is not set as assigned
+    # for p in patients:
+    #     if p.get_assigned() != 1:
+    #         print("Patient", p.get_id(), " is not assigned!")
 
-    # Grab Patients
-    patients = []
-    cursor.execute(
-        'SELECT * FROM patients WHERE discharged_date="-" ORDER BY length(previous_nurses) DESC, one_to_one DESC, twin DESC, acuity DESC, a_trained DESC, transfer DESC, iv DESC;')
-    patient_list = cursor.fetchall()
-
-    for row in patient_list:
-        x = Patient(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10], row[11],
-                    row[12], row[13])
-        if row[13] == "1":
-            twins.append(x)
-        patients.append(x)
-
-    # Grab Nurses
-    nurses = []
-    cursor.execute("SELECT * FROM nurses WHERE current_shift=1")
-    nurse_list = cursor.fetchall()
-
-    for row in nurse_list:
-        x = Nurse(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10], row[11],
-                  row[12], row[13], row[14], row[15], row[16])
-        nurses.append(x)
-
-        assignments[row[0]] = {'num_patients': 0, 'patients': [], 'prev_p': []}
-
-    # Get all nurses that are eligible for each patient
-    for p in patients:
-        if p.get_assigned() == 0:
-            transfer = p.get_transfer()
-            a_trained = p.get_a_trained()
-            acuity = p.get_acuity()
-            picc = p.get_picc()
-            one_to_one = p.get_one_to_one()
-            clinical_area = p.get_clinical_area()
-            twin = p.get_twin()
-
-            # get nurses that match the hard constraints
-            base = "SELECT * FROM nurses WHERE current_shift=1 AND skill_level>=%d" % acuity
-
-            if transfer:
-                base += " AND transfer=1"
-            if a_trained:
-                base += " AND a_trained=1"
-
-            cursor.execute(base)
-            eligible_nurses = cursor.fetchall()
-            eligible_nurse_objects = []
-
-            i = 0
-            while len(eligible_nurse_objects) < 1 and i < 3:
-                for row in eligible_nurses:
-                    # if nurse assigned
-                    if row[0] in assignments:
-                        # if nurse has i patients (we use this if our eligible nurses are all assigned. Then we
-                        # resort to assigning nurses with more than 1 patient)
-                        if assignments[row[0]]["num_patients"] == i:
-                            x = Nurse(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9],
-                                      row[10], row[11], row[12], row[13], row[14], row[15], row[16])
-                            eligible_nurse_objects.append(x)
-                    # if nurse is not assigned
-                    elif row[0] not in assignments:
-                        x = Nurse(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9],
-                                  row[10], row[11], row[12], row[13], row[14], row[15], row[16])
-                        eligible_nurse_objects.append(x)
-                # for the next iteration, start considering nurses with i += 1 patients.
-                if len(eligible_nurse_objects) < 1:
-                    i += 1
-
-            # Calculate soft constraint weights
-            nurse_weights = {}
-            max_points = 0
-
-            for eno in eligible_nurse_objects:
-                if eno.get_id() not in nurse_weights:
-                    nurse_weights[eno.get_id()] = 0
-
-                # if nurse matches clinical area, give nurse 2 points
-                if eno.get_clinical_area() == clinical_area:
-                    nurse_weights[eno.get_id()] += 2
-
-                # if nurse matches picc, give nurse 3 points
-                if eno.get_picc() == picc:
-                    nurse_weights[eno.get_id()] += 2
-
-                # if nurse matches priority, give nurse 7 points
-                if eno.get_priority() == 1:
-                    nurse_weights[eno.get_id()] += 7
-
-                # if nurse has previous assignments, give nurse 10 points
-                prev_p = eno.get_previous_patients().strip('][').split(', ')
-                if prev_p != "[]":
-                    if str(p.get_id()) in prev_p:
-                        nurse_weights[eno.get_id()] += 10
-
-                # calculate the highest weight a nurse achieved
-                if nurse_weights[eno.get_id()] > max_points:
-                    max_points = nurse_weights[eno.get_id()]
-
-            eligible_max_nurses = []
-
-            for eno in eligible_nurse_objects:
-                if nurse_weights[eno.get_id()] == max_points:
-                    eligible_max_nurses.append(eno.get_id())
-
-            # algorithm that matches nurse to patient starting from lowest skill level
-            sorted_eligible_nurses = sorted(
-                eligible_nurse_objects, key=lambda x: x.skill_level, reverse=False)
-
-            # assign
-            for sen in sorted_eligible_nurses:
-                if sen.get_id() in eligible_max_nurses:
-                    if sen.get_id() not in assignments:
-                        assignments[sen.get_id()]["num_patients"] = 0
-                        assignments[sen.get_id()]["patients"] = []
-
-                    if twin == "1":
-                        for twin_object in twins:
-                            if p.get_name() == twin_object.get_name():
-                                continue
-                            elif p.get_last_name() == twin_object.get_last_name():
-                                assignments[sen.get_id()]["num_patients"] += 1
-                                assignments[sen.get_id()]["patients"].append(
-                                    twin_object.get_id())
-                                twin_object.set_assigned(1)
-                                twins.remove(twin_object)
-                                twins.remove(p)
-                                break
-
-                    if one_to_one:
-                        assignments[sen.get_id()]["num_patients"] = 98
-                    assignments[sen.get_id()]["num_patients"] += 1
-                    assignments[sen.get_id()]["patients"].append(p.get_id())
-
-                    # set patient to be assigned
-                    p.set_assigned(1)
-                    break
-
-    # We run through to check for one-to-one and fix appropriately
-    # print(assignments)
+    print(assignments)
 
     cursor.execute('SELECT * FROM patients')
     patient_list = cursor.fetchall()
