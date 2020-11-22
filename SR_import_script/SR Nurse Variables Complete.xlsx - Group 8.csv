@@ -1,0 +1,36 @@
+Team 8,Area,Rotation,FTE,A trained,Skill,Transfer,Adv Role,Restrictions,IV,Fixed Requests,Flexible Requests
+RN183,C,AB01,1,,4,,,,,5,
+RN184,D,B02,1,Yes,4,,,,,,
+RN185,D,AB02,0.51,,5,,,,,,
+RN186,E,AB05,,Yes,3,,,,,4,
+RN187,C,AB04,,,2,,,,,4,
+RN188,F,AB06,1,,3,,,,,2,2
+RN189,C,B04,1,,4,,,,,,
+RN190,E,B05,1,Yes,5,Yes,Code,,Yes,,Support
+RN191,F,B06,1,Yes,5,,,,,Advanced Acute #2,A
+RN192,C,B02,1,,5,,,,,5,
+RN193,C,B03,1,Yes,5,,Charge,,,No Adv Roles,Code
+RN194,E,M05,1,Yes,4,Yes,,,,,
+RN195,E,A04,1,Yes,5,,Support,,,,
+RN196,C,B03,1,Yes,5,,Charge,Yes,L,,Support
+RN197,F,A06,1,Yes,4,,,,,4,
+RN198,E,B05,1,Yes,5,,Charge,,,,Suppport/Charge
+RN199,F,B05,1,,4,,,,,4,
+RN200,F,A01,1,Yes,5,,,,,,
+RN201,C,B01,1,Yes,5,,Charge,,,,
+RN202,D,B01,0.78,Yes,3,,,Yes,,,
+RN203,D,A3+4,1,Yes,5,,,,,M,
+RN204,C,A02,1,,5,,,,,,
+RN205,F,B04,1,Yes,5,Yes,,,,,
+RN206,D,B01,1,Yes,5,Yes,Charge,Yes,Yes,,
+RN207,E,A05,1,Yes,3,,,,,4,
+RN208,D,B03,0.52,,4,,,,,,
+RN209,E,A05,0.52,Yes,4,,,,,,
+RN210,D,B02,0.52,Yes,5,,Support,,,,Support
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+Constraints,Soft,Soft,N/A,Hard,Hard,Hard,Hard,Soft w/Alert,Soft,Soft,Soft
