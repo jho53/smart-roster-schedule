@@ -211,6 +211,116 @@ table {
   }
 }
 
+/* Navbar */
+.navbar_custom {
+  background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(213,52,100,1) 54%, rgba(129,62,151,1) 100%);
+}
+
+.navbar_text {
+  color: white;
+
+  &:hover {
+    color: pink;
+  }
+
+  &.current_link {
+    color: yellow;
+  }
+}
+
+/* Main Page */
+
+.button_custom {
+  background-color: #D53464;
+  border-color: white;
+  color: white;
+
+  &:hover {
+    background-color: #813E97;
+    border-color: white;
+    color: white;
+  }
+}
+
+.custom_card_img {
+  height: 80px;
+  transition: 0.4s;
+  margin: 1.5rem;
+}
+
+.card_custom {
+  background-color: white;
+  transition: 0.4s ease-in;
+  width: 18rem;
+  border: 2px solid rgba(129,62,151,0.3);
+
+  &:hover {
+    background-color: rgba(129,62,151,0.4);
+    .custom_card_img {
+      height: 96px;
+      transition: 0.4s;
+      margin: 1rem;
+    }
+  }
+}
+
+.run_tab_custom {
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(129,62,151,0.25) 85%);
+  border-color: transparent;
+  padding-left: 2rem;
+  margin: 0px;
+
+  &:hover {
+    background: linear-gradient(90deg, rgba(129,62,151,0.25) 0%, rgba(129,62,151,0.6) 85%);
+    font-size: larger;
+    font-weight: bolder;
+    color: white;
+    transition: 0.1s;
+  }
+}
+
+.tab_custom {
+  height: 8rem;
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border-color: transparent;
+  border-radius: 10px;
+  margin: 0rem;
+
+  &.active {
+    background-color: white;
+    border-color: transparent;
+    color: black;
+
+    &:hover {
+      background-color: white;
+    }
+  }
+
+  &:hover {
+    background-color: transparent;
+    border-color: transparent;
+    border-radius: 0px;
+    font-size: larger;
+    font-weight: bolder;
+    transition: 0.1s ease-in;
+  }
+}
+
+.tab_image_custom {
+  height: 3rem;
+  width: auto;
+}
+
+.tab_menu_custom {
+  background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(213,52,100,0.25) 85%);
+}
+
+
 /* Sidebar */
 
 /* The side navigation menu */

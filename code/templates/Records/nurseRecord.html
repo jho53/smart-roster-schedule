@@ -513,15 +513,15 @@
 
         if (edit_nurse_adv_role == 'None' || edit_nurse_adv_role == '') {
             document.getElementById("advanced_role_1_edit").checked = true;
-        } else if (edit_nurse_adv_role == "Charge") {
+        } else if (edit_nurse_adv_role == "Charge" || edit_nurse_adv_role == "L Charge") {
             document.getElementById("advanced_role_2_edit").checked = true;
-        } else if (edit_nurse_adv_role == "Support") {
+        } else if (edit_nurse_adv_role == "Support" || edit_nurse_adv_role == "L Support") {
             document.getElementById("advanced_role_3_edit").checked = true;
         } else if (edit_nurse_adv_role == "Code" || edit_nurse_adv_role == "L Code") {
             document.getElementById("advanced_role_4_edit").checked = true;
         }
 
-        if (edit_nurse_adv_role == "L Code") {
+        if (edit_nurse_adv_role == "L Code" || edit_nurse_adv_role == "L Charge" || edit_nurse_adv_role == "L Support") {
             document.getElementById("L_check_3").checked = true;
         } else {
             document.getElementById("L_check_3").checked = false;

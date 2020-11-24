@@ -139,13 +139,11 @@
                     <div class="form-row">
                         <div class="col-3">
                             <label for="create_patient_area">Clinical Area</label>
-                            <input id="create_patient_area" name="create_patient_area" type="text" class="form-control"
-                                placeholder="eg. A" required>
+                            <input id="create_patient_area" name="create_patient_area" type="text" class="form-control" placeholder="eg. A"  pattern="[A-Za-z]'' required>
                         </div>
                         <div class="col-3 offset-3">
                             <label for="create_patient_bed_number">Bed Number</label>
-                            <input id="create_patient_bed_number" name="create_patient_bed_number" type="text"
-                                class="form-control" placeholder="eg. 3" required>
+                            <input id="create_patient_bed_number" name="create_patient_bed_number" type="number" class="form-control" placeholder="eg. 3" required>
                         </div>
                     </div>
                     <div class="mt-3">
@@ -189,8 +187,7 @@
                     </div>
                     <div class="form-group">
                         <label for="create_patient_date_admitted">Date Admitted</label><br>
-                        <input type="date" id="create_patient_date_admitted" name="create_patient_date_admitted"
-                            style="border: 1px solid #ced4da;">
+                        <input type="date" id="create_patient_date_admitted" name="create_patient_date_admitted" style="border: 1px solid #ced4da;" required>
                     </div>
                     <div class="form-group">
                         <label for="create_patient_comments">Comments</label><br>
@@ -232,13 +229,11 @@
                     <div class="form-row">
                         <div class="col-3">
                             <label for="edit_patient_area">Clinical Area</label>
-                            <input id="edit_patient_area" name="edit_patient_area" type="text" class="form-control"
-                                placeholder="eg. A" required>
+                            <input id="edit_patient_area" name="edit_patient_area" type="text" class="form-control" placeholder="eg. A"  pattern="[A-Za-z]" required>
                         </div>
                         <div class="col-3 offset-3">
                             <label for="edit_patient_bed_number">Bed Number</label>
-                            <input id="edit_patient_bed_number" name="edit_patient_bed_number" type="text"
-                                class="form-control" placeholder="eg. 3" required>
+                            <input id="edit_patient_bed_number" name="edit_patient_bed_number" type="number" class="form-control" placeholder="eg. 3" required>
                         </div>
                     </div>
                     <div class="mt-3">
