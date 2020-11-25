@@ -24,7 +24,7 @@ def main_assign(cursor):
             eligible_max_nurses = calculate_weights(eligible_nurse_objects, clinical_area, picc, p, assignments, cursor)
             sorted_eligible_nurses = sort_eligible_nurse_objects_acuity(eligible_nurse_objects)
             assignments = assign(sorted_eligible_nurses, eligible_max_nurses, assignments, one_to_one, p, twin, twins)
-    algorithms_main(assignments, cursor)
+    assignments = algorithms_main(assignments, cursor)
 
     # Check if a patient is not set as assigned
     for p in patients:
@@ -223,7 +223,7 @@ def simulated_annealing(assignments_short, cursor, assignments):
     highest_weight = calculate_total_weight(assignments_short, cursor)
     num_iterations = 100
     start_temp = 10000
-    cooling_rate = 0.6
+    cooling_rate = 0.8
     for i in range(num_iterations):
         if start_temp > 0.1:
             rand_a = 0
@@ -241,21 +241,26 @@ def simulated_annealing(assignments_short, cursor, assignments):
                 previous_b = assignments_short[rand_b]
                 assignments_short2.update({rand_a: assignments_short[rand_b]})
                 assignments_short2.update({rand_b: previous_a})
-                if not check_hard_constraints(nurse_a, assignments_short[rand_b], cursor):
+                if not check_hard_constraints(nurse_a, assignments_short[rand_a], cursor):
                     assignments_short2.update({rand_a: previous_a})
                     assignments_short2.update({rand_b: previous_b})
                     valid = False
-                if not check_hard_constraints(nurse_b, assignments_short[rand_a], cursor):
-                    assignments_short2.update({rand_a: previous_a})
-                    assignments_short2.update({rand_b: previous_b})
-                    valid = False
+                if valid:
+                    if not check_hard_constraints(nurse_b, assignments_short[rand_b], cursor):
+                        assignments_short2.update({rand_a: previous_a})
+                        assignments_short2.update({rand_b: previous_b})
+                        valid = False
+                # print('previous a', previous_a)
+                # print('previous b', previous_b)
             current_weight = calculate_total_weight(assignments_short2, cursor)
             if current_weight > highest_weight:
                 highest_weight = current_weight
+                assignments_short = assignments_short2
             elif (math.exp(current_weight - highest_weight) / start_temp) < random.random():
                 assignments_short2.update({rand_a: previous_a})
                 assignments_short2.update({rand_b: previous_b})
-            assignments_short = assignments_short2
+            elif (math.exp(current_weight - highest_weight) / start_temp) > random.random():
+                assignments_short = assignments_short2
             start_temp *= cooling_rate
             print('----------')
             print(calculate_total_weight(assignments_short2, cursor))
@@ -430,8 +435,13 @@ def check_hard_constraints(nurse, patients, cursor):
         if type(patient) == int:
             patient = to_object_patient(patient, cursor)
         if (nurse.get_skill_level() >= patient.get_acuity()) and (nurse.get_a_trained() >= patient.get_a_trained()) and (nurse.get_transfer() >= patient.get_transfer()):
+            # print('nurse id:', nurse.get_id(), 'patient id:', patient.get_id())
+            # print(nurse.get_skill_level(), patient.get_acuity())
+            # print(nurse.get_a_trained(), patient.get_a_trained())
+            # print(nurse.get_transfer(), patient.get_transfer())
             continue
         else:
+            # print('false!')
             return False
     return True
 
