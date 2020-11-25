@@ -18,7 +18,6 @@ import shutil
 
 # test purpose
 import webbrowser
-import subprocess
 
 UPLOAD_FOLDER = '.\\static\\images'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
@@ -691,33 +690,86 @@ def current_CAASheet():
 @app.route("/futureCAASheet")
 def future_CAASheet():
     """ Displays the future clinical area page """
-    future_nurse_list = []
 
     if 'loggedin' in session:
+        # variables
+        future_nurse_list = []
+        future_json_list = []
+        future_states = []
+
         # Grab nurse and patient tables
         cursor.execute("SELECT * FROM nurses")
         future_nurse_list = cursor.fetchall()
 
+        # Create future_shift folder on first run
+        try:
+            os.makedirs("{0}/cache/future_shift".format(CURR_DIR))
+        except:
+            print("Required directories exist")
+
+        # If future_shift directory is empty
+        if len(os.listdir(f"{CURR_DIR}/cache/future_shift/")) == 0:
+            pass
+        # Else store arrays
+        else:
+            future_json_list = sorted(os.listdir(
+                f"{CURR_DIR}/cache/future_shift/"), reverse=True)
+            for file in future_json_list:
+                with open(f"{CURR_DIR}/cache/future_shift/{file}", "r") as jsonfile:
+                    temp_dict = json.load(jsonfile)
+                    future_states.append(temp_dict["shift-datetime"])
+
         return render_template("./Assignment Sheets/future_caaSheet.html",
                                loggedin=session['loggedin'],
+                               states=future_states,
                                futureList=future_nurse_list
                                )
     return redirect(url_for('login'))
 
 
-@app.route("/futureCAASheetState")
+@app.route("/futureCAASheetState", methods=["POST"])
 def future_CAASheet_state():
     """ Displays the future clinical area page """
     future_nurse_list = []
 
     if 'loggedin' in session:
+        # variables
+        future_nurse_list = []
+        future_json_list = []
+        future_states = []
+        state = None
+
+        # POST - position of load date json in file array
+        selected_date_pos = request.form['date-select']
+
         # Grab nurse and patient tables
         cursor.execute("SELECT * FROM nurses")
         future_nurse_list = cursor.fetchall()
 
-        return render_template("./Assignment Sheets/future_caaSheet.html",
+        # Grab jsons in dir and store states
+        future_json_list = sorted(os.listdir(
+            f"{CURR_DIR}/cache/future_shift/"), reverse=True)
+        for index, file in enumerate(future_json_list):
+            with open(f"{CURR_DIR}/cache/future_shift/{file}", "r") as jsonfile:
+                temp_dict = json.load(jsonfile)
+                future_states.append(temp_dict["shift-datetime"])
+            if index == int(selected_date_pos):
+                state = temp_dict
+
+        date_time_obj_formatted = state['shift-datetime']
+        date_time_obj = datetime.strptime(
+            date_time_obj_formatted, "%B %d, %Y - %I:%M:%S %p")
+
+        date = datetime.strftime(date_time_obj, "%Y-%m-%d")
+        time = datetime.strftime(date_time_obj, "%H:%M")
+
+        return render_template("./Assignment Sheets/future_caaSheetState.html",
+                               currState=state,
+                               states=future_states,
+                               date=date,
+                               time=time,
                                loggedin=session['loggedin'],
-                               futureList=future_nurse_list,
+                               futureList=future_nurse_list
                                )
     return redirect(url_for('login'))
 
@@ -774,7 +826,7 @@ def future_save():
                 # adv role states
                 if future_data[i][0] == "cn":
                     state_assignment["charge"].append(future_data[i][-1])
-                if future_data[i][0] == "support":
+                if future_data[i][0] == "sn":
                     state_assignment["support"].append(future_data[i][-1])
                 if future_data[i][0] == "code":
                     state_assignment["code"].append(future_data[i][-1])
@@ -789,12 +841,6 @@ def future_save():
                 if future_data[i][0] in AREA_LIST:
                     state_assignment['assignment'][future_data[i][0]].append(
                         future_data[i][-1])
-
-            # Create future_shift folder on first run
-            try:
-                os.makedirs("{0}/cache/future_shift".format(CURR_DIR))
-            except:
-                print("Required directories exist")
 
             # Overwrite if future shift json already exists
             if os.path.exists(f"{CURR_DIR}/cache/future_shift/{filename}.json"):

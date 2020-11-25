@@ -8,8 +8,8 @@
             <h1 class="jumbotron-title col">Future Shift Planning Page</h1>
         </div>
         <label for="future_datetime" class="pt-3"><strong>Set Shift Time</strong></label><br>
-        <input type="date" id="shiftDate" class="form-control-sm" value={{now.strftime("%Y-%m-%d")}}>
-        <input type="time" id="shiftTime" class="form-control-sm" value={{now.strftime("%H:%M")}}>
+        <input type="date" id="shiftDate" class="form-control-sm" value={{date}}>
+        <input type="time" id="shiftTime" class="form-control-sm" value={{time}}>
 
         <form id="save-future-form" action="/futureSave" method="POST">
             <a href="#" id="saveFutureSubmit" style="position: absolute; right: 110px; top: 30px;">
@@ -38,12 +38,11 @@
                     <small>Shift</small>
                 </label>
                 <select id="date-select" class="form-control form-control-sm col-10" name="date-select">
-                    {% for i, shift in enumerate(shifts) %}
-                    <option id="shift-{{i}}" value="{{i}}">{{shift}}</option>
+                    {% for i, state in enumerate(states) %}
+                    <option id="shift-{{i}}" value="{{i}}">{{state}}</option>
                     {% endfor %}
                 </select>
-                <button class="btn btn-sm btn-block btn_create_custom" id="date-change-btn" type="submit"
-                    disabled>View</button>
+                <button class="btn btn-sm btn-block btn_create_custom" id="date-change-btn" type="submit">Load</button>
             </form>
         </div>
         <br><br>
@@ -62,6 +61,13 @@
                 <div class="row justify-content-center mb-2">
                     <select class="col-8 form-control form-control-sm rounded text-center" id="CN{{i}}" type="text"
                         value="" onchange="updateCNDetails()">
+                        {% if currState['charge'][i] %}
+                        {% for nurse in futureList if nurse[0] == currState['charge'][i]|int %}
+                        <option id='cn-assign-{{nurse[0]}}' value="{{nurse[0]}}" data-skill="{{nurse[7]}}" selected>
+                            {{nurse[1]}}
+                        </option>
+                        {% endfor %}
+                        {% endif %}
                         <option id="blank-cn"></option>
                         {% for index, nurse in enumerate(futureList) %}
                         {% if nurse[11] == "Charge" %}
@@ -76,8 +82,16 @@
                         {% endif %}
                         {% endfor %}
                     </select>
+
+                    {% if currState['charge'][i] %}
+                    {% for nurse in futureList if nurse[0] == currState['charge'][i]|int %}
+                    <input class="col-2 offset-1 form-control form-control-sm rounded text-center" type="text"
+                        id="CN_skill{{i}}" value="{{nurse[7]}}" disabled>
+                    {% endfor %}
+                    {% else %}
                     <input class="col-2 offset-1 form-control form-control-sm rounded text-center" type="text"
                         id="CN_skill{{i}}" value="" disabled>
+                    {% endif %}
                 </div>
                 {% endfor %}
             </div>
@@ -98,6 +112,13 @@
                 <div class="row justify-content-center mb-2">
                     <select class="col-6 form-control form-control-sm rounded text-center" type="text" value=""
                         id="SN{{i}}" onchange="updateSNDetails()">
+                        {% if currState['support'][i] %}
+                        {% for nurse in futureList if nurse[0] == currState['support'][i]|int %}
+                        <option id='sn-assign-{{nurse[0]}}' value="{{nurse[0]}}" data-skill="{{nurse[7]}}" selected>
+                            {{nurse[1]}}
+                        </option>
+                        {% endfor %}
+                        {% endif %}
                         <option id="blank-sn"></option>
                         {% for index, nurse in enumerate(futureList) %}
                         {% if nurse[11] == "Support" %}
@@ -111,10 +132,21 @@
                         {% endif %}
                         {% endfor %}
                     </select>
+
+                    {% if currState['support'][i] %}
+                    {% for nurse in futureList if nurse[0] == currState['support'][i]|int %}
+                    <input class="col-2 offset-1 form-control form-control-sm rounded text-center" type="text"
+                        id="SN_area{{i}}" value="{{nurse[2]}}" disabled>
+                    <input class="col-2 form-control form-control-sm rounded text-center" type="text"
+                        id="SN_rotation{{i}}" value="{{nurse[4]}}" disabled>
+                    {% endfor %}
+                    {% else %}
                     <input class="col-2 offset-1 form-control form-control-sm rounded text-center" type="text"
                         id="SN_area{{i}}" value="" disabled>
                     <input class="col-2 form-control form-control-sm rounded text-center" type="text"
                         id="SN_rotation{{i}}" value="" disabled>
+                    {% endif %}
+
                 </div>
                 {% endfor %}
             </div>
@@ -126,6 +158,13 @@
                         <h6>Code RN</h6>
                     </div>
                     <select class="col-6 form-control form-control-sm rounded text-center" type="text" value="">
+                        {% if currState['code'][0] %}
+                        {% for nurse in futureList if nurse[0] == currState['code'][0]|int %}
+                        <option id='code-assign-{{nurse[0]}}' value="{{nurse[0]}}" selected>
+                            {{nurse[1]}}
+                        </option>
+                        {% endfor %}
+                        {% endif %}
                         <option id="blank-code" value=""></option>
                         {% for index, nurse in enumerate(futureList) %}
                         {% if nurse[11] == "Code" %}
@@ -143,8 +182,12 @@
                     style="background-color: lightgray; padding: 10px 30px; width: 100px">
                     <div class="row col-12">
                         <h6 class="mt-1 col-4">Fixed</h6>
-                        <select class="col-4 ml-2 mb-2 form-control form-control-sm rounded text-center" type="text"
-                            value="">
+                        <select class="col-4 ml-2 mb-2 form-control form-control-sm rounded text-center" type="text">
+                            {% if currState['fixed'] %}
+                            <option id="fixed-{{currState['fixed']}}" value="{{currState['fixed']}}">
+                                {{currState['fixed']}}
+                            </option>
+                            {% endif %}
                             <option id="fixed-blank" value=""></option>
                             {% for i, x in enumerate(range(8)) %}
                             <option id='fixed-{{i+1}}' value="{{i+1}}">{{i+1}}</option>
@@ -153,8 +196,12 @@
                     </div>
                     <div class="row col-12">
                         <h6 class="mt-1 col-4">Flex</h6>
-                        <select class="col-4 ml-2 mb-2 form-control form-control-sm rounded text-center" type="text"
-                            value="">
+                        <select class="col-4 ml-2 mb-2 form-control form-control-sm rounded text-center" type="text">
+                            {% if currState['flex'] %}
+                            <option id="fixed-{{currState['flex']}}" value="{{currState['flex']}}">
+                                {{currState['flex']}}
+                            </option>
+                            {% endif %}
                             <option id="flex-blank" value=""></option>
                             {% for i, x in enumerate(range(8)) %}
                             <option id='flex-{{i+1}}' value="{{i+1}}">{{i+1}}</option>
@@ -197,13 +244,21 @@
                             <small class="mt-1"><b>Shift</b></small>
                         </div>
                         <div class="col-1">
-
                         </div>
                     </div>
                     {% for i in range(7) %}
+                    {% set row_col_num = (7*j + i) %}
                     <div class="row justify-content-center mb-2">
                         <select class="col-7 form-control form-control-sm rounded text-center mx-1" type="text" value=""
                             id="Nurse{{k}}{{j}}{{i}}" onchange="updateNurseDetails()">
+                            {% if currState['assignment'][areas[area_iter.value]][row_col_num] %}
+                            {% set currentId = currState['assignment'][areas[area_iter.value]][row_col_num] %}
+                            {% for nurse in futureList if nurse[0] == currentId|int %}
+                            <option id='{{areas[area_iter.value]}}-{{nurse[0]}}' value="{{nurse[0]}}">
+                                {{nurse[1]}}
+                            </option>
+                            {% endfor %}
+                            {% endif %}
                             <option id="blank-nurse-{{i+1}}" value=""></option>
                             {% for index, nurse in enumerate(futureList) %}
                             <option id='{{areas[area_iter.value]}}-{{nurse[0]}}' value="{{nurse[0]}}"
@@ -212,6 +267,20 @@
                             </option>
                             {% endfor %}
                         </select>
+
+                        {% if currentId %}
+                        {% for nurse in futureList if nurse[0] == currentId|int %}
+                        <input class="col-1 form-control form-control-sm rounded text-center mx-1" type="text"
+                            id="Nurse_skill{{k}}{{j}}{{i}}" value="{{nurse[7]}}" disabled>
+                        <input class="col-1 form-control form-control-sm rounded text-center mx-1" type="text"
+                            id="Nurse_group{{k}}{{j}}{{i}}" value="{{nurse[5]}}" disabled>
+                        <input class="col-1 form-control form-control-sm rounded text-center mx-1" type="text"
+                            id="Nurse_rotation{{k}}{{j}}{{i}}" value="{{nurse[4]}}" disabled>
+                        <button class="col-1 btn form-control-sm btn-warning mx-1 invisible" data-toggle="modal"
+                            data-target="#flagModal">
+                            <i class="fas fa-exclamation-circle"></i></button>
+                        {% endfor %}
+                        {% else %}
                         <input class="col-1 form-control form-control-sm rounded text-center mx-1" type="text"
                             id="Nurse_skill{{k}}{{j}}{{i}}" value="" disabled>
                         <input class="col-1 form-control form-control-sm rounded text-center mx-1" type="text"
@@ -221,6 +290,10 @@
                         <button class="col-1 btn form-control-sm btn-warning mx-1 invisible" data-toggle="modal"
                             data-target="#flagModal">
                             <i class="fas fa-exclamation-circle"></i></button>
+                        {% endif %}
+
+                        {% set currentId=null %}
+
                     </div>
                     {% endfor %}
                 </div>

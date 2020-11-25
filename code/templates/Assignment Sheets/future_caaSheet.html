@@ -38,12 +38,11 @@
                     <small>Shift</small>
                 </label>
                 <select id="date-select" class="form-control form-control-sm col-10" name="date-select">
-                    {% for i, shift in enumerate(shifts) %}
-                    <option id="shift-{{i}}" value="{{i}}">{{shift}}</option>
+                    {% for i, state in enumerate(states) %}
+                    <option id="shift-{{i}}" value="{{i}}">{{state}}</option>
                     {% endfor %}
                 </select>
-                <button class="btn btn-sm btn-block btn_create_custom" id="date-change-btn" type="submit"
-                    disabled>View</button>
+                <button class="btn btn-sm btn-block btn_create_custom" id="date-change-btn" type="submit">Load</button>
             </form>
         </div>
         <br><br>
@@ -167,6 +166,8 @@
     </div>
     <br>
 </div>
+
+{{states}}
 
 {% set areas=["A", "B", "C", "D", "E", "F"] %}
 {% set area_iter = namespace(value=0) %}
