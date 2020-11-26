@@ -273,6 +273,46 @@ def logout():
     return redirect(url_for('login'))
 
 
+# Reference modal
+
+@app.context_processor
+def inject_reference():
+
+    cursor.execute("SELECT * FROM reference_page")
+    reference = cursor.fetchall()
+    print(reference)
+    return dict(get_reference_data=reference)
+
+@app.route("/editReference", methods=["POST"])
+def edit_reference():
+
+    clinical_area = request.form['clinical_area']
+    rotation = request.form['rotation']
+    group_def = request.form['group']
+    fte = request.form['fte']
+    skill_level = request.form['skill_level']
+    a_trained = request.form['a_trained']
+    transfer = request.form['transfer']
+    iv_trained = request.form['iv_trained']
+    dta = request.form['dta']
+    advanced_role = request.form['advanced_role']   
+
+    query = "UPDATE smartroster.reference_page SET clinical_area = %s, rotation = %s, group_def = %s, fte = %s, skill_level = %s, " \
+            " a_trained = %s, transfer = %s, iv_trained = %s, dta = %s, advanced_role = %s WHERE id = 1"
+
+    arguments = (clinical_area, rotation, group_def, fte,
+                 skill_level, a_trained, transfer, iv_trained, dta, advanced_role)
+    
+    try:
+        cursor.execute(query, arguments)
+        db.commit()
+    except Exception as error:
+        return str(error)
+    return redirect(url_for('settings'))
+
+
+
+
 # Records
 
 

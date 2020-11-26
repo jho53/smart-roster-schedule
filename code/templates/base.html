@@ -108,13 +108,68 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <p>Modal body text goes here.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
+                <form action="/editReference" method="post">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="clinical_area">Clinical Area</label><br>
+                            <textarea id="clinical_area" name="clinical_area" rows="2" class="text_area"
+                                placeholder="Eg. Clinical area definition" disabled>{{ get_reference_data[0][1] }}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="rotation">Rotation</label><br>
+                            <textarea id="rotation" name="rotation" rows="2" class="text_area"
+                                placeholder="Eg. Rotation definition" disabled>{{ get_reference_data[0][2] }}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="group">Group</label><br>
+                            <textarea id="group" name="group" rows="2" class="text_area"
+                                placeholder="Eg. Group definition" disabled>{{ get_reference_data[0][3] }}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="fte">FTE:</label><br>
+                            <textarea id="fte" name="fte" rows="2" class="text_area"
+                                placeholder="Eg. FTE definition" disabled>{{ get_reference_data[0][4] }}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="skill_level">Skill level</label><br>
+                            <textarea id="skill_level" name="skill_level" rows="2" class="text_area"
+                                placeholder="Eg. Skill level definition" disabled>{{ get_reference_data[0][5] }}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="a_trained">A trained:</label><br>
+                            <textarea id="a_trained" name="a_trained" rows="2" class="text_area"
+                                placeholder="Eg. A trained definition" disabled>{{ get_reference_data[0][6] }}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="transfer">Transfer</label><br>
+                            <textarea id="transfer" name="transfer" rows="2" class="text_area"
+                                placeholder="Eg. transfer definition" disabled>{{ get_reference_data[0][7] }}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="iv_trained">IV trained:</label><br>
+                            <textarea id="iv_trained" name="iv_trained" rows="2" class="text_area"
+                                placeholder="Eg. IV trained definition" disabled>{{ get_reference_data[0][8] }}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="dta">DTA</label><br>
+                            <textarea id="dta" name="dta" rows="2" class="text_area"
+                                placeholder="Eg. DTA definition" disabled>{{ get_reference_data[0][9] }}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="advanced_role">Advanced role</label><br>
+                            <textarea id="advanced_role" name="advanced_role" rows="2" class="text_area"
+                                placeholder="Eg. Advanced role definition" disabled>{{ get_reference_data[0][10] }}</textarea>
+                        </div>
+                        <p>Color coding for nurse assignments:</p>
+                        <p>Green = Charge Nurses</p>
+                        <p>Yellow = Support Nurses</p>
+                        <p>Red = Code Nurses</p>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
