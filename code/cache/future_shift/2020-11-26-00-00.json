@@ -1,0 +1,35 @@
+{
+    "charge": [
+        "2",
+        "4",
+        "5"
+    ],
+    "support": [],
+    "code": [
+        "12"
+    ],
+    "assignment": {
+        "A": [
+            "2",
+            "9"
+        ],
+        "B": [
+            "5"
+        ],
+        "C": [
+            "31"
+        ],
+        "D": [
+            "20"
+        ],
+        "E": [
+            "21"
+        ],
+        "F": []
+    },
+    "timestamp": "November 24, 2020 - 11:49:30 AM",
+    "shift-datetime": "November 26, 2020 - 12:00:00 AM",
+    "author": "Jimmy Ho",
+    "fixed": "4",
+    "flex": "2"
+}
