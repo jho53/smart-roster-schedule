@@ -3,16 +3,17 @@
 {% block content %}
 
 <div class="p-5 h-100 w-100 d-inline-block mh-100"
-  style="height:100vh !important; background-image: url('/images/login-side.jpg');">
+  style="height:100vh !important; background-image: url('/images/login-side-gray.jpg');">
   <div class="container-fluid h-100">
     <div class="row h-100 shadow-lg">
       <div class="col-7 h-100 d-inline-block"
-        style="background-image: url('/images/login-side.jpg'); background-size: cover; opacity:0.7; background-color: #f5f5f5;">
+        style="background-image: url('/images/login-side-gray.jpg'); background-size: cover; opacity:0.7; background-color: #f5f5f5;">
       </div>
       <div class="col-5 h-100 p-5" style="background-color: rgb(245,245,245);">
         <div class="form-group h-100 m-auto p-5" style="width: 80%; height: 40%">
-          <img src="/images/SmartRosterLogoHighRes.png" width="150px" class="d-block mx-auto"
+          <img src="/images/SmartRosterLogoHighRes.png" width="150px" class="d-block mx-auto mb-4"
             style="position: relative; margin: 15%">
+          <h1 class="text-center my-5">Smart Roster</h1>
           <form action="/loginUser" method="post">
             <input id="username" class="form-control mb-5" name="username" required="" size="32" type="text" value=""
               placeholder="Username...">

@@ -18,8 +18,8 @@ table {
 
 .form-control:focus {
   outline: none !important;
-  border:1px solid #813E97;
-  box-shadow: 0 0 10px #813E97;
+  border: 1px solid #813e97;
+  box-shadow: 0 0 10px #813e97;
 }
 
 // div {
@@ -89,7 +89,6 @@ table {
 
   &:hover {
     color: #D53464;
-    font-weight: bolder;
   }
 
   &.current_link {
@@ -100,14 +99,14 @@ table {
 /* Main Page */
 
 .button_custom {
-  background-color: #D53464;
+  background-color: #d53464;
   border-color: white;
   color: white;
 
   &:hover {
     color: white;
     border-color: white;
-    background-color: #D53464;
+    background-color: #d53464;
   }
 }
 
@@ -121,15 +120,19 @@ table {
   background-color: transparent;
   transition: 0.3s ease-in;
   width: 18rem;
-  border: 2px solid rgba(213,52,100,1);
+  border: 2px solid rgba(213, 52, 100, 1);
   color: black;
   box-shadow: 2px 3px 10px lightgray;
 
   &:hover {
-    background: linear-gradient(180deg, rgb(189, 138, 206) 0%, rgba(129,62,151,1) 50%);
+    background: linear-gradient(
+      180deg,
+      rgb(189, 138, 206) 0%,
+      rgba(129, 62, 151, 1) 50%
+    );
     transition: 0.3s;
     color: white;
-    border: 2px solid rgba(129,62,151,0.3);
+    border: 2px solid rgba(129, 62, 151, 0.3);
 
     .custom_card_img {
       height: 96px;
@@ -143,14 +146,22 @@ table {
   height: 4rem;
   display: flex;
   align-items: center;
-  background: linear-gradient(90deg, rgba(213,52,100,1) 0%, rgba(129,62,151,1) 80%);
-  border: 2px solid #D53464;
+  background: linear-gradient(
+    90deg,
+    rgba(213, 52, 100, 1) 0%,
+    rgba(129, 62, 151, 1) 80%
+  );
+  border: 2px solid #d53464;
   color: white;
   font-weight: bold;
   width: 90%;
 
   &:hover {
-    background: linear-gradient(90deg, rgba(213,52,100,1) 0%, rgba(129,62,151,1) 80%);
+    background: linear-gradient(
+      90deg,
+      rgba(213, 52, 100, 1) 0%,
+      rgba(129, 62, 151, 1) 80%
+    );
     color: white;
     transition: 0.1s ease-in;
   }
@@ -166,13 +177,21 @@ table {
   color: black;
 
   &.active {
-    background: linear-gradient(90deg, rgba(129,62,151,1) 0%, rgb(189, 138, 206) 80%);
+    background: linear-gradient(
+      90deg,
+      rgba(129, 62, 151, 1) 0%,
+      rgb(189, 138, 206) 80%
+    );
     border-color: transparent;
     font-weight: bolder;
     color: white;
 
     &:hover {
-      background: linear-gradient(90deg, rgba(129,62,151,1) 0%, rgb(189, 138, 206) 80%);
+      background: linear-gradient(
+        90deg,
+        rgba(129, 62, 151, 1) 0%,
+        rgb(189, 138, 206) 80%
+      );
       border-color: transparent;
       font-weight: bolder;
       color: white;
@@ -202,124 +221,14 @@ table {
 
 .btn-outline-custom {
   background-color: transparent;
-  border: 2px solid #D53464;
-  color: #D53464;
+  border: 2px solid #d53464;
+  color: #d53464;
 
   &:hover {
-    background-color: #D53464;
+    background-color: #d53464;
     color: white;
   }
 }
-
-/* Navbar */
-.navbar_custom {
-  background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(213,52,100,1) 54%, rgba(129,62,151,1) 100%);
-}
-
-.navbar_text {
-  color: white;
-
-  &:hover {
-    color: pink;
-  }
-
-  &.current_link {
-    color: yellow;
-  }
-}
-
-/* Main Page */
-
-.button_custom {
-  background-color: #D53464;
-  border-color: white;
-  color: white;
-
-  &:hover {
-    background-color: #813E97;
-    border-color: white;
-    color: white;
-  }
-}
-
-.custom_card_img {
-  height: 80px;
-  transition: 0.4s;
-  margin: 1.5rem;
-}
-
-.card_custom {
-  background-color: white;
-  transition: 0.4s ease-in;
-  width: 18rem;
-  border: 2px solid rgba(129,62,151,0.3);
-
-  &:hover {
-    background-color: rgba(129,62,151,0.4);
-    .custom_card_img {
-      height: 96px;
-      transition: 0.4s;
-      margin: 1rem;
-    }
-  }
-}
-
-.run_tab_custom {
-  height: 5rem;
-  display: flex;
-  align-items: center;
-  background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(129,62,151,0.25) 85%);
-  border-color: transparent;
-  padding-left: 2rem;
-  margin: 0px;
-
-  &:hover {
-    background: linear-gradient(90deg, rgba(129,62,151,0.25) 0%, rgba(129,62,151,0.6) 85%);
-    font-size: larger;
-    font-weight: bolder;
-    color: white;
-    transition: 0.1s;
-  }
-}
-
-.tab_custom {
-  height: 8rem;
-  display: flex;
-  align-items: center;
-  background-color: transparent;
-  border-color: transparent;
-  border-radius: 10px;
-  margin: 0rem;
-
-  &.active {
-    background-color: white;
-    border-color: transparent;
-    color: black;
-
-    &:hover {
-      background-color: white;
-    }
-  }
-
-  &:hover {
-    background-color: transparent;
-    border-color: transparent;
-    border-radius: 0px;
-    font-size: larger;
-    font-weight: bolder;
-    transition: 0.1s ease-in;
-  }
-}
-
-.tab_image_custom {
-  height: 3rem;
-  width: auto;
-}
-
-.tab_menu_custom {
-  background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(213,52,100,0.25) 85%);
-}
-
 
 /* Sidebar */
 
@@ -349,7 +258,7 @@ table {
 
 /* Sidebar link hover */
 .sidebar a:hover {
-  color: #D53464;
+  color: #d53464;
 }
 
 /* Sidebar close button */
@@ -408,7 +317,7 @@ table {
 }
 
 .quick-links a:hover {
-  color:  #D53464;
+  color: #d53464;
 }
 
 .quick-links-content {
@@ -442,7 +351,7 @@ table {
 /* Records Pages */
 
 .jumbotron {
-  background-color: white; 
+  background-color: white;
 }
 
 .jumbotron-content {
@@ -452,7 +361,7 @@ table {
 }
 
 .btn_create_custom {
-  background-color: #D53464;
+  background-color: #d53464;
   color: white;
   margin: 0px 5px;
 
@@ -463,7 +372,7 @@ table {
 }
 
 .btn_edit_custom {
-  background-color: #D53464;
+  background-color: #d53464;
   color: white;
   margin: 0px 2px;
 }
@@ -509,7 +418,7 @@ input[type="checkbox"] {
 }
 
 input[type="radio"]:checked + label {
-  outline: 3px solid #813E97;
+  outline: 3px solid #813e97;
   outline-offset: -2px;
   box-sizing: border-box;
   border-radius: 10px;
@@ -570,7 +479,7 @@ input[type="checkbox"]:checked + label,
 input[type="radio"]:checked + label {
   &:after {
     right: 0px;
-    background: #813E97;
+    background: #813e97;
   }
 }
 
@@ -587,12 +496,20 @@ input[type="radio"]:checked + label {
 }
 
 .pod-norm {
-  background: linear-gradient(90deg, rgb(66, 0, 88) 0%, rgba(129,62,151,1) 50%);
+  background: linear-gradient(
+    90deg,
+    rgb(66, 0, 88) 0%,
+    rgba(129, 62, 151, 1) 50%
+  );
   color: white;
 }
 
 .pod-spec {
-  background: linear-gradient(90deg, rgb(160, 14, 57) 0%, rgba(213,52,100,1) 50%);
+  background: linear-gradient(
+    90deg,
+    rgb(160, 14, 57) 0%,
+    rgba(213, 52, 100, 1) 50%
+  );
   color: white;
 }
 
@@ -641,7 +558,7 @@ input[type="radio"]:checked + label {
 }
 
 .profile_link {
-  color: #813E97;
+  color: #813e97;
 
   &:hover {
     color: #af1946;
