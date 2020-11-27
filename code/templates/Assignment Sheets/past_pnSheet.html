@@ -11,8 +11,8 @@
     </div>
     <small>Shift: {{latestState['shift-datetime']}}</small> <br>
     <small>Last Updated: {{latestState['timestamp']}} by {{latestState['author']}}</small><br>
-    <div class="text-left" style="position: absolute; top: 1%; left: 5%">
-      <form class="form form-group" action="/pastPNSheetState" method="POST">
+    <div class="text-left">
+      <form class="form form-group col-2 offset-5 mt-4" action="/pastPNSheetState" method="POST">
         <label for="date-select">
           <small>Shift</small>
         </label>
@@ -31,7 +31,7 @@
           {% endfor %}
           {% endfor %}
         </select>
-        <button class="btn btn-sm btn-block btn_create_custom" id="date-change-btn" type="submit" disabled>View</button>
+        <button class="btn btn-block btn_create_custom mt-4 col-6" id="date-change-btn" type="submit" disabled>View</button>
       </form>
     </div>
     <br><br>
@@ -96,17 +96,29 @@
   </div>
 </div>
 
-{% if latestState['l_charge'][0] %}
-<p>L Charge: {{nurseList[latestState['l_charge'][0]|int][1]}}</p>
-{% endif %}
+<div class="row L_block_custom">
 
-{% if latestState['l_support'][0] %}
-<p>L Support: {{nurseList[latestState['l_support'][0]|int][1]}}</p>
-{% endif %}
+  <div class="col-3">
+    {% if latestState['l_charge'][0] %}
+    <h5>L Charge</h5> 
+    <p class="L_block_item">{{nurseList[latestState['l_charge'][0]|int][1]}}</p>
+    {% endif %}
+  </div>
 
-{% if latestState['l_code'][0] %}
-<p>L Code: {{nurseList[latestState['l_code'][0]|int][1]}}</p>
-{% endif %}
+  <div class="col-3">
+    {% if latestState['l_support'][0] %}
+    <h5>Support</h5>
+    <p class="L_block_item">{{nurseList[latestState['l_support'][0]|int][1]}}</p>
+    {% endif %}
+  </div>
+
+  <div class="col-3">
+    {% if latestState['l_code'][0] %}
+    <h5>L Code</h5>
+    <p class="L_block_item">{{nurseList[latestState['l_code'][0]|int][1]}}</p>
+    {% endif %}
+  </div>
+</div>
 
 {% set areas=["A", "B", "C", "D", "E", "F"] %}
 {% set area_iter = namespace(value=0) %}

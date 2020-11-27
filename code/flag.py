@@ -72,6 +72,12 @@ for n in patient[9].strip('][').split(', '):
         if nurse[0] != n:
             flags['previous_patient'] = 1
 
+# Flag priority
+for n in patient[9].strip('][').split(', '):
+    if n in list(nurse_list):
+        if nurse[15] == 0:
+            flags['priority'] = 1
+
 # Get DTA
 flags['dta'] = nurse[13]
 

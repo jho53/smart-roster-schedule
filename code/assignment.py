@@ -124,7 +124,7 @@ def calculate_weights(eligible_nurse_objects, clinical_area, picc, p, assignment
             nurse_weights[eno_id] += 2
 
         # if nurse matches picc, give nurse 3 points
-        if eno_picc == picc:
+        if eno_picc > picc:
             nurse_weights[eno_id] += 2
 
         # if nurse matches priority, give nurse points
