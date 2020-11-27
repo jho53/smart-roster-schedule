@@ -1,0 +1,30 @@
+Group 4,Area,Rotation,FTE,A trained,Skill,Transfer,Adv Role,Restrictions,IV,Fixed Requests,Flexible Requests
+RN77,F,AB02,1,,3,,,,,Area A,
+RN78,E,B01,1,Yes,5,,Supoort,,,,
+RN79,D,B05,1,,5,,,,,,
+RN80,D,B03,1,Yes,5,,,,L,,
+RN81,D,A05,0.51,Yes,5,,,,,,
+RN82,D,B06,1,,5,Yes,L Code,,,,Support/L Code
+RN83,F,B05,1,,3,,,,,3,
+RN84,F,A01,0.51,Yes,5,,,,,,
+RN85,F,AB04,1,,3,,,,,,
+RN86,E,B04,1,Yes,5,,,,,,
+RN87,C,B06,1,,5,,Code,Yes,Yes,,Support
+RN88,A,M04,1,Yes,,,,,,,
+RN89,C,AB01,1,,3,,,,,Area B,
+RN90,C,A05,1,Yes,4,Yes,,,,4,
+RN91,C,B02,1,Yes,5,,L Charge,,,Code PRN,Code
+RN92,E,B03,1,,4,,,,,Busy 4,
+RN93,D,A06,1,,3,,,,,,
+RN94,D,B02,1,,3,,,,,3,
+RN95,C,B01,0.51,Yes,5,Yes,Charge,,,,
+RN96,E,B05,1,Yes,4,,,,,,
+RN97,E,A03,0.51,Yes,4,,,,,,
+RN98,E,B04,1,,4,,,,,4,
+RN99,E,B04,1,,4,,,,,4,
+RN100,B,M04,0.51,,5,,,,,,
+RN101,F,B04,1,Yes,5,,Charge,Yes,,,
+RN102,C,B03,0.51,Yes,5,,Charge,,Yes,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+Constraints,Soft,Soft,N/A,Hard,Hard,Hard,Hard,Soft w/Alert,Soft,Soft,Soft

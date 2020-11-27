@@ -1,0 +1,32 @@
+Group 7,Area,Rotation,FTE,A trained,Skill,Transfer,Adv Role,Restrictions,IV,Fixed Requests,Flexible Requests
+RN157,F,B03,.78,Yes,5,,,,,,
+RN158,F,B05,.52,Yes,5,,,,,,
+RN159,F,B03,1,Yes,5,,Charge,,Yes,Support,
+RN160,E,A05,1,Yes,4,,,,,,
+RN161,C,B01,1,Yes,5,Yes,,Yes,,,
+RN162,BB,M01,1,Yes,5,,,,,,
+RN163,F,B02,1,Yes,5,,Support,,,Support,
+RN164,E,A01,0.52,Yes,4,Yes,,,,No Area B,No Area B
+RN165,D,B04,.52,,4,,,,,,
+RN166,F,B03,.78,Yes,5,,L Charge,,,Code,
+RN167,D,AB05,1,,3,,,,,,3
+RN168,F,B02,.52,Yes,5,,Support,,,,
+RN169,E,AB01,1,,3,,,,,,
+RN170,D,B06,1,Yes,4,,L Code,,,Support/L Code,
+RN171,E,B05,1,Yes,5,,L Code,,,,
+RN172,C,B02,1,Yes,5,,Charge,,Yes,,
+RN173,E,A03,1,Yes,5,,,,,,
+RN174,E,AB02,1,,3,,,,,,
+RN175,D,B05,1,Yes,5,Yes,Charge,,Yes,Charge,
+RN176,F,A04,1,Yes,4,,,Yes,,,5
+RN177,C,B01,.78,Yes,5,,Charge,,,No Charge,No Charge
+RN178,D,B06,1,,4,Yes,,,,,5
+RN179,C,AB06,1,,3,,,,,,3
+RN180,C,B01,1,,4,,,,,,
+RN181,D,B06,1,Yes,5,,,,,,
+RN182,C,B03,1,,4,,,,,,4
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+Constraints,Soft,Soft,N/A,Hard,Hard,Hard,Hard,Soft w/Alert,Soft,Soft,Soft
