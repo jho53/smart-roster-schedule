@@ -2,8 +2,12 @@ from nurse import Nurse
 from patient import Patient
 import random
 import math
+import numpy
+# from solution import solution
+import time
 
 HIGH_WEIGHT = 0
+
 
 def main_assign(cursor):
     assignments = {}
@@ -14,7 +18,6 @@ def main_assign(cursor):
 
     nurses = []
     nurses, assignments = grab_nurses(nurses, assignments, cursor)
-
 
     for p in patients:
         if p.get_assigned() == 0:
@@ -35,7 +38,8 @@ def main_assign(cursor):
 
 
 def grab_patients(patients, cursor, twins):
-    cursor.execute('SELECT * FROM patients WHERE discharged_date="-" ORDER BY length(previous_nurses) DESC, one_to_one DESC, twin DESC, acuity DESC, a_trained DESC, transfer DESC, iv DESC;')
+    cursor.execute(
+        'SELECT * FROM patients WHERE discharged_date="-" ORDER BY length(previous_nurses) DESC, one_to_one DESC, twin DESC, acuity DESC, a_trained DESC, transfer DESC, iv DESC;')
     patient_list = cursor.fetchall()
 
     for row in patient_list:
@@ -202,6 +206,7 @@ def assign(sorted_eligible_nurses, eligible_max_nurses, assignments, one_to_one,
             p.set_assigned(1)
             return assignments
 
+
 #####################################################################################
 
 def algorithms_main(assignments, cursor):
@@ -212,65 +217,190 @@ def algorithms_main(assignments, cursor):
         assignments_short[i] = assignments[i]['patients']
         assignments_og[i] = assignments[i]['patients']
     assignments = simulated_annealing(assignments_short, cursor, assignments_og)
+    # gwo(assignments_short, cursor, assignments_og)
     for i in assignments:
-        assignments2[i] = {'num_patients':0, 'patients': []}
+        assignments2[i] = {'num_patients': 0, 'patients': []}
         assignments2[i]['num_patients'] = 0
         assignments2[i]['patients'] = assignments[i]
     return assignments2
+    # return assignments
+
 
 def simulated_annealing(assignments_short, cursor, assignments):
     assignments_short2 = assignments_short
     highest_weight = calculate_total_weight(assignments_short, cursor)
-    num_iterations = 100
-    start_temp = 10000
-    cooling_rate = 0.8
-    for i in range(num_iterations):
-        if start_temp > 0.1:
-            rand_a = 0
-            rand_b = 0
-            previous_a = 0
-            previous_b = 0
-            valid = False
-            while not valid:
-                valid = True
-                rand_a = random.randint(1, len(assignments_short))
-                rand_b = random.randint(1, len(assignments_short))
-                nurse_a = to_object_nurse(rand_a, cursor)
-                nurse_b = to_object_nurse(rand_b, cursor)
-                previous_a = assignments_short[rand_a]
-                previous_b = assignments_short[rand_b]
-                assignments_short2.update({rand_a: assignments_short[rand_b]})
-                assignments_short2.update({rand_b: previous_a})
-                if not check_hard_constraints(nurse_a, assignments_short[rand_a], cursor):
+    # num_iterations = 150
+    start_temp = 20000
+    cooling_rate = 0.99
+    best_assignment = 0
+    counter = 0
+    # for i in range(num_iterations):
+    while start_temp > 0.1:
+        rand_a = 0
+        rand_b = 0
+        previous_a = 0
+        previous_b = 0
+        valid = False
+        while not valid:
+            valid = True
+            rand_a = random.randint(1, len(assignments_short))
+            rand_b = random.randint(1, len(assignments_short))
+            nurse_a = to_object_nurse(rand_a, cursor)
+            nurse_b = to_object_nurse(rand_b, cursor)
+            previous_a = assignments_short[rand_a]
+            previous_b = assignments_short[rand_b]
+            assignments_short2.update({rand_a: assignments_short[rand_b]})
+            assignments_short2.update({rand_b: previous_a})
+            if not check_hard_constraints(nurse_a, assignments_short[rand_a], cursor):
+                assignments_short2.update({rand_a: previous_a})
+                assignments_short2.update({rand_b: previous_b})
+                valid = False
+            if valid:
+                if not check_hard_constraints(nurse_b, assignments_short[rand_b], cursor):
                     assignments_short2.update({rand_a: previous_a})
                     assignments_short2.update({rand_b: previous_b})
                     valid = False
-                if valid:
-                    if not check_hard_constraints(nurse_b, assignments_short[rand_b], cursor):
-                        assignments_short2.update({rand_a: previous_a})
-                        assignments_short2.update({rand_b: previous_b})
-                        valid = False
-                # print('previous a', previous_a)
-                # print('previous b', previous_b)
-            current_weight = calculate_total_weight(assignments_short2, cursor)
-            if current_weight > highest_weight:
-                highest_weight = current_weight
-                assignments_short = assignments_short2
-            elif (math.exp(current_weight - highest_weight) / start_temp) < random.random():
-                assignments_short2.update({rand_a: previous_a})
-                assignments_short2.update({rand_b: previous_b})
-            elif (math.exp(current_weight - highest_weight) / start_temp) > random.random():
-                assignments_short = assignments_short2
-            start_temp *= cooling_rate
-            print('----------')
-            print(calculate_total_weight(assignments_short2, cursor))
-            print(assignments_short2)
-            print('og:')
-            print(assignments)
+            # print('previous a', previous_a)
+            # print('previous b', previous_b)
+        current_weight = calculate_total_weight(assignments_short2, cursor)
+        if current_weight > highest_weight:
+            highest_weight = current_weight
+            assignments_short = assignments_short2
+        elif (math.exp(current_weight - highest_weight) / start_temp) < random.random():
+            assignments_short2.update({rand_a: previous_a})
+            assignments_short2.update({rand_b: previous_b})
+        elif (math.exp(current_weight - highest_weight) / start_temp) > random.random():
+            assignments_short = assignments_short2
+        start_temp *= cooling_rate
+        total_weight = calculate_total_weight(assignments_short2, cursor)
+        if total_weight > best_assignment:
+            best_assignment = total_weight
+        # print('----------')
+        # print(calculate_total_weight(assignments_short2, cursor))
+        # print(assignments_short2)
+        # print('original:')
+        # print(assignments)
+        counter += 1
+    print(best_assignment)
+    print(counter)
     return assignments_short2
 
 
+def gwo(assignments_short, cursor, assignments):
+    # Max_iter=1000
+    # lb=-100
+    # ub=100
+    # dim=30
+    # SearchAgents_no=5
 
+    Alpha_pos, Beta_pos, Delta_pos = find_best_nurses(assignments_short, cursor)
+    print(Alpha_pos, Beta_pos, Delta_pos)
+
+    # initialize alpha, beta, and delta_pos
+    # Alpha_pos = numpy.zeros(dim)
+    # Alpha_score = float("inf")
+    #
+    # Beta_pos = numpy.zeros(dim)
+    # Beta_score = float("inf")
+    #
+    # Delta_pos = numpy.zeros(dim)
+    # Delta_score = float("inf")
+    #
+    # if not isinstance(lb, list):
+    #     lb = [lb] * dim
+    # if not isinstance(ub, list):
+    #     ub = [ub] * dim
+    #
+    # # Initialize the positions of search agents
+    # Positions = numpy.zeros((SearchAgents_no, dim))
+    # for i in range(dim):
+    #     Positions[:, i] = numpy.random.uniform(0, 1, SearchAgents_no) * (ub[i] - lb[i]) + lb[i]
+    #
+    # Convergence_curve = numpy.zeros(Max_iter)
+    # s = solution()
+    #
+    # # Loop counter
+    # print("GWO is optimizing  \"" + objf.__name__ + "\"")
+    #
+    # timerStart = time.time()
+    # s.startTime = time.strftime("%Y-%m-%d-%H-%M-%S")
+    # # Main loop
+    # for l in range(0, Max_iter):
+    #     for i in range(0, SearchAgents_no):
+    #
+    #         # Return back the search agents that go beyond the boundaries of the search space
+    #         for j in range(dim):
+    #             Positions[i, j] = numpy.clip(Positions[i, j], lb[j], ub[j])
+    #
+    #         # Calculate objective function for each search agent
+    #         fitness = objf(Positions[i, :])
+    #
+    #         # Update Alpha, Beta, and Delta
+    #         if fitness < Alpha_score:
+    #             Delta_score = Beta_score  # Update delte
+    #             Delta_pos = Beta_pos.copy()
+    #             Beta_score = Alpha_score  # Update beta
+    #             Beta_pos = Alpha_pos.copy()
+    #             Alpha_score = fitness;  # Update alpha
+    #             Alpha_pos = Positions[i, :].copy()
+    #
+    #         if (fitness > Alpha_score and fitness < Beta_score):
+    #             Delta_score = Beta_score  # Update delte
+    #             Delta_pos = Beta_pos.copy()
+    #             Beta_score = fitness  # Update beta
+    #             Beta_pos = Positions[i, :].copy()
+    #
+    #         if (fitness > Alpha_score and fitness > Beta_score and fitness < Delta_score):
+    #             Delta_score = fitness  # Update delta
+    #             Delta_pos = Positions[i, :].copy()
+    #
+    #     a = 2 - l * ((2) / Max_iter);  # a decreases linearly fron 2 to 0
+    #
+    #     # Update the Position of search agents including omegas
+    #     for i in range(0, SearchAgents_no):
+    #         for j in range(0, dim):
+    #             r1 = random.random()  # r1 is a random number in [0,1]
+    #             r2 = random.random()  # r2 is a random number in [0,1]
+    #
+    #             A1 = 2 * a * r1 - a;  # Equation (3.3)
+    #             C1 = 2 * r2;  # Equation (3.4)
+    #
+    #             D_alpha = abs(C1 * Alpha_pos[j] - Positions[i, j]);  # Equation (3.5)-part 1
+    #             X1 = Alpha_pos[j] - A1 * D_alpha;  # Equation (3.6)-part 1
+    #
+    #             r1 = random.random()
+    #             r2 = random.random()
+    #
+    #             A2 = 2 * a * r1 - a;  # Equation (3.3)
+    #             C2 = 2 * r2;  # Equation (3.4)
+    #
+    #             D_beta = abs(C2 * Beta_pos[j] - Positions[i, j]);  # Equation (3.5)-part 2
+    #             X2 = Beta_pos[j] - A2 * D_beta;  # Equation (3.6)-part 2
+    #
+    #             r1 = random.random()
+    #             r2 = random.random()
+    #
+    #             A3 = 2 * a * r1 - a;  # Equation (3.3)
+    #             C3 = 2 * r2;  # Equation (3.4)
+    #
+    #             D_delta = abs(C3 * Delta_pos[j] - Positions[i, j]);  # Equation (3.5)-part 3
+    #             X3 = Delta_pos[j] - A3 * D_delta;  # Equation (3.5)-part 3
+    #
+    #             Positions[i, j] = (X1 + X2 + X3) / 3  # Equation (3.7)
+    #
+    #     Convergence_curve[l] = Alpha_score;
+    #
+    #     if (l % 1 == 0):
+    #         print(['At iteration ' + str(l) + ' the best fitness is ' + str(Alpha_score)]);
+    #
+    # timerEnd = time.time()
+    # s.endTime = time.strftime("%Y-%m-%d-%H-%M-%S")
+    # s.executionTime = timerEnd - timerStart
+    # s.convergence = Convergence_curve
+    # s.optimizer = "GWO"
+    # s.objfname = objf.__name__
+    #
+    # return s
 
 
 #####################################################################################
@@ -428,13 +558,38 @@ def simulated_annealing(assignments_short, cursor, assignments):
 #     #     print('iteration', i, 'wieght', total_weight)
 #     #     print(temp_assignments2)
 
+def find_best_nurses(assignments_short, cursor):
+    best_nurses = [0, 0, 0]
+    best_weights = [0, 0, 0]
+    for nurse_id in assignments_short:
+        total_weight = 0
+        nurse = to_object_nurse(nurse_id, cursor)
+        for patient_id in assignments_short[nurse_id]:
+            patient = to_object_patient(patient_id, cursor)
+            total_weight += calculate_weight(nurse, patient, assignments_short, cursor)
+        if total_weight > best_weights[0]:
+            best_weights[0] = total_weight
+            best_nurses[0] = nurse.get_id()
+        elif total_weight > best_weights[1]:
+            best_weights[1] = total_weight
+            best_nurses[1] = nurse.get_id()
+        elif total_weight > best_weights[2]:
+            best_weights[2] = total_weight
+            best_nurses[2] = nurse.get_id()
+
+        print(best_nurses)
+        print(best_weights)
+    return best_nurses[0], best_nurses[1], best_nurses[2]
+
+
 def check_hard_constraints(nurse, patients, cursor):
     if type(nurse) == int:
         nurse = to_object_nurse(nurse, cursor)
     for patient in patients:
         if type(patient) == int:
             patient = to_object_patient(patient, cursor)
-        if (nurse.get_skill_level() >= patient.get_acuity()) and (nurse.get_a_trained() >= patient.get_a_trained()) and (nurse.get_transfer() >= patient.get_transfer()):
+        if (nurse.get_skill_level() >= patient.get_acuity()) and (
+                nurse.get_a_trained() >= patient.get_a_trained()) and (nurse.get_transfer() >= patient.get_transfer()):
             # print('nurse id:', nurse.get_id(), 'patient id:', patient.get_id())
             # print(nurse.get_skill_level(), patient.get_acuity())
             # print(nurse.get_a_trained(), patient.get_a_trained())
@@ -444,6 +599,7 @@ def check_hard_constraints(nurse, patients, cursor):
             # print('false!')
             return False
     return True
+
 
 def calculate_total_weight(temp_assignments, cursor):
     temp_high_weight = 0
@@ -464,6 +620,7 @@ def to_object_nurse(n, cursor):
               row[10], row[11], row[12], row[13], row[14], row[15], row[16])
     return x
 
+
 def to_object_patient(p, cursor):
     cursor.execute(f"SELECT * from patients where id={p}")
     row = cursor.fetchone()
@@ -472,12 +629,10 @@ def to_object_patient(p, cursor):
     return xp
 
 
-
 def calculate_weight(eno, p, assignments, cursor):
     nurse_weight = 0
     clinical_area = p.get_clinical_area()
     picc = p.get_picc()
-
 
     eno_id = eno.get_id()
     eno_area = eno.get_clinical_area()
