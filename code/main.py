@@ -1333,10 +1333,11 @@ def save_current_state():
                                     flag_list[4] = '1'
 
                         # Flag priority
-                        if nurse[15] != 2:
-                            flag_list.append('1')
-                        else:
-                            flag_list.append('0')
+                        flag_list.append('0')
+                        for n in patient[9].strip('][').split(', '):
+                            if n in list(nurse_list):
+                                if nurse[15] == 0:
+                                    flags['priority'] = 1
 
                         # Flag twin
                         if patient[13]:
