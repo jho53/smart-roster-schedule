@@ -95,6 +95,7 @@
   </div>
 </div>
 
+<<<<<<< Updated upstream
 {% if latestState['l_charge'][0] %}
 <p>L Charge: {{nurseList[latestState['l_charge'][0]|int][1]}}</p>
 {% endif %}
@@ -106,6 +107,37 @@
 {% if latestState['l_code'][0] %}
 <p>L Code: {{nurseList[latestState['l_code'][0]|int][1]}}</p>
 {% endif %}
+=======
+<div class="row L_block_custom" style="width: 50%">
+
+  <div class="col-4">
+    {% if latestState['l_charge'][0] %}
+    <div class="row">
+      <h5 class="mt-1 col-4">L Charge</h5> 
+      <input type="text" value="{{nurseList[latestState['l_charge'][0]|int][1]}}" class="L_block_item form-control form-control-sm col-6 ml-2" disabled>
+    </div>
+    {% endif %}
+  </div>
+
+  <div class="col-4">
+    {% if latestState['l_support'][0] %}
+    <div class="row">
+      <h5 class="mt-1 col-4">Support</h5>
+      <input type="text" value="{{nurseList[latestState['l_support'][0]|int][1]}}" class="L_block_item form-control form-control-sm col-6 ml-2" disabled>
+    </div>
+    {% endif %}
+  </div>
+
+  <div class="col-4">
+    {% if latestState['l_code'][0] %}
+    <div class="row">
+      <h5 class="mt-1 col-4">L Code</h5>
+      <input type="text" value="{{nurseList[latestState['l_code'][0]|int][1]}}" class="L_block_item form-control form-control-sm col-6 ml-2" disabled>
+    </div>
+    {% endif %}
+  </div>
+</div>
+>>>>>>> Stashed changes
 
 {% set areas=["A", "B", "C", "D", "E", "F"] %}
 {% set area_iter = namespace(value=0) %}
@@ -249,4 +281,5 @@
     window.print();
   }
 </script>
+
 {% endblock %}
