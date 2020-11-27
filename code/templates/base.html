@@ -51,8 +51,12 @@
             <br>
             <div class="mb-3" style="height: 30%; width: 100%">
                 <a href="/profile" style="padding: 0">
+                    {% if loggedin %}
+                    <img src="/images/{{pfp}}" style="width: 150px; height: 150px; border-radius: 50%; display:block; position:relative; left:27.5%; border: 2px solid #af1946">
+                    {% else %}
                     <img src="/images/base-avatar.png"
-                        style="width: 150px; height: 150px; border-radius: 50%; display:block; position:relative; left:27.5%; border: 2px solid #af1946">
+                    style="width: 150px; height: 150px; border-radius: 50%; display:block; position:relative; left:27.5%; border: 2px solid #af1946">
+                    {% endif %}
                     <h5 class="text-center" style="position: relative;">Admin Account</h5>
                 </a>
             </div>

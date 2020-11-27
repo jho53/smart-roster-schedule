@@ -59,6 +59,22 @@ def inject_enumerate():
     return dict(enumerate=enumerate)
 
 
+@app.context_processor
+def inject_pfp():
+    pfp = get_user_pfp()
+    return {'pfp': pfp}
+
+
+def get_user_pfp():
+    if 'loggedin' in session:
+        cursor.execute('SELECT * FROM users WHERE username = %s', (session['username'],))
+        account = cursor.fetchone()
+
+        filename = account[5]
+        pfp = filename
+
+        return pfp
+
 #### Global Variables ####
 CURR_DIR = os.path.dirname(__file__)
 AREA_LIST = ["A", "B", "C", "D", "E", "F"]
@@ -217,9 +233,9 @@ def register_user():
             encrypted_password = bcrypt.hashpw(
                 password.encode(), bcrypt.gensalt())
             cursor.execute(
-                'INSERT INTO users (username, password, first_name, last_name) '
-                'VALUES (%s, %s, %s, %s)', (username,
-                                            encrypted_password, first_name, last_name)
+            "INSERT INTO users (username, password, first_name, last_name, profile_img) "
+            "VALUES (%s, %s, %s, %s, 'base-avatar.png')", (username,
+                                    encrypted_password, first_name, last_name)
             )
             db.commit()
             return redirect(url_for('home'))
@@ -611,7 +627,7 @@ def allowed_file(filename):
 
 @app.route('/upload_image', methods=['POST'])
 def upload_image():
-    """ Upload the image """
+    """ Upload the profile image """
     if request.method == 'POST':
         # check if the post request has the file part
         if 'file' not in request.files:
@@ -624,6 +640,8 @@ def upload_image():
             flash('No selected file')
             return redirect(request.url)
         if file and allowed_file(file.filename):
+            # Remove previous pfp if no one else has it (to reduce storage space needed)
+            remove_previous_pfp()
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.root_path, app.config['UPLOAD_FOLDER'], filename))
             cursor.execute(
@@ -635,11 +653,54 @@ def upload_image():
     return redirect(url_for('profile'))
 
 
-@app.route('/uploads/<filename>')
-def uploaded_file(filename):
-    """ Shows the currently uploaded file """
-    return send_from_directory(app.config['UPLOAD_FOLDER'],
-                               filename)
+def remove_previous_pfp():
+    """ Removes previous profile picture if no other user has it """
+    cursor.execute('SELECT * FROM users WHERE username = %s', (session['username'],))
+    account = cursor.fetchone()
+
+    current_pfp = account[5]
+
+    if current_pfp == 'base-avatar.png':
+        return
+
+    cursor.execute('SELECT * FROM users')
+    all_nurses = cursor.fetchall()
+
+    exists = False
+
+    for nurse in all_nurses:
+        if nurse[5] == current_pfp and nurse[1] != account[1]:
+            exists = True
+
+    if os.path.exists(os.path.join(app.root_path, app.config['UPLOAD_FOLDER'], current_pfp)) and not exists:
+        os.remove(os.path.join(app.root_path, app.config['UPLOAD_FOLDER'], current_pfp))
+
+
+@app.route("/changePassword", methods=["POST"])
+def change_password():
+    if 'loggedin' in session:
+        old_password = request.form['oldPassword']
+        newPassword = request.form['newPassword']
+        confirmPassword = request.form['confirmPassword']
+
+        cursor.execute(
+            'SELECT * FROM users WHERE username = %s', (session['username'],)
+        )
+
+        account = cursor.fetchone()
+
+        if not bcrypt.checkpw(old_password.encode(), account[2].encode()):
+            msg = "Old password does not match."
+        elif newPassword != confirmPassword:
+            msg = "New passwords do not match."
+        else:
+            encrypted_password = bcrypt.hashpw(
+                newPassword.encode(), bcrypt.gensalt())
+            cursor.execute(
+                'UPDATE users SET password = %s WHERE username = %s', (encrypted_password, session['username'])
+            )
+            db.commit()
+        return redirect(url_for('profile'))
 
 
 @app.route("/settings")
