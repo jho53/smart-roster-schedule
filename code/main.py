@@ -20,7 +20,7 @@ import shutil
 import webbrowser
 import subprocess
 
-UPLOAD_FOLDER = '.\\static\\images'
+UPLOAD_FOLDER = 'static\\images'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 app = Flask(__name__,
@@ -625,8 +625,12 @@ def upload_image():
             return redirect(request.url)
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('uploaded_file',
+            file.save(os.path.join(app.root_path, app.config['UPLOAD_FOLDER'], filename))
+            cursor.execute(
+            'UPDATE smartroster.users SET profile_img = %s WHERE username = %s',
+            (filename, session['username'],))
+            db.commit()
+            return redirect(url_for('profile',
                                     filename=filename))
     return redirect(url_for('profile'))
 

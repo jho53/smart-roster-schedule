@@ -4,122 +4,107 @@
 
 <!--Content Here-->
 
-<div class="container-fluid" style="padding: 30px 10px 30px 10px;">
-  <div class="profile-content">
-    <div>
-      <h2>Profile Page</h2>
+<body onload="getUserImages()">
+
+  <div class="container-fluid" style="padding: 30px 10px 30px 10px;">
+    <div class="profile-content">
+      <div>
+        <h2>Profile Page</h2>
+        <br><br>
+      </div>
+      <div class="profile-picture user-image" id="profileCircle">
+        <!-- Testing image circle -->
+      </div>
       <br><br>
-    </div>
-    <div class="profile-picture user-image">
-      <!-- Testing image circle -->
-    </div>
-    <br><br>
-    <div class="profile-links">
-      <!-- <a data-toggle="modal" data-target="#exampleModalCenter"><h5>Change Profile Picture</h5></a> -->
-      <a href="#profilePictureModal" data-toggle="modal" class="profile_link">
-        <h5>Change Profile Picture</h5>
-      </a>
-      <a href="#backgroundPictureModal" data-toggle="modal" class="profile_link">
-        <h5>Change Background</h5>
-      </a>
-      <a href="#passwordModal" data-toggle="modal" class="profile_link">
-        <h5>Change Password</h5>
-      </a>
-      <a href="/logout" class="profile_link">
-        <h5>Logout</h5>
-      </a>
-    </div>
-  </div>
-</div>
-
-
-
-
-
-<!-- Profile Image Upload Modal -->
-<div class="modal fade" id="profilePictureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-  aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="ModalLongTitle">Change Profile Picture</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form action="/upload_image" method="POST" enctype="multipart/form-data">
-          <div class="form-group">
-            <input type="file" accept="image/*" class="form-control-file" style="overflow: hidden;" name="file">
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Save changes</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Background Image Upload Modal -->
-<div class="modal fade" id="backgroundPictureModal" tabindex="-1" role="dialog"
-  aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="ModalLongTitle">Change Background</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form action="/upload_image" method="POST" enctype="multipart/form-data">
-          <div class="form-group">
-            <input type="file" accept="image/*" class="form-control-file" style="overflow: hidden;" name="file">
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Save changes</button>
-          </div>
-        </form>
+      <div class="profile-links">
+        <!-- <a data-toggle="modal" data-target="#exampleModalCenter"><h5>Change Profile Picture</h5></a> -->
+        <a href="#profilePictureModal" data-toggle="modal" class="profile_link">
+          <h5>Change Profile Picture</h5>
+        </a>
+        <a href="#passwordModal" data-toggle="modal" class="profile_link">
+          <h5>Change Password</h5>
+        </a>
+        <a href="/logout" class="profile_link">
+          <h5>Logout</h5>
+        </a>
       </div>
     </div>
   </div>
 
-  <!-- Change Password Modal -->
-  <div class="modal fade passwordModal" id="passwordModal" tabindex="-1" role="dialog"
-    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+
+
+
+
+  <!-- Profile Image Upload Modal -->
+  <div class="modal fade" id="profilePictureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Change Password</h5>
+          <h5 class="modal-title" id="ModalLongTitle">Change Profile Picture</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <form action="#" method="post">
+          <form action="/upload_image" method="POST" enctype="multipart/form-data">
             <div class="form-group">
-              <label for="oldPassword" class="col-form-label">Old Password</label>
-              <input type="password" class="form-control" id="oldPassword">
+              <input type="file" accept="image/*" class="form-control-file" style="overflow: hidden;" name="file">
             </div>
-            <div class="form-group">
-              <label for="newPassword" class="col-form-label">New Password</label>
-              <input type="password" class="form-control" id="newPassword">
-            </div>
-            <div class="form-group">
-              <label for="confirmNewPassword" class="col-form-label">Confirm New Password</label>
-              <input type="password" class="form-control" id="confirmNewPassword">
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Save changes</button>
             </div>
           </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" onclick="changePassword()">Confirm</button>
         </div>
       </div>
     </div>
   </div>
 
-  {% endblock %}
+    <!-- Change Password Modal -->
+    <div class="modal fade passwordModal" id="passwordModal" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Change Password</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form action="#" method="post">
+              <div class="form-group">
+                <label for="oldPassword" class="col-form-label">Old Password</label>
+                <input type="password" class="form-control" id="oldPassword">
+              </div>
+              <div class="form-group">
+                <label for="newPassword" class="col-form-label">New Password</label>
+                <input type="password" class="form-control" id="newPassword">
+              </div>
+              <div class="form-group">
+                <label for="confirmNewPassword" class="col-form-label">Confirm New Password</label>
+                <input type="password" class="form-control" id="confirmNewPassword">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" onclick="changePassword()">Confirm</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <input type="hidden" id="profileFilename" value="{{account[5]}}">
+</body>
+<script>
+  function getUserImages() {
+    let profilePicture = document.getElementById('profileCircle');
+    let profilePictureFilename = document.getElementById("profileFilename").value
+    let sidebarPictureFilename = document.getElementById("sidebarProfileImage")
+
+    profilePicture.style.backgroundImage = "url('/images/" + profilePictureFilename + "')";
+    sidebarPictureFilename.src = "/images/" + profilePictureFilename;
+  }
+</script>
+{% endblock %}

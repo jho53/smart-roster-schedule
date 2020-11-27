@@ -15,12 +15,12 @@ Web dev, Machine Learning/Algorithms/Research
 
 **Programming language(s)**
 
-No preference
+Python, HTML, CSS, SQL, Javascript
 
 
 **Hardware/Software requirements**
 
-None
+Desktop/Laptop, Windows 10, MySQL, Python, Flask
 
 
 ## Current work/Arrangement
