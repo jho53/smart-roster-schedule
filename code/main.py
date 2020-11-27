@@ -296,12 +296,14 @@ def edit_reference():
     iv_trained = request.form['iv_trained']
     dta = request.form['dta']
     advanced_role = request.form['advanced_role']   
+    fixed_ = request.form['fixed']
+    flexible = request.form['flexible']
 
     query = "UPDATE smartroster.reference_page SET clinical_area = %s, rotation = %s, group_def = %s, fte = %s, skill_level = %s, " \
-            " a_trained = %s, transfer = %s, iv_trained = %s, dta = %s, advanced_role = %s WHERE id = 1"
+            " a_trained = %s, transfer = %s, iv_trained = %s, advanced_role = %s, dta = %s, fixed_ = %s, flexible = %s WHERE id = 1"
 
     arguments = (clinical_area, rotation, group_def, fte,
-                 skill_level, a_trained, transfer, iv_trained, dta, advanced_role)
+                 skill_level, a_trained, transfer, iv_trained, advanced_role, dta, fixed_, flexible)
     
     try:
         cursor.execute(query, arguments)
