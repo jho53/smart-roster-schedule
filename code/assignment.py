@@ -3,13 +3,13 @@ from patient import Patient
 import random
 import math
 import numpy
-# from solution import solution
 import time
 
 HIGH_WEIGHT = 0
 
 
 def main_assign(cursor):
+    timer_start = time.time()
     assignments = {}
     twins = []
 
@@ -33,6 +33,10 @@ def main_assign(cursor):
     for p in patients:
         if p.get_assigned() != 1:
             print("Patient", p.get_id(), " is not assigned!")
+
+    timer_end = time.time()
+    execution_time = timer_end - timer_start
+    print("This took:", execution_time, "seconds.")
 
     return assignments
 
@@ -213,13 +217,13 @@ def algorithms_main(assignments, cursor):
     assignments_short = {}
     assignments_og = {}
     assignments2 = {}
-    nurse_objects = {}
-    patient_objects = {}
+    # nurse_objects = {}
+    # patient_objects = {}
     for i in assignments:
-        nurse_objects[i] = to_object_nurse(i, cursor)
+        # nurse_objects[i] = to_object_nurse(i, cursor)
         assignments_short[i] = assignments[i]['patients']
-        for p in assignments_short[i]:
-            patient_objects[p] = to_object_patient(p, cursor)
+        # for p in assignments_short[i]:
+        #     patient_objects[p] = to_object_patient(p, cursor)
         assignments_og[i] = assignments[i]['patients']
     assignments = simulated_annealing(assignments_short, cursor, assignments_og)
     # gwo(assignments_short, cursor, assignments_og)
@@ -238,9 +242,10 @@ def simulated_annealing(assignments_short, cursor, assignments):
     highest_weight = calculate_total_weight(assignments_short, cursor)
     # num_iterations = 150
     start_temp = 20000
-    cooling_rate = 0.60
-    best_assignment = 0
+    cooling_rate = 0.9
+    best_weight = 0
     counter = 0
+    best_assignment = {}
     # for i in range(num_iterations):
     while start_temp > 0.1:
         rand_a = 0
@@ -280,17 +285,22 @@ def simulated_annealing(assignments_short, cursor, assignments):
             assignments_short = assignments_short2
         start_temp *= cooling_rate
         total_weight = calculate_total_weight(assignments_short2, cursor)
-        if total_weight > best_assignment:
-            best_assignment = total_weight
-        print('----------')
-        print(calculate_total_weight(assignments_short2, cursor))
-        print(assignments_short2)
-        print('original:')
-        print(assignments)
+        if total_weight > best_weight:
+            best_weight = total_weight
+            best_assignment = assignments_short2
+        # print('----------')
+        # print(calculate_total_weight(assignments_short2, cursor))
+        # print(assignments_short2)
+        # print('original:')
+        # print(assignments)
         counter += 1
-    # print(best_assignment)
-    # print(counter)
-    return assignments_short2
+    print("Best weight found:", best_weight)
+    print("Best assignment:")
+    print(best_assignment)
+    print('original:')
+    print(assignments)
+    print("iterations:", counter)
+    return best_assignment
 
 
 def gwo(assignments_short, cursor, assignments):
