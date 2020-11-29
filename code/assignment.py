@@ -213,8 +213,13 @@ def algorithms_main(assignments, cursor):
     assignments_short = {}
     assignments_og = {}
     assignments2 = {}
+    nurse_objects = {}
+    patient_objects = {}
     for i in assignments:
+        nurse_objects[i] = to_object_nurse(i, cursor)
         assignments_short[i] = assignments[i]['patients']
+        for p in assignments_short[i]:
+            patient_objects[p] = to_object_patient(p, cursor)
         assignments_og[i] = assignments[i]['patients']
     assignments = simulated_annealing(assignments_short, cursor, assignments_og)
     # gwo(assignments_short, cursor, assignments_og)
@@ -222,6 +227,8 @@ def algorithms_main(assignments, cursor):
         assignments2[i] = {'num_patients': 0, 'patients': []}
         assignments2[i]['num_patients'] = 0
         assignments2[i]['patients'] = assignments[i]
+    # print(len(nurse_objects))
+    # print(len(patient_objects))
     return assignments2
     # return assignments
 
@@ -231,7 +238,7 @@ def simulated_annealing(assignments_short, cursor, assignments):
     highest_weight = calculate_total_weight(assignments_short, cursor)
     # num_iterations = 150
     start_temp = 20000
-    cooling_rate = 0.99
+    cooling_rate = 0.60
     best_assignment = 0
     counter = 0
     # for i in range(num_iterations):
@@ -243,8 +250,8 @@ def simulated_annealing(assignments_short, cursor, assignments):
         valid = False
         while not valid:
             valid = True
-            rand_a = random.randint(1, len(assignments_short))
-            rand_b = random.randint(1, len(assignments_short))
+            rand_a = list(assignments_short.keys())[random.randint(1, len(assignments_short)) - 1]
+            rand_b = list(assignments_short.keys())[random.randint(1, len(assignments_short)) - 1]
             nurse_a = to_object_nurse(rand_a, cursor)
             nurse_b = to_object_nurse(rand_b, cursor)
             previous_a = assignments_short[rand_a]
@@ -275,14 +282,14 @@ def simulated_annealing(assignments_short, cursor, assignments):
         total_weight = calculate_total_weight(assignments_short2, cursor)
         if total_weight > best_assignment:
             best_assignment = total_weight
-        # print('----------')
-        # print(calculate_total_weight(assignments_short2, cursor))
-        # print(assignments_short2)
-        # print('original:')
-        # print(assignments)
+        print('----------')
+        print(calculate_total_weight(assignments_short2, cursor))
+        print(assignments_short2)
+        print('original:')
+        print(assignments)
         counter += 1
-    print(best_assignment)
-    print(counter)
+    # print(best_assignment)
+    # print(counter)
     return assignments_short2
 
 
@@ -558,28 +565,28 @@ def gwo(assignments_short, cursor, assignments):
 #     #     print('iteration', i, 'wieght', total_weight)
 #     #     print(temp_assignments2)
 
-def find_best_nurses(assignments_short, cursor):
-    best_nurses = [0, 0, 0]
-    best_weights = [0, 0, 0]
-    for nurse_id in assignments_short:
-        total_weight = 0
-        nurse = to_object_nurse(nurse_id, cursor)
-        for patient_id in assignments_short[nurse_id]:
-            patient = to_object_patient(patient_id, cursor)
-            total_weight += calculate_weight(nurse, patient, assignments_short, cursor)
-        if total_weight > best_weights[0]:
-            best_weights[0] = total_weight
-            best_nurses[0] = nurse.get_id()
-        elif total_weight > best_weights[1]:
-            best_weights[1] = total_weight
-            best_nurses[1] = nurse.get_id()
-        elif total_weight > best_weights[2]:
-            best_weights[2] = total_weight
-            best_nurses[2] = nurse.get_id()
-
-        print(best_nurses)
-        print(best_weights)
-    return best_nurses[0], best_nurses[1], best_nurses[2]
+# def find_best_nurses(assignments_short, cursor):
+#     best_nurses = [0, 0, 0]
+#     best_weights = [0, 0, 0]
+#     for nurse_id in assignments_short:
+#         total_weight = 0
+#         nurse = to_object_nurse(nurse_id, cursor)
+#         for patient_id in assignments_short[nurse_id]:
+#             patient = to_object_patient(patient_id, cursor)
+#             total_weight += calculate_weight(nurse, patient, assignments_short, cursor)
+#         if total_weight > best_weights[0]:
+#             best_weights[0] = total_weight
+#             best_nurses[0] = nurse.get_id()
+#         elif total_weight > best_weights[1]:
+#             best_weights[1] = total_weight
+#             best_nurses[1] = nurse.get_id()
+#         elif total_weight > best_weights[2]:
+#             best_weights[2] = total_weight
+#             best_nurses[2] = nurse.get_id()
+#
+#         print(best_nurses)
+#         print(best_weights)
+#     return best_nurses[0], best_nurses[1], best_nurses[2]
 
 
 def check_hard_constraints(nurse, patients, cursor):
