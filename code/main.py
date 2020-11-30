@@ -292,7 +292,6 @@ def inject_reference():
 
     cursor.execute("SELECT * FROM reference_page")
     reference = cursor.fetchall()
-    print(reference)
     return dict(get_reference_data=reference)
 
 @app.route("/editReference", methods=["POST"])
