@@ -4,6 +4,7 @@ import random
 import math
 import numpy
 import time
+import matplotlib.pyplot as plt
 
 HIGH_WEIGHT = 0
 
@@ -225,7 +226,7 @@ def algorithms_main(assignments, cursor):
         # for p in assignments_short[i]:
         #     patient_objects[p] = to_object_patient(p, cursor)
         assignments_og[i] = assignments[i]['patients']
-    assignments = simulated_annealing(assignments_short, cursor, assignments_og)
+    assignments, x_points, y_points = simulated_annealing(assignments_short, cursor, assignments_og)
     # gwo(assignments_short, cursor, assignments_og)
     for i in assignments:
         assignments2[i] = {'num_patients': 0, 'patients': []}
@@ -233,6 +234,7 @@ def algorithms_main(assignments, cursor):
         assignments2[i]['patients'] = assignments[i]
     # print(len(nurse_objects))
     # print(len(patient_objects))
+    make_graph(x_points, y_points)
     return assignments2
     # return assignments
 
@@ -240,9 +242,11 @@ def algorithms_main(assignments, cursor):
 def simulated_annealing(assignments_short, cursor, assignments):
     assignments_short2 = assignments_short
     highest_weight = calculate_total_weight(assignments_short, cursor)
+    x_points = []
+    y_points = []
     # num_iterations = 150
-    start_temp = 20000
-    cooling_rate = 0.9
+    start_temp = 30000
+    cooling_rate = 0.95
     best_weight = 0
     counter = 0
     best_assignment = {}
@@ -288,11 +292,14 @@ def simulated_annealing(assignments_short, cursor, assignments):
         if total_weight > best_weight:
             best_weight = total_weight
             best_assignment = assignments_short2
+        x_points.append(counter)
+        y_points.append(total_weight)
         # print('----------')
         # print(calculate_total_weight(assignments_short2, cursor))
         # print(assignments_short2)
         # print('original:')
         # print(assignments)
+        print(start_temp)
         counter += 1
     print("Best weight found:", best_weight)
     print("Best assignment:")
@@ -300,7 +307,14 @@ def simulated_annealing(assignments_short, cursor, assignments):
     print('original:')
     print(assignments)
     print("iterations:", counter)
-    return best_assignment
+    return best_assignment, x_points, y_points
+
+def make_graph(x, y):
+    plt.plot(x,y)
+    plt.xlabel('Iterations')
+    plt.ylabel('Fitness Score (Higher is better)')
+    plt.title('Simulated Annealing Results')
+    plt.show()
 
 
 def gwo(assignments_short, cursor, assignments):
