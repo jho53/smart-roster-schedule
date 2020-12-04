@@ -31,6 +31,8 @@ Once the server is correctly set up, import all `.sql` files from the `SQL Impor
 #### Python Dependencies
 If on Windows, run `dependencies.bat` to install the dependencies required for Python. For Linux and MacOS users, please refer to `main.py` to determine the dependencies required.
 
+#### *Accessing the Application*
+The root account credentials are `charge_nurse` and `Password1`.
 
 ### Known Bugs/Stretch Goals
 - Stretch Goals (Things we didn't have time to get to)
