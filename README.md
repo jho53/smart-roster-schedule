@@ -1,5 +1,3 @@
-# **Project Outline**
-
 ## Background
 
 ### **Company Profile**
@@ -10,7 +8,6 @@ The project aim is to develop a web-based application that will match scheduled 
 
 > *Further information about project background can be found in the Project Outline Word document*
 
-<br>
 
 ## Technology Stack + Dependencies
 - MySQL 8.0.1
@@ -34,6 +31,7 @@ Once the server is correctly set up, import all `.sql` files from the `SQL Impor
 #### Python Dependencies
 If on Windows, run `dependencies.bat` to install the dependencies required for Python. For Linux and MacOS users, please refer to `main.py` to determine the dependencies required.
 
+
 ### Known Bugs/Stretch Goals
 - Stretch Goals (Things we didn't have time to get to)
   - Database update functionality with future shift templates
@@ -46,13 +44,16 @@ If on Windows, run `dependencies.bat` to install the dependencies required for P
   - Assignment algorithm does not consider edge cases, currently only suited for near-perfect scenarios
   - Past patients column does not update after finalizing a current shift
 
-<br><br>
+<br>
 
 ## Authors
-Jimmy Ho
-Eugene Joy
-Zachery Johnston
-Jaguar Perlas
-Miguel Capaz
-Nick Janus
-Nathan Broyles
+**Term 4s**
+- Jimmy Ho
+- Eugene Joy
+- Zachery Johnston
+
+**Term 3s**
+- Jaguar Perlas
+- Miguel Capaz
+- Nick Janus
+- Nathan Broyles
