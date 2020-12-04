@@ -52,10 +52,11 @@
             <div class="mb-3" style="height: 30%; width: 100%">
                 <a href="/profile" style="padding: 0">
                     {% if loggedin %}
-                    <img src="/images/{{pfp}}" style="width: 150px; height: 150px; border-radius: 50%; display:block; position:relative; left:27.5%; border: 2px solid #af1946">
+                    <img src="/images/{{pfp}}"
+                        style="width: 150px; height: 150px; border-radius: 50%; display:block; position:relative; left:27.5%; border: 2px solid #af1946">
                     {% else %}
                     <img src="/images/base-avatar.png"
-                    style="width: 150px; height: 150px; border-radius: 50%; display:block; position:relative; left:27.5%; border: 2px solid #af1946">
+                        style="width: 150px; height: 150px; border-radius: 50%; display:block; position:relative; left:27.5%; border: 2px solid #af1946">
                     {% endif %}
                     <h5 class="text-center" style="position: relative;">Admin Account</h5>
                 </a>
@@ -117,7 +118,8 @@
                         <div class="form-group">
                             <label for="clinical_area">Clinical Area</label><br>
                             <textarea id="clinical_area" name="clinical_area" rows="2" class="text_area"
-                                placeholder="Eg. Clinical area definition" disabled>{{ get_reference_data[0][1] }}</textarea>
+                                placeholder="Eg. Clinical area definition"
+                                disabled>{{ get_reference_data[0][1] }}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="rotation">Rotation</label><br>
@@ -131,18 +133,20 @@
                         </div>
                         <div class="form-group">
                             <label for="fte">FTE:</label><br>
-                            <textarea id="fte" name="fte" rows="2" class="text_area"
-                                placeholder="Eg. FTE definition" disabled>{{ get_reference_data[0][4] }}</textarea>
+                            <textarea id="fte" name="fte" rows="2" class="text_area" placeholder="Eg. FTE definition"
+                                disabled>{{ get_reference_data[0][4] }}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="skill_level">Skill level</label><br>
                             <textarea id="skill_level" name="skill_level" rows="2" class="text_area"
-                                placeholder="Eg. Skill level definition" disabled>{{ get_reference_data[0][5] }}</textarea>
+                                placeholder="Eg. Skill level definition"
+                                disabled>{{ get_reference_data[0][5] }}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="a_trained">A trained:</label><br>
                             <textarea id="a_trained" name="a_trained" rows="2" class="text_area"
-                                placeholder="Eg. A trained definition" disabled>{{ get_reference_data[0][6] }}</textarea>
+                                placeholder="Eg. A trained definition"
+                                disabled>{{ get_reference_data[0][6] }}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="transfer">Transfer</label><br>
@@ -152,17 +156,19 @@
                         <div class="form-group">
                             <label for="iv_trained">IV trained:</label><br>
                             <textarea id="iv_trained" name="iv_trained" rows="2" class="text_area"
-                                placeholder="Eg. IV trained definition" disabled>{{ get_reference_data[0][8] }}</textarea>
+                                placeholder="Eg. IV trained definition"
+                                disabled>{{ get_reference_data[0][8] }}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="advanced_role">Advanced role</label><br>
                             <textarea id="advanced_role" name="advanced_role" rows="2" class="text_area"
-                                placeholder="Eg. Advanced role definition" disabled>{{ get_reference_data[0][9] }}</textarea>
+                                placeholder="Eg. Advanced role definition"
+                                disabled>{{ get_reference_data[0][9] }}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="dta">DTA</label><br>
-                            <textarea id="dta" name="dta" rows="2" class="text_area"
-                                placeholder="Eg. DTA definition" disabled>{{ get_reference_data[0][10] }}</textarea>
+                            <textarea id="dta" name="dta" rows="2" class="text_area" placeholder="Eg. DTA definition"
+                                disabled>{{ get_reference_data[0][10] }}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="fixed">Fixed</label><br>
@@ -172,7 +178,8 @@
                         <div class="form-group">
                             <label for="flexible">Flexible</label><br>
                             <textarea id="flexible" name="flexible" rows="2" class="text_area"
-                                placeholder="Eg. Flexible definition" disabled>{{ get_reference_data[0][12] }}</textarea>
+                                placeholder="Eg. Flexible definition"
+                                disabled>{{ get_reference_data[0][12] }}</textarea>
                         </div>
                         <p>Color coding for nurse assignments:</p>
                         <p>Green = Charge Nurses</p>

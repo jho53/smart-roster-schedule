@@ -30,12 +30,13 @@
           {% endfor %}
           {% endfor %}
         </select>
-        <button class="btn btn-block btn_create_custom mt-4 col-6" id="date-change-btn" type="submit" disabled>View</button>
+        <button class="btn btn-block btn_create_custom mt-4 col-6" id="date-change-btn" type="submit"
+          disabled>View</button>
       </form>
     </div>
     <br><br>
-    <!--Charge Nurse-->
     <div class="row">
+      <!--Charge Nurse-->
       <div class="col rounded pt-3 px-4 mx-5 shadow-sm" style="background-color: lightgray">
         <div class="row justify-content-center">
           <div class="col-9">
@@ -96,21 +97,18 @@
 </div>
 
 <div class="row L_block_custom">
-
   <div class="col-3">
     {% if latestState['l_charge'][0] %}
-    <h5>L Charge</h5> 
+    <h5>L Charge</h5>
     <p class="L_block_item">{{nurseList[latestState['l_charge'][0]|int][1]}}</p>
     {% endif %}
   </div>
-
   <div class="col-3">
     {% if latestState['l_support'][0] %}
     <h5>Support</h5>
     <p class="L_block_item">{{nurseList[latestState['l_support'][0]|int][1]}}</p>
     {% endif %}
   </div>
-
   <div class="col-3">
     {% if latestState['l_code'][0] %}
     <h5>L Code</h5>
@@ -223,6 +221,6 @@
     });
     $('#date-change-btn').prop('disabled', empty);
   });
-
 </script>
+
 {% endblock %}

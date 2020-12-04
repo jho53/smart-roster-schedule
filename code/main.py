@@ -1118,7 +1118,6 @@ def past_PNSheetState():
                                    state=past_json_states,
                                    shifts=past_json_shifts,
                                    versions=past_json_versions)
-        # return render_template("./Assignment Sheets/past_pnSheetState.html")
         except Exception as error:
             return str(error)
 
