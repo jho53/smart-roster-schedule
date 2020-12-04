@@ -37,12 +37,13 @@ If on Windows, run `dependencies.bat` to install the dependencies required for P
   - Database update functionality with future shift templates
   - Edit Patient/Nurse button and modal in current Patient/Nurse assignment page
   - Option to have 2 nurses assigned to 1 patient
-  - ML Algorithm to avoid local optima
+  - Machine Learning Algorithm to avoid local optima
   - Containerize application with Docker for easy deployment
-  - Database Replication in local network
+  - Database Replication in local network (to support multiple computers)
+  - Using Previous Nurse/Patient Assignment table to store and retrieve the data (currently storing ID in a list)
 - Known Bugs
   - Past Assignment Sheets does not correctly load `base.html` content
-  - Assignment algorithm does not consider edge cases, currently only suited for near-perfect scenarios
+  - Assignment algorithm does not consider edge cases, currently only suited for assignments with a reasonable patient and nurse ratio
   - Past patients column does not update after finalizing a current shift
 
 <br>
