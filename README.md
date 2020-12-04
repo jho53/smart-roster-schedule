@@ -35,7 +35,8 @@ If on Windows, run `dependencies.bat` to install the dependencies required for P
 ### Known Bugs/Stretch Goals
 - Stretch Goals (Things we didn't have time to get to)
   - Database update functionality with future shift templates
-  - Edit Patient/Nurse in current Patient/Nurse assignment page
+  - Edit Patient/Nurse button and modal in current Patient/Nurse assignment page
+  - Option to have 2 nurses assigned to 1 patient
   - ML Algorithm to avoid local optima
   - Containerize application with Docker for easy deployment
   - Database Replication in local network
