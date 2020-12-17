@@ -32,7 +32,8 @@ Once the server is correctly set up, import all `.sql` files from the `SQL Impor
 If on Windows, run `dependencies.bat` to install the dependencies required for Python. For Linux and MacOS users, please refer to `main.py` to determine the dependencies required.
 
 #### *Accessing the Application*
-The root account credentials are `charge_nurse` and `Password1`.
+First, create an account with username `charge_nurse` with all permissions for the `smartroster` database.
+The current root account credentials are `charge_nurse` and `Password1`, this ***MUST*** be changed for deployment. This account is only meant for debugging purposes.
 
 ### Known Bugs/Stretch Goals
 - Stretch Goals (Things we didn't have time to get to)
