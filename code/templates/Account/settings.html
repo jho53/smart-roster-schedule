@@ -3,7 +3,7 @@
 {% block content %}
 
 <!--Content Here-->
-<form action="/editReference" method="post">
+<form class="container" action="/editReference" method="post">
     <div class="modal-body">
         <div class="form-group">
             <label for="clinical_area">Clinical Area</label><br>
@@ -48,28 +48,27 @@
         <div class="form-group">
             <label for="advanced_role">Advanced role</label><br>
             <textarea id="advanced_role" name="advanced_role" rows="2" class="text_area"
-                placeholder="Eg. Advanced role definition" >{{ get_reference_data[0][9] }}</textarea>
+                placeholder="Eg. Advanced role definition">{{ get_reference_data[0][9] }}</textarea>
         </div>
         <div class="form-group">
             <label for="dta">DTA</label><br>
             <textarea id="dta" name="dta" rows="2" class="text_area"
-                placeholder="Eg. DTA definition" >{{ get_reference_data[0][10] }}</textarea>
+                placeholder="Eg. DTA definition">{{ get_reference_data[0][10] }}</textarea>
         </div>
         <div class="form-group">
             <label for="fixed">Fixed</label><br>
             <textarea id="fixed" name="fixed" rows="2" class="text_area"
-                placeholder="Eg. Fixed definition" >{{ get_reference_data[0][11] }}</textarea>
+                placeholder="Eg. Fixed definition">{{ get_reference_data[0][11] }}</textarea>
         </div>
         <div class="form-group">
             <label for="flexible">Flexible</label><br>
             <textarea id="flexible" name="flexible" rows="2" class="text_area"
-                placeholder="Eg. Flexible definition" >{{ get_reference_data[0][12] }}</textarea>
+                placeholder="Eg. Flexible definition">{{ get_reference_data[0][12] }}</textarea>
         </div>
 
     </div>
     <div class="modal-footer">
-        <input class="btn btn_edit_custom" id="submit_delete_nurse" name="submit" type="submit"
-        value="Save Changes">
+        <input class="btn btn_edit_custom" id="submit_delete_nurse" name="submit" type="submit" value="Save Changes">
     </div>
 </form>
 {% endblock %}
